@@ -73,11 +73,19 @@ install_deps gcc
 install_deps make
 install_deps numactl
 
+numaNode=`lscpu | grep "NUMA node(s)" | awk '{print $3}'`
+if [ $numaNode -lt 4  ];then
+	echo "Now system Numa node dose not meet requirement!!!!"
+	lava-test-case STREAM-NUMA --result fail
+	exit
+fi
+
+
 mkdir -p stream-test
 cd stream-test
-#./stream-build.sh
+./stream-build.sh
 echo "build stream finished ---------------------------------"
-#./stream-test.sh 2>&1 | tee stream-result.txt 
+./stream-test.sh 2>&1 | tee stream-result.txt 
 echo "run stream finished -----------------------------------"
 cd ..
 
@@ -151,5 +159,3 @@ for case in Copy Scale Add Triad Fill Copy2 Daxpy Sum;do
 
 
 done
-
-
