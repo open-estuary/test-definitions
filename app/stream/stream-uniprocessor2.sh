@@ -69,12 +69,17 @@ echo "chipType=$chipType , chipManufacturer=$chipManufacturer , chipSpeed=$chipS
 echo "biosVersion=$biosVersion , biosDate=$biosDate" | tee -a $TEST_LOG 
 echo ""
 
+install_deps gcc 
+install_deps make
+install_deps numactl
+
 mkdir -p stream-test
 cd stream-test
-./stream-build.sh
-./stream-test.sh | tee stream-result.txt
+#./stream-build.sh
+echo "build stream finished ---------------------------------"
+#./stream-test.sh 2>&1 | tee stream-result.txt 
+echo "run stream finished -----------------------------------"
 cd ..
-
 
 if [ $? = 0  ];then
     lava-test-case STREAM-Execute --result pass
@@ -82,8 +87,9 @@ else
     lava-test-case STREAM-Execute --result fail
 fi
 
-./pick.sh ./stream-test/stream-result.txt | tee result.txt
+./pick.sh ./stream-test/stream-result.txt > result.txt
 
+echo "pick data finished ------------------------------------"
 
 if [ $currChipsNum -ne 8 ];then
     echo "Now system Memory Count does not meet quantity requirements!!!!!!"
@@ -92,7 +98,6 @@ elif [ $memCountGB -lt 128 ] ;then
     echo "Now system Memory summory dose not meet quantity requirements!!!!!!!"
     # exit;
 fi
-
 
 
 # define a map variable
@@ -109,8 +114,10 @@ map[Sum]=8
 
 for case in Copy Scale Add Triad Fill Copy2 Daxpy Sum;do
    # ret=`grep "^$case" "$TEST_LOG" | awk {'print $2'}`
-   ret=`cat result.txt | awk -v var=`echo ${map[$case]}` {'print $var'}` 
-   sum=0.0
+   var=`echo ${map[$case]}`
+#   ret=`cat result.txt | awk -v var=`echo ${map[$case]}` {'if(NR>1) print $var'} ` 
+	ret=`cat result.txt | cut -d " " -f $var | tr -d [:alpha:]`	 
+	sum=0.0
     count=0
     
     for i in $ret 

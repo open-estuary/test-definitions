@@ -28,7 +28,6 @@ function stream_test_64core() {
         numactl --cpunodebind=0,1,2,3 --localalloc ./stream -v 1 -M 200M -P 64
         numactl --cpunodebind=0,1,2,3 --localalloc ./stream -v 2 -M 200M -P 64
 }
-
 for ((i=0;i<1;i++));do
 	stream_test_64core
 done
