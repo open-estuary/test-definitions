@@ -1,8 +1,0 @@
-STREAM copy latency: 10.93 nanoseconds
-STREAM copy bandwidth: 93708.64 MB/sec
-STREAM scale latency: 10.78 nanoseconds
-STREAM scale bandwidth: 95007.02 MB/sec
-STREAM add latency: 17.22 nanoseconds
-STREAM add bandwidth: 89218.00 MB/sec
-STREAM triad latency: 16.17 nanoseconds
-STREAM triad bandwidth: 94962.46 MB/sec
