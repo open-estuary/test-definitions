@@ -26,6 +26,7 @@ item6=$(grep "${key6}" "${filename}" | sed "s/^.*:[ \t]*\([0-9.]\+\)[ \t]\+.*\$/
 item7=$(grep "${key7}" "${filename}" | sed "s/^.*:[ \t]*\([0-9.]\+\)[ \t]\+.*\$/\1/")
 item8=$(grep "${key8}" "${filename}" | sed "s/^.*:[ \t]*\([0-9.]\+\)[ \t]\+.*\$/\1/")
 
+echo "Copy Scale Add Triad Fill Copy2 Daxpy Sum"
 
 for ((i=1; i<11; i++)) do
 	s1=$(sed -n "${i}p" <<< "${item1}")
