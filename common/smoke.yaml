@@ -1,0 +1,53 @@
+
+metadata:
+    name: helloworld
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test hackbench the simple helloworld."
+    maintainer:
+        - wuyanjun@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+        - openembedded
+        - fedora
+        - opensuse
+        - centos
+        - debian
+
+    devices:
+        - d02
+        - d03
+        - d01
+
+run:
+    steps:
+        - lava-test-case linux-linaro-pwd --shell pwd
+        - lava-test-case linux-linaro-uname --shell uname -a
+        - lava-test-case linux-linaro-vmstat --shell vmstat
+        - lava-test-case linux-linaro-ifconfig --shell ifconfig -a
+        - lava-test-case linux-linaro-lscpu --shell lscpu
+        - lava-test-case linux-linaro-lsb_release --shell  lsb_release -a
+        - lava-test-case linux-linaro-cpuinfo --shell cat /proc/cpuinfo
+        - lava-test-case linux-linaro-meminfo --shell cat /proc/meminfo
+        - lava-test-case linux-linaro-dmesg --shell dmesg
+        - lava-test-case linux-linaro-ps --shell ps
+        - lava-test-case linux-linaro-issue --shell cat /etc/issue || cat /etc/redhat-release
+        - lava-test-case linux-linaro-interrupts --shell cat /proc/interrupts
+        - lava-test-case linux-linaro-boot-cmds --shell cat /proc/cmdline
+        - lava-test-case linux-linaro-device-info --shell cat /proc/devices
+        - lava-test-case linux-linaro-filesystem-info --shell cat /proc/filesystems
+        - lava-test-case linux-linaro-proc-dma --shell cat /proc/dma
+        - lava-test-case linux-linaro-env --shell env
+        - lava-test-case linux-linaro-lsmod --shell lsmod
+        - lava-test-case linux-linaro-cpu-info --shell lscpu
+        - lava-test-case linux-linaro-pci-info --shell lspci
+        - lava-test-case linux-linaro-usb-info --shell lsusb
+        - lava-test-case linux-linaro-dmicode --shell dmidecode
+        - lava-test-case kernel-space-sysfs-dmi-exist --shell ls /sys/class/dmi/
+        - lava-test-case kernel-space-sysfs-dmi-id-exist --shell ls /sys/class/dmi/id
+        - lava-test-case kernel-space-sysfs-bios-date --shell cat /sys/class/dmi/id/bios_date
+        - lava-test-case kernel-space-sysfs-bios-vendor --shell cat /sys/class/dmi/id/bios_vendor
+        - lava-test-case kernel-space-sysfs-bios-version --shell cat /sys/class/dmi/id/bios_version
+        - ./common/scripts/dmidecode.sh
+
