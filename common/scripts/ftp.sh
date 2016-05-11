@@ -82,3 +82,5 @@ if [ $(find . -name 'ftp_put_test.log')x != ""x ]; then
 else
     lava-test-case vsftpd-upload --result fail
 fi
+
+lava-test-run-attach ${log_file}

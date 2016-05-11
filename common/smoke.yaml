@@ -1,10 +1,10 @@
 
 metadata:
-    name: helloworld
+    name: smoke_testing
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test hackbench the simple helloworld."
+    description: "do the basic smoke testing."
     maintainer:
-        - wuyanjun@163.com
+        - wuyanjun1027@163.com
     scope:
         - functional
     os:
@@ -19,6 +19,10 @@ metadata:
         - d02
         - d03
         - d01
+
+install:
+    deps:
+        - dmidecode
 
 run:
     steps:
@@ -43,11 +47,5 @@ run:
         - lava-test-case linux-linaro-cpu-info --shell lscpu
         - lava-test-case linux-linaro-pci-info --shell lspci
         - lava-test-case linux-linaro-usb-info --shell lsusb
-        - lava-test-case linux-linaro-dmicode --shell dmidecode
-        - lava-test-case kernel-space-sysfs-dmi-exist --shell ls /sys/class/dmi/
-        - lava-test-case kernel-space-sysfs-dmi-id-exist --shell ls /sys/class/dmi/id
-        - lava-test-case kernel-space-sysfs-bios-date --shell cat /sys/class/dmi/id/bios_date
-        - lava-test-case kernel-space-sysfs-bios-vendor --shell cat /sys/class/dmi/id/bios_vendor
-        - lava-test-case kernel-space-sysfs-bios-version --shell cat /sys/class/dmi/id/bios_version
         - ./common/scripts/dmidecode.sh
 

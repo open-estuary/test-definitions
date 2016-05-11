@@ -18,7 +18,37 @@
 #
 # Maintainer: Milosz Wasilewski <milosz.wasilewski@linaro.org>
 
+. ./install_dmidecode.sh
+
 dmidecode > dmidecode.txt
+
+if ls /sys/class/dmi
+then
+    lava-test-case kernel-space-sysfs-dmi-exist --result pass
+else
+    lava-test-case kernel-space-sysfs-dmi-exist --result fail
+fi
+
+if cat /sys/class/dmi/id/bios_date
+then
+    lava-test-case kernel-space-sysfs-bios-date --result pass
+else
+    lava-test-case kernel-space-sysfs-bios-date --result fail
+fi
+
+if cat /sys/class/dmi/id/bios_vendor
+then
+    lava-test-case kernel-space-sysfs-bios-vendor --result pass
+else
+    lava-test-case kernel-space-sysfs-bios-vendor --result fail
+fi
+
+if cat /sys/class/dmi/id/bios_version
+then
+    lava-test-case kernel-space-sysfs-bios-version --result pass
+else
+    lava-test-case kernel-space-sysfs-bios-version --result fail
+fi
 
 if grep -E 'SMBIOS [0-9]+.[0-9] present.' dmidecode.txt
 then
