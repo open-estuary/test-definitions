@@ -1,0 +1,41 @@
+
+metadata:
+    name: ubuntu-smoke 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ubuntu smoke"
+    maintainer:
+        - wuyanjun1027@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+    devices:
+        - d02
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        - git
+        - openssh-server
+params:
+    VERSION: ''
+       
+run:
+    steps:
+        - lava-test-case linux-ubuntu-ssh-restart --shell service ssh restart
+        - lava-test-case linux-ubuntu-update --shell sudo apt-get update
+        - lava-test-case linux-ubuntu-install-package --shell sudo apt-get install -y make
+        - lava-test-case linux-ubuntu-remove-package --shell sudo apt-get remove -y make
+        - lava-test-case linux-ubuntu-install-make --shell sudo apt-get install -y make
+        - "cd ./distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
+        - "cd ./distro/common; ./kernel_make.sh"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
