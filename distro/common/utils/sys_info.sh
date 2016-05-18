@@ -2,22 +2,22 @@
 
 sys_info=$(uname -a)
 distro=""
-if [ "$(echo $sys_info |grep -E 'UBUNTU|Ubuntu|ubuntu')" ]; then 
+if [ "$(echo $sys_info |grep -E 'UBUNTU|Ubuntu|ubuntu')"x != ""x ]; then 
     distro="ubuntu"
-elif [ $(echo $sys_info |grep -E 'CENTOS|CentOS|centos') ]; then
+elif [ "$(echo $sys_info |grep -E 'CENTOS|CentOS|centos')"x != ""x ]; then
     distro="centos"
-elif [ $(echo $sys_info |grep -E 'FEDORA|Fedora|fedora') ]; then
+elif [ "$(echo $sys_info |grep -E 'FEDORA|Fedora|fedora')"x != ""x ]; then
     distro="fedora"
-elif [ $(echo $sys_info |grep -E 'DEBIAN|Debian|debian') ]; then
+elif [ "$(echo $sys_info |grep -E 'DEB|Deb|deb')"x != ""x ]; then
     dsstro="debian"
-elif [ $(echo $sys_info |grep -E 'OPENSUSE|OpenSuse|opensuse') ]; then
+elif [ "$(echo $sys_info |grep -E 'OPENSUSE|OpenSuse|opensuse')"x != ""x ]; then
     distro="opensuse"
 else
     distro="ubuntu"
 fi
 
 local_ip=$(ifconfig `route -n | grep "^0"|awk '{print $NF}'`|grep -o "addr inet:[0-9\.]*"|cut -d':' -f 2)
-if [ ${local_ip}x != ""x ]; then
+if [ ${local_ip}x = ""x ]; then
     local_ip=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2)
 fi
 

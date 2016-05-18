@@ -34,7 +34,7 @@ db_driver=mysql
 : ${mysql_table_engine:=$3}
 : ${mysql_table_engine:=innodb}
 : ${oltp_table_size:=$4}
-: ${oltp_table_size:=10000}
+: ${oltp_table_size:=100000}
 : ${oltp_tables_count:=$5}
 : ${oltp_tables_count:=8}
 #: ${num_threads:=$6}
@@ -51,7 +51,7 @@ test_name="oltp"
 echo "max_requests are $max_requests"
 
 $install_commands 'expect'
-./utils/${distro}_expect_mysql.sh $mysql_password | tee ${log_file}
+./../${distro}/scripts/${distro}_expect_mysql.sh $mysql_password | tee ${log_file}
 install_softwares
 
 mysql_version=$(mysql --version | awk '{ print $1"-" $2 ": " $3}')

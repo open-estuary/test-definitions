@@ -1,0 +1,41 @@
+
+metadata:
+    name: fedora-smoke 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "fedora smoke"
+    maintainer:
+        - wuyanjun1027@163.com
+    scope:
+        - functional
+    os:
+        - centos
+        - fedora
+    devices:
+        - d02
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        - git
+        - expect
+        - openssh-server
+       
+run:
+    steps:
+        - lava-test-case linux-fedora-ssh-restart --shell service ssh restart
+        - lava-test-case linux-fedora-update --shell dnf update
+        - lava-test-case linux-fedora-install-package --shell dnf -y install make
+        - lava-test-case linux-fedora-remove-package --shell dnf -y remove make
+        - lava-test-case linux-fedora-install-make --shell dnf -y install make
+        - "cd ./distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

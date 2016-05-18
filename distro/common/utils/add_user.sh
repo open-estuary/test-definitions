@@ -6,28 +6,19 @@ USERNAME="testing"
 
 function add_user()
 {
-/usr/bin/expect << EOF
-set timeout 60
-
-spawn adduser $USERNAME
-expect "password:"
-send "${USERNAME}\r"
-expect "password:"
-send "${USERNAME}\r"
-expect "Full Name"
-send "\r"
-expect "Room Number"
-send "\r"
-expect "Work Phone"
-send "\r"
-expect "Home Phone"
-send "\r"
-expect "Other"
-send "\r"
-expect "information correct?"
-send "Y\r"
-expect eof
-EOF
+    case $distro in
+        "ubuntu" | "debian" )
+            ./../../ubuntu/scripts/ubuntu_expect_adduser.sh $USERNAME
+            ;;
+        "fedora" )
+            useradd $USERNAME -d /home/$USERNAME
+            ./../../fedora/scripts/fedora_expect_adduser.sh $USERNAME
+            ;;
+        "opensuse" )
+            ;;
+        "centos" )
+            ;;
+    esac
 }
 
 user_exists=$(cat /etc/passwd|grep ${USERNAME})
