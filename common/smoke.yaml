@@ -47,5 +47,5 @@ run:
         - lava-test-case linux-linaro-cpu-info --shell lscpu
         - lava-test-case linux-linaro-pci-info --shell lspci
         - lava-test-case linux-linaro-usb-info --shell lsusb
-        - ./common/scripts/dmidecode.sh
+        - cd ./common/scripts; ./dmidecode.sh cd -
 
