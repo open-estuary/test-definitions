@@ -29,7 +29,7 @@ run:
         - lava-test-case linux-linaro-pwd --shell pwd
         - lava-test-case linux-linaro-uname --shell uname -a
         - lava-test-case linux-linaro-vmstat --shell vmstat
-        - lava-test-case linux-linaro-ifconfig --shell ifconfig -a
+        - lava-test-case linux-linaro-ifconfig --shell ifconfig -a || ip addr
         - lava-test-case linux-linaro-lscpu --shell lscpu
         - lava-test-case linux-linaro-lsb_release --shell  lsb_release -a
         - lava-test-case linux-linaro-cpuinfo --shell cat /proc/cpuinfo
