@@ -4,18 +4,6 @@ pushd ./utils
 . ./sys_info.sh
 popd
 
-function print_info()
-{
-    if [ $1 -ne 0 ]; then
-        result='fail'
-    else
-        result='pass'
-    fi
-    test_name=$2
-    echo "the result of $test_name is $result"
-    lava-test-case $test_name --result $result
-}
-
 config_output=$(lxc-checkconfig)
 [[ $config_output =~ 'missing' ]] && print_info 1 lxc-checkconfig
 [[ $config_output =~ 'missing' ]] || print_info 0 lxc-checkconfig
