@@ -17,6 +17,9 @@ function add_user()
         "opensuse" )
             ;;
         "centos" )
+            adduser $USERNAME
+            PASSWD="open1234asd"
+            ./../../centos/scripts/centos_expect_adduser.sh $USERNAME $PASSWD
             ;;
     esac
 }
