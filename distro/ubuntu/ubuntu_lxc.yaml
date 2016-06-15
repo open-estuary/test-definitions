@@ -1,8 +1,8 @@
 
 metadata:
-    name: docker 
+    name: lxc 
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "docker"
+    description: "lxc"
     maintainer:
         - wuyanjun1027@163.com
     scope:
@@ -19,14 +19,14 @@ params:
 
 install:
     deps:
-        - docker
+        - lxc
 
 params:
     VERSION: ''
        
 run:
     steps:
-        - "cd ./distro/common; ./ubuntu-docker.sh; cd -"
+        - "cd ./distro/common; ./ubuntu_lxc.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
