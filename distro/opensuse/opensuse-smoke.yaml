@@ -1,0 +1,38 @@
+
+metadata:
+    name: opensuse-smoke 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "opensuse smoke"
+    maintainer:
+        - wuyanjun1027@163.com
+    scope:
+        - functional
+    os:
+        - opensuse
+    devices:
+        - d02
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        - git
+        - openssh-server
+
+run:
+    steps:
+        - lava-test-case linux-opensuse-ssh-restart --shell service ssh restart
+        - lava-test-case linux-opensuse-update --shell zypper update
+        - lava-test-case linux-opensuse-install-package --shell zypper install make
+        - lava-test-case linux-opensuse-remove-package --shell zypper remove make
+        - lava-test-case linux-opensuse-install-make --shell zypper install make
+        - "cd ./distro/common/utils; ./add_user.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
