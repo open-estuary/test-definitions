@@ -5,7 +5,7 @@ dmi_dir=dmiDecode
 dmidecode -h 
 if [ $? -ne 0 ]; then
     echo "dmidecode has not been installed, starting to install..."
-    wget http://ftp.twaren.net/Unix/NonGNU//dmidecode/dmidecode-3.0.tar.xz
+    wget http://ftp.twaren.net/Unix/NonGNU/dmidecode/dmidecode-3.0.tar.xz
     [ ! -d $dmi_dir ] && mkdir $dmi_dir
     tar xf dmidecode-3.0.tar.xz -C $dmi_dir
     cd $dmi_dir

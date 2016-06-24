@@ -20,10 +20,6 @@ metadata:
         - d03
         - d01
 
-install:
-    deps:
-        - dmidecode
-
 run:
     steps:
         - lava-test-case linux-linaro-pwd --shell pwd
