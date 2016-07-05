@@ -32,4 +32,4 @@ params:
 
 run:
     steps:
-        - './common/scripts/cyclictest-basic.sh ${TIMES} ${INTERVAL} ${LATENCY} ${DURATION}'
+        - 'cd ./scripts; ./cyclictest-basic.sh ${TIMES} ${INTERVAL} ${LATENCY} ${DURATION}; cd -'

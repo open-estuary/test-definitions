@@ -26,5 +26,5 @@ install:
 
 run:
     steps:
-        - ./common/scripts/ftp.sh
+        - "cd ../common; ./ftp.sh; cd -"
 

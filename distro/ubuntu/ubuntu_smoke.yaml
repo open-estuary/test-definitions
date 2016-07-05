@@ -21,6 +21,7 @@ install:
     deps:
         - git
         - openssh-server
+        - expect
 params:
     VERSION: ''
        

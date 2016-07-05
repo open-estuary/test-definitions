@@ -36,4 +36,4 @@ params:
 
 run:
     steps:
-        - './common/scripts/sysbench.sh ${TIMES} ${TEST} ${MAX_REQUESTS} ${DURATION} ${FILE_TEST_MODE}'
+        - './scripts/sysbench.sh ${TIMES} ${TEST} ${MAX_REQUESTS} ${DURATION} ${FILE_TEST_MODE}'
