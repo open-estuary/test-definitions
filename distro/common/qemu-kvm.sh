@@ -94,7 +94,8 @@ qemu-nbd -d /dev/nbd0
 if [ $? -ne 0 ]
 then
     echo 'qemu-nbd fail'
-    exit 0
+#    exit 0
+    
 fi 
 chmod a+x ${CUR_PATH}/qemu-start-kvm.sh
 ${CUR_PATH}/qemu-start-kvm.sh
