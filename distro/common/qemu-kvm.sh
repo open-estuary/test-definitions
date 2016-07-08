@@ -99,4 +99,3 @@ then
 fi 
 chmod a+x ${CUR_PATH}/qemu-start-kvm.sh
 ${CUR_PATH}/qemu-start-kvm.sh
-
