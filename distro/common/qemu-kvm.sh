@@ -124,7 +124,7 @@ then
     lava-test-case umount-image --result fail
     exit 0
 else
-    lava-test-case umount-image --result fail
+    lava-test-case umount-image --result pass
 fi 
 qemu-nbd -d /dev/nbd0
 if [ $? -ne 0 ]
