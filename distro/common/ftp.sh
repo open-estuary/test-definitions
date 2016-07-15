@@ -1,5 +1,6 @@
 #! /bin/bash
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@#######################"
+set -x
 log_file="ftp_log.log"
 
 function vsftpd_op()
