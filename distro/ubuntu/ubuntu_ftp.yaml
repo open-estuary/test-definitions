@@ -26,5 +26,5 @@ install:
 
 run:
     steps:
-        - "cd ../common; ./ftp.sh; cd -"
+        - "cd ./distro/common; ./ftp.sh; cd -"
 

@@ -1,5 +1,4 @@
 #! /bin/bash
-
 log_file="ftp_log.log"
 
 function vsftpd_op()
@@ -84,3 +83,8 @@ else
 fi
 
 lava-test-run-attach ${log_file}
+if [ $? -ne 0];then
+    lava-test-case vsftpd-run-attach --result fail
+else
+    lava-test-case vsftpd-run-attach --result pass
+fi
