@@ -10,7 +10,7 @@ CUR_PATH=$PWD
 set -x
 chmod a+x ./expect-install.sh
 ./expect-install.sh
-mkdir -p ${CUR_PATH}/${QEMU}
+mkdir -p /${CUR_PATH}/${QEMU}
 if [ ! -e ${CUR_PATH}/${QEMU} ]
 then
    # echo 'mkdir dir ${QEMU} fail'
@@ -107,7 +107,7 @@ else
     lava-test-case mount-image --result pass
 fi
 cd /mnt/image
-zcat ${CUR_PATH}/qemu-test/mini-rootfs-arm64.cpio.gz | cpio -dim
+zcat ${CUR_PATH}/qemu-test/mini-rootfs-arm64.cpio.gz | cpio -dimv
 if [ $? -ne 0 ]
 then
     echo 'tar file system fail'
