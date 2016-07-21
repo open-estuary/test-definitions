@@ -20,16 +20,16 @@ params:
 install:
     deps:
         - git
-        - openssh-server
+        - expect
 
 run:
     steps:
         - lava-test-case linux-opensuse-ssh-restart --shell service ssh restart
-        - lava-test-case linux-opensuse-update --shell zypper update
-        - lava-test-case linux-opensuse-install-package --shell zypper install make
-        - lava-test-case linux-opensuse-remove-package --shell zypper remove make
-        - lava-test-case linux-opensuse-install-make --shell zypper install make
-        - "cd ./distro/common/utils; ./add_user.sh; cd -"
+        - lava-test-case linux-opensuse-update --shell zypper -n update
+        - lava-test-case linux-opensuse-install-package --shell zypper -n install make
+        - lava-test-case linux-opensuse-remove-package --shell zypper -n remove make
+        - lava-test-case linux-opensuse-install-make --shell zypper -n install make
+        - "cd ./distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

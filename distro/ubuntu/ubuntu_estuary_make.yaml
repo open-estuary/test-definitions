@@ -1,0 +1,35 @@
+metadata:
+    name: ubuntu-estuary_make 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ubuntu estuary_make"
+    maintainer:
+        - wuyanjun1027@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+    devices:
+        - d02
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        - git
+        - openssh-server
+        - expect
+params:
+    VERSION: ''
+       
+run:
+    steps:
+        - "cd ./distro/common; ./kernel_make.sh"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

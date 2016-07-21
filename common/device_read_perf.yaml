@@ -35,7 +35,7 @@ install:
         - hdparm
 run:
     steps:
-        - "cd scripts; ./device_read_perf.sh; cd -"
+        - "cd ./common/scripts; ./device_read_perf.sh; cd -"
 parse:
     pattern: "^test_case_id:(?P<test_case_id>.*-*.+) units:(?P<units>.+) measurement:(?P<measurement>.+) result:(?P<result>\\w+)"
 fixupdict:

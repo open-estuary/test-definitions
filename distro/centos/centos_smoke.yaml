@@ -22,6 +22,7 @@ install:
     deps:
         - git
         - openssh-server
+        - expect
        
 run:
     steps:
@@ -30,8 +31,7 @@ run:
         - lava-test-case linux-centos-install-package --shell yum install make -y
         - lava-test-case linux-centos-remove-package --shell yum remove make -y
         - lava-test-case linux-centos-install-make --shell yum install make -y
-        - "cd ./distro/common/utils; ./add_user.sh; ./auto_login.sh;
-          ./del_user.sh; cd -"
+        - "cd ./distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

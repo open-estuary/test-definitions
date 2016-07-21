@@ -20,15 +20,16 @@ params:
 install:
     deps:
         - git
+        - expect
         - openssh-server
 run:
     steps:
         - lava-test-case linux-debian-ssh-restart --shell 
-        - lava-test-case linux-debian-update --shell apt-get update
-        - lava-test-case linux-debian-install-package --shell apt-get install make
-        - lava-test-case linux-debian-remove-package --shell apt-get remove make
-        - lava-test-case linux-debian-install-make --shell apt-get install make
-        - "cd ./distro/common/utils; ./add_user.sh; cd -"
+        - lava-test-case linux-debian-update --shell apt-get -y update
+        - lava-test-case linux-debian-install-package --shell apt-get -y install make
+        - lava-test-case linux-debian-remove-package --shell apt-get -y remove make
+        - lava-test-case linux-debian-install-make --shell apt-get -y install make
+        - "cd ./distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
