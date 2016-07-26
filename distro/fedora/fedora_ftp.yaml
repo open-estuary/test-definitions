@@ -23,8 +23,9 @@ install:
     deps:
         - vsftpd
         - expect
+        - ftp
 
 run:
     steps:
-        - "cd ./distro/common/scripts; ./ftp.sh; cd -"
+        - "cd distro/common/scritps; ./ftp.sh; cd -"
 

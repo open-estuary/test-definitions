@@ -11,6 +11,14 @@ popd
 
 $install_commands rt-tests
 
+which cyclictest
+if [ $? -ne 0 ]; then
+   git clone git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git
+   cd rt-tests
+   make all
+   cp ./cyclictest /usr/bin
+fi
+
 if [ ! -f "/usr/bin/cyclictest" ]; then
     echo "Error! the command 'cyclictest' doesn't exist!"
     lava-test-case cyclictest-basic --result fail

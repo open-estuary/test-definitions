@@ -19,7 +19,7 @@ params:
 
 install:
     deps:
-        - docker
+        - make
 
 params:
     VERSION: ''

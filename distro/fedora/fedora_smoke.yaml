@@ -26,7 +26,7 @@ install:
        
 run:
     steps:
-        - lava-test-case linux-fedora-ssh-restart --shell service ssh restart
+        - lava-test-case linux-fedora-ssh-restart --shell systemctl restart sshd.service
         - lava-test-case linux-fedora-update --shell dnf -y update
         - lava-test-case linux-fedora-install-package --shell dnf -y install make
         - lava-test-case linux-fedora-remove-package --shell dnf -y remove make

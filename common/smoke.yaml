@@ -28,6 +28,7 @@ run:
         - lava-test-case linux-linaro-ipaddr --shell ip addr
         - lava-test-case linux-linaro-lscpu --shell lscpu
         - lava-test-case linux-linaro-lsb_release --shell  lsb_release -a
+        - lava-test-case linux-linaro-etc-issue --shell cat /etc/issue
         - lava-test-case linux-linaro-cpuinfo --shell cat /proc/cpuinfo
         - lava-test-case linux-linaro-meminfo --shell cat /proc/meminfo
         - lava-test-case linux-linaro-dmesg --shell dmesg
