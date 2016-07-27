@@ -27,5 +27,5 @@ install:
 
 run:
     steps:
-        - "cd distro/common/scritps; ./ftp.sh; cd -"
+        - "cd distro/common; ./ftp.sh; cd -"
 
