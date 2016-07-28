@@ -1,14 +1,15 @@
 
 metadata:
-    name: lxc 
+    name: fedora-sysbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "lxc"
+    description: "fedora sysbench"
     maintainer:
         - wuyanjun1027@163.com
     scope:
         - functional
+        - performance
     os:
-        - ubuntu
+        - fedora
     devices:
         - d02
         - d03
@@ -19,17 +20,17 @@ params:
 
 install:
     deps:
-        - lxc-templates
-        - lxc
-        - wget
+        - libtool
+        - autoconf
+        - automake
+        - bzr
         - expect
-
 params:
     VERSION: ''
        
 run:
     steps:
-        - "cd ./distro/common; ./ubuntu_lxc.sh; cd -"
+        - "cd ./distro/common; ./sysbench.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

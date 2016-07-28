@@ -26,19 +26,13 @@ print_info $? docker-pull-mysql
 
 images=$(docker images| grep -v 'REPOSITORY' | awk '{print $1}')
 docker_images=$(echo $images | grep mysql | grep apache)
-if [ "$docker_images"x != ""x ]; then
-    print_info 0 docker-images
-else
-    print_info 1 docker-images
-fi
-
 
 if [ ! -d Discuz ]; then
-    wget http://htsat.vicp.cc:8083/Docker-files/Discuz.tar.gz
+    wget http://htsat.vicp.cc:808/Docker-files/Discuz.tar.gz
     [[ $? -eq 0 ]] && tar xf Discuz.tar.gz
 fi
 if [ ! -d mysql_data ]; then
-    wget http://htsat.vicp.cc:8083/Docker-files/mysql_data.tar.gz
+    wget http://htsat.vicp.cc:808/Docker-files/mysql_data.tar.gz
     [[ $? -eq 0 ]] && tar xf mysql_data.tar.gz
 fi
 sed -i "s/192.168.1.246/${local_ip}/g" `grep -rl 192.168.1.246 ./Discuz`
@@ -99,15 +93,6 @@ do
     docker rm $i
     print_info $? docker-rm-${id_service_dic[$i]}
 done
-
-
-docker_container=$(docker ps | grep -v IMAGE)
-if [ "$docker_container"x != ""x ]; then
-    print_info 1 docker-rm
-else
-    print_info 0 docker-rm
-fi
-
 
 for i in ${images}
 do
