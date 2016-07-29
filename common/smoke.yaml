@@ -38,7 +38,6 @@ run:
         - lava-test-case linux-linaro-boot-cmds --shell cat /proc/cmdline
         - lava-test-case linux-linaro-device-info --shell cat /proc/devices
         - lava-test-case linux-linaro-filesystem-info --shell cat /proc/filesystems
-        - lava-test-case linux-linaro-proc-dma --shell cat /proc/dma
         - lava-test-case linux-linaro-env --shell env
         - lava-test-case linux-linaro-lsmod --shell lsmod
         - lava-test-case linux-linaro-cpu-info --shell lscpu

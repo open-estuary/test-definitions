@@ -24,7 +24,7 @@ install:
         - openssh-server
 run:
     steps:
-        - lava-test-case linux-debian-ssh-restart --shell 
+        - lava-test-case linux-debian-ssh-restart --shell service restart ssh
         - lava-test-case linux-debian-update --shell apt-get -y update
         - lava-test-case linux-debian-install-package --shell apt-get -y install make
         - lava-test-case linux-debian-remove-package --shell apt-get -y remove make

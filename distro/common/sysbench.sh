@@ -58,8 +58,10 @@ mysql_version=$(mysql --version | awk '{ print $1"-" $2 ": " $3}')
 exists=$(echo $mysql_version|awk -F":" '{print $1}')
 if [ "$exists"x = "mysql-Ver"x ]; then
     echo "Found  $mysql_version  installed"
+    print_info 0 install_mysql_in_$distro
 else
-    echo "The mysql server has not been installed,Please install mysql,Refe caliper documentation"
+    echo "The mysql server has not been installed"
+    print_info 1 install_mysql_in_$distro
     exit 1
 fi
 
@@ -106,6 +108,7 @@ expect "mysql>"
 send "quit;\r"
 expect eof
 EOF
+print_info $? prepare_test_database
 
 if [ $max_requests -eq 0 ]; then 
     max_requests=100000
@@ -128,25 +131,31 @@ sys_str="sysbench \
 $sys_str  prepare
 if [ $? -ne 0 ]; then
     echo "Prepare the oltp test data failed"
+    print_info 1 prepare_oltp_data
     exit 1
 else
     echo "prepare the oltp test data pass"
+    print_info 0 prepare_oltp_data
 fi
 
 # do the oltp test
 $sys_str run
 if [ $? -ne 0 ]; then
     echo "Run the oltp test failed"
+    print_info 1 run_oltp_test
     exit 1
 else
     echo "run the oltp test pass"
+    print_info 0 run_oltp_test
 fi
 
 # cleanup the test data
 $sys_str  cleanup
 if [ $? -ne 0 ]; then
     echo "cleanup the test data failed"
+    print_info 1 cleanup_oltp_test
     exit 1
 else
     echo "cleanup the test data pass"
+    print_info 0 cleanup_oltp_test
 fi
