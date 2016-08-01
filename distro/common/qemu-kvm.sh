@@ -3,37 +3,32 @@ pushd ./utils
 . ./sys_info.sh
 popd
 
-QEMU='qemu-test'
 IMAGE='Image_D02'
-ROOTFS='mini-rootfs-arm64.cpio.gz'
+ROOTFS='mini-rootfs.cpio.gz'
 HOME_PATH=$HOME
 CUR_PATH=$PWD
 set -x
 
 download_url=$1
 
-$install_commands qemu qemu-kvm libvirt-bin
-if [ $? -ne 0 ]; then
-   echo 'install qemu qemu-kvm libvirt-bin fail'
-   lava-test-case install-qemu-kvm --result fail
-   exit 0
-else
-   lava-test-case install-qemu-kvm --result pass
+if [ ! -e ${CUR_PATH}/${IMAGE} ]; then
+    wget ${download_url}/${IMAGE}
 fi
 
-wget ${download_url}/${IMAGE}
-wget ${download_url}/${ROOTFS}
+if [ ! -e ${CUR_PATH}/${ROOTFS} ]; then
+    wget ${download_url}/${ROOTFS}
+fi
 
-if [ ! -e ${CUR_PATH}/${IMAGE} ] or [ ! -e ${CUR_PATH}/${ROOTFS} ]; then
+if [ -e ${CUR_PATH}/${IMAGE} ] && [ -e ${CUR_PATH}/${ROOTFS} ]; then
+   lava-test-case imge_or_rootfs_exist --result pass
+else
    echo '${IMAGE} or ${ROOTFS} not exist'
    lava-test-case imge_or_rootfs_exist --result fail
    exit 0
-else
-   lava-test-case imge_or_rootfs_exist --result pass
 fi
 
 chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
-${CUR_PATH}/qemu-load-kvm.sh
+${CUR_PATH}/qemu-load-kvm.sh $IMAGE $ROOTFS
 if [ $? -ne 0 ]; then
     echo 'qemu system load fail'
     lava-test-case qemu-system-load --result fail
@@ -42,7 +37,7 @@ else
     lava-test-case qemu-system-load --esult pass
 fi
 
-qemu-img create -f qcow2 ubuntu.img 10G
+qemu-img create -f qcow2 ${distro}.img 10G
 if [ $? -ne 0 ]; then
     echo 'qemu-img create fail'
     lava-test-case qemu-img-create --result fail
@@ -60,7 +55,7 @@ else
     lava-test-case modprobe-nbd --result pass
 fi
 
-qemu-nbd -c /dev/nbd0 ubuntu.img
+qemu-nbd -c /dev/nbd0 ${distro}.img
 chmod a+x ${CUR_PATH}/qemu-create-partition.sh
 ${CUR_PATH}/qemu-create-partition.sh
 if [ $? -ne 0 ];then
@@ -68,7 +63,6 @@ if [ $? -ne 0 ];then
     lava-test-case create-partition --result fail
     exit 0
 else
-
     nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
     if [ "$nbd_pl"x != ""x ] ; then
         lava-test-case create-partition --result fail
@@ -98,7 +92,7 @@ else
 fi
 
 cd /mnt/image
-zcat ${CUR_PATH}/qemu-test/mini-rootfs-arm64.cpio.gz | cpio -dim
+zcat ${CUR_PATH}/${ROOTFS} | cpio -dim
 if [ $? -ne 0 ]
 then
     echo 'tar file system fail'

@@ -88,4 +88,3 @@ EOF
         lava-test-case vsftpd-upload --result fail
     fi
 fi
-lava-test-run-attach ${log_file}
