@@ -8,6 +8,7 @@ ROOTFS='mini-rootfs.cpio.gz'
 HOME_PATH=$HOME
 CUR_PATH=$PWD
 set -x
+DISK_NAME=${distro}.img
 
 download_url=$1
 
@@ -37,7 +38,7 @@ else
     lava-test-case qemu-system-load --esult pass
 fi
 
-qemu-img create -f qcow2 ${distro}.img 10G
+qemu-img create -f qcow2 $DISK_NAME 10G
 if [ $? -ne 0 ]; then
     echo 'qemu-img create fail'
     lava-test-case qemu-img-create --result fail
@@ -55,7 +56,7 @@ else
     lava-test-case modprobe-nbd --result pass
 fi
 
-qemu-nbd -c /dev/nbd0 ${distro}.img
+qemu-nbd -c /dev/nbd0 $DISK_NAME
 chmod a+x ${CUR_PATH}/qemu-create-partition.sh
 ${CUR_PATH}/qemu-create-partition.sh
 if [ $? -ne 0 ];then
@@ -123,4 +124,4 @@ else
 fi 
 
 chmod a+x qemu-start-kvm.sh
-qemu-start-kvm.sh
+${CUR_PATH}/qemu-start-kvm.sh  $IMAGE  $DISK_NAME
