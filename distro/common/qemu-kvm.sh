@@ -125,3 +125,10 @@ fi
 
 chmod a+x qemu-start-kvm.sh
 ${CUR_PATH}/qemu-start-kvm.sh  $IMAGE  $DISK_NAME
+if [ $? -ne 0 ];then
+    echo 'qemu-start-from-img fail'
+    lava-test-case qemu-start-from-img --result fail
+    exit 0
+else
+    lava-test-case qemu-start-from-img --result pass
+fi
