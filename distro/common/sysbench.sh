@@ -115,7 +115,8 @@ if [ $max_requests -eq 0 ]; then
 fi
 set -x
 
-# --oltp-tables-count=$oltp_tables_count \
+test_name="oltp"
+
 sys_str="sysbench \
   --db-driver=mysql \
   --mysql-table-engine=innodb \
@@ -125,8 +126,9 @@ sys_str="sysbench \
   --mysql-user=$mysql_user \
   --mysql-password=$mysql_password \
   --max-requests=$max_requests\
-  --test=$test_name \
-  "
+  --test=${test_name} \
+"
+
 # prepare the test data
 $sys_str  prepare
 if [ $? -ne 0 ]; then
