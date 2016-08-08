@@ -9,7 +9,14 @@ fi
 current_path=$PWD
 if [ ! -e bin ]; then 
     mkdir -p bin;
-    wget -c http://www.open-estuary.com/EstuaryDownloads/tools/repo -O bin/repo
+    let i=0
+    while (( $i < 5 )); do
+        wget -c http://www.open-estuary.com/EstuaryDownloads/tools/repo -O bin/repo
+        if [ $? -eq 0 ]; then
+            break;
+        fi
+        let "i++"
+    done
     chmod a+x bin/repo; 
 fi 
 

@@ -28,11 +28,25 @@ images=$(docker images| grep -v 'REPOSITORY' | awk '{print $1}')
 docker_images=$(echo $images | grep mysql | grep apache)
 
 if [ ! -d Discuz ]; then
-    wget http://htsat.vicp.cc:808/Docker-files/Discuz.tar.gz
+    let i=0
+    while (( $i < 5 )); do
+        wget http://htsat.vicp.cc:808/Docker-files/Discuz.tar.gz
+        if [ $? -eq 0 ]; then
+            break;
+        fi
+        let "i++"
+    done
     [[ $? -eq 0 ]] && tar xf Discuz.tar.gz
 fi
 if [ ! -d mysql_data ]; then
-    wget http://htsat.vicp.cc:808/Docker-files/mysql_data.tar.gz
+    let i=0
+    while (( $i < 5 )); do
+        wget http://htsat.vicp.cc:808/Docker-files/mysql_data.tar.gz
+        if [ $? -eq 0 ]; then
+            break;
+        fi
+        let "i++"
+    done
     [[ $? -eq 0 ]] && tar xf mysql_data.tar.gz
 fi
 sed -i "s/192.168.1.246/${local_ip}/g" `grep -rl 192.168.1.246 ./Discuz`

@@ -13,7 +13,15 @@ if [ $? -ne 0 ]; then
     fi
 
     echo "dmidecode has not been installed, starting to install..."
-    wget http://ftp.twaren.net/Unix/NonGNU/dmidecode/dmidecode-3.0.tar.xz
+    let i=0
+    while (( $i < 5 )); do
+        wget http://ftp.twaren.net/Unix/NonGNU/dmidecode/dmidecode-3.0.tar.xz
+        if [ $? -eq 0 ]; then
+            break;
+        fi
+        let "i++"
+    done
+
     [ ! -d $dmi_dir ] && mkdir $dmi_dir
     tar xf dmidecode-3.0.tar.xz -C $dmi_dir
     cd $dmi_dir

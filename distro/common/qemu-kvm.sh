@@ -13,11 +13,25 @@ DISK_NAME=${distro}.img
 download_url=$1
 
 if [ ! -e ${CUR_PATH}/${IMAGE} ]; then
-    wget ${download_url}/${IMAGE}
+    let i=0
+    while (( $i < 5 )); do
+        wget ${download_url}/${IMAGE}
+        if [ $? -eq 0 ]; then
+            break;
+        fi
+        let "i++"
+    done
 fi
 
 if [ ! -e ${CUR_PATH}/${ROOTFS} ]; then
-    wget ${download_url}/${ROOTFS}
+    let i=0
+    while (( $i < 5 )); do
+        wget ${download_url}/${ROOTFS}
+        if [ $? -eq 0 ]; then
+            break;
+        fi
+        let "i++"
+    done
 fi
 
 if [ -e ${CUR_PATH}/${IMAGE} ] && [ -e ${CUR_PATH}/${ROOTFS} ]; then
