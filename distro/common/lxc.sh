@@ -36,9 +36,6 @@ config_output=$(lxc-checkconfig)
 set -x
 
 case $distro in 
-    "ubuntu" )
-        echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro}/config
-        ;;
     "fedora" )
         sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
         sed -i 's/xpJf/xpf/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
@@ -64,6 +61,12 @@ distro_exists=$(lxc-ls --fancy)
 [[ "${distro_exists}" =~ $distro_name ]] && print_info 0 lxc-ls
 [[ "${distro_exists}" =~ $distro_name ]] || print_info 1 lxc-ls
 
+case $distro in
+    "ubuntu" )
+        echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
+        sudo /etc/init.d/apparmor reload
+        sudo aa-status
+        ;;
 
 lxc-start --name $distro_name --daemon
 result=$?
