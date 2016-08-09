@@ -57,6 +57,8 @@ distro_name=ubuntu
 lxc-create -n $distro_name -t ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:808/docker-image/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
 print_info $? lxc-create
 
+lxc-ls
+
 distro_exists=$(lxc-ls --fancy)
 [[ "${distro_exists}" =~ $distro_name ]] && print_info 0 lxc-ls
 [[ "${distro_exists}" =~ $distro_name ]] || print_info 1 lxc-ls
@@ -67,12 +69,13 @@ case $distro in
         sudo /etc/init.d/apparmor reload
         sudo aa-status
         ;;
+esac
 
-lxc-start --name $distro_name --daemon
+lxc-start --name ${distro_name} --daemon
 result=$?
 
 lxc_status=$(lxc-info --name $distro_name)
-if [ "$(echo $lxc_status | grep $distro_name | grep 'RUNNING')" = ""x -a $result -ne 0 ]; then
+if [ "$(echo $lxc_status | grep $distro_name | grep 'RUNNING')" = "" ] && [ $result -ne 0 ]; then
     print_info 1 lxc-start
 else
     print_info 0 lxc-start
