@@ -29,7 +29,7 @@ params:
        
 run:
     steps:
-        - "cd ./distro/common; ./debian_docker.sh $BINURL; cd -"
+        - "cd ../distro/common; ./debian_docker.sh $BINURL; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
