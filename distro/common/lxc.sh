@@ -9,8 +9,10 @@ function config_brctl()
         echo "TYPE=lookback" >> /etc/sysconfig/network-scripts/ifcfg-lo
     fi
 
-cat << EOF > /etc/sysconfig/network-scripts/ifcfg-virbr0
-DEVICE="virbr0"
+    config_name=$1
+
+cat << EOF > /etc/sysconfig/network-scripts/${config_name}
+DEVICE="${config_name}"
 BOOTPROTO="static"
 IPADDR="192.168.${ip_segment}.123"
 NETMASK="255.255.255.0"
@@ -29,6 +31,20 @@ pushd ./utils
 . ./sys_info.sh
 popd
 
+which lxc-checkconfig
+if [ $? -ne 0 ]; then
+    LXC_VERSION=lxc-2.0.0.tar.gz
+    wget http://linuxcontainers.org/lxc/download/${LXC_VERSION}
+    tar xf ${LXC_VERSION}
+    cd ${LXC_VERSION%%.tar.gz}
+    ./configure
+    make
+    make install
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+fi
+
+which lxc-checkconfig
+print_info $? lxc-installed
 config_output=$(lxc-checkconfig)
 [[ $config_output =~ 'missing' ]] && print_info 1 lxc-checkconfig
 [[ $config_output =~ 'missing' ]] || print_info 0 lxc-checkconfig
@@ -43,13 +59,19 @@ case $distro in
         sed -i "s/lxcbr0/virbr0/g"  /etc/lxc/default.conf
         brtcl_exist=$(ip addr | grep virbr0)
         if [ x"$brtcl_exist" = ""x ]; then
-            config_brctl
+            config_brctl virbr0
         fi
         $restart_service libvirtd.service
         $restart_service network.service
         ;;
     "centos" )
         sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/local/share/lxc/templates/lxc-ubuntu-cloud
+        brtcl_exist=$(ip addr | grep virbr0)
+        if [ x"$brtcl_exist" = ""x ]; then
+            config_brctl lxcbr0
+        fi
+        $restart_service libvirtd.service
+        $restart_service network.service
         ;;
 esac
 
@@ -89,6 +111,9 @@ send "exit\r"
 expect eof
 EOF
 print_info $? lxc-attach
+
+lxc-stop --name $distro_name
+print_info $? lxc-stop
 
 lxc-execute -n $distro_name /bin/echo hello
 print_info $? lxc-execute

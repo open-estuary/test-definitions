@@ -1,0 +1,36 @@
+
+metadata:
+    name: docker 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "docker"
+    maintainer:
+        - wuyanjun1027@163.com
+    scope:
+        - functional
+    os:
+        - centos
+    devices:
+        - d02
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        - make
+        - wget
+
+params:
+    VERSION: ''
+       
+run:
+    steps:
+        - "cd ./distro/common; ./docker.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

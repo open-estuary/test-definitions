@@ -42,6 +42,21 @@ else
    exit 0
 fi
 
+qemu-system-aarch64 --help
+if [ $? -ne 0 ]; then
+    QEMU_VER=qemu-2.6.0.tar.bz2
+    wget  http://wiki.qemu-project.org/download/${QEMU_VER}
+    tar xf ${QEMU_VER}
+    cd ${QEMU_VER%%.tar.bz2}
+    ./configure --target-list=aarch64-softmmu
+    make -j16
+    make install
+fi
+
+qemu-system-aarch64 --help
+print_info $? qemu-system-aarch64-install
+
+
 chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
 ${CUR_PATH}/qemu-load-kvm.sh $IMAGE $ROOTFS
 if [ $? -ne 0 ]; then
@@ -49,7 +64,7 @@ if [ $? -ne 0 ]; then
     lava-test-case qemu-system-load --result fail
     exit 0
 else
-    lava-test-case qemu-system-load --esult pass
+    lava-test-case qemu-system-load --result pass
 fi
 
 qemu-img create -f qcow2 $DISK_NAME 10G
@@ -79,10 +94,10 @@ if [ $? -ne 0 ];then
     exit 0
 else
     nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
-    if [ "$nbd_pl"x != ""x ] ; then
+    if [ "$nbd_p1"x != ""x ] ; then
         lava-test-case create-partition --result fail
     else
-       lava-test-case create-partition --result pass
+        lava-test-case create-partition --result pass
     fi
 fi
 

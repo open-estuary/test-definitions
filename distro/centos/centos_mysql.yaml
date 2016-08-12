@@ -1,0 +1,41 @@
+
+metadata:
+    name: centos-sysbench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "centos mysql sysbench"
+    maintainer:
+        - wuyanjun1027@163.com
+    scope:
+        - functional
+        - performance
+    os:
+        - centos
+    devices:
+        - d02
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        - libtool
+        - autoconf
+        - automake
+        - libmysqlclient-dev
+        - libmysqld-dev
+        - bzr
+        - expect
+params:
+    VERSION: ''
+       
+run:
+    steps:
+        - "cd ./distro/common; ./sysbench.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
