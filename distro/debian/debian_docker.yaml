@@ -22,7 +22,6 @@ install:
     deps:
         - expect
         - wget
-      	- lxc-templates
         - libvirt-bin
 
 params:
