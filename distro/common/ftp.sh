@@ -1,5 +1,4 @@
 #! /bin/bash
-
 log_file="ftp_log.log"
 
 function vsftpd_op()
