@@ -9,8 +9,8 @@ CN_SOURCE_PATH2='deb http://ftp.cn.debian.org/debian jessie-backports main'
 echo $CN_SOURCE_PATH1 >> /etc/apt/sources.list
 echo $CN_SOURCE_PATH2 >> /etc/apt/sources.list
 
-apt-get update
-apt-get upgrade -f
+#apt-get update
+#apt-get upgrade -f
 apt-get install lxc -y
 apt-get install bridge-utils libvirt-bin debootstrap -y
 
