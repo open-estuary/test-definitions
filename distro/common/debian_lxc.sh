@@ -13,7 +13,7 @@ echo $CN_SOURCE_PATH2 >> /etc/apt/sources.list
 LXC_NET=/etc/default/lxc-net
 
 
-LXC_CONFIG='/var/lib/lxc/${distro_name}/config'
+LXC_CONFIG=/var/lib/lxc/${distro_name}/config
 function config_lxcbr()
 {
 if [ -ne $LXC_NET ];
