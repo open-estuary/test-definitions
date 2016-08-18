@@ -4,17 +4,45 @@ pushd ./utils
 . ./sys_info.sh
 popd
 
+distro_name=mycontainer
 CN_SOURCE_PATH1='deb http://ftp.cn.debian.org/debian sid main'
 CN_SOURCE_PATH2='deb http://ftp.cn.debian.org/debian jessie-backports main'
 echo $CN_SOURCE_PATH1 >> /etc/apt/sources.list
 echo $CN_SOURCE_PATH2 >> /etc/apt/sources.list
 
+LXC_NET='/etc/default/lxc-net'
+LXC_CONFIG='/var/lib/lxc/${distro_name}/config'
+function config_lxcbr()
+{
+if [ -ne $LXC_NET ]
+then
+    touch $LXC_NET
+fi
+
+cat /dev/null > $LXC_NET
+cat << EOF > $LXC_NET
+USE_LXC_BRIDGE="true"
+LXC_BRIDGE="lxcbr0"
+LXC_ADDR="192.168.3.250"
+LXC_NETMASK="255.255.255.0"
+LXC_NETWORK="192.168.3.249/24"
+LXC_DHCP_RANGE="192.168.3.2,192.168.3.254"
+LXC_DHCP_MAX="253"
+LXC_DHCP_CONFILE=""
+LXC_DOMAIN=""        
+EOF        
+
+systemctl enable lxc-net
+systemctl start lxc-net
+
+sed -i 's/virbr0/lxcbr0/g' $LXC_CONFIG 
+}
 #apt-get update
 #apt-get upgrade -f
 apt-get install lxc -y
 apt-get install bridge-utils libvirt-bin debootstrap -y
 
-whick lxc-checkconfig
+which lxc-checkconfig
 if [ $? -ne 0 ]; then
     LXC_VERSION=lxc-2.0.0.tar.gz
     wget http://linuxcontainers.org/lxc/download/${LXC_VERSION}
@@ -39,7 +67,7 @@ case $distro in
     sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
     sed -i "s/lxcbr0/virbr0/g" /etc/lxc/default.conf
     brtcl_exist=$(ip addr | grep virbr0)
-    if [ x"$brtcl_exist" = ""x ]; then
+    if [ x"$brtcl_exist" = x"" ]; then
             config_brctl virbr0
     fi
     $restart_service libvirtd.service
@@ -51,7 +79,6 @@ apt-get install apparmor-profiles
 /etc/init.d/apparmor reload
 /etc/init.d/apparmor start
 
-distro_name=mycontainer
 lxc-create -n $distro_name -t /usr/share/lxc/templates/lxc-ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:808/docker-image/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
 
 print_info $? lxc-create
@@ -69,10 +96,11 @@ case $distro in
         ;;
 esac
 
-lxc-start --name ${distro_name} --daemon
+#lxc-start --name ${distro_name} --daemon
+lxc-start -n ${distro_name}
 result=$?
 
-lxc_status=$(lxc-info --name $distro_name)
+lxc_status=$(lxc-info -n $distro_name)
 if [ "$(echo $lxc_status | grep $distro_name | grep 'RUNNING')" = "" ] && [ $result -ne 0 ]; then
     print_info 1 lxc-start
 else
@@ -82,23 +110,21 @@ fi
 /usr/bin/expect <<EOF
 set timeout 400
 spawn lxc-attach -n $distro_name
-expect "ubuntu"
+expect $distro_name
 send "exit\r"
 expect eof
 EOF
 
 print_info $? lxc-attach
 
-lxc-stop --name $distro_name
-print_info $? lxc-stop
 
 lxc-execute -n $distro_name /bin/echo hello
 print_info $? lxc-execute
 
-lxc-stop --name $distro_name
+lxc-stop -n $distro_name
 print_info $? lxc-stop
 
-lxc-destroy --name $distro_name
+lxc-destroy -name $distro_name
 print_info $? lxc-destory
 
 $install_commands lxc-tests
