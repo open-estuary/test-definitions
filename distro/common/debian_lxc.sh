@@ -10,11 +10,23 @@ CN_SOURCE_PATH2='deb http://ftp.cn.debian.org/debian jessie-backports main'
 echo $CN_SOURCE_PATH1 >> /etc/apt/sources.list
 echo $CN_SOURCE_PATH2 >> /etc/apt/sources.list
 
-LXC_NET='/etc/default/lxc-net'
+
+cat << EOF > $LXC_NET
+USE_LXC_BRIDGE="true"
+LXC_BRIDGE="lxcbr0"
+LXC_ADDR="192.168.3.250"
+LXC_NETMASK="255.255.255.0"
+LXC_NETWORK="192.168.3.249/24"
+LXC_DHCP_RANGE="192.168.3.2,192.168.3.254"
+LXC_DHCP_MAX="253"
+LXC_DHCP_CONFILE=""
+LXC_DOMAIN=""        
+EOF        
+LXC_NET="/etc/default/lxc-net"
 LXC_CONFIG='/var/lib/lxc/${distro_name}/config'
 function config_lxcbr()
 {
-if [ -ne $LXC_NET ]
+if [ -ne $LXC_NET ];
 then
     touch $LXC_NET
 fi
@@ -31,7 +43,6 @@ LXC_DHCP_MAX="253"
 LXC_DHCP_CONFILE=""
 LXC_DOMAIN=""        
 EOF        
-
 systemctl enable lxc-net
 systemctl start lxc-net
 
@@ -41,6 +52,7 @@ sed -i 's/virbr0/lxcbr0/g' $LXC_CONFIG
 #apt-get upgrade -f
 apt-get install lxc -y
 apt-get install bridge-utils libvirt-bin debootstrap -y
+
 
 which lxc-checkconfig
 if [ $? -ne 0 ]; then
@@ -74,7 +86,6 @@ case $distro in
     $restart_service network.service
     ;;
 esac
-
 apt-get install apparmor-profiles
 /etc/init.d/apparmor reload
 /etc/init.d/apparmor start
@@ -95,7 +106,7 @@ case $distro in
         sudo aa-status
         ;;
 esac
-
+config_lxcbr
 #lxc-start --name ${distro_name} --daemon
 lxc-start -n ${distro_name}
 result=$?
@@ -107,15 +118,15 @@ else
     print_info 0 lxc-start
 fi
 
-/usr/bin/expect <<EOF
-set timeout 400
-spawn lxc-attach -n $distro_name
-expect $distro_name
-send "exit\r"
-expect eof
-EOF
-
+#/usr/bin/expect <<EOF
+#set timeout 400
+#spawn lxc-attach -n $distro_name
+#expect $distro_name
+#send "exit\r"
+#expect eof
+#EOF
 print_info $? lxc-attach
+
 
 
 lxc-execute -n $distro_name /bin/echo hello
@@ -125,15 +136,21 @@ lxc-stop -n $distro_name
 print_info $? lxc-stop
 
 lxc-destroy -name $distro_name
-print_info $? lxc-destory
+pint_info $? lxc-destory
 
 $install_commands lxc-tests
 install_results=$?
+
 print_info $install_results install-lxc-tests
+echo ${install_results}
+
+if [ ${install_results} -eq 0 ];then
+    echo hello
+fi
 
 if [ ${install_results} -eq 0 ];then
    for i in /usr/bin/lxc-test-*
-   do 
+   do
        $i
        print_info $? "$i"
    done
