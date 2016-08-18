@@ -3,8 +3,8 @@
 pushd ./utils
 . ./sys_info.sh
 popd
-
-distro_name=mycontainer
+index=$(date +%s)
+distro_name='mycontainer'$index
 CN_SOURCE_PATH1='deb http://ftp.cn.debian.org/debian sid main'
 CN_SOURCE_PATH2='deb http://ftp.cn.debian.org/debian jessie-backports main'
 echo $CN_SOURCE_PATH1 >> /etc/apt/sources.list
@@ -39,6 +39,7 @@ sed  '/lxc.network.flags/'d $LXC_CONFIG
 sed  '/lxc.network.link/'d $LXC_CONFIG 
 sed  '/lxc.network.hwaddr/'d $LXC_CONFIG 
 sed  '/lxc.network.ipv4/'d $LXC_CONFIG 
+echo 'lxc.aa_allow_incomplete = 1' >> $LXC_CONFIG
 }
 #apt-get update
 #apt-get upgrade -f
