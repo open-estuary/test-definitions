@@ -61,3 +61,16 @@ function print_info()
     echo "the result of $test_name is $result"
     lava-test-case $test_name --result $result
 }
+
+download_file()
+{
+    url_address=$1
+    let i=0
+    while (( $i < 5 )); do
+        wget $url_address
+        if [ $? -eq 0 ]; then
+            break;
+        fi
+        let "i++"
+    done
+}

@@ -13,25 +13,11 @@ DISK_NAME=${distro}.img
 download_url=$1
 
 if [ ! -e ${CUR_PATH}/${IMAGE} ]; then
-    let i=0
-    while (( $i < 5 )); do
-        wget ${download_url}/${IMAGE}
-        if [ $? -eq 0 ]; then
-            break;
-        fi
-        let "i++"
-    done
+    download_file ${download_url}/${IMAGE}
 fi
 
 if [ ! -e ${CUR_PATH}/${ROOTFS} ]; then
-    let i=0
-    while (( $i < 5 )); do
-        wget ${download_url}/${ROOTFS}
-        if [ $? -eq 0 ]; then
-            break;
-        fi
-        let "i++"
-    done
+    download_file ${download_url}/${ROOTFS}
 fi
 
 if [ -e ${CUR_PATH}/${IMAGE} ] && [ -e ${CUR_PATH}/${ROOTFS} ]; then
@@ -45,12 +31,13 @@ fi
 qemu-system-aarch64 --help
 if [ $? -ne 0 ]; then
     QEMU_VER=qemu-2.6.0.tar.bz2
-    wget  http://wiki.qemu-project.org/download/${QEMU_VER}
+    download_file http://wiki.qemu-project.org/download/${QEMU_VER}
     tar xf ${QEMU_VER}
     cd ${QEMU_VER%%.tar.bz2}
     ./configure --target-list=aarch64-softmmu
     make -j16
     make install
+    cd -
 fi
 
 qemu-system-aarch64 --help

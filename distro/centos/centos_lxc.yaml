@@ -27,6 +27,7 @@ install:
         - expect
         - libvirt
         - libcap-devel
+        - glib2-devel
 
 params:
     VERSION: ''
