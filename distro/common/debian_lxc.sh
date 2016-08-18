@@ -131,7 +131,7 @@ $install_commands lxc-tests
 install_results=$?
 print_info $install_results install-lxc-tests
 
-if [ $install_results -eq 0 ]; then
+if [ ${install_results} -eq 0 ];then
    for i in /usr/bin/lxc-test-*
    do 
        $i
