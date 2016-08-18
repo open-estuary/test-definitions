@@ -22,16 +22,15 @@ then
 fi
 
 
-cat << EOF > $LXC_NET
-USE_LXC_BRIDGE="true"
-LXC_BRIDGE="lxcbr0"
-LXC_ADDR="192.168.3.250"
-LXC_NETMASK="255.255.255.0"
-LXC_NETWORK="192.168.3.249/24"
-LXC_DHCP_RANGE="192.168.3.2,192.168.3.254"
-LXC_DHCP_MAX="253"
-LXC_DHCP_CONFILE=""
-EOF
+echo 'USE_LXC_BRIDGE="true"' >> $LXC_NET
+echo 'LXC_BRIDGE="lxcbr0"' >> $LXC_NET
+echo 'LXC_ADDR="192.168.3.250"' >> $LXC_NET
+echo 'LXC_NETMASK="255.255.255.0"' >> $LXC_NET
+echo 'LXC_NETWORK="192.168.3.249/24"' >> $LXC_NET
+echo 'LXC_DHCP_RANGE="192.168.3.2,192.168.3.254"' >> $LXC_NET
+echo 'LXC_DHCP_MAX="253"' >> $LXC_NET
+echo 'LXC_DHCP_CONFILE=""' >> $LXC_NET
+
 systemctl enable lxc-net
 systemctl start lxc-net
 
