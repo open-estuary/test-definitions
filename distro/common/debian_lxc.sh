@@ -10,8 +10,8 @@ CN_SOURCE_PATH2='deb http://ftp.cn.debian.org/debian jessie-backports main'
 echo $CN_SOURCE_PATH1 >> /etc/apt/sources.list
 echo $CN_SOURCE_PATH2 >> /etc/apt/sources.list
 
-
-cat << EOF > $LXC_NET
+LXC_NET=/etc/default/lxc-net
+cat <<EOF > $LXC_NET
 USE_LXC_BRIDGE="true"
 LXC_BRIDGE="lxcbr0"
 LXC_ADDR="192.168.3.250"
@@ -22,7 +22,13 @@ LXC_DHCP_MAX="253"
 LXC_DHCP_CONFILE=""
 LXC_DOMAIN=""        
 EOF        
-LXC_NET="/etc/default/lxc-net"
+
+if [ ${install_results} -eq 0 ];then
+   for i in /usr/bin/lxc-test-*
+   do
+       $i
+       print_info $? "$i"
+   done
 LXC_CONFIG='/var/lib/lxc/${distro_name}/config'
 function config_lxcbr()
 {
