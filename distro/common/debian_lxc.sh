@@ -16,7 +16,7 @@ LXC_NET=/etc/default/lxc-net
 LXC_CONFIG=/var/lib/lxc/${distro_name}/config
 function config_lxcbr()
 {
-if [ -ne $LXC_NET ];
+if [ ! -e $LXC_NET ];
 then
     touch $LXC_NET
 fi
@@ -34,7 +34,11 @@ echo 'LXC_DHCP_CONFILE=""' >> $LXC_NET
 systemctl enable lxc-net
 systemctl start lxc-net
 
-sed -i 's/virbr0/lxcbr0/g' $LXC_CONFIG 
+sed -i 's/veth/empty/g' $LXC_CONFIG 
+sed  '/lxc.network.flags/'d $LXC_CONFIG 
+sed  '/lxc.network.link/'d $LXC_CONFIG 
+sed  '/lxc.network.hwaddr/'d $LXC_CONFIG 
+sed  '/lxc.network.ipv4/'d $LXC_CONFIG 
 }
 #apt-get update
 #apt-get upgrade -f
