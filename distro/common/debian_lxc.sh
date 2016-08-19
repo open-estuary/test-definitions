@@ -96,7 +96,7 @@ case $distro in
     "debian" )
         echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
         sudo /etc/init.d/apparmor reload
-        sudo aa-status
+#        sudo aa-status
         ;;
 esac
 
