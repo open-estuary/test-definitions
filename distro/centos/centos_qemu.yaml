@@ -36,7 +36,7 @@ install:
         - glib2-devel
 
 params:
-    BINURL: 'http://114.119.4.74:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
+    BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
        
 run:
     steps:
