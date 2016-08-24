@@ -29,7 +29,8 @@ function debian_brctl()
 HOST_INTERFACES="/etc/network/interfaces"
 HOST_INTERFACES_BK="/etc/network/interfaces_bk"
 BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
-
+    ETH1=$(ip route | grep "default" | awk '{print $NF}')
+    EHT2=$(ip addr | awk '/eth*/' | awk '!/inet/'| awk '!/link/'|awk 'NR==2'|awk -F: '{print $2}')
     ip link set br0 down
     brctl delbr br0
     brctl addbr br0
@@ -38,7 +39,7 @@ BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
         printf_info 1 brctl_addbr_br0
     exit 0
     fi
-        brctl addif br0 eth0 eth4
+        brctl addif br0 $ETH1 
     if [ $? -ne 0 ]; then
         printf_info 1 brctl_addif
     exit 0
@@ -48,10 +49,10 @@ BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
     echo "auto lo br0" >> $HOST_INTERFACES
     echo "iface lo inet loopback" >> $HOST_INTERFACES
     echo "iface eth0 inet manual" >> $HOST_INTERFACES
-    echo "iface eth4 inet manual" >> $HOST_INTERFACES
+    echo "iface $ETH2 inet manual" >> $HOST_INTERFACES
     echo "iface br0 inet dhcp" >> $HOST_INTERFACES
-    echo "bridge_ports eth0 eth4" >> $HOST_INTERFACES
-    
+    echo "bridge_ports eth0 $ETH2" >> $HOST_INTERFACES
+   
     if [ ! -e $BRIDGE_LOCAL_CONF ]; then
         touch $BRIDGE_LOCAL_CONF
     fi
