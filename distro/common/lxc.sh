@@ -29,15 +29,17 @@ function debian_brctl()
 HOST_INTERFACES="/etc/network/interfaces"
 HOST_INTERFACES_BK="/etc/network/interfaces_bk"
 BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
-    ip_segment=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2 | cut -d"." -f 3)
 
+    ip_segment=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2 | cut -d"." -f 3)
+    ip link set br0 down
+    brctl delbr br0
     brctl addbr br0
     addr_show=$(ip addr show | grep br0)
     if [ x"$addr_show" = x""]; then
     printf_info 1 brctl_addbr_br0
     exit 0
     fi
-    brctl addif br0 eth0 eth1
+    brctl addif br0 eth0 eth4
     if [ $? -ne 0 ]; then
     printf_info 1 brctl_addif
     exit 0
@@ -47,23 +49,24 @@ BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
     echo "auto lo br0" >> $HOST_INTERFACES
     echo "iface lo inet loopback" >> $HOST_INTERFACES
     echo "iface eth0 inet manual" >> $HOST_INTERFACES
-    echo "iface eth1 inet manual" >> $HOST_INTERFACES
+    echo "iface eth4 inet manual" >> $HOST_INTERFACES
     echo "iface br0 inet dhcp" >> $HOST_INTERFACES
-    echo "bridge_ports eth0 eth1" >> $HOST_INTERFACES
+    echo "bridge_ports eth0 eth4" >> $HOST_INTERFACES
     
     if [ ! -e $BRIDGE_LOCAL_CONF ]; then
-    echo "bridge_local.conf is not exist"
-    exit 0
+    touch $BRIDGE_LOCAL_CONF
+    fi
     sed  '/exit/'d $BRIDGE_LOCAL_CONF
     echo "/etc/init.d/procps restart" >> $BRIDGE_LOCAL_CONF
     echo "exit 0" >> $BRIDGE_LOCAL_CONF
-    fi
+    
     ifup br0 
 }
 pushd ./utils
 . ./sys_info.sh
 popd
 #deps on lxc bridge-utils libvirt-bin debootstrap
+#deps on apparmor-profiles
 which lxc-checkconfig
 if [ $? -ne 0 ]; then
     LXC_VERSION=lxc-2.0.0.tar.gz
@@ -82,7 +85,7 @@ config_output=$(lxc-checkconfig)
 [[ $config_output =~ 'missing' ]] || print_info 0 lxc-checkconfig
 
 set -x
-
+distro="debian"
 case $distro in 
     "fedora" )
         sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
@@ -102,11 +105,11 @@ case $distro in
     "debian" )
         sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
             echo "debian brctl ############"
-            debian_brctl
+            #debian_brctl
         ;;
 esac
 
-rand=$(date + %s)
+rand=$(date +%s)
 distro_name=mylxc$rand
 lxc-create -n $distro_name -t ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:808/docker-image/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
 print_info $? lxc-create
@@ -122,6 +125,12 @@ case $distro in
         echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
         sudo /etc/init.d/apparmor reload
         sudo aa-status
+        ;;
+    "debian" )
+        echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
+        /etc/init.d/apparmor reload
+        /etc/init.d/apparmor start
+        debian_brctl
         ;;
 esac
 
