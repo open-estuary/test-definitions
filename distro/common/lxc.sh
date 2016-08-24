@@ -66,6 +66,11 @@ pushd ./utils
 . ./sys_info.sh
 popd
 #deps on lxc bridge-utils libvirt-bin debootstrap
+apt-get install lxc -y
+apt-get install bridge-utils -y
+apt-get install libvirt-bin -y 
+apt-get install debootstrap -y
+
 #deps on apparmor-profiles
 which lxc-checkconfig
 if [ $? -ne 0 ]; then
