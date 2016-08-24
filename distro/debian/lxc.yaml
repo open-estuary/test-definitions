@@ -22,14 +22,14 @@ install:
     deps:
         - expect
         - wget
-        - libvirt-bin
-        - bridge-utils
-        - lxc
-        - bridge-utils
-        - libvirt-bin
-        - debootstrap
-        - uuid-runtime
-        - apparmor-profiles 
+ #       - libvirt-bin
+ #       - bridge-utils
+ #       - lxc
+ #       - bridge-utils
+ #       - libvirt-bin
+ #       - debootstrap
+ #       - uuid-runtime
+ #       - apparmor-profiles 
 params:
     BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
        
