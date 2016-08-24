@@ -20,8 +20,8 @@ params:
 
 install:
     deps:
-        - expect
-        - wget
+ #       - expect
+         - wget
  #       - libvirt-bin
  #       - bridge-utils
  #       - lxc
