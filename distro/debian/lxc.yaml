@@ -18,10 +18,10 @@ params:
     # Number of cycles helloworld is called (for loop repetitions)
     REPEAT: 1
 
-#install:
-#    deps:
- #       - expect
- #        - wget
+install:
+    deps:
+        - expect
+         - wget
  #       - libvirt-bin
  #       - bridge-utils
  #       - lxc
