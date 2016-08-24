@@ -35,12 +35,12 @@ BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
     brctl addbr br0
     addr_show=$(ip addr show | grep br0)
     if [ x"$addr_show" = x""]; then
-    printf_info 1 brctl_addbr_br0
+        printf_info 1 brctl_addbr_br0
     exit 0
     fi
-    brctl addif br0 eth0 eth4
+        brctl addif br0 eth0 eth4
     if [ $? -ne 0 ]; then
-    printf_info 1 brctl_addif
+        printf_info 1 brctl_addif
     exit 0
     fi
     cp $HOST_INTERFACES $HOST_INTERFACES_BK       
@@ -53,7 +53,7 @@ BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
     echo "bridge_ports eth0 eth4" >> $HOST_INTERFACES
     
     if [ ! -e $BRIDGE_LOCAL_CONF ]; then
-    touch $BRIDGE_LOCAL_CONF
+        touch $BRIDGE_LOCAL_CONF
     fi
     sed  '/exit/'d $BRIDGE_LOCAL_CONF
     echo "/etc/init.d/procps restart" >> $BRIDGE_LOCAL_CONF
@@ -65,10 +65,10 @@ pushd ./utils
 . ./sys_info.sh
 popd
 #deps on lxc bridge-utils libvirt-bin debootstrap
-apt-get install lxc -y
-apt-get install bridge-utils -y
-apt-get install libvirt-bin -y 
-apt-get install debootstrap -y
+#apt-get install lxc -y
+#apt-get install bridge-utils -y
+#apt-get install libvirt-bin -y 
+#apt-get install debootstrap -y
 
 #deps on apparmor-profiles
 which lxc-checkconfig

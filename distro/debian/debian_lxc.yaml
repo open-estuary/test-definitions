@@ -20,14 +20,13 @@ params:
 
 install:
     deps:
-        - expect
+         - expect
          - wget
- #       - libvirt-bin
- #       - bridge-utils
- #       - lxc
- #       - bridge-utils
- #       - libvirt-bin
- #       - debootstrap
+         - libvirt-bin
+         - lxc
+         - bridge-utils
+         - libvirt-bin
+         - debootstrap
  #       - uuid-runtime
  #       - apparmor-profiles 
 params:
