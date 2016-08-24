@@ -30,7 +30,6 @@ HOST_INTERFACES="/etc/network/interfaces"
 HOST_INTERFACES_BK="/etc/network/interfaces_bk"
 BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
 
-    ip_segment=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2 | cut -d"." -f 3)
     ip link set br0 down
     brctl delbr br0
     brctl addbr br0
