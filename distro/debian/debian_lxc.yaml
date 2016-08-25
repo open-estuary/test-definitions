@@ -1,0 +1,43 @@
+
+metadata:
+    name: lxc
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "lxc"
+    maintainer:
+        - gu_an_he@163.com
+    scope:
+        - functional
+        - performance
+    os:
+        - debian
+    devices:
+        - d02
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+         - expect
+         - wget
+         - libvirt-bin
+         - lxc
+         - bridge-utils
+         - libvirt-bin
+         - debootstrap
+ #       - uuid-runtime
+ #       - apparmor-profiles 
+params:
+    BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
+       
+run:
+    steps:
+        - "cd ./distro/common; ./lxc.sh  cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
