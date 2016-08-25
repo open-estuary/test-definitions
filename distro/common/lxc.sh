@@ -35,7 +35,7 @@ BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
     brctl delbr br0
     brctl addbr br0
     addr_show=$(ip addr show | grep br0)
-    if [ x"$addr_show" = x""]; then
+    if [ x"$addr_show" = x"" ]; then
         printf_info 1 brctl_addbr_br0
     exit 0
     fi
