@@ -3,7 +3,7 @@
 function config_brctl()
 {
     ip_segment=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2 | cut -d"." -f 3)
-
+    
     if [ x"$(cat  /etc/sysconfig/network-scripts/ifcfg-lo | grep TYPE)" = x"" ];
     then
         echo "TYPE=lookback" >> /etc/sysconfig/network-scripts/ifcfg-lo
@@ -26,10 +26,66 @@ EOF
     $disable_service firewalld.service
     $enable_service NetworkManager-wait-online.service
 }
-
+function debian_brctl()
+{
+HOST_INTERFACES="/etc/network/interfaces"
+HOST_INTERFACES_BK="/etc/network/interfaces_bk"
+BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
+    ETH1=$(ip route | grep "default" | awk '{print $NF}')
+    EHT2=$(ip addr | awk '/eth*/' | awk '!/inet/'| awk '!/link/'|awk 'NR==2'|awk -F: '{print $2}')
+    ip link set br0 down
+    brctl delbr br0
+    brctl addbr br0
+    addr_show=$(ip addr show | grep br0)
+    if [ x"$addr_show" = x"" ]; then
+        printf_info 1 brctl_addbr_br0
+    exit 0
+    fi
+        brctl addif br0 $ETH1 
+    if [ $? -ne 0 ]; then
+        printf_info 1 brctl_addif
+    exit 0
+    fi
+    cp $HOST_INTERFACES $HOST_INTERFACES_BK       
+    cat /dev/null > $HOST_INTERFACES
+    echo "auto lo br0" >> $HOST_INTERFACES
+    echo "iface lo inet loopback" >> $HOST_INTERFACES
+    echo "iface eth0 inet manual" >> $HOST_INTERFACES
+    echo "iface $ETH2 inet manual" >> $HOST_INTERFACES
+    echo "iface br0 inet dhcp" >> $HOST_INTERFACES
+    echo "bridge_ports eth0 $ETH2" >> $HOST_INTERFACES
+   
+    if [ ! -e $BRIDGE_LOCAL_CONF ]; then
+        touch $BRIDGE_LOCAL_CONF
+    fi
+    sed  '/exit/'d $BRIDGE_LOCAL_CONF
+    echo "/etc/init.d/procps restart" >> $BRIDGE_LOCAL_CONF
+    echo "exit 0" >> $BRIDGE_LOCAL_CONF
+    
+    ifup br0 
+}
 pushd ./utils
 . ./sys_info.sh
 popd
+#deps on lxc bridge-utils libvirt-bin debootstrap
+#apt-get install lxc -y
+#apt-get install bridge-utils -y
+#apt-get install libvirt-bin -y 
+#apt-get install debootstrap -y
+
+#deps on apparmor-profiles
+which lxc-checkconfig
+if [ $? -ne 0 ]; then
+    LXC_VERSION=lxc-2.0.0.tar.gz
+    download_file http://linuxcontainers.org/downloads/lxc/${LXC_VERSION}
+    tar xf ${LXC_VERSION}
+    cd ${LXC_VERSION%%.tar.gz}
+    ./configure
+    make
+    make install
+    cd -
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+fi
 
 which lxc-checkconfig
 if [ $? -ne 0 ]; then
@@ -51,7 +107,6 @@ config_output=$(lxc-checkconfig)
 [[ $config_output =~ 'missing' ]] || print_info 0 lxc-checkconfig
 
 set -x
-
 case $distro in 
     "fedora" )
         sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
@@ -74,9 +129,15 @@ case $distro in
         $restart_service libvirtd.service
         $restart_service network.service
         ;;
+    "debian" )
+        sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
+            echo "debian brctl ############"
+            #debian_brctl
+        ;;
 esac
 
-distro_name=ubuntu
+rand=$(date +%s)
+distro_name=mylxc$rand
 lxc-create -n $distro_name -t ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:808/docker-image/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
 print_info $? lxc-create
 
@@ -91,6 +152,12 @@ case $distro in
         echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
         sudo /etc/init.d/apparmor reload
         sudo aa-status
+        ;;
+    "debian" )
+        echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
+        /etc/init.d/apparmor reload
+        /etc/init.d/apparmor start
+        debian_brctl
         ;;
 esac
 
@@ -107,7 +174,7 @@ fi
 /usr/bin/expect <<EOF
 set timeout 400
 spawn lxc-attach -n $distro_name
-expect "ubuntu"
+expect $distro_name
 send "exit\r"
 expect eof
 EOF
