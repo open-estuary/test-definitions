@@ -90,7 +90,6 @@ config_output=$(lxc-checkconfig)
 [[ $config_output =~ 'missing' ]] || print_info 0 lxc-checkconfig
 
 set -x
-distro="debian"
 case $distro in 
     "fedora" )
         sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
