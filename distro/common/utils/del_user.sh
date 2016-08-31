@@ -1,18 +1,19 @@
 #!/bin/bash
 . ./sys_info.sh
 
-function del_user()
+del_user()
 {
-    USERNAME=$1
-    userdel -r  $USERNAME
-    if [ ! -d /home/$USERNAME ]; then
-        echo "del user $USERNAME success"
+    local user=$1
+    userdel -r $user
+
+    if [ ! -d /home/$user ]; then
+        echo "del user $user success"
         lava-test-case del-user-in-$distro --result pass
     else
-        echo "del user $USERNAME fail"
+        echo "del user $user fail"
         lava-test-case del-user-in-$distro --result fail
     fi
 }
 
-USERNAME="testing"
-del_user $USERNAME
+USER=${1:-$USERNAME}
+del_user $USER
