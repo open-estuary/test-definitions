@@ -1,29 +1,12 @@
 #!/bin/bash
 
+set -x
+
 pushd ./utils
 . ./sys_info.sh
 popd
+
 log_file="mysql_sysbench.log"
-
-set -x
-
-function install_softwares()
-{
-    declare -A distro_softname_dic
-    ubuntu_list='libtool autoconf automake libmysqlclient-dev mysql-client libmysqld-dev bzr expect'
-    opensuse_list='bzr'
-    debian_list='bzr'
-    centos_list='bzr'
-    fedora_list='bzr'
-    distro_softname_dic=([ubuntu]=$ubuntu_list [opensuse]=$opensuse_list [debian]=$debian_list [centos]=$centos_list [fedora]=$fedora_list)
-    softwares=${distro_softname_dic[$distro]}
-    echo $update_commands
-    echo $softwares
-    . ./utils/install_update_soft.sh "$update_commands" "$install_commands" "$softwares" $log_file $distro
-    [ $? -ne 0 ] && echo -1
-}
-
-sysbench_dir=sysbench-0.5
 cpu_num=$(grep 'processor' /proc/cpuinfo |sort |uniq |wc -l)
 
 db_driver=mysql
@@ -47,12 +30,15 @@ db_driver=mysql
 : ${db_name:=sbtest}
 #: ${max_requests:=$10}
 : ${max_requests:=100000}
-test_name="oltp"
+
+if [ $max_requests -eq 0 ]; then
+    max_requests=100000
+fi
+
 echo "max_requests are $max_requests"
 
-$install_commands 'expect'
+$restart_service mysql
 ./../${distro}/scripts/${distro}_expect_mysql.sh $mysql_password | tee ${log_file}
-install_softwares
 
 mysql_version=$(mysql --version | awk '{ print $1"-" $2 ": " $3}')
 exists=$(echo $mysql_version|awk -F":" '{print $1}')
@@ -108,18 +94,13 @@ expect "mysql>"
 send "quit;\r"
 expect eof
 EOF
+
 print_info $? prepare_test_database
 
-if [ $max_requests -eq 0 ]; then 
-    max_requests=100000
-fi
-set -x
-
 test_name="oltp"
-
 sys_str="sysbench \
   --db-driver=mysql \
-  --mysql-table-engine=innodb \
+  --mysql-table-engine=$mysql_table_engine \
   --oltp-table-size=$oltp_table_size \
   --num-threads=$num_threads \
   --mysql-host=$mysql_host \

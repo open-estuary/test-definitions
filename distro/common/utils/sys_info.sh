@@ -1,8 +1,12 @@
 #!/bin/bash
 
-sys_info=$(uname -a)
+USERNAME="testing"
+PASSWD="open1234asd"
+
 distro=""
-if [ "$(echo $sys_info |grep -E 'UBUNTU|Ubuntu|ubuntu')"x != ""x ]; then 
+sys_info=$(uname -a)
+
+if [ "$(echo $sys_info |grep -E 'UBUNTU|Ubuntu|ubuntu')"x != ""x ]; then
     distro="ubuntu"
 elif [ "$(echo $sys_info |grep -E 'cent|CentOS|centos')"x != ""x ]; then
     distro="centos"
@@ -21,19 +25,21 @@ if [ ${local_ip}x = ""x ]; then
     local_ip=$(ifconfig `route -n | grep "^0"|awk '{print $NF}'`|grep -o "addr inet:[0-9\.]*"|cut -d':' -f 2)
 fi
 
-restart_service='systemctl restart'
 start_service='systemctl start'
 stop_service='systemctl stop'
-status_service='systemctl status'
+reload_service='systemctl reload'
+restart_service='systemctl restart'
 enable_service='systemctl enable'
 disable_service='systemctl disable'
+status_service='systemctl status'
 
-case $distro in 
+case $distro in
     "ubuntu" | "debian" )
         update_commands='apt-get update -y'
         install_commands='apt-get install -y'
-        restart_service=""
         start_service=""
+        reload_service=""
+        restart_service=""
         status_service=""
         ;;
     "opensuse" )
@@ -50,13 +56,14 @@ case $distro in
         ;;
 esac
 
-function print_info()
+print_info()
 {
     if [ $1 -ne 0 ]; then
         result='fail'
     else
         result='pass'
     fi
+
     test_name=$2
     echo "the result of $test_name is $result"
     lava-test-case $test_name --result $result

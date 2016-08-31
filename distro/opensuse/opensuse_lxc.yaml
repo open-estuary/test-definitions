@@ -1,15 +1,14 @@
 
 metadata:
-    name: ubuntu-sysbench
+    name: lxc
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "ubuntu smoke"
+    description: "lxc"
     maintainer:
         - wuyanjun1027@163.com
     scope:
         - functional
-        - performance
     os:
-        - ubuntu
+        - opensuse
     devices:
         - d02
         - d03
@@ -20,21 +19,21 @@ params:
 
 install:
     deps:
-        - libtool
-        - autoconf
-        - automake
-        - bzr
+        - lxc
+        - apparmor
+        - apparmor-utils
+        - apparmor-abstractions
+        - wget
         - expect
-        - mysql-client
-        - libmysqld-dev
-        - libmysqlclient-dev
+        - debootstrap
+        - libvirt-daemon-lxc
 
 params:
     VERSION: ''
 
 run:
     steps:
-        - "cd ./distro/common; ./sysbench.sh; cd -"
+        - "cd ./distro/common; ./lxc.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
