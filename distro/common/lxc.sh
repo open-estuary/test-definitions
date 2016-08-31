@@ -1,17 +1,18 @@
 #!/bin/bash
 
-function config_brctl()
+common_brctl()
 {
-    ip_segment=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2 | cut -d"." -f 3)
-    
-    if [ x"$(cat  /etc/sysconfig/network-scripts/ifcfg-lo | grep TYPE)" = x"" ];
+    local config_name=$2
+    local network_scripts_dir=$1
+
+    if [ x"$(cat  ${network_scripts_dir}/ifcfg-lo | grep TYPE)" = x"" ];
     then
-        echo "TYPE=lookback" >> /etc/sysconfig/network-scripts/ifcfg-lo
+        echo "TYPE=lookback" >> ${network_scripts_dir}/ifcfg-lo
     fi
 
-    config_name=$1
+    ip_segment=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2 | cut -d"." -f 3)
 
-cat << EOF > /etc/sysconfig/network-scripts/${config_name}
+cat << EOF > ${network_scripts_dir}/${config_name}
 DEVICE="${config_name}"
 BOOTPROTO="static"
 IPADDR="192.168.${ip_segment}.123"
@@ -26,67 +27,115 @@ EOF
     $disable_service firewalld.service
     $enable_service NetworkManager-wait-online.service
 }
-function debian_brctl()
+
+opensuse_brctl()
 {
-HOST_INTERFACES="/etc/network/interfaces"
-HOST_INTERFACES_BK="/etc/network/interfaces_bk"
-BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
+    local config_name=$2
+    local network_scripts_dir=$1
+    local dev=$(ip route | grep "default" | awk '{print $NF}')
+    local ip_addr=$(ip addr show $dev | grep -o "inet [0-9\.]*" | cut -d" " -f 2)
+    local ip_brd=${ip_addr%.*}.255
+
+cat << EOF > ${network_scripts_dir}/${config_name}
+STARTMODE='auto'
+BOOTPROTO='static'
+IPADDR="$ip_addr"
+NETMASK="255.25.255.0"
+BROADCAST="$ip_brd"
+BRIDGE='yes'
+BRIDGE_STP='off'
+BRIDGE_FORWARDDELAY='0'
+BRIDGE_PORTS="$dev"
+EOF
+}
+
+debian_brctl()
+{
+    HOST_INTERFACES="/etc/network/interfaces"
+    HOST_INTERFACES_BK="/etc/network/interfaces_bk"
+    BRIDGE_LOCAL_CONF="/etc/sysctl.d/bridge_local.conf"
+
     ETH1=$(ip route | grep "default" | awk '{print $NF}')
     EHT2=$(ip addr | awk '/eth*/' | awk '!/inet/'| awk '!/link/'|awk 'NR==2'|awk -F: '{print $2}')
-    ip link set br0 down
-    brctl delbr br0
-    brctl addbr br0
-    addr_show=$(ip addr show | grep br0)
+
+    local bridge=$1
+    ip link set $bridge down
+    brctl delbr $bridge
+    brctl addbr $bridge
+
+    addr_show=$(ip addr show | grep $bridge)
     if [ x"$addr_show" = x"" ]; then
-        printf_info 1 brctl_addbr_br0
-    exit 0
+        printf_info 1 brctl_addbr_$bridge
     fi
-        brctl addif br0 $ETH1 
+
+    brctl addif $bridge $ETH1
     if [ $? -ne 0 ]; then
         printf_info 1 brctl_addif
-    exit 0
     fi
-    cp $HOST_INTERFACES $HOST_INTERFACES_BK       
+
+    cp $HOST_INTERFACES $HOST_INTERFACES_BK
     cat /dev/null > $HOST_INTERFACES
-    echo "auto lo br0" >> $HOST_INTERFACES
+
+    echo "auto lo $bridge" >> $HOST_INTERFACES
     echo "iface lo inet loopback" >> $HOST_INTERFACES
     echo "iface eth0 inet manual" >> $HOST_INTERFACES
     echo "iface $ETH2 inet manual" >> $HOST_INTERFACES
-    echo "iface br0 inet dhcp" >> $HOST_INTERFACES
+    echo "iface $bridge inet dhcp" >> $HOST_INTERFACES
     echo "bridge_ports eth0 $ETH2" >> $HOST_INTERFACES
-   
+
     if [ ! -e $BRIDGE_LOCAL_CONF ]; then
         touch $BRIDGE_LOCAL_CONF
     fi
-    sed  '/exit/'d $BRIDGE_LOCAL_CONF
+
+    sed  '/exit/d' $BRIDGE_LOCAL_CONF
     echo "/etc/init.d/procps restart" >> $BRIDGE_LOCAL_CONF
     echo "exit 0" >> $BRIDGE_LOCAL_CONF
-    
-    ifup br0 
+
+    ifup $bridge
 }
+
+brctl_config()
+{
+    local bridge=$1
+    local config_name=ifcfg-$bridge
+    local NETWORK_SCRIPTS_DIR="/etc/sysconfig/network-scripts"
+
+    case $distro in
+        opensuse)
+            NETWORK_SCRIPTS_DIR="/etc/sysconfig/network"
+            opensuse_brctl $NETWORK_SCRIPTS_DIR $config_name
+            ;;
+        ubuntu)
+            echo "ubuntu brctl ############"
+            ;;
+        debian)
+            echo "debian brctl ############"
+            debian_brctl $bridge
+            ;;
+        *)
+            common_brctl $NETWORK_SCRIPTS_DIR $config_name
+            ;;
+    esac
+}
+
+set -x
+
 pushd ./utils
 . ./sys_info.sh
 popd
-#deps on lxc bridge-utils libvirt-bin debootstrap
-#apt-get install lxc -y
-#apt-get install bridge-utils -y
-#apt-get install libvirt-bin -y 
-#apt-get install debootstrap -y
 
-#deps on apparmor-profiles
-which lxc-checkconfig
-if [ $? -ne 0 ]; then
-    LXC_VERSION=lxc-2.0.0.tar.gz
-    download_file http://linuxcontainers.org/downloads/lxc/${LXC_VERSION}
-    tar xf ${LXC_VERSION}
-    cd ${LXC_VERSION%%.tar.gz}
-    ./configure
-    make
-    make install
-    cd -
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+# -- bridge network -----------------------------------------------------------
+BRIDGE_NAME=virbr0
+brtcl_exist=$(ip addr | grep $BRIDGE_NAME)
+if [ x"$brtcl_exist" = x"" ]; then
+    brctl_config $BRIDGE_NAME
+    $restart_service libvirtd.service
+    $restart_service network.service
 fi
 
+sed -i "s/lxcbr0/${BRIDGE_NAME}/g"  /etc/lxc/default.conf
+
+# -- lxc-checkconfig ----------------------------------------------------------
 which lxc-checkconfig
 if [ $? -ne 0 ]; then
     LXC_VERSION=lxc-2.0.0.tar.gz
@@ -102,56 +151,64 @@ fi
 
 which lxc-checkconfig
 print_info $? lxc-installed
-config_output=$(lxc-checkconfig)
-[[ $config_output =~ 'missing' ]] && print_info 1 lxc-checkconfig
-[[ $config_output =~ 'missing' ]] || print_info 0 lxc-checkconfig
 
-set -x
-case $distro in 
-    "fedora" )
-        sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
-        sed -i 's/xpJf/xpf/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
-        #cp /etc/lxc/default.conf /etc/lxc/default.conf_bk
-        sed -i "s/lxcbr0/virbr0/g"  /etc/lxc/default.conf
-        brtcl_exist=$(ip addr | grep virbr0)
-        if [ x"$brtcl_exist" = ""x ]; then
-            config_brctl virbr0
-        fi
-        $restart_service libvirtd.service
-        $restart_service network.service
-        ;;
-    "centos" )
-        sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/local/share/lxc/templates/lxc-ubuntu-cloud
-        brtcl_exist=$(ip addr | grep virbr0)
-        if [ x"$brtcl_exist" = ""x ]; then
-            config_brctl lxcbr0
-        fi
-        $restart_service libvirtd.service
-        $restart_service network.service
-        ;;
-    "debian" )
-        sed -i 's/type ubuntu-cloudimg-query/#type ubuntu-cloudimg-query/g' /usr/share/lxc/templates/lxc-ubuntu-cloud
-            echo "debian brctl ############"
-            #debian_brctl
-        ;;
-esac
+config_output=$(lxc-checkconfig)
+if [[ $config_output =~ 'missing' ]]; then
+    print_info 1 lxc-checkconfig
+else
+    print_info 0 lxc-checkconfig
+fi
+
+# -- lxc-create ---------------------------------------------------------------
+LXC_TEMPLATE=/usr/share/lxc/templates/lxc-ubuntu-cloud
+
+if [ ! -e ${LXC_TEMPLATE}.origin ];
+then
+    cp ${LXC_TEMPLATE}{,.origin}
+else
+    cp ${LXC_TEMPLATE}{.origin,}
+fi
+
+sed -i 's/xpJf/xpf/g' $LXC_TEMPLATE
+sed -i 's/^type ubuntu-cloudimg-query/#&/g' $LXC_TEMPLATE
+if [ $distro = "opensuse" ]; then
+    sed -i '/"\$CLONE_HOOK_FN"/s/"\${cloneargs\[@]}"/& "--nolocales=true"/' $LXC_TEMPLATE
+fi
 
 rand=$(date +%s)
-distro_name=mylxc$rand
-lxc-create -n $distro_name -t ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:808/docker-image/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
+container=mylxc$rand
+lxc-create -n $container -t ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:808/docker-image/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
 print_info $? lxc-create
 
+# -- lxc-ls -------------------------------------------------------------------
 lxc-ls
 
 distro_exists=$(lxc-ls --fancy)
-[[ "${distro_exists}" =~ $distro_name ]] && print_info 0 lxc-ls
-[[ "${distro_exists}" =~ $distro_name ]] || print_info 1 lxc-ls
+if [[ "${distro_exists}" =~ $container ]]; then
+    print_info 0 lxc-ls
+else
+    print_info 1 lxc-ls
+fi
+
+# -- lxc-start ----------------------------------------------------------------
+LXC_CONFIG=/var/lib/lxc/${container}/config
 
 case $distro in
-    "ubuntu" )
-        echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
-        sudo /etc/init.d/apparmor reload
-        sudo aa-status
+    "ubuntu" | "debian" )
+        /etc/init.d/apparmor reload
+        aa-status
+        ;;
+    "opensuse" )
+        sed -i -e "/lxc.network/d" $LXC_CONFIG
+cat << EOF >> $LXC_CONFIG
+lxc.network.type = veth
+lxc.network.link = $BRIDGE_NAME
+lxc.network.flags = up
+EOF
+        $reload_service apparmor
+        ;;
+    * )
+        $reload_service apparmor
         ;;
     "debian" )
         echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
@@ -161,46 +218,44 @@ case $distro in
         ;;
 esac
 
-lxc-start --name ${distro_name} --daemon
+echo "lxc.aa_allow_incomplete = 1"  >> $LXC_CONFIG
+
+lxc-start --name ${container} --daemon
 result=$?
 
-lxc_status=$(lxc-info --name $distro_name)
-if [ "$(echo $lxc_status | grep $distro_name | grep 'RUNNING')" = "" ] && [ $result -ne 0 ]; then
+# -- lxc-info -----------------------------------------------------------------
+lxc_status=$(lxc-info --name $container)
+if [[ "$(echo $lxc_status | grep $container | grep 'RUNNING')" = "" && $result -ne 0 ]]
+then
     print_info 1 lxc-start
 else
     print_info 0 lxc-start
 fi
 
+# -- lxc-attach ---------------------------------------------------------------
 /usr/bin/expect <<EOF
 set timeout 400
-spawn lxc-attach -n $distro_name
-expect $distro_name
+spawn lxc-attach -n $container
+expect $container
 send "exit\r"
 expect eof
 EOF
 print_info $? lxc-attach
 
-lxc-stop --name $distro_name
+# -- lxc-stop -----------------------------------------------------------------
+lxc-stop --name $container
 print_info $? lxc-stop
 
-lxc-execute -n $distro_name /bin/echo hello
+# -- lxc-execute --------------------------------------------------------------
+lxc-execute -n $container /bin/echo hello
 temp_result=$?
 print_info $temp_result lxc-execute
 if [ $temp_result -eq 0 ];then
-    lxc-stop --name $distro_name
+    lxc-stop --name $container
     print_info $? lxc-stop
 fi
 
-lxc-destroy --name $distro_name
+# -- lxc-destroy --------------------------------------------------------------
+lxc-destroy --name $container
 print_info $? lxc-destory
 
-$install_commands lxc-tests
-install_results=$?
-print_info $install_results install-lxc-tests
-if [ $install_results -eq 0 ]; then
-   for i in /usr/bin/lxc-test-*
-   do 
-       $i
-       print_info $? "$i"
-   done
-fi
