@@ -1,6 +1,6 @@
 
 metadata:
-    name: ubuntu-sysbench
+    name: opensuse-sysbench
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "ubuntu smoke"
     maintainer:
@@ -9,7 +9,7 @@ metadata:
         - functional
         - performance
     os:
-        - ubuntu
+        - opensuse
     devices:
         - d02
         - d03
@@ -25,9 +25,8 @@ install:
         - automake
         - bzr
         - expect
-        - mysql-client
-        - libmysqld-dev
-        - libmysqlclient-dev
+        - mysql-community-server
+        - mysql-community-server-client
 
 params:
     VERSION: ''

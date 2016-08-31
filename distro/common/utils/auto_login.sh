@@ -1,23 +1,25 @@
 #!/bin/bash
 
-USERNAME="testing"
 . ./sys_info.sh
 
-function auto_login()
+auto_login()
 {
+    local user=$1
+    local password=$2
+
 /usr/bin/expect << EOF
 set timeout 60
-spawn ssh ${USERNAME}@localhost
+spawn ssh ${user}@localhost
   expect {
-    "password:" 
+    "password:"
     {
-      send "${USERNAME}\r"
+      send "${password}\r"
     }
     "(yes/no)?"
     {
       send "yes\r"
       expect "password:"
-      send "${USERNAME}\r"
+      send "${password}\r"
     }
 expect "testing@"
 send "pwd\r"
@@ -28,12 +30,15 @@ expect eof
 EOF
 }
 
-auto_login
+USER=${1:-$USERNAME}
+PASSWORD=${2:-$PASSWD}
+auto_login $USER $PASSWORD
+
 if [ $? -ne 0 ]; then
-    echo "login user $USERNAME fail"
+    echo "login user $USER fail"
     lava-test-case login-user-in-$distro --result fail
 else
-    echo "login user $USERNAME success"
+    echo "login user $USER success"
     lava-test-case login-user-in-$distro --result pass
 fi
 

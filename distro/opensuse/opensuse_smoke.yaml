@@ -1,6 +1,6 @@
 
 metadata:
-    name: opensuse-smoke 
+    name: opensuse-smoke
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "opensuse smoke"
     maintainer:
@@ -24,7 +24,7 @@ install:
 
 run:
     steps:
-        - lava-test-case linux-opensuse-ssh-restart --shell service ssh restart
+        - lava-test-case linux-opensuse-ssh-restart --shell service sshd restart
         - lava-test-case linux-opensuse-update --shell zypper -n update
         - lava-test-case linux-opensuse-install-package --shell zypper -n install make
         - lava-test-case linux-opensuse-remove-package --shell zypper -n remove make
