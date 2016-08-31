@@ -1,0 +1,31 @@
+
+metadata:
+    name: ftp_basic_testing
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ftp basic testing"
+    maintainer:
+        - wuyanjun1027@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+        - openembedded
+        - fedora
+        - opensuse
+        - centos
+        - debian
+
+    devices:
+        - d02
+        - d03
+        - d01
+install:
+    deps:
+        - vsftpd
+        - expect
+        - ftp
+
+run:
+    steps:
+        - "cd distro/common; ./ftp.sh; cd -"
+
