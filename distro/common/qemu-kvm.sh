@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -x
+
 pushd ./utils
 . ./sys_info.sh
 popd
@@ -7,7 +10,6 @@ IMAGE='Image_D02'
 ROOTFS='mini-rootfs.cpio.gz'
 HOME_PATH=$HOME
 CUR_PATH=$PWD
-set -x
 DISK_NAME=${distro}.img
 
 download_url=$1
@@ -20,7 +22,7 @@ if [ ! -e ${CUR_PATH}/${ROOTFS} ]; then
     download_file ${download_url}/${ROOTFS}
 fi
 
-if [ -e ${CUR_PATH}/${IMAGE} ] && [ -e ${CUR_PATH}/${ROOTFS} ]; then
+if [[ -e ${CUR_PATH}/${IMAGE} && -e ${CUR_PATH}/${ROOTFS} ]]; then
    lava-test-case imge_or_rootfs_exist --result pass
 else
    echo '${IMAGE} or ${ROOTFS} not exist'
@@ -38,11 +40,10 @@ if [ $? -ne 0 ]; then
     make -j16
     make install
     cd -
+
+    qemu-system-aarch64 --help
+    print_info $? qemu-system-aarch64-install
 fi
-
-qemu-system-aarch64 --help
-print_info $? qemu-system-aarch64-install
-
 
 chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
 ${CUR_PATH}/qemu-load-kvm.sh $IMAGE $ROOTFS
@@ -81,7 +82,7 @@ if [ $? -ne 0 ];then
     exit 0
 else
     nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
-    if [ "$nbd_p1"x != ""x ] ; then
+    if [ "$nbd_p1"x = ""x ] ; then
         lava-test-case create-partition --result fail
     else
         lava-test-case create-partition --result pass
@@ -136,8 +137,8 @@ if [ $? -ne 0 ];then
     lava-test-case qemu-nbd --result fail
     exit 0
 else
-    lava-test-case qemu-nbd --result pass    
-fi 
+    lava-test-case qemu-nbd --result pass
+fi
 
 chmod a+x qemu-start-kvm.sh
 ${CUR_PATH}/qemu-start-kvm.sh  $IMAGE  $DISK_NAME
