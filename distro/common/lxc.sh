@@ -242,18 +242,13 @@ expect eof
 EOF
 print_info $? lxc-attach
 
+# -- lxc-execute --------------------------------------------------------------
+lxc-attach -n $container -- /bin/echo hello
+print_info $? lxc-execute
+
 # -- lxc-stop -----------------------------------------------------------------
 lxc-stop --name $container
 print_info $? lxc-stop
-
-# -- lxc-execute --------------------------------------------------------------
-lxc-execute -n $container /bin/echo hello
-temp_result=$?
-print_info $temp_result lxc-execute
-if [ $temp_result -eq 0 ];then
-    lxc-stop --name $container
-    print_info $? lxc-stop
-fi
 
 # -- lxc-destroy --------------------------------------------------------------
 lxc-destroy --name $container
