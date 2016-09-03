@@ -1,6 +1,6 @@
 
 metadata:
-    name: ubuntu-smoke 
+    name: ubuntu-smoke
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "ubuntu smoke"
     maintainer:
@@ -19,15 +19,11 @@ params:
 
 install:
     deps:
-        - git
-        - openssh-server
         - expect
-params:
-    VERSION: ''
-       
+        - openssh-server
 run:
     steps:
-        - lava-test-case linux-ubuntu-ssh-restart --shell service ssh restart
+        - lava-test-case linux-ubuntu-ssh-restart --shell service sshd restart
         - lava-test-case linux-ubuntu-update --shell sudo apt-get -y update
         - lava-test-case linux-ubuntu-install-package --shell sudo apt-get install -y make
         - lava-test-case linux-ubuntu-remove-package --shell sudo apt-get remove -y make
