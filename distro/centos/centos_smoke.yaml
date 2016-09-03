@@ -1,6 +1,6 @@
 
 metadata:
-    name: centos-smoke 
+    name: centos-smoke
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "centos smoke"
     maintainer:
@@ -9,7 +9,6 @@ metadata:
         - functional
     os:
         - centos
-        - fedora
     devices:
         - d02
         - d03
@@ -20,13 +19,12 @@ params:
 
 install:
     deps:
-        - git
-        - openssh-server
         - expect
-       
+        - openssh-server
+
 run:
     steps:
-        - lava-test-case linux-centos-ssh-restart --shell systemctl restart sshd.service
+        - lava-test-case linux-centos-ssh-restart --shell systemctl restart sshd
         - lava-test-case linux-centos-update --shell yum update -y
         - lava-test-case linux-centos-install-package --shell yum install make -y
         - lava-test-case linux-centos-remove-package --shell yum remove make -y

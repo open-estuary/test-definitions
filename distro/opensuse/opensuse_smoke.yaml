@@ -19,8 +19,8 @@ params:
 
 install:
     deps:
-        - git
         - expect
+        - openssh
 
 run:
     steps:
