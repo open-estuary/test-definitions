@@ -19,7 +19,7 @@ metadata:
 
 install:
     steps:
-        - 'VERSION=20160510'
+        - 'VERSION=20160920'
           #- 'wget http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-$VERSION/ltp-full-$VERSION.tar.xz'
         - 'wget https://github.com/linux-test-project/ltp/archive/$VERSION.tar.gz'
         - 'tar --strip-components=1 -zxf $VERSION.tar.gz'
