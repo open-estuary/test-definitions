@@ -26,7 +26,7 @@ install:
         - 'mkdir build'
         - 'make autotools'
         - './configure --prefix=$(readlink -f build)'
-        - 'make all'
+        - 'make all -j32'
         - 'make SKIP_IDCHECK=1 install'
     deps:
         - bzip2
