@@ -35,6 +35,7 @@ install:
         - build-essential
         - wget
         - curl
+        - autoconf
 
 params:
     TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
