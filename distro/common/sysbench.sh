@@ -2,9 +2,9 @@
 
 set -x
 
-pushd ./utils
+cd ./utils
 . ./sys_info.sh
-popd
+cd -
 
 log_file="mysql_sysbench.log"
 cpu_num=$(grep 'processor' /proc/cpuinfo |sort |uniq |wc -l)

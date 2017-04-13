@@ -5,9 +5,9 @@ INTERVAL=$2
 LATENCY=$3
 DURATION=$4
 
-pushd ../../distro/common/utils
+cd ../../distro/common/utils
 . ./sys_info.sh
-popd
+cd -
 
 $install_commands rt-tests
 

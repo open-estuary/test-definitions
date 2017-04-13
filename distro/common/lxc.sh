@@ -120,9 +120,9 @@ brctl_config()
 
 set -x
 
-pushd ./utils
+cd ./utils
 . ./sys_info.sh
-popd
+cd -
 
 # -- bridge network -----------------------------------------------------------
 BRIDGE_NAME=virbr0

@@ -36,9 +36,9 @@ vsftpd_execute()
 
 set -x
 
-pushd utils
+cd utils
     . ./sys_info.sh
-popd
+cd -
 
 # test case -- start, stop, restart
 vsftpd_execute start
@@ -71,7 +71,7 @@ else
 fi
 
 # prepare for the put and get test and the ftp home is ~/
-mkdir tmp && pushd tmp
+mkdir tmp && cd tmp
 echo 'For ftp put testing' > $FTP_PUT_LOG
 echo 'For ftp get testing' > ~/$FTP_GET_LOG
 
@@ -121,7 +121,7 @@ else
     lava-test-case vsftpd-download --result fail
 fi
 
-popd
+cd -
 
 cd ~
 

@@ -6,9 +6,9 @@ dmidecode -h
 if [ $? -ne 0 ]; then
     which wget
     if [ $? -ne 0 ]; then
-        pushd ../../distro/common/utils/
+        cd ../../distro/common/utils/
             . ./sys_info.sh
-        popd
+        cd -
         $install_commands wget
     fi
 
