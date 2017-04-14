@@ -51,7 +51,6 @@ params:
 run:
     steps:
         - 'VERSION=20160920'
-        - 'cd ltp-$VERSION'
         - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -P ./ltp-$VERSION/build -S $SKIPFILE'
 
 parse:
