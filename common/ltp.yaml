@@ -50,7 +50,9 @@ params:
 
 run:
     steps:
-        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -P $(readlink -f build) -S $SKIPFILE'
+        - 'VERSION=20160920'
+        - 'cd ltp-$VERSION'
+        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -P ./ltp-$VERSION/build -S $SKIPFILE'
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
