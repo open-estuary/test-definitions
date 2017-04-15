@@ -24,8 +24,11 @@ metadata:
         - preempt-rt
 
 install:
-            #deps:
-            #        - sysbench
+    deps:
+        - autoconf
+        - automake
+        - libtool
+            #        - sysbench 
     steps:
         - 'git clone https://github.com/akopytov/sysbench.git'
         - 'cd sysbench'
