@@ -33,8 +33,6 @@ install:
         - vim-common
             #        - sysbench 
     steps:
-        - '[[ 'Ubuntu' == $(cat /etc/issue | awk '{print $1}') ]] && apt-get install libmysqlclient-dev -y'
-        - '[[ 'CentOS' == $(cat /etc/redhat-release | awk '{print $1}') ]] && yum -y install mariadb-devel'
         - 'git clone https://github.com/akopytov/sysbench.git'
         - 'cd sysbench'
         - './autogen.sh'
