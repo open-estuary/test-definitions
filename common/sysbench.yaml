@@ -25,7 +25,14 @@ metadata:
 
 install:
     deps:
-        - sysbench
+            #        - sysbench
+    steps:
+        - 'git clone https://github.com/akopytov/sysbench.git'
+        - 'cd sysbench'
+        - './autogen.sh'
+        - './configure --without-mysql'
+        - 'make'
+        - 'make install'
 
 params:
     TIMES: 8                # The number of times 'sysbench' will be run
