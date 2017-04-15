@@ -40,7 +40,7 @@ install:
 
 params:
     # TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
-    TST_CMDFILES: syscalls,mm,ipc,fs,io,connectors
+    TST_CMDFILES: syscalls,mm,ipc,fs,connectors
     # SKIPFILE can be a filename from dir ../common/scripts/ltp/ or an open URL
     # SKIPFILE: "skipfile-lsk-juno"
     # "skipfile-lsk-juno" is a known file present in dir ../common/scripts/ltp/
