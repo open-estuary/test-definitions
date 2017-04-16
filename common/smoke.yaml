@@ -36,7 +36,7 @@ run:
         - lava-test-case linux-linaro-issue --shell cat /etc/issue || cat /etc/redhat-release
         - lava-test-case linux-linaro-interrupts --shell cat /proc/interrupts
         - lava-test-case linux-linaro-boot-cmds --shell cat /proc/cmdline
-        - lava-test-case linux-linaro-device-info --shell cat /proc/devices
+          #        - lava-test-case linux-linaro-device-info --shell cat /proc/devices
         - lava-test-case linux-linaro-filesystem-info --shell cat /proc/filesystems
         - lava-test-case linux-linaro-env --shell env
         - lava-test-case linux-linaro-lsmod --shell lsmod
