@@ -10,7 +10,7 @@ cd ../../distro/common/utils/
 . ./sys_info.sh
 cd -
 
-$install_commands sysbench
+#$install_commands sysbench
 
 if [ ! `which sysbench` ]; then
     echo "Error! the command 'sysbench' doesn't exist!"
