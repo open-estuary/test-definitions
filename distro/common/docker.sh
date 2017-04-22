@@ -34,7 +34,7 @@ docker_images=$(echo $images | grep mysql | grep apache)
 if [ ! -d docker/Discuz ]; then
     (
         cd docker
-        tar xf Discuz.tgz
+        tar -xf Discuz.tgz
     )
 fi
 sed -i "s/192.168.1.246/${local_ip}/g" `grep -rl 192.168.1.246 ./docker/Discuz`
