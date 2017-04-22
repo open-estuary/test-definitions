@@ -24,7 +24,7 @@ install:
 
 run:
     steps:
-        - "cd ./ci-test-cases/distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
+        - "cd distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
