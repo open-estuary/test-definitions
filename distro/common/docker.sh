@@ -18,7 +18,7 @@ fi
 
 if [ ! -d docker ]; then
     download_file http://192.168.3.100:8083/docker.tar.gz
-    [[ $? -eq 0 ]] && tar xf docker.tar.gz
+    [[ $? -eq 0 ]] && tar -xvf docker.tar.gz
 fi
 
 docker load --input docker/openestuary_apache.tar.gz
