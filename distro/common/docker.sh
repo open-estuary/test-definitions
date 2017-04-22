@@ -32,10 +32,9 @@ images=$(docker images| grep -v 'REPOSITORY' | awk '{print $1}')
 docker_images=$(echo $images | grep mysql | grep apache)
 
 if [ ! -d docker/Discuz ]; then
-    (
-        cd docker
-        tar -xf Discuz.tgz
-    )
+    pushd ./docker
+    tar -xf Discuz.tgz
+    popd
 fi
 sed -i "s/192.168.1.246/${local_ip}/g" `grep -rl 192.168.1.246 ./docker/Discuz`
 
