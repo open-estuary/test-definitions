@@ -1,0 +1,34 @@
+
+metadata:
+    name: centos-smoke
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "centos smoke"
+    maintainer:
+        - wuyanjun1027@163.com
+    scope:
+        - functional
+    os:
+        - centos
+    devices:
+        - d02
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        - expect
+        - openssh-server
+
+run:
+    steps:
+        - "cd ./ci-test-cases/distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
