@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 pushd ./utils
 . ./sys_info.sh
 popd
@@ -15,29 +16,27 @@ else
     print_info 1 docker-start-service
 fi
 
+if [ ! -d docker ]; then
+    download_file http://192.168.3.100:8083/docker.tar.gz
+    [[ $? -eq 0 ]] && tar xf docker.tar.gz
+fi
 
-docker pull openestuary/apache
-print_info $? docker-pull-apache
+docker load --input docker/openestuary_apache.tar.gz
+print_info $? docker-load-apache
 
-
-docker pull openestuary/mysql
-print_info $? docker-pull-mysql
+docker load --input docker/openestuary_mysql.tar.gz
+print_info $? docker-load-mysql
 
 
 images=$(docker images| grep -v 'REPOSITORY' | awk '{print $1}')
 docker_images=$(echo $images | grep mysql | grep apache)
 
-if [ ! -d Discuz ]; then
-    download_file http://htsat.vicp.cc:808/Docker-files/Discuz.tar.gz
-    [[ $? -eq 0 ]] && tar xf Discuz.tar.gz
+if [ ! -d docker/Discuz ]; then
+    tar xf Discuz.tgz
 fi
-if [ ! -d mysql_data ]; then
-    download_file http://htsat.vicp.cc:808/Docker-files/mysql_data.tar.gz
-    [[ $? -eq 0 ]] && tar xf mysql_data.tar.gz
-fi
-sed -i "s/192.168.1.246/${local_ip}/g" `grep -rl 192.168.1.246 ./Discuz`
+sed -i "s/192.168.1.246/${local_ip}/g" `grep -rl 192.168.1.246 ./docker/Discuz`
 
-cp -rf Discuz mysql_data  /root/
+cp -rf ./docker/Discuz ./docker/mysql_data  /root/
 
 docker run -d -p 32768:80 --name apache -v /root/Discuz:/var/www/html openestuary/apache
 print_info $? docker-run-apache
@@ -96,6 +95,6 @@ done
 
 for i in ${images}
 do
-    #docker rmi $i
+    docker rmi $i
     print_info $? docker-rmi-$i
 done
