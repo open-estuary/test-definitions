@@ -52,9 +52,14 @@ fi
 
 FTP_PUT_LOG=ftp_put_test.log
 FTP_GET_LOG=ftp_get_test.log
-
-FTP_USERS=/etc/ftpusers
-VSFTPD_CONF=/etc/vsftpd.conf
+if [ "$distro"x = "centos"x ]; 
+then
+	FTP_USERS=/etc/vsftpd/ftpusers
+	VSFTPD_CONF=/etc/vsftpd/vsftpd.conf
+else
+	FTP_USERS=/etc/ftpusers
+	VSFTPD_CONF=/etc/vsftpd.conf
+fi
 
 if [ ! -e ${FTP_USERS}.origin ];
 then
@@ -79,6 +84,7 @@ sed -i 's/root/#root/g' $FTP_USERS
 sed -i 's/listen=NO/listen=YES/g' $VSFTPD_CONF
 sed -i 's/listen_ipv6=YES/#listen_ipv6=YES/g' $VSFTPD_CONF
 sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
+sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
 
 vsftpd_op start
 vsftpd_op status
@@ -90,7 +96,7 @@ set timeout 100
 spawn ftp localhost
 expect "Name"
 send "\r"
-expect "password:"
+expect "password"
 send "root\r"
 expect "ftp>"
 send "get ftp_get_test.log\r"
@@ -115,7 +121,7 @@ send "quit\r"
 expect eof
 EOF
 
-if [ $(find . -name "$FTP_GET_LOG")x != ""x ]; then
+if [ $(find . -maxdepth 1 -name "$FTP_GET_LOG")x != ""x ]; then
     lava-test-case vsftpd-download --result pass
 else
     lava-test-case vsftpd-download --result fail
@@ -125,7 +131,7 @@ cd -
 
 cd ~
 
-if [ $(find . -name 'ftp_put_test.log')x != ""x ]; then
+if [ $(find . -maxdepth 1 -name "ftp_put_test.log")x != ""x ]; then
     lava-test-case vsftpd-upload --result pass
 else
     lava-test-case vsftpd-upload --result fail
