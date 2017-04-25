@@ -1,8 +1,9 @@
 #!/bin/bash
 set -x
-pushd ./utils
+cd ./utils
+
 . ./sys_info.sh
-popd
+cd -
 
 if [ "$start_service"x = ""x ]; then
     service docker start

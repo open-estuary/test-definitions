@@ -25,7 +25,20 @@ metadata:
 
 install:
     deps:
-        - sysbench
+        - autoconf
+        - automake
+        - libtool
+        - libaio-dev
+        - pkg-config
+        - vim-common
+            #        - sysbench 
+    steps:
+        - 'git clone https://github.com/akopytov/sysbench.git'
+        - 'cd sysbench'
+        - './autogen.sh'
+        - './configure'
+        - 'make -j32'
+        - 'make install'
 
 params:
     TIMES: 8                # The number of times 'sysbench' will be run
