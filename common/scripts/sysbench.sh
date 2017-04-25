@@ -6,11 +6,11 @@ MAX_REQUESTS=${3-50000}
 DURATION=${4-20}
 FILE_TEST_MODE=${5-seqrewr}
 
-pushd ../../distro/common/utils/
+cd ../../distro/common/utils/
 . ./sys_info.sh
-popd
+cd -
 
-$install_commands sysbench
+#$install_commands sysbench
 
 if [ ! `which sysbench` ]; then
     echo "Error! the command 'sysbench' doesn't exist!"

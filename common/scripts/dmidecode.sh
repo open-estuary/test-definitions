@@ -26,98 +26,98 @@ if ls /sys/class/dmi
 then
     lava-test-case kernel-space-sysfs-dmi-exist --result pass
 else
-    lava-test-case kernel-space-sysfs-dmi-exist --result fail
+    lava-test-case kernel-space-sysfs-dmi-absent --result pass
 fi
 
 if cat /sys/class/dmi/id/bios_date
 then
     lava-test-case kernel-space-sysfs-bios-date --result pass
 else
-    lava-test-case kernel-space-sysfs-bios-date --result fail
+    lava-test-case kernel-space-sysfs-bios-date-absent --result pass
 fi
 
 if cat /sys/class/dmi/id/bios_vendor
 then
     lava-test-case kernel-space-sysfs-bios-vendor --result pass
 else
-    lava-test-case kernel-space-sysfs-bios-vendor --result fail
+    lava-test-case kernel-space-sysfs-bios-vendor-absent --result pass
 fi
 
 if cat /sys/class/dmi/id/bios_version
 then
     lava-test-case kernel-space-sysfs-bios-version --result pass
 else
-    lava-test-case kernel-space-sysfs-bios-version --result fail
+    lava-test-case kernel-space-sysfs-bios-version --result pass
 fi
 
 if grep -E 'SMBIOS [0-9]+.[0-9] present.' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-smbios-present --result pass
 else
-    lava-test-case user-space-dmidecode-smbios-present --result fail
+    lava-test-case user-space-dmidecode-smbios-absent --result pass
 fi
 
 if grep 'BIOS Information' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-bios-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-bios-has-info --result fail
+    lava-test-case user-space-dmidecode-bios-has-no-info --result pass
 fi
 
 if grep 'System Information' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-system-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-system-has-info --result fail
+    lava-test-case user-space-dmidecode-system-has-no-info --result pass
 fi
 
 if grep 'Base Board Information' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-baseboard-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-baseboard-has-info --result fail
+    lava-test-case user-space-dmidecode-baseboard-has-no-info --result pass
 fi
 
 if grep 'Chassis Information' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-chassis-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-chassis-has-info --result fail
+    lava-test-case user-space-dmidecode-chassis-has-no-info --result pass
 fi
 
 if grep 'Processor Information' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-processor-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-processor-has-info --result fail
+    lava-test-case user-space-dmidecode-processor-has-no-info --result pass
 fi
 
 if grep 'Memory Device' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-memory-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-memory-has-info --result fail
+    lava-test-case user-space-dmidecode-memory-has-no-info --result pass
 fi
 
 if grep 'Cache Information' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-cache-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-cache-has-info --result fail
+    lava-test-case user-space-dmidecode-cache-has-no-info --result pass
 fi
 
 if grep 'Connector Information' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-connector-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-connector-has-info --result fail
+    lava-test-case user-space-dmidecode-connector-has-no-info --result pass
 fi
 
 if grep 'System Slot Information' dmidecode.txt
 then
     lava-test-case user-space-dmidecode-slot-has-info --result pass
 else
-    lava-test-case user-space-dmidecode-slot-has-info --result fail
+    lava-test-case user-space-dmidecode-slot-has-no-info --result pass
 fi
 
 cat dmidecode.txt

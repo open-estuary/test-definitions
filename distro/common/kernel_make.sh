@@ -65,7 +65,7 @@ else
     PLATFORM="D02"
 fi
 
-pushd ${open_estuary_dir}
+cd ${open_estuary_dir}
     ./estuary/build.sh -p $PLATFORM -d $DISTRO  | tee ${log_file}
     if [ $? -ne 0 ]; then
         echo "build the $DISTRO for $PLATFORM error"
@@ -74,7 +74,7 @@ pushd ${open_estuary_dir}
         echo "build the $DISTRO for $PLATFORM pass"
         lava-test-case build-estuary-native --result pass
     fi
-popd
+cd -
 
 lava-test-run-attach ${log_file}
 

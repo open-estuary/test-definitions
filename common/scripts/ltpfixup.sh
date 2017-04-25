@@ -20,6 +20,7 @@ while getopts T:S:P:s: arg
         T) 
             TST_CMDFILES="$OPTARG"
             LOG_FILE=`echo $OPTARG| sed 's,\/,_,'`;;
+            #LOG_FILE=`echo $OPTARG| sed 's,\/,_,'`;;
         S) OPT=`echo $OPTARG | grep "http"`
            if [ -z $OPT ] ; then
              SKIPFILE="-S $SCRIPTPATH/ltp/$OPTARG"

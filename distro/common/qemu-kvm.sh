@@ -2,9 +2,9 @@
 
 set -x
 
-pushd ./utils
+cd ./utils
 . ./sys_info.sh
-popd
+cd -
 
 IMAGE='Image_D02'
 ROOTFS='mini-rootfs.cpio.gz'
