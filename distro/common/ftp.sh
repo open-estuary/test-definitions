@@ -6,7 +6,9 @@ vsftpd_op()
     local operation=$1
     local log_file="vsftpd.log"
 
-    case distro in
+    #case distro in 
+    #add $ liucaili 20170505
+    case $distro in
         "ubuntu" | "debian" )
             cmd="service vsftpd $operation"
             echo "$cmd" | tee ${log_file}
