@@ -44,13 +44,15 @@ cd -
 
 # test case -- start, stop, restart
 vsftpd_execute start
-vsftpd_execute restart
+#vsftpd_execute restart
 vsftpd_execute stop
+#modify liucaili 20170510
+vsftpd_execute restart
 
 process=$(vsftpd_op status | grep "running")
-if [ "$process"x != ""x  ]; then
-    vsftpd_op stop
-fi
+#if [ "$process"x != ""x  ]; then
+#    vsftpd_op stop
+#fi
 
 FTP_PUT_LOG=ftp_put_test.log
 FTP_GET_LOG=ftp_get_test.log
@@ -88,7 +90,8 @@ sed -i 's/listen_ipv6=YES/#listen_ipv6=YES/g' $VSFTPD_CONF
 sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
 sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
 
-vsftpd_op start
+#vsftpd_op start
+vsftpd_op restart
 vsftpd_op status
 
 # for get and put test
