@@ -56,7 +56,7 @@ netstat -na --ip
 
 FTP_PUT_LOG=ftp_put_test.log
 FTP_GET_LOG=ftp_get_test.log
-if [ "$distro"x = "centos"x ] || [ "$distro"x = "ubuntu"x ]; 
+if [ "$distro"x = "centos"x ] ; 
 then
 	FTP_USERS=/etc/vsftpd/ftpusers
 	VSFTPD_CONF=/etc/vsftpd/vsftpd.conf
