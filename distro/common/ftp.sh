@@ -10,7 +10,9 @@ vsftpd_op()
     #add $ liucaili 20170505
     case $distro in
         "ubuntu" | "debian" )
-            cmd="service vsftpd $operation"
+            #cmd="service vsftpd $operation"
+            #modify liucaili 20170514
+	    cmd="/usr/sbin/vsftpd $operation"
             echo "$cmd" | tee ${log_file}
             $cmd | tee ${log_file}
             ;;
@@ -41,6 +43,12 @@ set -x
 cd utils
     . ./sys_info.sh
 cd -
+
+#add liucaili 20170514
+if [ "$distro"x = "ubuntu"x ] ; 
+then
+    /usr/sbin/vsftpd /etc/conf &
+fi
 
 # test case -- start, stop, restart
 vsftpd_execute start
