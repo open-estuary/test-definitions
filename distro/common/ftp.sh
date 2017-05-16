@@ -10,9 +10,7 @@ vsftpd_op()
     #add $ liucaili 20170505
     case $distro in
         "ubuntu" | "debian" )
-            #cmd="service vsftpd $operation"
-            #modify liucaili 20170514
-	    cmd="/usr/sbin/vsftpd $operation"
+            cmd="service vsftpd $operation"
             echo "$cmd" | tee ${log_file}
             $cmd | tee ${log_file}
             ;;
@@ -44,32 +42,11 @@ cd utils
     . ./sys_info.sh
 cd -
 
-#add liucaili 20170514
-if [ "$distro"x = "ubuntu"x ] ; 
-then
-    NAME="vsftpd"
-    echo $NAME
-    ID=`ps -ef | grep "$NAME" | grep -v "$0" | grep -v "grep" | awk '{print $2}'`
-    echo $ID
-    for id in $ID
-    do
-	    kill -9 $id
-    done
-
-    /usr/sbin/vsftpd /etc/conf &
-fi
-
-# test case -- start, stop, restart
-vsftpd_execute start
-vsftpd_execute restart
-vsftpd_execute stop
-netstat -na --ip
 
 process=$(vsftpd_op status | grep "running")
 if [ "$process"x != ""x  ]; then
     vsftpd_op stop
 fi
-netstat -na --ip
 
 FTP_PUT_LOG=ftp_put_test.log
 FTP_GET_LOG=ftp_get_test.log
@@ -102,15 +79,18 @@ echo 'For ftp put testing' > $FTP_PUT_LOG
 echo 'For ftp get testing' > ~/$FTP_GET_LOG
 
 sed -i 's/root/#root/g' $FTP_USERS
-sed -i 's/listen=NO/listen=YES/g' $VSFTPD_CONF
-sed -i 's/listen_ipv6=YES/#listen_ipv6=YES/g' $VSFTPD_CONF
-sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
-sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
+if [ "$distro"x = "centos"x ] ; 
+then
+	sed -i 's/listen=NO/listen=YES/g' $VSFTPD_CONF
+	sed -i 's/listen_ipv6=YES/#listen_ipv6=YES/g' $VSFTPD_CONF
+	sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
+	sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
+else
+	sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
+fi
 
-netstat -na --ip
 vsftpd_op start
 vsftpd_op status
-netstat -na --ip
 
 # for get and put test
 EXPECT=$(which expect)
@@ -159,5 +139,10 @@ if [ $(find . -maxdepth 1 -name "ftp_put_test.log")x != ""x ]; then
 else
     lava-test-case vsftpd-upload --result fail
 fi
+
+# test case -- start, stop, restart
+vsftpd_execute start
+vsftpd_execute restart
+vsftpd_execute stop
 
 rm -rf tmp
