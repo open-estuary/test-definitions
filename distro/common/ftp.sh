@@ -43,6 +43,11 @@ cd utils
 cd -
 
 
+# test case -- start, stop, restart
+vsftpd_execute start
+vsftpd_execute restart
+vsftpd_execute stop
+
 process=$(vsftpd_op status | grep "running")
 if [ "$process"x != ""x  ]; then
     vsftpd_op stop
@@ -79,17 +84,15 @@ echo 'For ftp put testing' > $FTP_PUT_LOG
 echo 'For ftp get testing' > ~/$FTP_GET_LOG
 
 sed -i 's/root/#root/g' $FTP_USERS
-if [ "$distro"x = "centos"x ] ; 
-then
-	sed -i 's/listen=NO/listen=YES/g' $VSFTPD_CONF
-	sed -i 's/listen_ipv6=YES/#listen_ipv6=YES/g' $VSFTPD_CONF
-	sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
-	sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
-else
-	sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
-fi
+sed -i 's/listen=NO/listen=YES/g' $VSFTPD_CONF
+sed -i 's/listen_ipv6=YES/#listen_ipv6=YES/g' $VSFTPD_CONF
+sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
+sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
+
 
 vsftpd_op start
+#add liucaili 20170516
+sleep 5
 vsftpd_op status
 
 # for get and put test
@@ -139,10 +142,5 @@ if [ $(find . -maxdepth 1 -name "ftp_put_test.log")x != ""x ]; then
 else
     lava-test-case vsftpd-upload --result fail
 fi
-
-# test case -- start, stop, restart
-vsftpd_execute start
-vsftpd_execute restart
-vsftpd_execute stop
 
 rm -rf tmp
