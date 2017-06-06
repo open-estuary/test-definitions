@@ -72,8 +72,17 @@ do
     i=$(( $i + 1 ))
 done
 
+if [ ! -f "upload" ]; then
+	echo "upload file not exist!!"
+fi
 wget http://${local_ip}:32768/upload
-print_info $? docker-run-LAMP
+#print_info $? docker-run-LAMP
+#modify by liucaili 20170606
+if [ -f "upload" ]; then
+	print_info 0 docker-run-LAMP
+else
+	print_info 1 docker-run-LAMP
+fi
 
 
 for i in $container_id
