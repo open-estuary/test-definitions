@@ -6,7 +6,9 @@ cd ./utils
 . ./sys_info.sh
 cd -
 
-IMAGE='Image_D02'
+#modify by liucaili 2017-06-08
+#IMAGE='Image_D02'
+IMAGE='Image_D03'
 ROOTFS='mini-rootfs.cpio.gz'
 HOME_PATH=$HOME
 CUR_PATH=$PWD
