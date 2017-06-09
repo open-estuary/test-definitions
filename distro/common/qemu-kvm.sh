@@ -84,7 +84,8 @@ if [ $? -ne 0 ];then
     exit 0
 else
     #nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
-    nbd_p1=$(fdisk /dev/nbd0 -l)
+	#modify by liucaili 2017-06-09
+    nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'Linux')
     if [ "$nbd_p1"x = ""x ] ; then
         lava-test-case create-partition --result fail
     else
