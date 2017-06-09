@@ -83,7 +83,8 @@ if [ $? -ne 0 ];then
     lava-test-case create-partition --result fail
     exit 0
 else
-    nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
+    #nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
+    nbd_p1=$(fdisk /dev/nbd0 -l)
     if [ "$nbd_p1"x = ""x ] ; then
         lava-test-case create-partition --result fail
     else
