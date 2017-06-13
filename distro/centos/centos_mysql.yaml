@@ -23,8 +23,8 @@ install:
         - libtool
         - autoconf
         - automake
-        - libmysqlclient-dev
-        - libmysqld-dev
+        - mariadb-server 
+        - mariadb
         - bzr
         - expect
 params:
