@@ -40,7 +40,7 @@ echo "max_requests are $max_requests"
 $restart_service mariadb
 ./../${distro}/scripts/${distro}_expect_mysql.sh $mysql_password | tee ${log_file}
 
-mysql_version=$(mariadb --version | awk '{ print $1"-" $2 ": " $3}')
+mysql_version=$(mysql --version | awk '{ print $1"-" $2 ": " $3}')
 exists=$(echo $mysql_version|awk -F":" '{print $1}')
 if [ "$exists"x = "mysql-Ver"x ]; then
     echo "Found  $mysql_version  installed"
@@ -51,7 +51,7 @@ else
     exit 1
 fi
 
-mysql_location=$(whereis mariadb)
+mysql_location=$(whereis mysql)
 
 declare -a mysql_loc
 read -a mysql_loc <<< $(echo $mysql_location)
