@@ -23,10 +23,21 @@ install:
         - libtool
         - autoconf
         - automake
-        - mariadb-server 
+        - mariadb-server
         - mariadb
+        - libaio-dev
+        - pkg-config
+        - vim-common
         - bzr
         - expect
+    steps:
+        - 'git clone https://github.com/akopytov/sysbench.git'
+        - 'cd sysbench'
+        - './autogen.sh'
+        - './configure'
+        - 'make -j32'
+        - 'make install'
+
 params:
     VERSION: ''
        
