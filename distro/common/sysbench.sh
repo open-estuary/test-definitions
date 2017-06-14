@@ -99,14 +99,14 @@ print_info $? prepare_test_database
 
 test_name="oltp"
 sys_str="sysbench \
-  src/lua/oltp_read_write.lua
+  /usr/local/share/sysbench/oltp_read_write.lua
   --db-driver=mysql \
   --mysql-table-engine=$mysql_table_engine \
   --table-size=$table_size \
-  --num-threads=$num_threads \
+  --threads=$num_threads \
   --mysql-host=$mysql_host \
   --mysql-user=$mysql_user \
-  --max-requests=$max_requests\
+  --events=$max_requests\
 "
 
 # prepare the test data
