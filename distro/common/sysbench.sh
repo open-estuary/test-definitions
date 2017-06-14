@@ -107,6 +107,7 @@ sys_str="sysbench \
   --mysql-host=$mysql_host \
   --mysql-user=$mysql_user \
   --events=$max_requests\
+  --mysql-db=test\
 "
 
 # prepare the test data
