@@ -101,7 +101,7 @@ test_name="oltp"
 sys_str="sysbench \
   /usr/local/share/sysbench/oltp_read_write.lua
   --db-driver=mysql \
-  --mysql-table-engine=$mysql_table_engine \
+  --mysql-storage-engine=$mysql_storage_engine \
   --table-size=$table_size \
   --threads=$num_threads \
   --mysql-host=$mysql_host \
