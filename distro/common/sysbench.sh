@@ -61,7 +61,7 @@ do
 echo $j
 done
 
-$install_commands sysbench  | tee ${log_file}
+#$install_commands sysbench  | tee ${log_file}
 sysbench --test=cpu help
 if [ $? -ne 0 ]; then
     echo 'sysbench has not been installed success'
