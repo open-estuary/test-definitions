@@ -71,9 +71,7 @@ fi
 /usr/bin/expect > /dev/null 2>&1 <<EOF
 set timeout 40
 
-spawn mysql -u$mysql_user -p
-expect "*password:"
-send "$mysql_password\r"
+spawn mysql -u$mysql_user
 expect "mysql>"
 send "show databases;\r"
 
