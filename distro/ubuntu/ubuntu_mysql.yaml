@@ -28,6 +28,13 @@ install:
         - mysql-client
         - libmysqld-dev
         - libmysqlclient-dev
+    steps:
+        - 'git clone https://github.com/akopytov/sysbench.git'
+        - 'cd sysbench'
+        - './autogen.sh'
+        - './configure'
+        - 'make -j32'
+        - 'make install'
 
 params:
     VERSION: ''
