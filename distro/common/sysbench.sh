@@ -14,10 +14,10 @@ db_driver=mysql
 : ${mysql_user:=root}
 : ${mysql_password:=$2}
 : ${mysql_password:=123456}
-: ${mysql_table_engine:=$3}
-: ${mysql_table_engine:=innodb}
-: ${oltp_table_size:=$4}
-: ${oltp_table_size:=100000}
+: ${mysql_storage_engine:=$3}
+: ${mysql_storage_engine:=innodb}
+: ${table_size:=$4}
+: ${table_size:=100000}
 : ${oltp_tables_count:=$5}
 : ${oltp_tables_count:=8}
 #: ${num_threads:=$6}
@@ -27,7 +27,7 @@ db_driver=mysql
 : ${mysql_port:=$8}
 : ${mysql_port:=33306}
 : ${db_name:=$9}
-: ${db_name:=sbtest}
+: ${db_name:=test}
 #: ${max_requests:=$10}
 : ${max_requests:=100000}
 
@@ -99,15 +99,14 @@ print_info $? prepare_test_database
 
 test_name="oltp"
 sys_str="sysbench \
+  src/lua/oltp_read_write.lua
   --db-driver=mysql \
   --mysql-table-engine=$mysql_table_engine \
-  --oltp-table-size=$oltp_table_size \
+  --table-size=$table_size \
   --num-threads=$num_threads \
   --mysql-host=$mysql_host \
   --mysql-user=$mysql_user \
-  --mysql-password=$mysql_password \
   --max-requests=$max_requests\
-  --test=${test_name} \
 "
 
 # prepare the test data
