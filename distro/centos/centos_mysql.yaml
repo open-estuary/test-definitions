@@ -25,6 +25,7 @@ install:
         - automake
         - mariadb-server
         - mariadb
+        - mariadb-devel
         - libaio-dev
         - pkg-config
         - vim-common
