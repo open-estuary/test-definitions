@@ -6,7 +6,9 @@ cd ./utils
 . ./sys_info.sh
 cd -
 
-IMAGE='Image_D02'
+#modify by liucaili 2017-06-08
+#IMAGE='Image_D02'
+IMAGE='Image_D03'
 ROOTFS='mini-rootfs.cpio.gz'
 HOME_PATH=$HOME
 CUR_PATH=$PWD
@@ -81,7 +83,9 @@ if [ $? -ne 0 ];then
     lava-test-case create-partition --result fail
     exit 0
 else
-    nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
+    #nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
+	#modify by liucaili 2017-06-09
+    nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'Linux')
     if [ "$nbd_p1"x = ""x ] ; then
         lava-test-case create-partition --result fail
     else

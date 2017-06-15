@@ -6,7 +6,9 @@ vsftpd_op()
     local operation=$1
     local log_file="vsftpd.log"
 
-    case distro in
+    #case distro in 
+    #add $ liucaili 20170505
+    case $distro in
         "ubuntu" | "debian" )
             cmd="service vsftpd $operation"
             echo "$cmd" | tee ${log_file}
@@ -40,6 +42,7 @@ cd utils
     . ./sys_info.sh
 cd -
 
+
 # test case -- start, stop, restart
 vsftpd_execute start
 vsftpd_execute restart
@@ -52,7 +55,7 @@ fi
 
 FTP_PUT_LOG=ftp_put_test.log
 FTP_GET_LOG=ftp_get_test.log
-if [ "$distro"x = "centos"x ]; 
+if [ "$distro"x = "centos"x ] ; 
 then
 	FTP_USERS=/etc/vsftpd/ftpusers
 	VSFTPD_CONF=/etc/vsftpd/vsftpd.conf
@@ -86,7 +89,10 @@ sed -i 's/listen_ipv6=YES/#listen_ipv6=YES/g' $VSFTPD_CONF
 sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
 sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
 
+
 vsftpd_op start
+#add liucaili 20170516
+sleep 5
 vsftpd_op status
 
 # for get and put test
