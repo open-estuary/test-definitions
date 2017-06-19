@@ -25,10 +25,18 @@ install:
         - qemu
         - qemu-kvm
         - libvirt-bin
+        - gcc
+        - zlib1g-dev
+        - libperl-dev
+        - libgtk2.0-dev
+        - libfdt-dev
+        - bridge-utils
 
 params:
-    BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
-       
+    #BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
+    #modify by liucaili 2017-06-07
+    BINURL: 'http://192.168.3.100:8083/open-estuary/uefi_b386a15_grub_daac831_kernel_6eade8c/d03-arm64/binary'
+
 run:
     steps:
         - "cd ./distro/common; ./qemu-kvm.sh $BINURL; cd -"
