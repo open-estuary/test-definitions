@@ -31,6 +31,8 @@ install:
         - libaio-dev
         - pkg-config
         - vim-common
+        - mariadb
+        - mariadb-devel
             #        - sysbench 
     steps:
         - 'git clone https://github.com/akopytov/sysbench.git'
