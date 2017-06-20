@@ -1,0 +1,36 @@
+metadata:
+    name: centos-hadoop
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "centos hadoop"
+    maintainer:
+        - liujie@163.com
+    scope:
+        - functional
+    os:
+        - centos
+    devices:
+        - d05
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        - git
+        - wget
+        - expect
+    steps:
+        - 'wget http://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz'
+        - 'tar zvxf hadoop-2.7.3.tar.gz -C /usr/local'
+       
+run:
+    steps:
+        - "cd ./distro/common; ./hadoop.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
