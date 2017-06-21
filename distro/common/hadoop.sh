@@ -12,9 +12,9 @@ cp -fr ./conf/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
 mkdir -p /root/tmp
 
 #no password login
-sed -i 's/#RSAAuthentication yes/RSAAuthentication yes/g' /etc/ssh/sshd_config
-sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
-sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+#sed -i 's/#RSAAuthentication yes/RSAAuthentication yes/g' /etc/ssh/sshd_config
+#sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+#sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
 ssh-keygen -t rsa -P "" -f ~/.ssh/authorized_keys.tmp
 cat ~/.ssh/authorized_keys.tmp.pub >> ~/.ssh/authorized_keys
 rm -fr ~/.ssh/authorized_keys.tmp*
