@@ -26,9 +26,8 @@ service sshd restart
 set timeout 40
 
 spawn ssh locahost
-expect "yes/no"
-send "yes"
-send "exit\r"
+expect "(yes/no)?"
+send "yes\n"
 EOF
 set +x
 hadoop namenode -format
