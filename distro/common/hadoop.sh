@@ -31,10 +31,11 @@ send "yes\n"
 expect eof
 EOF
 
+hadoop namenode -format
 /usr/bin/expect <<EOF
 set timeout 40
 
-spawn hadoop namenode -format
+spawn start-dfs.sh
 expect "(yes/no)?"
 send "yes\n"
 
@@ -42,7 +43,6 @@ expect eof
 EOF
 set +x
 
-start-dfs.sh
 jps
 hdfs dfs -mkdir /user
 hdfs dfs -mkdir /user/root
