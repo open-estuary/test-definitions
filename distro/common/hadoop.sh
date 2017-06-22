@@ -28,10 +28,14 @@ set timeout 40
 spawn ssh 127.0.0.1
 expect "(yes/no)?"
 send "yes\n"
+spawn hadoop namenode -format
+expect "(yes/no)?"
+send "yes\n"
+
 expect eof
 EOF
 set +x
-hadoop namenode -format
+
 start-dfs.sh
 jps
 hdfs dfs -mkdir /user
