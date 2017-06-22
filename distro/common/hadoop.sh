@@ -22,12 +22,13 @@ chmod 0600 ~/.ssh/authorized_keys
 service sshd restart
 
 #/usr/bin/expect << EOF
-/usr/bin/expect > /dev/null 2>&1 <<EOF
+/usr/bin/expect <<EOF
 set timeout 40
 
-spawn ssh locahost
+spawn ssh 127.0.0.1
 expect "(yes/no)?"
 send "yes\n"
+expect eof
 EOF
 set +x
 hadoop namenode -format
