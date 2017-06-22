@@ -38,15 +38,16 @@ set timeout 40
 spawn start-dfs.sh
 expect "(yes/no)?"
 send "yes\n"
-
+expect "(yes/no)?"
+send "yes\n"
 expect eof
 EOF
-set +x
-
 jps
 hdfs dfs -mkdir /user
 hdfs dfs -mkdir /user/root
 hdfs dfs -mkdir input
 hdfs dfs -put etc/hadoop/*.xml input
 hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar grep input output 'dfs[a-z.]+'
+
+set +x
 
