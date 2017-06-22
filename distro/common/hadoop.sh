@@ -47,7 +47,7 @@ hdfs dfs -mkdir /user
 hdfs dfs -mkdir /user/root
 hdfs dfs -mkdir input
 hdfs dfs -put etc/hadoop/*.xml input
-hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar grep input output 'dfs[a-z.]+'
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar grep input output 'dfs[a-z.]+'
 
 set +x
 
