@@ -177,48 +177,51 @@ fi
 
 rand=$(date +%s)
 container=mylxc$rand
-lxc-create -n $container -t ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:808/docker-image/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
+#lxc-create -n $container -t ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:808/docker-image/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
+lxc-create -n $container -t ubuntu-cloud -- -r vivid -T http://htsat.vicp.cc:804/ubuntu-15.04-server-cloudimg-arm64-root.tar.gz
 print_info $? lxc-create
 
 # -- lxc-ls -------------------------------------------------------------------
-lxc-ls
+if [ $distro != "centos" ]; then
+	lxc-ls
 
-distro_exists=$(lxc-ls --fancy)
-if [[ "${distro_exists}" =~ $container ]]; then
-    print_info 0 lxc-ls
-else
-    print_info 1 lxc-ls
+	distro_exists=$(lxc-ls --fancy)
+	if [[ "${distro_exists}" =~ $container ]]; then
+		print_info 0 lxc-ls
+	else
+		print_info 1 lxc-ls
+	fi
 fi
 
 # -- lxc-start ----------------------------------------------------------------
-LXC_CONFIG=/var/lib/lxc/${container}/config
+#LXC_CONFIG=/var/lib/lxc/${container}/config
 
-case $distro in
-    "ubuntu" | "debian" )
-        /etc/init.d/apparmor reload
-        aa-status
-        ;;
-    "opensuse" )
-        sed -i -e "/lxc.network/d" $LXC_CONFIG
-cat << EOF >> $LXC_CONFIG
-lxc.network.type = veth
-lxc.network.link = $BRIDGE_NAME
-lxc.network.flags = up
-EOF
-        $reload_service apparmor
-        ;;
-    * )
-        $reload_service apparmor
-        ;;
-    "debian" )
-        echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
-        /etc/init.d/apparmor reload
-        /etc/init.d/apparmor start
-        debian_brctl
-        ;;
-esac
+#case $distro in
+#    "ubuntu" | "debian" )
+#        /etc/init.d/apparmor reload
+#        aa-status
+#        ;;
+#    "opensuse" )
+#        sed -i -e "/lxc.network/d" $LXC_CONFIG
+#cat << EOF >> $LXC_CONFIG
+#lxc.network.type = veth
+#lxc.network.link = $BRIDGE_NAME
+#lxc.network.flags = up
+#EOF
+#        $reload_service apparmor
+#        ;;
+#    * )
+#        $reload_service apparmor
+#        ;;
+#    "debian" )
+#        echo "lxc.aa_allow_incomplete = 1"  >> /var/lib/lxc/${distro_name}/config
+#        /etc/init.d/apparmor reload
+#        /etc/init.d/apparmor start
+#        debian_brctl
+#        ;;
+#esac
 
-echo "lxc.aa_allow_incomplete = 1"  >> $LXC_CONFIG
+#echo "lxc.aa_allow_incomplete = 1"  >> $LXC_CONFIG
 
 lxc-start --name ${container} --daemon
 result=$?
