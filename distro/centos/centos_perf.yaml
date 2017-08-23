@@ -1,0 +1,30 @@
+metadata:
+    name: perf
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Perf is a profiler tool for Linux and is used to collect and analyze performance and trace data.
+                  This test runs following perf commands: record(record events for later reporting), report(break
+                  down events by process, function, etc), stat(obtain event counts) and test(Run sanity tests)."
+    maintainer:
+        - meili760628705@163.com
+    os:
+        - centos
+
+install:
+    deps:
+        # perf complains for missing stress symbols but there is no package available
+        #- stress
+        - wget
+          #- lxc-extra
+        - expect
+
+run:
+    steps:
+        - lava-test-case linux-centos-install-epel-release --shell yum install epel-release -y
+        - lava-test-case linux-centos-install-stress --shell yum install stress -y
+        - "cd ./distro/common; ./perf.sh; cd -"
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
