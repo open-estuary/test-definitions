@@ -78,7 +78,7 @@ else
             [ sysbench --version ] && install_sysbench
             ;;
         opensuse)
-            #install_deps "git"
+            install_deps "git gcc make automake"
             if echo "${TESTS}" | grep "oltp"; then
                 install_deps "libmysqlclient-dev mysql-server"
                 systemctl start mysql
