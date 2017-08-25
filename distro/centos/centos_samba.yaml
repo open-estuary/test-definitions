@@ -1,0 +1,26 @@
+
+metadata:
+    name: samba_basic_testing
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "samba basic testing"
+    maintainer:
+        - meili760628705@163.com
+    scope:
+        - functional
+    os:
+        - centos
+
+    devices:
+        - d03
+        - d05
+
+install:
+    deps:
+        - samba
+        - expect
+        - samba-client
+
+run:
+    steps:
+        - "cd distro/common; ./samba.sh; cd -"
+

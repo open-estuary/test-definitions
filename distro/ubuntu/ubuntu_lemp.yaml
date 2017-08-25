@@ -1,33 +1,25 @@
 
 metadata:
-    name: docker 
+    name: lemp
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "docker"
+    description: "lemp"
     maintainer:
-        - shuangshengchen@qq.com
+        - meili760628705@163.com
     scope:
         - functional
     os:
         - ubuntu
+
     devices:
         - d03
-        - d05
-
-params:
-    # Number of cycles helloworld is called (for loop repetitions)
-    REPEAT: 1
-
 install:
     deps:
-        - docker
-        - docker.io
+        - expect
 
-params:
-    VERSION: ''
-       
 run:
     steps:
-        - "cd distro/common; ./docker.sh; cd -"
+        - "cd distro/common; ./lemp.sh; cd -"
+
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

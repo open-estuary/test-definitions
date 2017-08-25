@@ -1,16 +1,15 @@
-
 metadata:
     name: debian-smoke
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "debian smoke"
     maintainer:
-        - wuyanjun1027@163.com
+        - shuangshengchen@qq.com
     scope:
         - functional
     os:
         - debian
     devices:
-        - d02
+        - d05
         - d03
 
 params:
@@ -28,6 +27,27 @@ run:
         - lava-test-case linux-debian-install-package --shell apt-get -y install make
         - lava-test-case linux-debian-remove-package --shell apt-get -y remove make
         - lava-test-case linux-debian-install-make --shell apt-get -y install make
+        - lava-test-case linux-debian-pwd --shell pwd
+        - lava-test-case linux-debian-uname --shell uname -a
+        - lava-test-case linux-debian-vmstat --shell vmstat
+        - lava-test-case linux-debian-ipaddr --shell ip addr
+        - lava-test-case linux-debian-lscpu --shell lscpu
+        - lava-test-case linux-debian-lsb_release --shell  lsb_release -a
+        - lava-test-case linux-debian-etc-issue --shell cat /etc/issue
+        - lava-test-case linux-debian-cpuinfo --shell cat /proc/cpuinfo
+        - lava-test-case linux-debian-meminfo --shell cat /proc/meminfo
+        - lava-test-case linux-debian-dmesg --shell dmesg
+        - lava-test-case linux-debian-ps --shell ps
+        - lava-test-case linux-debian-issue --shell cat /etc/issue || cat /etc/redhat-release
+        - lava-test-case linux-debian-interrupts --shell cat /proc/interrupts
+        - lava-test-case linux-debian-boot-cmds --shell cat /proc/cmdline
+        - lava-test-case linux-debian-device-info --shell cat /proc/devices
+        - lava-test-case linux-debian-filesystem-info --shell cat /proc/filesystems
+        - lava-test-case linux-debian-env --shell env
+        - lava-test-case linux-debian-lsmod --shell lsmod
+        - lava-test-case linux-debian-cpu-info --shell lscpu
+        - lava-test-case linux-debian-pci-info --shell lspci
+        - lava-test-case linux-debian-usb-info --shell lsus
         - "cd ./distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
