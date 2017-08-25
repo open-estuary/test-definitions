@@ -7,7 +7,7 @@
 # * memory allocation and transfer speed
 # * POSIX threads implementation performance
 # * database server performance
-
+set -x
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 
@@ -61,13 +61,13 @@ else
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-        debian|ubuntu|opensuse)
+        debian|ubuntu)
             install_deps "git build-essential automake libtool"
             if echo "${TESTS}" | grep "oltp"; then
                 install_deps "libmysqlclient-dev mysql-server"
                 systemctl start mysql
             fi
-            install_sysbench
+            [ sysbench --version ] && install_sysbench
             ;;
         fedora|centos)
             install_deps "git gcc make automake libtool"
@@ -75,11 +75,19 @@ else
                 install_deps "mysql-devel mariadb-server mariadb"
                 systemctl start mariadb
             fi
-            install_sysbench
+            [ sysbench --version ] && install_sysbench
+            ;;
+        opensuse)
+            #install_deps "git"
+            if echo "${TESTS}" | grep "oltp"; then
+                install_deps "libmysqlclient-dev mysql-server"
+                systemctl start mysql
+            fi
+            [ sysbench --version ] && install_sysbench
             ;;
         oe-rpb)
             # Assume all dependent packages are already installed.
-            install_sysbench
+            [ sysbench --version ] && install_sysbench
             ;;
         *)
             warn_msg "Unsupported distro: ${dist}! Package installation skipped!"
