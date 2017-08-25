@@ -1,16 +1,15 @@
-
 metadata:
     name: fedora-smoke
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "fedora smoke"
     maintainer:
-        - wuyanjun1027@163.com
+        - shuangshengchen@qq.com
     scope:
         - functional
     os:
         - fedora
     devices:
-        - d02
+        - d05
         - d03
 
 params:
@@ -29,6 +28,27 @@ run:
         - lava-test-case linux-fedora-install-package --shell dnf -y install make
         - lava-test-case linux-fedora-remove-package --shell dnf -y remove make
         - lava-test-case linux-fedora-install-make --shell dnf -y install make
+        - lava-test-case linux-fedora-pwd --shell pwd
+        - lava-test-case linux-fedora-uname --shell uname -a
+        - lava-test-case linux-fedora-vmstat --shell vmstat
+        - lava-test-case linux-fedora-ipaddr --shell ip addr
+        - lava-test-case linux-fedora-lscpu --shell lscpu
+        - lava-test-case linux-fedora-lsb_release --shell  lsb_release -a
+        - lava-test-case linux-fedora-etc-issue --shell cat /etc/issue
+        - lava-test-case linux-fedora-cpuinfo --shell cat /proc/cpuinfo
+        - lava-test-case linux-fedora-meminfo --shell cat /proc/meminfo
+        - lava-test-case linux-fedora-dmesg --shell dmesg
+        - lava-test-case linux-fedora-ps --shell ps
+        - lava-test-case linux-fedora-issue --shell cat /etc/issue || cat /etc/redhat-release
+        - lava-test-case linux-fedora-interrupts --shell cat /proc/interrupts
+        - lava-test-case linux-fedora-boot-cmds --shell cat /proc/cmdline
+        - lava-test-case linux-fedora-device-info --shell cat /proc/devices
+        - lava-test-case linux-fedora-filesystem-info --shell cat /proc/filesystems
+        - lava-test-case linux-fedora-env --shell env
+        - lava-test-case linux-fedora-lsmod --shell lsmod
+        - lava-test-case linux-fedora-cpu-info --shell lscpu
+        - lava-test-case linux-fedora-pci-info --shell lspci
+        - lava-test-case linux-fedora-usb-info --shell lsus
         - "cd ./distro/common/utils; ./add_user.sh; ./auto_login.sh; ./del_user.sh; cd -"
 
 parse:
