@@ -39,6 +39,9 @@ case "${dist}" in
     fedora|centos)
         install_deps "git golang device-mapper-devel"
         ;;
+    opensuse)
+       install_deps "git go device-mapper-devel" 
+        ;;
 esac
 
 ! check_root && error_msg "You need to be root to run this script."
