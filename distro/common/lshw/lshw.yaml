@@ -4,23 +4,19 @@ metadata:
     description: "lshw is a small tool to extract detailed information
                   on the hardware configuration of the machine."
     maintainer:
-        - chase.qi@linaro.org
+        - shuangchengchen@qq.com
     os:
         - debian
         - ubuntu
         - fedora
         - centos
         - openembedded
+        - opensuse
     scope:
         - functional
     environment:
         - lava-test-shell
     devices:
-        - hi6220-hikey
-        - apq8016-sbc
-        - mustang
-        - moonshot
-        - thunderX
         - d03
         - d05
 
