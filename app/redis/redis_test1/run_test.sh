@@ -40,37 +40,37 @@ cur_inst=1
 while [[ ${cur_inst} -lt ${max_inst} ]] ; 
 do
 
-start_cpu_num=17
-inst_num=${cur_inst}
-echo "Initialize database......"
-./scripts/init_test.sh init ${ip} ${start_cpu_num} ${inst_num} 
-mkdir -p ./log/${cur_inst}/
+    start_cpu_num=17
+    inst_num=${cur_inst}
+    echo "Initialize database......"
+    ./scripts/init_test.sh init ${ip} ${start_cpu_num} ${inst_num} 
+    mkdir -p ./log/${cur_inst}/
 
-echo "Short case" > ./redis_log_${cur_inst}
-./scripts/init_test.sh test ${ip} ${start_cpu_num} ${inst_num} 0 1
-check_redis_benchmark
-./scripts/analysis_qps_lat.py ${test_log_dir} ${inst_num} >> ./redis_log_${cur_inst}
+    echo "Short case" > ./redis_log_${cur_inst}
+    ./scripts/init_test.sh test ${ip} ${start_cpu_num} ${inst_num} 0 1
+    check_redis_benchmark
+    ./scripts/analysis_qps_lat.py ${test_log_dir} ${inst_num} >> ./redis_log_${cur_inst}
 
-mkdir -p ./log/${cur_inst}/short
-mv ${test_log_dir}/redis_benchmark_log* ./log/${cur_inst}/short
+    mkdir -p ./log/${cur_inst}/short
+    mv ${test_log_dir}/redis_benchmark_log* ./log/${cur_inst}/short
 
-echo "Basic case"
-./scripts/init_test.sh test ${ip} ${start_cpu_num} ${inst_num} 1 1
-check_redis_benchmark
-./scripts/analysis_qps_lat.py ${test_log_dir} ${inst_num} >> ./redis_log_${cur_inst}
+    echo "Basic case"
+    ./scripts/init_test.sh test ${ip} ${start_cpu_num} ${inst_num} 1 1
+    check_redis_benchmark
+    ./scripts/analysis_qps_lat.py ${test_log_dir} ${inst_num} >> ./redis_log_${cur_inst}
 
-mkdir -p ./log/${cur_inst}/basic
-mv ${test_log_dir}/redis_benchmark_log* ./log/${cur_inst}/basic
+    mkdir -p ./log/${cur_inst}/basic
+    mv ${test_log_dir}/redis_benchmark_log* ./log/${cur_inst}/basic
 
-echo "Pipeline case"
-./scripts/init_test.sh test ${ip} ${start_cpu_num} ${inst_num} 1 100
-check_redis_benchmark
-./scripts/analysis_qps_lat.py ${test_log_dir} ${inst_num} >> ./redis_log_${cur_inst}
+    echo "Pipeline case"
+    ./scripts/init_test.sh test ${ip} ${start_cpu_num} ${inst_num} 1 100
+    check_redis_benchmark
+    ./scripts/analysis_qps_lat.py ${test_log_dir} ${inst_num} >> ./redis_log_${cur_inst}
 
-mkdir -p ./log/${cur_inst}/pipeline
-mv ${test_log_dir}/redis_benchmark_log* ./log/${cur_inst}/pipeline
+    mkdir -p ./log/${cur_inst}/pipeline
+    mv ${test_log_dir}/redis_benchmark_log* ./log/${cur_inst}/pipeline
 
-let "cur_inst++"
+    let "cur_inst++"
 
 done
 
