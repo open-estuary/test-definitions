@@ -1,0 +1,12 @@
+set redis redis
+get redis 
+dump redis
+exists redis
+type redis
+expire redis 60
+ttl redis
+persist redis
+ttl redis
+renamenx redis newredis
+randomkey
+
