@@ -32,6 +32,7 @@ else
    exit 0
 fi
 
+# compail and install 
 qemu-system-aarch64 --help
 if [ $? -ne 0 ]; then
     QEMU_VER=qemu-2.6.0.tar.bz2
@@ -48,6 +49,8 @@ if [ $? -ne 0 ]; then
 fi
 
 chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
+
+# start qemu 
 ${CUR_PATH}/qemu-load-kvm.sh $IMAGE $ROOTFS
 if [ $? -ne 0 ]; then
     echo 'qemu system load fail'
@@ -57,6 +60,7 @@ else
     lava-test-case qemu-system-load --result pass
 fi
 
+# create image , like virtual matchine disk file 
 qemu-img create -f qcow2 $DISK_NAME 10G
 if [ $? -ne 0 ]; then
     echo 'qemu-img create fail'
@@ -66,6 +70,7 @@ else
    lava-test-case qemu-img-create --result pass
 fi
 
+# mount network block device moduler
 modprobe nbd max_part=16
 if [ $? -ne 0 ];then
     echo 'modprobe nbd fail'
@@ -75,6 +80,7 @@ else
     lava-test-case modprobe-nbd --result pass
 fi
 
+# install os
 qemu-nbd -c /dev/nbd0 $DISK_NAME
 chmod a+x ${CUR_PATH}/qemu-create-partition.sh
 ${CUR_PATH}/qemu-create-partition.sh
@@ -93,6 +99,7 @@ else
     fi
 fi
 
+# formate virtual disk 
 mkfs.ext4 /dev/nbd0p1
 if [ $? -ne 0 ]
 then
@@ -113,6 +120,7 @@ else
     lava-test-case mount-image --result pass
 fi
 
+# put rootfs write to virtual disk 
 cd /mnt/image
 zcat ${CUR_PATH}/${ROOTFS} | cpio -dim
 if [ $? -ne 0 ]
@@ -144,6 +152,7 @@ else
     lava-test-case qemu-nbd --result pass
 fi
 
+# start virtual os 
 chmod a+x qemu-start-kvm.sh
 ${CUR_PATH}/qemu-start-kvm.sh  $IMAGE  $DISK_NAME
 if [ $? -ne 0 ];then
