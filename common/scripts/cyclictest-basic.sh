@@ -5,6 +5,7 @@ INTERVAL=$2
 LATENCY=$3
 DURATION=$4
 
+set -x
 cd ../../distro/common/utils
 . ./sys_info.sh
 cd -
@@ -15,11 +16,14 @@ which cyclictest
 if [ $? -ne 0 ]; then
    git clone git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git
    cd rt-tests
+   git checkout stable/v1.0
    make all
-   cp ./cyclictest /usr/bin
+   make install 
 fi
 
-if [ ! -f "/usr/bin/cyclictest" ]; then
+#if [ ! -f "/usr/bin/cyclictest" ]; then
+which cyclictest
+if [ $? -ne 0 ]; then
     echo "Error! the command 'cyclictest' doesn't exist!"
     lava-test-case cyclictest-basic --result fail
     exit 1
@@ -57,3 +61,4 @@ do
     lava-test-case ${threads}-threads-Min --result pass --units us --measurement ${Min}
     lava-test-case ${threads}-threads-Avg --result pass --units us --measurement ${Avg}
 done
+set +x 
