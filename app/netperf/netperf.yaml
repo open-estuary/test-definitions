@@ -18,5 +18,5 @@ metadata:
 
 run:
     steps:
-        - "cd ./netperf; ./netperf.sh; "
+        - "cd app/netperf; ./netperf.sh; "
 

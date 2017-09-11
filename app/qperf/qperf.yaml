@@ -18,5 +18,5 @@ metadata:
 
 run:
     steps:
-        - "cd ./qperf; ./qperf.sh; "
+        - "cd app/qperf; ./qperf.sh; "
 
