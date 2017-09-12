@@ -23,5 +23,5 @@ install:
 
 run:
     steps:
-        - "cd distro/common; ./samba.sh; cd -"
+        - "cd app/samba; ./samba.sh; cd -"
 

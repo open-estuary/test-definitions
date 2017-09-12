@@ -1,8 +1,8 @@
 
 metadata:
-    name: netperf_basic_testing
+    name: qperf_basic_testing
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "netperf testing"
+    description: "qperf testing"
     maintainer:
         - hongxin_228@163.com
     scope:
@@ -18,5 +18,5 @@ metadata:
 
 run:
     steps:
-        - "cd distro/common; ./netperf/netperf.sh; "
+        - "cd app/qperf; ./qperf.sh; "
 
