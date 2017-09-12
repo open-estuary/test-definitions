@@ -10,6 +10,7 @@ metadata:
     maintainer:
         - steve.capper@linaro.org
         - naresh.kamboju@linaro.org
+        - shuangshengchen@qq.com
     os:
         - debian
         - ubuntu
@@ -34,6 +35,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/libhugetlbfs/
+        - cd ./app/libhugetlbfs/
         - ./libhugetlbfs.sh -b "${WORD_SIZE}" -s "${SKIP_INSTALL}" -v "${VERSION}"
         - ../../utils/send-to-lava.sh ./output/result.txt

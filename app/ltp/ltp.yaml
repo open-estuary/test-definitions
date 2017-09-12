@@ -5,8 +5,11 @@ metadata:
     maintainer:
         - milosz.wasilewski@linaro.org
         - fathi.boudra@linaro.org
+        - shuangshengchen@qq.com
     os:
         - ubuntu
+        - centos
+        - opensuse
     scope:
         - functional
     devices:
@@ -36,7 +39,7 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/ltp/
+        - cd ./app/ltp/
         - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 

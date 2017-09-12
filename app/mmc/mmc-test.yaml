@@ -4,7 +4,7 @@ metadata:
     description: "The Multi Media Card (MMC) is a memory card standard used for solid-state storage
                   This will perform Basic MMC tests"
     maintainer:
-        - naresh.kamboju@linaro.org
+        - shuangchengchen@126.com
     os:
         - debian
         - ubuntu
@@ -24,6 +24,6 @@ metadata:
 
 run:
     steps:
-        - cd ./automated/linux/mmc
+        - cd ./app/mmc
         - ./mmc-test.sh
         - ../../utils/send-to-lava.sh ./output/result.txt

@@ -1,15 +1,17 @@
 
 metadata:
-    name: centos-cyclictest
+    name: ubuntu-sysbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "cyclictest"
+    description: "sysbench"
     maintainer:
         - shuangshengchen@qq.com
     scope:
         - functional
         - performance
     os:
+        - ubuntu
         - centos
+        - opensuse
     devices:
         - d05
         - d03
@@ -20,14 +22,17 @@ params:
 
 install:
     deps:
-        
+        - git
+        - build-essential
+        - automake
+        - libtool
 
 params:
     VERSION: ''
 
 run:
     steps:
-        - "cd ./app/cyclictest/; ./cyclictest.sh; cd -"
+        - "cd ./app/sysbench/; ./sysbench.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
