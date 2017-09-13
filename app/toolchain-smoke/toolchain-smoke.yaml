@@ -4,11 +4,13 @@ metadata:
     description: "Simple test that checks whether gcc compilation works"
     maintainer:
         - milosz.wasilewski@linaro.org
+        - shuangshengchen@qq.com
     os:
         - debian
         - ubuntu
         - fedora
         - centos
+        - opensuse
         - openembedded
     scope:
         - functional
@@ -26,6 +28,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/toolchain-smoke/
+        - cd ./app/toolchain-smoke/
         - ./toolchain-smoke.sh -s ${SKIP_INSTALL} -t ${STATIC}
         - ../../utils/send-to-lava.sh ./output/result.txt

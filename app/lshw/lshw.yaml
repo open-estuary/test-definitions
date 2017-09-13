@@ -27,6 +27,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/lshw/
+        - cd ./aap/lshw/
         - ./lshw.sh -s "${SKIP_INSTALL}" -c "${CLASSES}"
         - ../../utils/send-to-lava.sh ./output/result.txt
