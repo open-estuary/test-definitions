@@ -5,12 +5,13 @@ metadata:
                   ability to avoid Priority Inversion from occuring by running
                   groups of threads that cause Priority Inversions."
     maintainer:
-        - chase.qi@linaro.org
+        - shuangchengchen@qq.com
     os:
         - debian
         - ubuntu
         - fedora
         - centos
+        - opensuse
         - openembedded
     scope:
         - functional
@@ -35,6 +36,6 @@ params:
 
 run:
     steps:
-        - cd automated/linux/pi-stress
+        - cd app/pi-stress
         - ./pi-stress.sh -d "$DURATION" -m "${MLOCKALL}" -r "${RR}"
         - ../../utils/send-to-lava.sh ./output/result.txt

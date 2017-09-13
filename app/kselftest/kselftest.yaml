@@ -3,7 +3,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Linux kernel self test"
     maintainer:
-        - naresh.kamboju@linaro.org
+        - shuangshengchen@126.com
     os:
         - debian
         - ubuntu
@@ -29,7 +29,7 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/kselftest/
+        - cd ./app/kselftest/
         - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}" -L "${SKIPLIST}" -S "${SKIPFILE}"
 
 parse:
