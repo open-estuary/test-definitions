@@ -38,7 +38,7 @@ vsftpd_execute()
 
 set -x
 
-cd utils
+cd ../../utils
     . ./sys_info.sh
 cd -
 
