@@ -1,6 +1,6 @@
 #!/bin/sh -e
 set -x
-cd utils
+cd ../../utils
     . ./sys_info.sh
 cd -
 SERVER="127.0.0.1"

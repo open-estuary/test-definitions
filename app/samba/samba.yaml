@@ -4,7 +4,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "samba basic testing"
     maintainer:
-        - meili760628705@163.com
+        - hongxin_228@163.com
     scope:
         - functional
     os:
@@ -18,10 +18,14 @@ metadata:
 install:
     deps:
         - samba
-        - expect
-        - samba-client
 
 run:
     steps:
         - "cd app/samba; ./samba.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
 
