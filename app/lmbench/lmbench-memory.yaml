@@ -1,10 +1,10 @@
 
 metadata:
-    name: centos-sysbench
+    name: lmbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "sysbench-memory"
+    description: "lmbench-memory"
     maintainer:
-        - shuangshengchen@163.com
+        - shuangshengchen@qq.com
     scope:
         - functional
         - performance
@@ -20,18 +20,15 @@ params:
 
 install:
     deps:
-        - git
-        - gcc
-        - make
-        - automake
-        - libtool
+        - awk
+        - tee
 
 params:
     VERSION: ''
 
 run:
     steps:
-        - "cd ./distro/common/sysbench/; ./sysbench.sh; cd -"
+        - "cd ./app/lmbench/; ./lmbench-memory.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
