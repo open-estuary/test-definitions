@@ -8,7 +8,7 @@ cd -
 
 #modify by liucaili 2017-06-08
 #IMAGE='Image_D02'
-IMAGE='Image_D03'
+IMAGE='Image'
 ROOTFS='mini-rootfs.cpio.gz'
 HOME_PATH=$HOME
 CUR_PATH=$PWD
@@ -45,8 +45,8 @@ if [ $? -ne 0 ]; then
     cd -
 
     qemu-system-aarch64 --help
-    print_info $? qemu-system-aarch64-install
 fi
+print_info $? qemu-system-aarch64-install
 
 chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
 
