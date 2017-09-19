@@ -6,11 +6,13 @@ metadata:
     maintainer:
         - naresh.kamboju@linaro.org
         - chase.qi@linaro.org
+        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
         - centos
         - fedora
+        - opensuse
     devices:
         - mustang
         - overdrive
