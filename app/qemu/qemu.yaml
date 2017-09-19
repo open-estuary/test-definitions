@@ -1,18 +1,20 @@
 
 metadata:
-    name: centos-cyclictest
+    name: qemu
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "cyclictest"
+    description: "qemu"
     maintainer:
-        - shuangshengchen@qq.com
+        - meili760628705@163.com
     scope:
         - functional
         - performance
     os:
+        - ubuntu
         - centos
+        - opensuse
     devices:
-        - d05
         - d03
+        - d05
 
 params:
     # Number of cycles helloworld is called (for loop repetitions)
@@ -20,14 +22,21 @@ params:
 
 install:
     deps:
-        
+        - expect
+        - wget
+        - qemu
+        - qemu-kvm
+        - gcc
 
 params:
-    VERSION: ''
+    #BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
+    #modify by liucaili 2017-9-19
+    BINURL: 'http://192.168.3.100:8083/qemu'
 
 run:
     steps:
-        - "cd ./app/cyclictest/; ./cyclictest.sh; cd -"
+        - "cd ./app/qemu; ./qemu-kvm.sh $BINURL; cd -"
+
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

@@ -1,15 +1,15 @@
 
 metadata:
-    name: centos-cyclictest
+    name: ubuntu-dsdbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "cyclictest"
+    description: "dsdbench"
     maintainer:
         - shuangshengchen@qq.com
     scope:
         - functional
         - performance
     os:
-        - centos
+        - ubuntu
     devices:
         - d05
         - d03
@@ -27,7 +27,7 @@ params:
 
 run:
     steps:
-        - "cd ./app/cyclictest/; ./cyclictest.sh; cd -"
+        - "cd ./app/dsdbench/; ./sysbench.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

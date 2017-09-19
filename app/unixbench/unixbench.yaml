@@ -4,7 +4,7 @@ metadata:
     description: "The purpose of UnixBench is to provide a basic
                   indicator of the performance of a Unix-like system."
     maintainer:
-        - chase.qi@linaro.org
+        - shuangshengchen@126.com
     os:
         - debian
         - ubuntu
@@ -28,6 +28,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/unixbench/
+        - cd ./app/unixbench/
         - ./unixbench.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt

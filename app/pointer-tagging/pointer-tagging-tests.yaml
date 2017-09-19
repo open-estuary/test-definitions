@@ -7,6 +7,7 @@ metadata:
 
     maintainer:
         - naresh.kamboju@linaro.org
+        - shuangshengchen@qq.com
     os:
         - debian
         - ubuntu
@@ -28,6 +29,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/pointer-tagging/
+        - cd ./app/pointer-tagging/
         - ./pointer-tagging-tests.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
