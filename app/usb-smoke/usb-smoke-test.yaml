@@ -34,6 +34,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/usb-smoke
+        - cd ./app/usb-smoke
         - ./usb-smoke-test.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt

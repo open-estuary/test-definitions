@@ -30,6 +30,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/blogbench/
+        - cd ./app/blogbench/
         - ./blogbench.sh -i "${ITERATION}" -p "${PARTITION}"
         - ../../utils/send-to-lava.sh ./output/result.txt
