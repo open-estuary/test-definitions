@@ -122,7 +122,22 @@ set -x
 
 cd ../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
+
+#install
+case "${distro}" in
+	debian|ubuntu)
+		pkgs="cgroup-bin libvirt-bin lxc lxc-templates"
+		install_deps "${pkgs}"
+	;;
+	centos|fedora)
+		pkgs="epel-release debootstrap perl libvirt lxc lxc-templates"
+		install_deps "${pkgs}"
+	;;
+	*)
+		error_msg "Unsupported distribution!"
+esac
 
 # -- bridge network -----------------------------------------------------------
 BRIDGE_NAME=virbr0
