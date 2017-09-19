@@ -35,6 +35,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/dd-wr-speed
+        - cd ./app/dd-wr-speed
         - ./dd-wr-speed.sh -p "${PARTITION}" -t "${FS_TYPE}" -i "${ITERATION}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
