@@ -19,10 +19,6 @@ params:
 
 install:
     deps:
-        - cgroup-bin
-        - libvirt-bin
-        - lxc-templates
-        - lxc
         - wget
         - expect
 
