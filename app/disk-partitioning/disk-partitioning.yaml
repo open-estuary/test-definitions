@@ -3,16 +3,19 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Disk partitioning test."
     maintainer:
-        - chase.qi@linaro.org
+        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
         - fedora
         - centos
+        - opensuse
     devices:
         - mustang
         - hi6220-hikey
         - apq8016-sbc
+        - d03
+        - d05
     scope:
         - functional
     environment:
