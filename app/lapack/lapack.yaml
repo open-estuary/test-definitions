@@ -5,21 +5,16 @@ metadata:
 
     maintainer:
         - naresh.kamboju@linaro.org
+        - meili760628705@163.com
     os:
-        - debian
         - ubuntu
         - centos
-        - fedora
+        - opensuse 
     scope:
         - functional
     devices:
-        - arndale
-        - mustang
-        - overdrive
         - d05
         - d03
-        - hi6220-hikey
-        - apq8016-sbc
 
 params:
     SKIP_INSTALL: "False"
@@ -29,3 +24,9 @@ run:
         - cd ./automated/linux/lapack/
         - ./lapack.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
