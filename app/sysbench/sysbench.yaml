@@ -1,6 +1,6 @@
 
 metadata:
-    name: ubuntu-sysbench
+    name: sysbench
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "sysbench"
     maintainer:
