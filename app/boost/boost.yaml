@@ -1,8 +1,7 @@
 metadata:
-    name: iperf
-    format: "Lava-Test-Shell Test Definition 1.0"
-    description: "iperf is a tool for active measurements of the maximum
-                  achievable bandwidth on IP networks."
+    name: boost
+    format: "boost-Test-Shell Test Definition 1.0"
+    description: "boost is a c++ lib"
     maintainer:
         - hongxin_228@linaro.org
     os:
@@ -14,19 +13,13 @@ metadata:
     environment:
         - lava-test-shell
     devices:
-        - hi6220-hikey
-        - apq8016-sbc
-        - mustang
-        - moonshot
-        - thunderX
         - d03
         - d05
 
 
 run:
     steps:
-        - "cd ./app/iperf; ./iperf.sh"
-
+        - "cd ./app/boost; ./boost.sh"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
