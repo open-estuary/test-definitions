@@ -20,3 +20,8 @@ run:
     steps:
         - "cd app/netperf; ./netperf.sh; "
 
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
