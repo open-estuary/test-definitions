@@ -85,7 +85,7 @@ parse_ltp_output() {
 run_ltp() {
     # shellcheck disable=SC2164
     cd "${LTP_PATH}"
-
+    pipe0_status "./runltp -f commands"
     pipe0_status "./runltp -p -q -f ${TST_CMDFILES} -l ${OUTPUT}/LTP_${LOG_FILE}.log -C ${OUTPUT}/LTP_${LOG_FILE}.failed ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
     check_return "runltp_${LOG_FILE}"
 

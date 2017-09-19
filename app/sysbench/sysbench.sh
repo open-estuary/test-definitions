@@ -72,10 +72,10 @@ else
         fedora|centos)
             install_deps "git gcc make automake libtool"
             if echo "${TESTS}" | grep "oltp"; then
-                install_deps "mysql-devel mariadb-server mariadb"
+                install_deps "sysbench mysql-devel mariadb-server mariadb"
                 systemctl start mariadb
             fi
-            [ sysbench --version ] && install_sysbench
+            [ sysbench --version ]# && install_sysbench
             ;;
         opensuse)
             install_deps "git gcc make automake"
@@ -147,15 +147,19 @@ for tc in ${TESTS}; do
             general_parser
             ;;
         memory)
-            sysbench --num-threads="${NUM_THREADS}" --test=memory run | tee "${logfile}"
-            general_parser
+            for j in ['8k','16k']; do
+                for i in ['rnd','seq']; do
+                    sysbench --num-threads="${NUM_THREADS}" --test=memory --memory-block-size=$j --memory-total-size=100G --memory-access-mode=$i run | tee "${logfile}"
+                    general_parser "$i"
+                
+                    ms=$(grep "Operations" "${logfile}" | awk '{print substr($4,2)}')
+                    add_metric "${tc}-ops" "pass" "${ms}" "ops"
 
-            ms=$(grep "Operations" "${logfile}" | awk '{print substr($4,2)}')
-            add_metric "${tc}-ops" "pass" "${ms}" "ops"
-
-            ms=$(grep "transferred" "${logfile}" | awk '{print substr($4, 2)}')
-            units=$(grep "transferred" "${logfile}" | awk '{print substr($5,1,length($NF)-1)}')
-            add_metric "${tc}-transfer" "pass" "${ms}" "${units}"
+                    ms=$(grep "transferred" "${logfile}" | awk '{print substr($4, 2)}')
+                    units=$(grep "transferred" "${logfile}" | awk '{print substr($5,1,length($NF)-1)}')
+                    add_metric "${tc}-transfer" "pass" "${ms}" "${units}"
+                done
+            done
             ;;
         fileio)
             mkdir fileio && cd fileio
