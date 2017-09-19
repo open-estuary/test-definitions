@@ -33,6 +33,19 @@ else
 fi
 
 # compail and install 
+case "${distro}" in
+	debian|ubuntu)
+		pkgs="bvirt-bin zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
+		install_deps "${pkgs}"
+	;;
+	centos|fedora)
+		pkgs="kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel"
+		install_deps "${pkgs}"
+	;;
+	*)
+		error_msg "Unsupported distribution!"
+esac
+
 qemu-system-aarch64 --help
 if [ $? -ne 0 ]; then
     QEMU_VER=qemu-2.6.0.tar.bz2

@@ -24,17 +24,11 @@ install:
         - wget
         - qemu
         - qemu-kvm
-        - libvirt-bin
         - gcc
-        - zlib1g-dev
-        - libperl-dev
-        - libgtk2.0-dev
-        - libfdt-dev
-        - bridge-utils
 
 params:
     #BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
-    #modify by liucaili 2017-06-07
+    #modify by liucaili 2017-9-19
     BINURL: 'http://192.168.3.100:8083/qemu'
 
 run:
