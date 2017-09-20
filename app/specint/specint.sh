@@ -13,7 +13,8 @@ esac
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
 cd ${OUTPUT}
-scp chenshuangsheng@192.168.1.106:~/Ali-test/speccpu2006*
+./scp.sh
+#scp chenshuangsheng@192.168.1.106:~/Ali-test/speccpu2006*
 export FORCE_UNSAFE_CONFIGURE=1
 SPEC_DIR=speccpu2006
 cd $SPEC_DIR/tools/src&&echo y | ./buildtools
