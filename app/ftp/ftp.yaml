@@ -13,9 +13,8 @@ metadata:
         - centos
 
     devices:
-        - d02
+        - d05
         - d03
-        - d01
 #install:
 #   deps:
 #       - vsftpd
@@ -25,4 +24,8 @@ metadata:
 run:
     steps:
         - "cd app/ftp; ./ftp.sh; cd -"
-
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass d01
