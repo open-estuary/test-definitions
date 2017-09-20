@@ -1,8 +1,7 @@
 metadata:
-    name: lshw
+    name: spcint
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "lshw is a small tool to extract detailed information
-                  on the hardware configuration of the machine."
+    description: "specint test cpu."
     maintainer:
         - shuangchengchen@qq.com
     os:
@@ -21,14 +20,13 @@ metadata:
         - d05
 
 params:
-    # Test if lshw able to report the classes pre-defined in ${CLASSES}.
-    CLASSES: "system bus processor memory network"
+    # Test if  able to report the classes pre-defined in ${CLASSES}.
     SKIP_INSTALL: "false"
 
 run:
     steps:
-        - cd ./app/lshw/
-        - ./lshw.sh -s "${SKIP_INSTALL}" -c "${CLASSES}"
+        - cd ./app/specint/
+        - ./specint.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

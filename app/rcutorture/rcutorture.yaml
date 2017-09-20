@@ -36,3 +36,8 @@ run:
         - cd app/rcutorture
         - ./rcutorture.sh -s "${SKIP_INSTALL}" -t "${TORTURE_TIME}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
