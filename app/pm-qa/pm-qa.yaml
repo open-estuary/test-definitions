@@ -39,3 +39,8 @@ run:
         - cd ./app/pm-qa/
         - ./pm-qa.sh -r "${RELEASE}" -t "${TESTS}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
