@@ -6,11 +6,13 @@ metadata:
     maintainer:
         - naresh.kamboju@linaro.org
         - chase.qi@linaro.org
+        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
         - centos
         - fedora
+        - opensuse
     devices:
         - mustang
         - overdrive
@@ -37,6 +39,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/fio-test/
+        - cd ./app/fio-test/
         - ./fio-test.sh -p "${PARTITION}" -i "${IOENGINE}" -b "${BLOCK_SIZE}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt

@@ -4,12 +4,13 @@ metadata:
     description: "Blogbench is a portable filesystem benchmark that tries to
                   reproduce the load of a real-world busy file server."
     maintainer:
-        - chase.qi@linaro.org
+        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
         - fedora
         - centos
+        - opensuse
     scope:
         - performance
     devices:
@@ -29,6 +30,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/blogbench/
+        - cd ./app/blogbench/
         - ./blogbench.sh -i "${ITERATION}" -p "${PARTITION}"
         - ../../utils/send-to-lava.sh ./output/result.txt
