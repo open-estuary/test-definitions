@@ -39,3 +39,8 @@ run:
         - cd app/pi-stress
         - ./pi-stress.sh -d "$DURATION" -m "${MLOCKALL}" -r "${RR}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
