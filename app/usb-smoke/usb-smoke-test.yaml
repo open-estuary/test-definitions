@@ -6,11 +6,13 @@ metadata:
     maintainer:
         - chase.qi@linaro.org
         - naresh.kamboju@linaro.org
+        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
         - centos
         - fedora
+        - opensuse
     scope:
         - functional
     devices:
@@ -24,14 +26,14 @@ metadata:
         - apq8016-sbc
         - mustang
         - overdrive
-        - d02
         - d03
+        - d05
 
 params:
     SKIP_INSTALL: "false"
 
 run:
     steps:
-        - cd ./automated/linux/usb-smoke
+        - cd ./app/usb-smoke
         - ./usb-smoke-test.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
