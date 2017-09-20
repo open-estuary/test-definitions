@@ -67,7 +67,7 @@ else
                 install_deps "libmysqlclient-dev mysql-server"
                 systemctl start mysql
             fi
-            [ sysbench --version ] && install_sysbench
+            [ sysbench --version ] || install_sysbench
             ;;
         fedora|centos)
             install_deps "git gcc make automake libtool"
@@ -83,11 +83,11 @@ else
                 install_deps "libmysqlclient-dev mysql-server"
                 systemctl start mysql
             fi
-            [ sysbench --version ] && install_sysbench
+            [ sysbench --version ] || install_sysbench
             ;;
         oe-rpb)
             # Assume all dependent packages are already installed.
-            [ sysbench --version ] && install_sysbench
+            [ sysbench --version ] || install_sysbench
             ;;
         *)
             warn_msg "Unsupported distro: ${dist}! Package installation skipped!"
