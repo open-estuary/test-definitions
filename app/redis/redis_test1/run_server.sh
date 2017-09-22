@@ -2,13 +2,27 @@
 
 ./setup.sh server
 
+if [ `/usr/local/redis/bin/redis-server -h`  ] ; then
+    lava-case-test redis-RedisServerInstall --result pass
+else
+    lava-case-test redis-RedisServerInstall --result fail
+fi
+
+
 #Start 
 start_cpu_num=17
-inst_num=10
+inst_num=3
 let "end_cpu_num=${start_cpu_num} + ${inst_num} - 1"
 
 echo "Stop irqbalance firstly"
 service irqbalance stop
+if [ $? = 0  ] ; then
+    lava-test-case redis-StopIrqbalance --result pass
+else
+    lava-test-case redis-StopIrqbalance --result fail
+fi
+
+
 
 echo "Disable CPU 32~64"
 ./scripts/enable_cpus.sh 32 64 0

@@ -17,7 +17,7 @@ userid="root"
 password="123456"
 
 if [ $# -lt 2 ] ; then 
-    echo "Usage: ./run_test.sh {ip} {init | loaddata | test} [inst_num]"
+    echo "Usage: ./run_test.sh {ip} {init | loaddata | test} [inst_num] [thread_per_inst]"
     exit 0
 else 
    echo "Try to test multi mysql instances[$3]......"

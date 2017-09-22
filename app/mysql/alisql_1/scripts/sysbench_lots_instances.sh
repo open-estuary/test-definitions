@@ -39,4 +39,8 @@ sysbench  ${BASE_DIR}/apptests/sysbench/tests/db/oltp.lua \
 		 --mysql-user=root \
 		 --mysql-table-engine=innodb \
                  --num-threads=${threads_num} run 
-
+if [ `echo $?` = 0  ] ; then
+    lava-test-case alisql-sysbench-run-oltp.lua --result pass
+else
+    lava-test-case alisql-sysbench-run-oltp.lua --result fail
+fi
