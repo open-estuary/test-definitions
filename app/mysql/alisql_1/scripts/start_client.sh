@@ -34,19 +34,15 @@ if [ "$4" == "init" ] ; then
         --num-threads=10 \
         --mysql-port=${PORT_ID} prepare
     
+    if [ $? = 0  ]; then
+        lava-test-case alisql-sysbenchPerpareData --result pass
+    else
+        lava-test-case alisql-sysbenchPerpareData --result fail
+    fi
+
+
     exit 1
 
-    #Step 2: Initialize tables
-    sysbench ${BASE_DIR}/apptests/sysbench/tests/db/parallel_prepare.lua \
-    --db-driver=mysql \
-        --oltp-test-mode=complex  \
-        --mysql-host=$1 --mysql-db=sysbench \
-        --mysql-password=$3 \
-        --max-time=7200 --max-requests=0 --mysql-user=$2 \
-        --mysql-table-engine=innodb --oltp-table-size=${default_table_size} \
-        --oltp-tables-count=${default_table_count} --rand-type=special --rand-spec-pct=100 \
-        --num-threads=10 \
-        --mysql-port=${PORT_ID} run
 elif [ "$4" == "test" ] ; then
     inst_num=${5}
     thread_per_inst=1

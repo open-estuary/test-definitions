@@ -10,7 +10,7 @@ ip=${1}
 echo 1 > /proc/sys/kernel/numa_balancing
 ulimit -n 10240
 
-./scripts/init_client.sh ${ip} test 200   > ./testresult_200_1thread
-./scripts/init_client.sh ${ip} test 200 4 > ./testresult_200_4thread
-./scripts/init_client.sh ${ip} test 200 8 > ./testresult_200_8thread
+./scripts/init_client.sh ${ip} test 1   > ./testresult_200_1thread
+./scripts/init_client.sh ${ip} test 1 4 > ./testresult_200_4thread
+./scripts/init_client.sh ${ip} test 1 8 > ./testresult_200_8thread
 
