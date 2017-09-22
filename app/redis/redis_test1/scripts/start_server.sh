@@ -30,6 +30,14 @@ echo 2621440 > /proc/sys/net/netfilter/nf_conntrack_max
 #support maxinum number of files open
 ulimit -n 102400
 
+if [ `$? = 0` ];then
+    lava-test-case redis-EditConfig --result pass
+else
+    lava-test-case redis-EditConfig --result fail
+fi
+
+
+
 if [ ${start_cpu_num} -gt ${end_cpu_num} ] ; then
     echo "the start_cpu_num should be less than end_cpu_num"
     exit 0
@@ -47,6 +55,14 @@ do
 done
 
 popd > /dev/null
+
+pscount=`ps -aux | grep redis-server | grep -v redis-server | wc -l`
+if [ $pscount -eq 0  ];then
+    lava-test-case redis-StartServer --result fail
+else
+    lava-test-case redis-StartServer --result pass
+fi
+
 echo "${redis_inst} redis-servers have been started"
 
 echo "**********************************************************************************"

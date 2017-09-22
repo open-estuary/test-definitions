@@ -59,7 +59,12 @@ if [ "$1" == "init" ] ; then
         # remove all keys from the database
         echo "flushdb"  |  ${REDIS_CMD_DIR}/redis-cli -h ${ip_addr} -p ${port} --pipe
         # init redis data 
-        cat ./input_data | ${REDIS_CMD_DIR}/redis-cli -h ${ip_addr} -p ${port} --pipe
+        cat ./input_data | ${REDIS_CMD_DIR}/redis-cli -h ${ip_addr} -p ${port} --pipe 
+        if [ `$? = 0 ` ]; then
+            lava-test-case redis-InitData${port} --result pass
+        else
+            lava-test-case redis-InitData${port} --result fail
+        fi
     done
 
     popd > /dev/null
@@ -77,7 +82,34 @@ elif [ "$1" == "test" ] ; then
         echo "call redis-benchmark to test redis-${index}"
         
         # get tests 
-        taskset -c ${taskindex} ${REDIS_CMD_DIR}/redis-benchmark -h ${ip_addr} -p ${port} -c 50 -n ${data_num} -d ${data_size} -k ${keep_alive} -r ${key_space_len} -P ${pipeline} -t get,set,ping,lpush > redis_benchmark_log_${port} & 
+        taskset -c ${taskindex} ${REDIS_CMD_DIR}/redis-benchmark -h ${ip_addr} -p ${port} -c 50 -n ${data_num} -d ${data_size} -k ${keep_alive} -r ${key_space_len} -P ${pipeline} -t get > redis_benchmark_log_${port} & 
+        if [ $? = 0 ];then
+            lava-test-case redis-[keep_alive:$keep_alive][pipeline:$pipeline]get-test pass
+        else
+            lava-test-case redis-[keep_alive:$keep_alive][pipeline:$pipeline]get-test pass
+        fi
+       # set tests 
+        taskset -c ${taskindex} ${REDIS_CMD_DIR}/redis-benchmark -h ${ip_addr} -p ${port} -c 50 -n ${data_num} -d ${data_size} -k ${keep_alive} -r ${key_space_len} -P ${pipeline} -t set >> redis_benchmark__log_${port} & 
+        if [ $? = 0 ];then
+            lava-test-case redis-[keep_alive:$keep_alive][pipeline:$pipeline]set-test pass
+        else
+            lava-test-case redis-[keep_alive:$keep_alive][pipeline:$pipeline]set-test pass
+        fi
+       # ping tests 
+        taskset -c ${taskindex} ${REDIS_CMD_DIR}/redis-benchmark -h ${ip_addr} -p ${port} -c 50 -n ${data_num} -d ${data_size} -k ${keep_alive} -r ${key_space_len} -P ${pipeline} -t ping >> redis_benchmark_log_${port} & 
+        if [ $? = 0 ];then
+            lava-test-case redis-[keep_alive:$keep_alive][pipeline:$pipeline]ping-test pass
+        else
+            lava-test-case redis-[keep_alive:$keep_alive][pipeline:$pipeline]ping-test pass
+        fi
+       # lpush tests 
+        taskset -c ${taskindex} ${REDIS_CMD_DIR}/redis-benchmark -h ${ip_addr} -p ${port} -c 50 -n ${data_num} -d ${data_size} -k ${keep_alive} -r ${key_space_len} -P ${pipeline} -t lpush >> redis_benchmark_log_${port} & 
+        if [ $? = 0 ];then
+            lava-test-case redis-[keep_alive:$keep_alive][pipeline:$pipeline]lpush-test pass
+        else
+            lava-test-case redis-[keep_alive:$keep_alive][pipeline:$pipeline]lpush-test pass
+        fi
+
         #${REDIS_CMD_DIR}/redis-benchmark -h ${ip_addr} -p ${port} -c 50 -n ${data_num} -d ${data_size} -k ${keep_alive} -r ${key_space_len} -P ${pipeline} -t get > redis_benchmark_log_${port} &
     done
 
