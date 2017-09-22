@@ -17,7 +17,7 @@ fi
 #name=`uname -a | awk '{print $2}'`
 case $distro in
     "centos")
-         wget http://192.168.1.107/netperf-2.7.0.tar.gz
+         wget http://htsat.vicp.cc:804/netperf-2.7.0.tar.gz
          tar xf netperf-2.7.0.tar.gz
          cd netperf-2.7.0
          ./configure --build=aarch64-unknown-linux-gnu
