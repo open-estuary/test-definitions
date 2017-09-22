@@ -14,8 +14,9 @@ TARGET_DIR=$(tool_get_first_dirname ${BUILD_DIR})
 
 #######################################################################################
 if [ "$(tool_check_exists ${BUILD_DIR}/${TARGET_DIR}/src/redis-server)"  == 0 ]; then
-      echo "Redis has been built successfully"
-      exit 0
+    echo "Redis has been built successfully"
+    lava-test-case redis-BuildServer --result pass
+    exit 0
 fi
 
 ####################################################################################
@@ -43,7 +44,9 @@ popd > /dev/null
 ##########################################################################################
 if [ "$(tool_check_exists ${BUILD_DIR}/${TARGET_DIR}/${SUBBUILD_DIR}/src/redis-server)"  == 0 ]; then
     echo "Build redis successfully"
+    lava-test-case redis-BuildServer --result pass
 else 
     echo "Fail to build redis"
+    lava-test-case redis-BuildServer --result fail
     exit 1
 fi
