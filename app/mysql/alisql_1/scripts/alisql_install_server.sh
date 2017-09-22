@@ -36,9 +36,24 @@ pwd
 
 $(tool_add_sudo) make install
 
+if [ `which mysql ; echo $? = 0 `  ] ; then
+    lava-test-case alisql-install --result pass
+else
+    lava-test-case alisql-install --result fail
+fi
+
+
 #Install step 2: Add 'mysql' test user account and rights
 $(tool_add_sudo) groupadd mysql
 $(tool_add_sudo) useradd -g mysql mysql
+
+if [ `cat /etc/passwd | grep mysql`  ] ;then
+    lava-test-case alisql-add-user --result pass
+else
+    lava-test-case alisql-add-user --result fail
+fi
+
+
 
 echo "Alisql server has been installed"
 popd > /dev/null

@@ -10,5 +10,13 @@ ip=${1}
 
 ./setup.sh client
 
+
+if [ `which sysbench;echo $? = 0 `  ];then
+    lava-test-case alisql-sysbench_install --result pass
+else
+    lava-test-case alisql-sysbench_install --result fail
+fi
+
+
 #Start to initialize 200 mysql instances
-./scripts/init_client.sh ${ip} init 200
+./scripts/init_client.sh ${ip} init 1 
