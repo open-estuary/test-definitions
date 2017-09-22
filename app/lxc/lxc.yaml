@@ -1,18 +1,19 @@
 
 metadata:
-    name: centos-lmbench
+    name: lxc 
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "lmbench-memory"
+    description: "lxc"
     maintainer:
-        - shuangshengchen@163.com
+        - meili760628705@163.com
     scope:
         - functional
-        - performance
     os:
+        - ubuntu
         - centos
+        - opensuse
     devices:
-        - d05
         - d03
+        - d05
 
 params:
     # Number of cycles helloworld is called (for loop repetitions)
@@ -20,15 +21,16 @@ params:
 
 install:
     deps:
-        - awk
-        - tee
+        - wget
+        - expect
 
 params:
     VERSION: ''
-
+       
 run:
     steps:
-        - "cd ./distro/common/lmbench/; ./lmbench-memory.sh; cd -"
+        - "cd ./app/lxc; ./lxc.sh; cd -"
+
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

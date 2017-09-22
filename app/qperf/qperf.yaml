@@ -19,4 +19,8 @@ metadata:
 run:
     steps:
         - "cd app/qperf; ./qperf.sh; "
-
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
