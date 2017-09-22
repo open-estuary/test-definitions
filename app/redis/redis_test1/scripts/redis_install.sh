@@ -72,8 +72,10 @@ fi
 
 if [ "$(tool_check_exists ${REDIS_INSTALL_DIR}/config/redis_cpu0_port7000.conf)" == 0 ] ; then
     echo "Redis server has been installed successfully"
+    lava-test-case redis-Install --result pass
 else
     echo "Fail to install Redis server, please check it manually"
+    lava-test-case redis-Install --result fail
 fi 
 popd > /dev/null
 

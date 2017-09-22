@@ -116,43 +116,15 @@ initialize_mysql_inst() {
     $(tool_add_sudo) ${INSTALL_DB_CMD}   --basedir=/u01/u${inst_num}/my3306 \
                                      --datadir=/u01/u${inst_num}/my3306/data \
                                      --user=mysql
+    
+    if [ $? = 0 ]; then
+        lava-test-case alisql-InitDatabase --result pass
+    else
+        lava-test-case alisql-InitDatabase --result fail
+    fi
 
     #Start mysql server
-    echo "Start to run mysql server-${inst_num} ......"
-    if [ ${new_start_flag} -eq 1 ] ; then 
-
-    #######################################################################################
-    ############ Start Server by using new ways for 5.7+ versions #########################
-        $(tool_add_sudo) /u01/my3306/bin/mysqld_safe  --defaults-file=/etc/my_${inst_num}.conf \
-                                              --user=mysql \
-                                              --skip-grant-tables \
-                                              --skip-networking  \
-                                              --basedir=/u01/u${inst_num}/my3306 \
-                                              --datadir=/u01/u${inst_num}/my3306/data &
-
-        check_startup_str ${inst_num} "Starting mysqld daemon with databases"
-        sleep 10
-        retry=0
-        while [[ ${retry} -lt 10 ]] 
-        do
-            /u01/my3306/bin/mysql -uroot  --socket=/u01/u${inst_num}/my3306/run/mysql.sock << EOF
-UPDATE mysql.user SET authentication_string=PASSWORD('123456') WHERE user='root';
-UPDATE mysql.user SET authentication_string=PASSWORD('123456') WHERE user='mysql';
-flush privileges;
-shutdown;
-exit
-EOF
-            if [ $? -eq 0 ] ; then
-                break
-            fi
-            let "retry++"
-            sleep 10
-        done
-
-        if [[ ${retry} -ge 10 ]] ; then
-            ps -aux | grep "u01/u${inst_num}/my3306" | grep -v grep | grep -v start | awk '{print $2}' | xargs kill -9
-        fi
-    fi
+   
     echo "Initialize servers-${inst_num} successfully"
 }
 
@@ -182,10 +154,14 @@ start_mysql_inst() {
                             --datadir=/u01/u${inst_num}/my3306/data &
             sleep 5
             if [ "$(ps -aux | grep "u01/u${inst_num}/my3306" | grep -v mysqld_safe | grep -v grep | grep -v skip-grant-tables)" ] ; then
+                lava-test-case alisql-start --result pass              
                 break
             fi
             echo "Try to restart server-${inst_num} again ......"
             let "retry++"
+            if [ $retry = 11  ]; then
+                lava-test-case alisql-start --result fail
+            fi
         done
 
         check_startup_str ${inst_num} "Starting mysqld daemon with databases"
@@ -198,6 +174,12 @@ start_mysql_inst() {
 
         #Check whether server has started successfully or not
         check_startup_str ${inst_num} "ready for connection"
+        
+        if [ `ps -aux | grep u01/u${inst_num}/my3306 | grep -v mysqld_safe | grep -v grep | grep -v skip-grant-tables`  ];then
+            lava-test-case alisql-start --result pass 
+        else
+            lava-test-case alisql-start --result fail 
+        fi
 
         #Install Step 6:set root rights and create initial database
         /u01/my3306/bin/mysql -uroot << EOF
@@ -209,8 +191,15 @@ GRANT ALL PRIVILEGES ON *.* TO root@localhost IDENTIFIED BY '123456' WITH GRANT 
 GRANT ALL PRIVILEGES ON *.* TO root@"%" IDENTIFIED BY '123456' WITH GRANT OPTION;
 create database sysbench;
 EOF
-
+        if [ $? = 0  ] ; then
+            lava-test-case alisql-SetRootRights-CreateTestDatabase --result pass
+        else
+            lava-test-case alisql-SetRootRights-CreateTestDatabase --result fail
+        fi
     fi
+
+
+
 }
 
 #######################################################################################
@@ -225,6 +214,11 @@ flush privileges;
 create database sysbench;
 exit
 EOF
+    if [ `echo $?` = 0  ] ;then
+        lava-test-case alisql-InitRootRight --result pass
+    else
+        lava-test-case alisql_InitRootRight --result fail
+    fi
 }
 
 if [ $# -lt 1 ] ; then
@@ -253,9 +247,13 @@ else
             do
                 /u01/u${cur_inst}/my3306/bin/mysqladmin -u root password '123456' --socket=/u01/u${cur_inst}/my3306/run/mysql.sock
                 if [ $? -eq 0 ] ; then
+                    lava-test-case alisql-admin-command --result pass
                     break
                 fi
                 let "retry++"
+                if [ $retry = 6  ] ; then
+                    lava-test-case alisql-admin-command --result fail
+                fi
                 sleep 5
             done
 
