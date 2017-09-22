@@ -4,6 +4,7 @@ metadata:
     description: "rt-migrate-test verifies the RT threads scheduler balancing."
     maintainer:
         - chase.qi@linaro.org
+        - shuangshengchen@qq.com
     os:
         - debian
         - ubuntu
@@ -30,6 +31,11 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/rt-migrate-test/
+        - cd ./app/rt-migrate-test/
         - ./rt-migrate-test.sh -l "${LOOPS}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
