@@ -5,11 +5,13 @@ metadata:
 
     maintainer:
         - chase.qi@linaro.org
+        - shuangshengchen@qq.com
     os:
         - debian
         - ubuntu
         - fedora
         - centos
+        - opensuse
         - openembedded
     scope:
         - performance
@@ -35,6 +37,11 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/signaltest
+        - cd ./app/signaltest
         - ./signaltest.sh -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
