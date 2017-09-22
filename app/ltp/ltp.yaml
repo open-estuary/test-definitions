@@ -5,8 +5,11 @@ metadata:
     maintainer:
         - milosz.wasilewski@linaro.org
         - fathi.boudra@linaro.org
+        - shuangshengchen@qq.com
     os:
         - ubuntu
+        - centos
+        - opensuse
     scope:
         - functional
     devices:
@@ -19,7 +22,7 @@ metadata:
 params:
     # LTP version
     LTP_VERSION: 20170516
-    TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+    TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors,fs_perms_simple,fs_ext4,modules,pipes
     # TST_CMDFILES: math,timers
     # SKIPFILE can be a filename from dir ./automated/linux/ltp/ or an open URL
     # SKIPFILE: "skipfile-lsk-juno"
@@ -36,7 +39,7 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/ltp/
+        - cd ./app/ltp/
         - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
