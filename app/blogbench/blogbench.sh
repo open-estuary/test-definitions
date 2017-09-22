@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-. ../../lib/sh-test-lib
+. ../../utils/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/blogbench.txt"

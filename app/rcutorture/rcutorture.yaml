@@ -5,12 +5,14 @@ metadata:
     maintainer:
         - milosz.wasilewski@linaro.org
         - chase.qi@linaro.org
+        - shuangshengchen@qq.com
     os:
         - ubuntu
         - debian
         - centos
         - fedora
         - openembedded
+        - opensuse
     devices:
         - d03
         - d05
@@ -31,6 +33,11 @@ params:
 
 run:
     steps:
-        - cd automated/linux/rcutorture
+        - cd app/rcutorture
         - ./rcutorture.sh -s "${SKIP_INSTALL}" -t "${TORTURE_TIME}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass

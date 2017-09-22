@@ -1,32 +1,30 @@
 
 metadata:
-    name: centos-hackbench
+    name: redis_perform_testing
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "hackbench"
+    description: "redis perform testing"
     maintainer:
-        - shuangshengchen@163.com
+        - tanliqing2010@163.com
     scope:
         - functional
-        - performance
     os:
+        - centos
         - ubuntu
     devices:
-        - d05
         - d03
-
-params:
-    # Number of cycles helloworld is called (for loop repetitions)
-    REPEAT: 1
+        - d05
 
 install:
     deps:
-
-params:
-    VERSION: ''
+        - 
 
 run:
     steps:
-        - "cd ./distro/common/hackbench/; ./hackbench.sh; cd -"
+        - "cd app/redis/redis_test1"
+        - "./run_server.sh"
+        - "./run_client.sh"
+        - "./run_test.sh"
+        - "cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
