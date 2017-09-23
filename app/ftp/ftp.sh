@@ -49,6 +49,7 @@ case $distro in
         ;;
     "centos")
         yum install vsftpd -y
+        yum install vsftpd.aarch64 -y
         yum install expect -y
         ;;
     "opensuse")
