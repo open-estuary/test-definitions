@@ -12,10 +12,6 @@ metadata:
     scope:
         - performance
     devices:
-        - juno
-        - hi6220-hikey
-        - apq8016-sbc
-        - mustang
         - d03
         - d05
 
@@ -24,7 +20,7 @@ params:
 
 run:
     steps:
-        - cd ./app/openssl ./openssl.sh
+        - "cd ./app/openssl; ./openssl.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
