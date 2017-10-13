@@ -27,6 +27,7 @@ fi
 case $distro in
     "ubuntu")
          apt-get install iperf -y
+         apt-get install iperf3 -y
          ;;
     "centos")
          yum install wget -y
