@@ -28,11 +28,11 @@ install() {
 }
 sysstat_test() {
     /usr/lib64/sa/sadc  1 10 sa000
-    sar -f sa000 | awk ${RESULT_FILE}
-    sar -u  1 5 | awk ${RESULT_FILE}
-    sar -n DEV 2 5 | awk ${RESULT_FILE}
-    iostat -x | awk ${RESULT_FILE}
-    mpstat 2 10 | awk ${RESULT_FILE}
+    sar -f sa000 | tee -a ${RESULT_FILE}
+    sar -u  1 5 | tee -a ${RESULT_FILE}
+    sar -n DEV 2 5 | tee -a ${RESULT_FILE}
+    iostat -x | tee -a  ${RESULT_FILE}
+    mpstat 2 10 | tee -a ${RESULT_FILE}
 }
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
