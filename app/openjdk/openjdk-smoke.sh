@@ -92,7 +92,7 @@ else
     lava-test-case OpenJDK-CompileHelloWorld --result fail
 fi
 
-java=java HelloWorld | grep "Hello, World"
+java=`java HelloWorld | grep "Hello, World"`
 check_return "execute-HelloWorld"
 if [ $java = 0  ];then
     lava-test-case OpenJDK-ExecuteHelloWorld --result pass
