@@ -1,6 +1,9 @@
 #!/bin/bash 
 
-. ../lib/sh-test-lib
+basepath=$(cd `dirname $0`; pwd)
+cd $basepath
+
+. ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 TEST_LOG="${OUTPUT}/stream-output.txt"
@@ -54,9 +57,14 @@ echo "Memory_Count= $memCountGB, Chips_Count= $currChipsNum" | tee $TEST_LOG
 echo "chipType=$chipType , chipManufacturer=$chipManufacturer , chipSpeed=$chipSpeed" | tee -a $TEST_LOG
 echo "biosVersion=$biosVersion , biosDate=$biosDate" | tee -a $TEST_LOG 
 echo ""
-for i in `seq 1 $repeat`;do
-    ./stream/bin/"${abi}"/stream 2>&1 | tee -a "${TEST_LOG}"
-done
+
+mkdir -p stream-test
+tar -zxf stream-test.tar.gz -C stream-test
+cd stream-test
+./stream-built.sh
+./stream-test.sh | tee stream-result.txt
+cd ..
+
 
 if [ $? = 0  ];then
     lava-test-case STREAM-Execute --result pass
@@ -64,13 +72,8 @@ else
     lava-test-case STREAM-Execute --result fail
 fi
 
-for test in Copy Scale Add Triad; do
-    ret=`grep "^${test}" "${TEST_LOG}" \
-        | awk -v test="${test}" \
-        '{printf("stream-uniprocessor-%s pass %s MB/s\n", test, $2)}' \
-        | tee -a "${RESULT_FILE}"`
-    lava-test-case STREAM-${test}-$ret --result pass
-done
+./pick.sh ./stream-test/stream-result.txt | tee result.txt
+
 
 if [ $currChipsNum -ne 8 ];then
     echo "Now system Memory Count does not meet quantity requirements!!!!!!"
@@ -81,9 +84,23 @@ elif [ $memCountGB -ne 256 ] ;then
 fi
 
 
-for case in Copy Scale Add Triad;do
-    ret=`grep "^$case" "$TEST_LOG" | awk {'print $2'}`
-    sum=0.0
+
+# define a map variable
+declare -A  map=()
+map[Copy]=1
+map[Scale]=2
+map[Add]=3
+map[Triad]=4
+map[Fill]=5
+map[Copy2]=6
+map[Daxpy]=7
+map[Sum]=8
+
+
+for case in Copy Scale Add Triad Fill Copy2 Daxpy Sum;do
+   # ret=`grep "^$case" "$TEST_LOG" | awk {'print $2'}`
+   ret=`cat result.txt | awk {'print ${map[$case]}'}` 
+   sum=0.0
     count=0
     
     for i in $ret 
