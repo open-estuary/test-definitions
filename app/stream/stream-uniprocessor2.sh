@@ -1,5 +1,8 @@
 #!/bin/bash 
 
+# author:tanliqing2012@163.com
+# time  :2017.10.17
+
 basepath=$(cd `dirname $0`; pwd)
 cd $basepath
 
@@ -46,11 +49,19 @@ speedMap["Copy"]=98103.49
 speedMap["Scale"]=98127.90
 speedMap["Add"]=99356.54
 speedMap["Triad"]=99463.96
+speedMap["Fill"]=99463.96
+speedMap["Copy2"]=99463.96
+speedMap["Daxpy"]=99463.96
+speedMap["Sum"]=99463.96
 
 stdevMap["Copy"]=0.62
 stdevMap["Scale"]=0.74
 stdevMap["Add"]=0.27
 stdevMap["Triad"]=0.15
+stdevMap["Fill"]=0.15
+stdevMap["Copy2"]=0.15
+stdevMap["Daxpy"]=0.15
+stdevMap["Sum"]=0.15
 
 echo "-----------------------------------------------------------------"
 echo "Memory_Count= $memCountGB, Chips_Count= $currChipsNum" | tee $TEST_LOG
@@ -61,7 +72,7 @@ echo ""
 mkdir -p stream-test
 tar -zxf stream-test.tar.gz -C stream-test
 cd stream-test
-./stream-built.sh
+./stream-build.sh
 ./stream-test.sh | tee stream-result.txt
 cd ..
 
@@ -78,7 +89,7 @@ fi
 if [ $currChipsNum -ne 8 ];then
     echo "Now system Memory Count does not meet quantity requirements!!!!!!"
     # exit;
-elif [ $memCountGB -ne 256 ] ;then
+elif [ $memCountGB -lt 128 ] ;then
     echo "Now system Memory summory dose not meet quantity requirements!!!!!!!"
     # exit;
 fi
@@ -99,7 +110,7 @@ map[Sum]=8
 
 for case in Copy Scale Add Triad Fill Copy2 Daxpy Sum;do
    # ret=`grep "^$case" "$TEST_LOG" | awk {'print $2'}`
-   ret=`cat result.txt | awk {'print ${map[$case]}'}` 
+   ret=`cat result.txt | awk -v var=`echo ${map[$case]}` {'print $var'}` 
    sum=0.0
     count=0
     
