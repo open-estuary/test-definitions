@@ -187,7 +187,7 @@ install_deps() {
         info_msg "install_deps skipped"
     else
         if [ `which $pkgs`  ];then 
-            echo "$pkgs has installed"
+            echo "$pkgs has instal led"
             return 0
         fi
         ! check_root && \
