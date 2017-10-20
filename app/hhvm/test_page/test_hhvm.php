@@ -1,7 +1,7 @@
 <?php
 if (defined('HHVM_VERSION')) {
     echo 'HHVM is working';
-	phpinfo();
+    #phpinfo();
 } else {
     echo 'HHVM is not working';
 }

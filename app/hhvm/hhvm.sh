@@ -105,7 +105,7 @@ print_info $? copy-php-to-webserver
 
 /usr/sbin/nginx -c /etc/nginx/nginx.conf
 curl -o "./index" "http://localhost/index.html"
-grep "Welcome to nginx" "./index"
+grep "nginx" "./index"
 print_info $? start-nginx
 
 LD_LIBRARY_PATH=$INSTALLDIR/packages/boost-1.58.0/lib:$LD_LIBRARY_PATH
