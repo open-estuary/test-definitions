@@ -10,7 +10,6 @@ metadata:
     os:
         - ubuntu
         - centos
-        - opensuse
     devices:
         - d03
         - d05
@@ -20,9 +19,6 @@ params:
     REPEAT: 1
 
 
-params:
-    VERSION: ''
-       
 run:
     steps:
         - "cd ./app/hhvm; ./hhvm.sh /usr/estuary; cd -"
