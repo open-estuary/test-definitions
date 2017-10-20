@@ -30,6 +30,8 @@ case $HOST in
         yum install tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau -y
         print_info $? install-dependent-packages
+        yum install -y curl nginx
+		print_info $? install-nginx
     ;;
     ubuntu)
         echo "[$PKG_NAME] install package on $HOST system"
@@ -41,16 +43,18 @@ case $HOST in
         libmagickwand-dev libc-client2007e-dev libmemcached-dev libmcrypt-dev libpq-dev libboost-dev libboost-filesystem-dev libboost-program-options-dev \
         libboost-regex-dev libboost-system-dev libboost-thread-dev libboost-context-dev -y
         print_info $? install-dependent-packages
+        apt-get install -y curl nginx
+		print_info $? install-nginx
     ;;
     debian)
         echo "[$PKG_NAME] Do not support install hhvm on $HOST system"
         print_info 1 install-dependent-packages
-        exit 0
+		print_info 1 install-nginx
     ;;
     *)
         echo "[$PKG_NAME] do not support install hhvm on $HOST system"
         print_info 1 install-dependent-packages
-        exit 1
+		print_info 1 install-nginx
     ;;
 esac
 
@@ -74,11 +78,11 @@ tar -xzvf ./${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz
 print_info $? unzip-hhvm-file
 
 r1=`cp -fr ./bin/* $INSTALLDIR/bin`
-r2=`cp -fr ./conf/config.hdf $INSTALLDIR/etc/hhvm`
-r3=`cp -fr ./conf/php.ini $INSTALLDIR/etc/hhvm`
-r4=`cp -fr ./conf/server.ini $INSTALLDIR/etc/hhvm`
+r2=`cp -fr ./hhvm/config.hdf $INSTALLDIR/etc/hhvm`
+r3=`cp -fr ./hhvm/php.ini $INSTALLDIR/etc/hhvm`
+r4=`cp -fr ./hhvm/server.ini $INSTALLDIR/etc/hhvm`
 r5=`rm -fr ./bin ./hhvm`
-if [ $r1 && $r2 && $r3 && $r4 && $r5 ];then
+if [ ! $r1 ] && [ ! $r2 ] && [ ! $r3 ] && [ ! $r4 ] && [ ! $r5 ];then
 	print_info 0 prepare-config-files
 else
 	print_info 1 prepare-config-files
@@ -94,13 +98,14 @@ test ! -d /var/run/hhvm && mkdir -p /var/run/hhvm
 test ! -d /var/log/hhvm && mkdir -p /var/log/hhvm
 
 cp ./conf/nginx.conf* /etc/nginx/ -fr
-
 test ! -d $INSTALLDIR/etc/hhvm && mkdir -p $INSTALLDIR/etc/hhvm
 
 cp ./test_page/test_*.php /usr/share/nginx/html/ -fr
 print_info $? copy-php-to-webserver
 
 /usr/sbin/nginx -c /etc/nginx/nginx.conf
+curl -o "./index" "http://localhost/index.html"
+grep "Welcome to nginx" "./index"
 print_info $? start-nginx
 
 LD_LIBRARY_PATH=$INSTALLDIR/packages/boost-1.58.0/lib:$LD_LIBRARY_PATH
@@ -116,7 +121,7 @@ fi
 
 #start hhvm service
 if [ ! -e $INSTALLDIR/bin/hhvm ];then
-    echo "[$PKG_NAME] hhvm has not installed ,please iinstall it firtly"
+    echo "[$PKG_NAME] hhvm has not installed ,please install it firtly"
 	print_info 1 start-hhvm 
 else
 	$INSTALLDIR/bin/hhvm --mode daemon --config $INSTALLDIR/etc/hhvm/server.ini --config $INSTALLDIR/etc/hhvm/php.ini --config $INSTALLDIR/etc/hhvm/config.hdf
