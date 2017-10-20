@@ -70,7 +70,6 @@ echo "biosVersion=$biosVersion , biosDate=$biosDate" | tee -a $TEST_LOG
 echo ""
 
 mkdir -p stream-test
-tar -zxf stream-test.tar.gz -C stream-test
 cd stream-test
 ./stream-build.sh
 ./stream-test.sh | tee stream-result.txt
