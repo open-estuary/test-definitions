@@ -26,6 +26,7 @@ esac
 dir="my-project"
 mkdir $dir
 cd $dir
+touch WORKSPACE
 mkdir -p src/main/java/com/example
 
 cat > src/main/java/com/example/ProjectRunner.java <<EOF
@@ -47,6 +48,7 @@ public class Greeting {
 	}
 }
 EOF
+print_info $? setup-simple-java
 
 cat > BUILD <<EOF
 java_binary(
@@ -56,10 +58,13 @@ java_binary(
 
 )
 EOF
+print_info $? setup-simple-BUILD
 
 bazel build //:my-runner
+print_info $? build-simple-java
+
 bazel-bin/my-runner
-echo $?
+print_info $? run-simple-java
 
 cat > BUILD <<EOF
 java_binary(
@@ -74,9 +79,10 @@ java_library(
 	srcs = ["src/main/java/com/example/Greeting.java"],
 )
 EOF
+print_info $? setup-related-BUILD
 
 bazel run //:my-other-runner
-echo $?
+print_info $? run-related-java
 
 mkdir -p src/main/java/com/example/cmdline
 cat > src/main/java/com/example/cmdline/Runner.java <<EOF
@@ -90,6 +96,7 @@ public class Runner {
 	}
 }
 EOF
+print_info $? setup-package-java
 
 cat > src/main/java/com/example/cmdline/BUILD <<EOF
 java_binary(
@@ -99,18 +106,35 @@ java_binary(
 	deps = ["//:greeter"]
 )
 EOF
+print_info $? setup-package-BUILD
 
-bazel build //src/main/java/com/example/cmdline:runner
-echo $?
+ins=`bazel build //src/main/java/com/example/cmdline:runner`
+cat $ins | grep 'ERROR'
+print_info $? run-package-ERROR
 
-sed -i '/example/Greeting.java/a\    visibility = ["//src/main/java/com/example/cmdline:__pkg__"],' BUILD
-echo $?
+#sed -i '/example/Greeting.java/a\    visibility = ["//src/main/java/com/example/cmdline:__pkg__"],' BUILD
+cat > ./BUILD <<EOF
+java_binary(
+    name = "my-other-runner",
+	srcs = ["src/main/java/com/example/ProjectRunner.java"],
+	main_class = "com.example.ProjectRunner",
+	deps = [":greeter"],
+
+)
+
+java_library(
+    name = "greeter",
+	srcs = ["src/main/java/com/example/Greeting.java"],
+	visibility = ["//src/main/java/com/example/cmdline:__pkg__"],
+)
+EOF
+print_info $? resetup-package-BUILD
 
 bazel run //src/main/java/com/example/cmdline:runner
-echi $?
+print_info $? rerun-package-java
 
 jar tf bazel-bin/src/main/java/com/example/cmdline/runner.jar
-echo $?
+print_info $? look-package-runner
 
 bazel build //src/main/java/com/example/cmdline:runner_deploy.jar
-echo $?
+print_info $? build-allpackage-runner
