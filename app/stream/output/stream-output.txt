@@ -1,3 +1,0 @@
-Memory_Count= 126, Chips_Count= 8
-chipType=DDR4 , chipManufacturer=Micron , chipSpeed=2133
-biosVersion= Nemo 1.7.5 LTS , biosDate= 10/19/2017
