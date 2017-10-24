@@ -26,8 +26,9 @@ esac
 dir="my-project"
 mkdir $dir
 cd $dir
-touch WORKSPACE
 mkdir -p src/main/java/com/example
+touch WORKSPACE
+print_info $? setup-WORKSPACE
 
 cat > src/main/java/com/example/ProjectRunner.java <<EOF
 package com.example;

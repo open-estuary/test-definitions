@@ -90,7 +90,6 @@ fi
 
 popd > /dev/null
 
-print_info $? install-hhvm
 echo "setup hhvm successfully"
 
 #prepare test env
