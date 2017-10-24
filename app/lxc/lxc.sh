@@ -126,13 +126,21 @@ cd ../../utils
 cd -
 
 #install
+pkgs="wget expect"
+install_deps "${pkgs}"
 case "${distro}" in
 	debian|ubuntu)
-		pkgs="cgroup-bin libvirt-bin lxc lxc-templates"
+		pkgs="cgroup-bin libvirt-bin"
+		install_deps "${pkgs}"
+		pkgs="lxc lxc-templates"
 		install_deps "${pkgs}"
 	;;
 	centos|fedora)
-		pkgs="epel-release debootstrap perl libvirt lxc lxc-templates"
+		pkgs="epel-release"
+		install_deps "${pkgs}"
+		pkgs="debootstrap perl libvirt"
+		install_deps "${pkgs}"
+		pkgs="lxc lxc-templates"
 		install_deps "${pkgs}"
 	;;
 	*)
