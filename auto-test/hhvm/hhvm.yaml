@@ -1,0 +1,27 @@
+
+metadata:
+    name: hhvm 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "hhvm"
+    maintainer:
+        - meili760628705@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+        - centos
+    devices:
+        - d03
+        - d05
+
+
+run:
+    steps:
+        - "cd ./auto-test/hhvm; ./hhvm.sh /usr/estuary; cd -"
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

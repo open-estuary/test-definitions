@@ -1,0 +1,33 @@
+
+metadata:
+    name: redis_perform_testing
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "redis perform testing"
+    maintainer:
+        - tanliqing2010@163.com
+    scope:
+        - functional
+    os:
+        - centos
+        - ubuntu
+    devices:
+        - d03
+        - d05
+
+install:
+    deps:
+        - 
+
+run:
+    steps:
+        - "cd auto-test/redis/redis_test1"
+        - "./run_server.sh"
+        - "./run_client.sh"
+        - "./run_test.sh"
+        - "cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

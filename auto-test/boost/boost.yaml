@@ -1,0 +1,27 @@
+metadata:
+    name: boost
+    format: "boost-Test-Shell Test Definition 1.0"
+    description: "boost is a c++ lib"
+    maintainer:
+        - hongxin_228@linaro.org
+    os:
+        - ubuntu
+        - opensuse
+        - centos
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - d03
+        - d05
+
+
+run:
+    steps:
+        - "cd ./auto-test/boost; ./boost.sh"
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass

@@ -1,0 +1,28 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: openssh
+    description: "Use openssl speed command to test the performance of
+                  cryptographic algorithms"
+    maintainer:
+        - hongxin_228@163.com
+    os:
+        - opensuse
+        - ubuntu
+        - centos
+    scope:
+        - performance
+    devices:
+        - d03
+        - d05
+
+
+run:
+    steps:
+        - "cd ./auto-test/openssh; ./openssh.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+
