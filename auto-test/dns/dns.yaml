@@ -1,0 +1,28 @@
+
+metadata:
+    name: dns-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "dns basic testing"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+        - opensuse
+        - centos
+
+    devices:
+        - d02
+        - d03
+        - d01
+#install:
+#   deps:
+#       - vsftpd
+#       - expect
+#        - ftp
+
+run:
+    steps:
+        - "cd ./dns; ./dns.sh; "
+
