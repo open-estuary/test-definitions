@@ -27,6 +27,6 @@ params:
 
 run:
     steps:
-        - cd ./app/openjdk/
+        - cd ./auto-test/openjdk/
         - ./openjdk-smoke.sh -v "${VERSION}" -s "${SKIP_INSTALL}"
         - cd -

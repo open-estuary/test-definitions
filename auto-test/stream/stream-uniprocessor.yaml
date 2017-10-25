@@ -24,6 +24,6 @@ metadata:
 
 run:
     steps:
-        - cd ./app/stream/
+        - cd ./auto-test/stream/
         - ./stream-uniprocessor.sh
         - cd -

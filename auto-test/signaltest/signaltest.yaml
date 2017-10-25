@@ -37,7 +37,7 @@ params:
 
 run:
     steps:
-        - cd ./app/signaltest
+        - cd ./auto-test/signaltest
         - ./signaltest.sh -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

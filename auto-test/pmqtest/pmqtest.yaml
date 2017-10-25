@@ -31,7 +31,7 @@ params:
 
 run:
     steps:
-        - cd ./app/pmqtest/
+        - cd ./auto-test/pmqtest/
         - ./pmqtest.sh -l "${LOOPS}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

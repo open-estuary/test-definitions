@@ -19,7 +19,7 @@ metadata:
 
 run:
     steps:
-        - "cd ./app/boost; ./boost.sh"
+        - "cd ./auto-test/boost; ./boost.sh"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

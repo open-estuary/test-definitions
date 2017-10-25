@@ -20,7 +20,7 @@ install:
 
 run:
     steps:
-        - "cd app/redis/redis_test1"
+        - "cd auto-test/redis/redis_test1"
         - "./run_server.sh"
         - "./run_client.sh"
         - "./run_test.sh"
