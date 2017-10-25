@@ -1,0 +1,27 @@
+metadata:
+    name: sysstat
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "sysstat is a tool for cpu performence."
+    maintainer:
+        - shuangshengchen@qq.com
+    os:
+        - centos
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - d03
+        - d05
+
+
+run:
+    steps:
+        - "cd ./auto-test/sysstat; ./sysstat.sh"
+          #  - ../../utils/send-to-lava.sh ./output/result.txt
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass

@@ -1,0 +1,39 @@
+
+metadata:
+    name: qemu
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "qemu"
+    maintainer:
+        - meili760628705@163.com
+    scope:
+        - functional
+        - performance
+    os:
+        - ubuntu
+        - centos
+        - opensuse
+    devices:
+        - d03
+        - d05
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+
+params:
+    #BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
+    #modify by liucaili 2017-9-19
+    #BINURL: 'http://htsat.vicp.cc:804/qemu'
+    BINURL: 'http://192.168.3.100:8083/qemu'
+
+run:
+    steps:
+        - "cd ./auto-test/qemu; ./qemu-kvm.sh $BINURL; cd -"
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

@@ -1,0 +1,47 @@
+metadata:
+    name: signaltest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "signaltest is a RT signal roundtrip test software."
+
+    maintainer:
+        - chase.qi@linaro.org
+        - shuangshengchen@qq.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - opensuse
+        - openembedded
+    scope:
+        - performance
+        - preempt-rt
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Priority of highest prio thread.
+    PRIORITY: "99"
+    # Number of threads.
+    THREADS: "2"
+    # Number of loops.
+    LOOPS: "100000"
+
+run:
+    steps:
+        - cd ./auto-test/signaltest
+        - ./signaltest.sh -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
