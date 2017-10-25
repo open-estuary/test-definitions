@@ -1,0 +1,31 @@
+
+metadata:
+    name: samba_basic_testing
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "samba basic testing"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - functional
+    os:
+        - centos
+        - ubuntu
+        - opensuse
+    devices:
+        - d03
+        - d05
+
+install:
+    deps:
+        - samba
+
+run:
+    steps:
+        - "cd auto-test/samba; ./samba.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+

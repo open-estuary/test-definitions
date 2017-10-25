@@ -186,6 +186,10 @@ install_deps() {
     if [ "${skip_install}" = "True" ] || [ "${skip_install}" = "true" ]; then
         info_msg "install_deps skipped"
     else
+        if [ `which $pkgs`  ];then 
+            echo "$pkgs has instal led"
+            return 0
+        fi
         ! check_root && \
             error_msg "About to install packages, please run this script as root."
         info_msg "Installing ${pkgs}"
@@ -202,6 +206,7 @@ install_deps() {
             yum -e 0 -y install ${pkgs}
             ;;
           fedora)
+
             # shellcheck disable=SC2086
             dnf -e 0 -y install ${pkgs}
             ;;

@@ -1,0 +1,26 @@
+
+metadata:
+    name: qperf_basic_testing
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "qperf testing"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+        - opensuse
+        - centos
+
+    devices:
+        - d05
+        - d03
+
+run:
+    steps:
+        - "cd auto-test/qperf; ./qperf.sh; "
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
