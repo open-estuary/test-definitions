@@ -36,7 +36,7 @@ params:
 
 run:
     steps:
-        - cd ./app/pm-qa/
+        - cd ./auto-test/pm-qa/
         - ./pm-qa.sh -r "${RELEASE}" -t "${TESTS}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

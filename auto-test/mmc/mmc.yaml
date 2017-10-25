@@ -24,7 +24,7 @@ metadata:
 
 run:
     steps:
-        - cd ./app/mmc
+        - cd ./auto-test/mmc
         - ./mmc.sh
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

@@ -39,7 +39,7 @@ params:
 
 run:
     steps:
-        - cd ./app/ltp/
+        - cd ./auto-test/ltp/
         - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
