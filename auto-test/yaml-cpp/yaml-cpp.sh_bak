@@ -1,0 +1,52 @@
+#!/bin/sh
+# Copyright (C) 2017-8-29, Linaro Limited.
+#qperf is a tool for testing bandwidth and latency
+# Author: mahongxin <hongxin_228@163.com>
+
+set -x
+
+cd ../../utils
+    . ./sys_info.sh
+cd -
+
+# Test user id
+if [ `whoami` != 'root' ] ; then
+    echo "You must be the superuser to run this script" >&2
+    exit 1
+fi
+case $distro in
+    "centos")
+         wget http://htsat.vicp.cc:804/yaml-cpp-yaml-cpp-0.5.3.tar.gz
+         tar -zxvf yaml-cpp-yaml-cpp-0.5.3.tar.gz
+         yum install cmake* -y
+         yum install boost* -y
+         cd yaml-cpp-yaml-cpp-0.5.3
+         cmake -DBUILD_SHARED_LIBS=ON
+         make
+         ;;
+esac
+mkdir test3
+cd test3
+cp ../include/yaml-cpp/yaml.h ./
+cp -rf ../include/yaml-cpp/ /usr/include/
+#把测试文件test.cpp cmd_mux.yaml放到test3文件夹里面
+cp ../test.cpp ./
+cp ../cmd_mux.yaml ./
+cat << EOF >> ./test.cpp
+
+sed -i '$a\/usr/local/lib' /etc/ld.so.conf
+ldconfig
+g++ -g -o test test.cpp -I ../include/ ../libyaml-cpp.so
+
+TCID="yaml-cpp-test"
+weighttp -n 1 -k http://192.168.1.107  2>&1 | tee weighttp.log
+str=`grep -Po "0 failed" weighttp.log`
+if [ "$str" != "" ] ; then
+    lava-test-case $TCID --result pass
+else
+    lava-test-case $TCID1 --result fail
+fi
+
+rm weighttp.log
+pkill weighttp
+
