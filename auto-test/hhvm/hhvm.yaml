@@ -17,7 +17,7 @@ metadata:
 
 run:
     steps:
-        - "cd ./app/hhvm; ./hhvm.sh /usr/estuary; cd -"
+        - "cd ./auto-test/hhvm; ./hhvm.sh /usr/estuary; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

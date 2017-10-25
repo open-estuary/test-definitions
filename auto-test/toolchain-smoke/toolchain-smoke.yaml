@@ -28,7 +28,7 @@ params:
 
 run:
     steps:
-        - cd ./app/toolchain-smoke/
+        - cd ./auto-test/toolchain-smoke/
         - ./toolchain-smoke.sh -s ${SKIP_INSTALL} -t ${STATIC}
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

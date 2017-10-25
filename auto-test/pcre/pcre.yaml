@@ -25,7 +25,7 @@ params:
 
 run:
     steps:
-        - cd ./app/pcre/
+        - cd ./auto-test/pcre/
         - ./pcre.sh -s "${SKIP_INSTALL}" 
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

@@ -28,7 +28,7 @@ params:
 
 run:
     steps:
-        - "cd ./app/lmbench/; ./lmbench.sh; cd -"
+        - "cd ./auto-test/lmbench/; ./lmbench.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

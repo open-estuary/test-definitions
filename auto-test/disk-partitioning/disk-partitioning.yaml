@@ -32,6 +32,6 @@ params:
 
 run:
     steps:
-        - cd ./app/disk-partitioning/
+        - cd ./auto-test/disk-partitioning/
         - ./disk-partitioning.sh -d "${DEVICE}" -l "${DISKLABEL}" -f "${FILESYSTEM}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt

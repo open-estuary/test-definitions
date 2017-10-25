@@ -29,7 +29,7 @@ params:
 
 run:
     steps:
-        - cd ./app/pointer-tagging/
+        - cd ./auto-test/pointer-tagging/
         - ./pointer-tagging-tests.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

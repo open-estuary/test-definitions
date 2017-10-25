@@ -29,7 +29,7 @@ params:
 
 run:
     steps:
-        - cd ./app/kselftest/
+        - cd ./auto-test/kselftest/
         - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}" -L "${SKIPLIST}" -S "${SKIPFILE}"
 
 parse:

@@ -35,7 +35,7 @@ params:
 
 run:
     steps:
-        - cd ./app/libhugetlbfs/
+        - cd ./auto-test/libhugetlbfs/
         - ./libhugetlbfs.sh -b "${WORD_SIZE}" -s "${SKIP_INSTALL}" -v "${VERSION}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

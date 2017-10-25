@@ -17,7 +17,7 @@ metadata:
 
 run:
     steps:
-        - "cd ./app/sysstat; ./sysstat.sh"
+        - "cd ./auto-test/sysstat; ./sysstat.sh"
           #  - ../../utils/send-to-lava.sh ./output/result.txt
 
 parse:

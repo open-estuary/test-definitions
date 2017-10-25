@@ -33,7 +33,7 @@ params:
 
 run:
     steps:
-        - cd app/rcutorture
+        - cd auto-test/rcutorture
         - ./rcutorture.sh -s "${SKIP_INSTALL}" -t "${TORTURE_TIME}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

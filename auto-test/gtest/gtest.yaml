@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd app/gtest; ./gtest.sh; cd -"
+        - "cd auto-test/gtest; ./gtest.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

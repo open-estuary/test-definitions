@@ -20,7 +20,7 @@ install:
 
 run:
     steps:
-        - "cd app/mysql/alisql_1"
+        - "cd auto-test/mysql/alisql_1"
         - "./run_server.sh localhost"
         - "./run_client.sh localhost"
         - "./run_test.sh localhost"
