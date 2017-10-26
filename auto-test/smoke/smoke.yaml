@@ -1,0 +1,33 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: smoke-tests-basic
+    description: "Run basic smoke tests."
+    maintainer:
+        - shuangshengchen@qq.com
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - d03
+        - d05
+
+params:
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./auto-test/smoke/
+        - ./smoke.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
+        - cd -
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
