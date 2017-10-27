@@ -8,7 +8,7 @@ metadata:
     scope:
         - functional
     os:
-        - centos
+        - centos7.3
 
     devices:
         - d05
