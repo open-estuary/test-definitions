@@ -34,7 +34,7 @@ cd "${OUTPUT}"
 install_pkg-config
 cp ../hello_bson.c .
 gcc -o hello_bson hello_bson.c $(pkg-config --cflags --libs libbson-1.0 ) | tee "${LOGFILE}"
-command="./hello_bson | grep -x 'bson'"
+command="./hello_bson | grep  'bson'"
 skip_list="execute_binary"
 run_test_case "${command}" "${skip_list}"
 remove_pkg "${pkgs}"
