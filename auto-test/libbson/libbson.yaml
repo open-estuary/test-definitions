@@ -1,0 +1,25 @@
+
+metadata:
+    name: libbson
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "MongoDB内部用于数据消息序列化的而开发的子模块"
+    maintainer:
+        - shuangshengchen@qq.com
+    scope:
+        - functional
+    os:
+        - centos
+
+    devices:
+        - d05
+        - d03
+
+run:
+    steps:
+        - "cd auto-test/libbson; ./libbson.sh; cd -"
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+
