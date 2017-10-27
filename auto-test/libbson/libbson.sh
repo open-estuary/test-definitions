@@ -4,13 +4,13 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/libbson.txt"
 LOGFILE="${OUTPUT}/compilation.txt"
 export RESULT_FILE
-pkg-cf="https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"
+pkgcf="https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"
 install_pkg-config(){
-    wget ${pkg-cf}
+    wget ${pkgcf}
     tar xzf pkg-config-0.29.2.tar.gz
     cd pkg-config-0.29.2
     ./configure --with-internal-glib
-    cd -
+    cd ${OUTPUT} 
 }
 usage() {
     echo "Usage: $0  [-s true|false]" 1>&2
@@ -29,7 +29,7 @@ case "${dist}" in
 esac
 ! check_root && error_msg "You need to be root to install packages!"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
-creat_out_dir "${output}"
+create_out_dir "${OUTPUT}"
 cd "${OUTPUT}"
 install_pkg-config
 cp ../hello_bson.c .
