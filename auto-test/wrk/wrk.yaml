@@ -1,0 +1,24 @@
+
+metadata:
+    name: wrk _testing
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "wrk is a simple HTTP performance testing tool"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - functional
+    os:
+        - centos
+
+    devices:
+        - d05
+        - d03
+
+run:
+    steps:
+        - "cd auto-test/wrk; ./wrk.sh; cd - "
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
