@@ -1,0 +1,24 @@
+
+metadata:
+    name: weighttp_basic_testing
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "weighttp testing"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - functional
+    os:
+        - centos
+
+    devices:
+        - d05
+        - d03
+
+run:
+    steps:
+        - "cd app/weighttp; ./weighttp.sh; cd - "
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
