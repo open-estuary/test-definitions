@@ -1,0 +1,24 @@
+metadata:
+    name: ethernet
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "This test checks if Ethernet is up and prints IP address."
+    maintainer:
+        - hongxin_228@163.com
+    os:
+        - centos
+    scope:
+        - functional
+    devices:
+        - d03
+        - d05
+
+
+run:
+    steps:
+        - "cd auto-test/ethernet ;./ethernet.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+    FAIL: fail
+    PASS: pass
+

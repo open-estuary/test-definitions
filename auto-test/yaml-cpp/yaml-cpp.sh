@@ -86,7 +86,7 @@ cat << EOF >> ./test.cpp
       cout<<"priority: "<<priority<<endl;
     }
 EOF
-cat << EOF >> ./cmd_mux.yaml
+cat << EOF >> ../cmd_mux.yaml
 subscribers:
   - name:        "Default task"
     topic:       "input/cmd_default_check"
@@ -101,14 +101,18 @@ subscribers:
 publisher:       "output/cmd_vel"
 EOF
 sed -i '$a\/usr/local/lib' /etc/ld.so.conf
-cd /etc/ld.so.conf
+cd /etc
 ldconfig
-cd ./yaml-cpp-yaml-cpp-0.5.3/test3
+cd /root/test-definitions/auto-test/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3
+cp libyaml-cpp.so /usr/lib/
+cd /usr/lib
+ln -s libyaml-cpp.so libyaml-cpp.so.0.5
+cd /root/test-definitions/auto-test/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3/test3
 g++ -g -o test test.cpp -I ../include/ ../libyaml-cpp.so
 ./test 2>&1 |tee yaml-cpp.log
 TCID="yaml-cpp-test"
 str=`grep -Po "name: Default task" yaml-cpp.log`
-if [ "$str" != ""];then
+if [ "$str" != "" ];then
     lava-test-case $TCID --result pass
 else
     lava-test-case $TCID --result fail
