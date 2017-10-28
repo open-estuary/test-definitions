@@ -1,0 +1,31 @@
+
+metadata:
+    name: ftp_basic_testing
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ftp basic testing"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+        - opensuse
+        - centos
+
+    devices:
+        - d05
+        - d03
+#install:
+#   deps:
+#       - vsftpd
+#       - expect
+#        - ftp
+
+run:
+    steps:
+        - "cd auto-test/ftp; ./ftp.sh; cd -"
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass d01

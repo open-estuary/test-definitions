@@ -1,0 +1,34 @@
+metadata:
+    name: iperf
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "iperf is a tool for active measurements of the maximum
+                  achievable bandwidth on IP networks."
+    maintainer:
+        - hongxin_228@linaro.org
+    os:
+        - ubuntu
+        - opensuse
+        - centos
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+
+run:
+    steps:
+        - "cd ./auto-test/iperf; ./iperf.sh"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass

@@ -1,0 +1,36 @@
+
+metadata:
+    name: ubuntu-dsdbench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "dsdbench"
+    maintainer:
+        - shuangshengchen@qq.com
+    scope:
+        - functional
+        - performance
+    os:
+        - ubuntu
+    devices:
+        - d05
+        - d03
+
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+install:
+    deps:
+        
+
+params:
+    VERSION: ''
+
+run:
+    steps:
+        - "cd ./auto-test/dsdbench/; ./sysbench.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
