@@ -16,54 +16,79 @@ else
     lava-test-case "postgresql server install" --result fail
 fi
 
-
-
-user="test"
-datadir=/home/${user}/"data"
-logfile=/home/${user}/"logfile"
+export user="test"
 
 id $user
 if [  $? -ne 0 ];then
-    useradd -m $user
+    useradd -b /home  -m $user
 fi
+chown -R ${user}:${user} /var/run/postgresql
 
-if [ -d $datadir  ];then
-    rm -rf $datadir
+su - $user <<EOF
+    set -x
+    pwd;
+    whoami;
+    if [ -d data ];then
+        rm -rf data logfile
+    fi
+    mkdir data ;
+    pg_ctl -D data init;
+    if [ -f data/pg_hba.conf  ];then
+        lava-test-case "postgresql init" --result pass
+    else
+        lava-test-case "postgresql init" --result fail
+    fi
+    pg_ctl -D data -l logfile start;
+    if [ `grep -iEc "fatal|error"  logfile` -eq 0 ];then
+        lava-test-case "postgresql start" --result pass
+    else 
+        lava-test-case "postgresql start" --result fail
+    fi
+    status=$(pg_ctl -D data status)
+
+    echo $status
+    if [ `echo $status | grep -c "server is running"` -eq 1 ];then
+        lava-test-case "postgresql status" --result pass
+    else
+        lava-test-case "postgresql status" --result fail
+    fi
+    
+    env 
+    pwd
+    id
+    psql  -d postgres -c "\l"
+
+    psql -d postgres -c "create database test1 "
+    psql -d postgres -c "\c test1 "
+    psql -d postgres -c "create table account (id INT , account int)"
+    psql -d postgres -c "insert into  account values(1 ,1)"
+    psql -d postgres -c "select * from account"
+    psql -d test1 -c "\l"
+    exit
+
+    pg_ctl -D data stop;
+     
+    rm -rf data
+    cat logfile
+    rm -f logfile
+    set +x
+    exit;
+EOF
+exit
+
+sudo -u test -s /bin/bash ./sql.sh
+exit
+
+if [ -d /home/${user}/$datadir  ];then  
+    rm -rf /home/${user}/$datadir
 fi
-mkdir $datadir
-version=`pg_config`
-if [ `echo $version |grep version` = "VERSION = PostgreSQL 9.2.23"  ];then
-    lava-test-case "postgresql version" --result pass
-else
-    lava-test-case "postgresql version" --result fail
-fi
+    sudo -u $user mkdir /home/${user}/$datadir
+    sudo -u $user pg_ctl -D /home/${user}/$datadir init
 
-su -c  "pg_ctl -D $datadir  init" $user
+    sudo -u $user pg_ctl -D /home/${user}/$datadir -l /home/${user}/$log start
 
-if [ -f ${datadir}/pg_hba.conf  ];then
-    lava-test-case "postgresql init database" --result pass
-    echo "init ok ----------------------"
-else
-    lava-test-case "postgresql init database" --result fail
-fi
-
-chown -R ${user}:root /var/run/postgresql
-su -c  "pg_ctl -D $datadir -l $logfile start" $user
-
-status=`su -c $user "pg_ctl -D $datadir status"`
-if [ `echo $status | grep "success" -c` -eq 1   ];then
-    lava-test-case "postgresql start" --result pass
-    echo "start ok -------------------"
-else
-    lava-test-case "postgresql start" --result fail
-fi
-
-#su -c "psql -d postgres -c "CREATE DATABASE test;"" $user
-psql -d postgres -c "create database test2"
-
-su -c "pg_ctl -D $datadir stop" $user
-
-su -c "rm -rf $datadir" $user
+    sudo -u $user pg_ctl -D /home/${user}/$datadir status
+set +x
 
 
 
