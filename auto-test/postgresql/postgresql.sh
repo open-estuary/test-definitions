@@ -16,20 +16,13 @@ else
     lava-test-case "postgresql server install" --result fail
 fi
 
-export user="test"
-
-id $user
-if [  $? -ne 0 ];then
-    useradd -b /home  -m $user
-fi
-chown -R ${user}:${user} /var/run/postgresql
-
-su - $user <<EOF
+su - postgres <<EOF
     set -x
-    pwd;
-    whoami;
     if [ -d data ];then
         rm -rf data logfile
+    fi
+    if [ -f logfile ];then
+        rm -f logfile
     fi
     mkdir data ;
     pg_ctl -D data init;
@@ -53,43 +46,22 @@ su - $user <<EOF
         lava-test-case "postgresql status" --result fail
     fi
     
-    env 
-    pwd
-    id
-    psql  -d postgres -c "\l"
+    sleep 5
+    psql  -c "\l"
 
-    psql -d postgres -c "create database test1 "
-    psql -d postgres -c "\c test1 "
-    psql -d postgres -c "create table account (id INT , account int)"
-    psql -d postgres -c "insert into  account values(1 ,1)"
-    psql -d postgres -c "select * from account"
+    psql  -c "create database test1 "
+    psql  -c "\c test1 "
+    psql  "create table account (id INT , account int)"
+    psql  "insert into  account values(1 ,1)"
+    psql  "select * from account"
     psql -d test1 -c "\l"
-    exit
+
+    
 
     pg_ctl -D data stop;
      
-    rm -rf data
-    cat logfile
-    rm -f logfile
     set +x
     exit;
 EOF
 exit
-
-sudo -u test -s /bin/bash ./sql.sh
-exit
-
-if [ -d /home/${user}/$datadir  ];then  
-    rm -rf /home/${user}/$datadir
-fi
-    sudo -u $user mkdir /home/${user}/$datadir
-    sudo -u $user pg_ctl -D /home/${user}/$datadir init
-
-    sudo -u $user pg_ctl -D /home/${user}/$datadir -l /home/${user}/$log start
-
-    sudo -u $user pg_ctl -D /home/${user}/$datadir status
-set +x
-
-
-
 
