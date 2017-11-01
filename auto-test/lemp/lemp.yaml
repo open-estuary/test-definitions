@@ -1,0 +1,24 @@
+
+metadata:
+    name: "lamp _testing"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Linux+Apache+Mysql/MariaDB+Perl/PHP/Python is often used to build open source software for dynamic web sites or servers"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - functional
+    os:
+        - centos
+
+    devices:
+        - d05
+        - d03
+
+run:
+    steps:
+        - "cd auto-test/lemp; ./lemp.sh; cd - "
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
