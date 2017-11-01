@@ -14,12 +14,19 @@ if [ `which pg_ctl`  ];then
     echo "install ok --------------------"
 else
     lava-test-case "postgresql server install" --result fail
+    exit 1
 fi
-
-su - postgres <<EOF
+su -l - postgres <<-EOF
+      
     set -x
+    #if $(`ps -ef |grep "/bin/postgres -D data" -c` -eq 2);then
+    ps -ef |grep "/bin/postgres -D data" | grep -v grep
+    if [ \$? = 0 ];then
+        pg_ctl -D data stop
+	sleep 5
+    fi
     if [ -d data ];then
-        rm -rf data logfile
+        rm -rf data 
     fi
     if [ -f logfile ];then
         rm -f logfile
@@ -32,36 +39,111 @@ su - postgres <<EOF
         lava-test-case "postgresql init" --result fail
     fi
     pg_ctl -D data -l logfile start;
-    if [ `grep -iEc "fatal|error"  logfile` -eq 0 ];then
-        lava-test-case "postgresql start" --result pass
-    else 
-        lava-test-case "postgresql start" --result fail
+    if [ -f logfile ];then
+        grep -i -E  "fatal|error" logfile
+	
+        if [ \$? = 1 ];then
+            lava-test-case "postgresql start" --result pass
+        else 
+            lava-test-case "postgresql start" --result fail
+        fi
+    else
+   	lava-test-case "postgresql start"  --result pass
     fi
-    status=$(pg_ctl -D data status)
-
-    echo $status
-    if [ `echo $status | grep -c "server is running"` -eq 1 ];then
+    sleep 3 
+    pg_ctl -D data status | grep  "server is running"
+    if [ \$? = 0 ];then
         lava-test-case "postgresql status" --result pass
     else
         lava-test-case "postgresql status" --result fail
     fi
+    psql  -c "\l" | grep  template0
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql connect by unix socker" --result pass
+    else 
+        lava-test-case "postgresql connect by unix socker" --result fail
+    fi
+    psql -h localhost -p 5432 -c "\l" | grep  template0
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql connect by tcp" --result pass
+    else
+        lava-test-case "postgresql connect by tcp" --result fail
+    fi
     
-    sleep 5
-    psql  -c "\l"
-
+    id dbuser
+    if [ \$? -eq 0 ];then
+	userdel -r dbuser
+    fi       
+    createuser --superuser  dbuser
+    id dbuser
+    if [ \$? -eq 0 ];then
+        lava-test-case "postgresql create user" --result pass
+    else
+        lava-test-case "postgresql create user" --result fail
+    fi
+    # username dbuser databasename dbuser
+    createdb -O dbuser dbuser 
+    psql -U dbuser -c "\l"
+    if [ \$? -eq 0 ];then
+        lava-test-case "postgresql create Non root user  by shell" --result pass
+    else
+        lava-test-case "postgresql create  Non root user  by shell" --result fail
+    fi
+    psql -c "create user dbuser2 with password 'password'"
+    psql -c "create database exampledb owner dbuser2"
+    psql -c "grant all privileges on database exampledb to dbuser2"
+    psql -U dbuser2 -d exampledb -c "\l"
+    
+    if [ \$? -eq 0 ];then
+        lava-test-case "postgresql create Non root user  by sql" --result pass
+    else
+        lava-test-case "postgresql create Non root user  by sql" --result fail
+    fi
+    
     psql  -c "create database test1 "
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql create database" --result pass
+    else
+        lava-test-case "postgresql create database" --result fail
+    fi
     psql  -c "\c test1 "
-    psql  "create table account (id INT , account int)"
-    psql  "insert into  account values(1 ,1)"
-    psql  "select * from account"
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql connect new database" --result pass
+    else
+        lava-test-case "postgresql connect new database" --result fail
+    fi
+    psql -d test1 -c "create table account (id INT , account int)"
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql create table" --result pass
+    else
+        lava-test-case "postgresql create table" --result fail
+    fi
+
+    psql -d test1 -c "insert into  account values(1 ,1)"
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql insert" --result pass
+    else
+        lava-test-case "postgresql insert" --result fail
+    fi
+
+    psql -d test1 -c  "select * from account"
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql select" --result pass
+    else
+        lava-test-case "postgresql select" --result fail
+    fi
     psql -d test1 -c "\l"
 
-    
-
     pg_ctl -D data stop;
-     
+    ps -ef|grep "bin/postgres -D data" | grep -v grep 
+    if [ \$? = 0  ];then
+        lava-test-case "postgresql stop" --result pass
+    else 
+        lava-test-case "postgresql stop" --result fail
+    fi
     set +x
-    exit;
+    exit
 EOF
+set +x  
 exit
 
