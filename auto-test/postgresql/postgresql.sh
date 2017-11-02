@@ -16,6 +16,13 @@ else
     lava-test-case "postgresql server install" --result fail
     exit 1
 fi
+version=`postgres -V`
+if [ $version = "postgres (PostgreSQL) 9.2.23" ];then
+    lava-test-case "postgresql version" --result pass
+else
+    lava-test-case "postgresql version" --result fail
+fi
+
 su -l - postgres <<-EOF
       
     set -x
@@ -133,10 +140,23 @@ su -l - postgres <<-EOF
         lava-test-case "postgresql select" --result fail
     fi
     psql -d test1 -c "\l"
+    
+    psql -d test1 -c "drop table account"
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql drop table" --result pass
+    else
+        lava-test-case "postgresql drop table" --result fail
+    fi
+    psql -c "drop database test1"
+    if [ \$? = 0 ];then
+        lava-test-case "postgresql drop database" --result pass
+    else
+        lava-test-case "postgresql drop database" --result fail
+    fi
 
     pg_ctl -D data stop;
     ps -ef|grep "bin/postgres -D data" | grep -v grep 
-    if [ \$? = 0  ];then
+    if [ \$? = 1  ];then
         lava-test-case "postgresql stop" --result pass
     else 
         lava-test-case "postgresql stop" --result fail
@@ -144,6 +164,14 @@ su -l - postgres <<-EOF
     set +x
     exit
 EOF
+
+yum remove -y postgresql postgresql-server
+if [ -z `which postgres` ];then
+    lava-test-case "postgresql uninstall" --result pass
+else
+    lava-test-case "postgresql uninstall" --result fail
+fi
+
 set +x  
 exit
 
