@@ -84,9 +84,9 @@ su -l - postgres <<-EOF
     createuser --superuser  dbuser
     id dbuser
     if [ \$? -eq 0 ];then
-        lava-test-case "postgresql create user" --result pass
+        lava-test-case "postgresql create user by shell" --result pass
     else
-        lava-test-case "postgresql create user" --result fail
+        lava-test-case "postgresql create user by shell" --result fail
     fi
     # username dbuser databasename dbuser
     createdb -O dbuser dbuser 
@@ -109,9 +109,9 @@ su -l - postgres <<-EOF
     
     psql  -c "create database test1 "
     if [ \$? = 0 ];then
-        lava-test-case "postgresql create database" --result pass
+        lava-test-case "postgresql create database by sql" --result pass
     else
-        lava-test-case "postgresql create database" --result fail
+        lava-test-case "postgresql create database by sql" --result fail
     fi
     psql  -c "\c test1 "
     if [ \$? = 0 ];then
