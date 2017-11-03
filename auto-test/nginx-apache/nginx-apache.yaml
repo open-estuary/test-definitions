@@ -1,0 +1,24 @@
+
+metadata:
+    name: "nginx-apache-bench "
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "apachebench is a benchmark created to measure the webserver performance on HTTP protocol This test runs apachebench against apache nginx"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - functional
+    os:
+        - centos
+
+    devices:
+        - d05
+        - d03
+
+run:
+    steps:
+        - "cd auto-test/nginx-apache; ./nginx-apache.sh; cd - "
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
