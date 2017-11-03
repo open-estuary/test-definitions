@@ -1,0 +1,25 @@
+
+metadata:
+    name: docker 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "docker"
+    maintainer:
+        - meili760628705@163.com
+    scope:
+        - functional
+    os:
+        - ubuntu
+        - centos
+    devices:
+        - d03
+        - d05
+
+run:
+    steps:
+        - "cd auto-test/docker; ./docker.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
