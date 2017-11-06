@@ -9,7 +9,7 @@ cd -
 
 case "${distro}" in
 	centos|fedora)
-		pkgs="go"
+		pkgs="go net-tools"
 		install_deps "${pkgs}"
 		print_info $? install-golang
 	;;
