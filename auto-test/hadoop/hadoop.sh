@@ -13,68 +13,33 @@ function install_jdk() {
     yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
     export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
     export PATH=$PATH:$JAVA_HOME/bin
-}
-
-function install_hibench {
-    ### install git maver wget
-    yum install -y git maven wget
-	mvn -v
-	print_info $? "hibench-install maven" 
-
-    ## install hibench
-    if [ ! -d HiBench  ];then
-        git clone https://github.com/intel-hadoop/HiBench.git
-		if [ -d HiBench ];then
-			lava-test-case "hibench git clone" --result pass
-		else
-			lava-test-case "hibench git clone" --result fail
-		fi    	
-	fi
-    cd HiBench
-		git checkout HiBench-6.0
-		#	bin/build-all.sh
-		
-		##hear should use for loop
-		mvn -Phadoopbench clean package
-		print_info $? "hibench build"
-		
-		# edit language.lst
-		cp conf/languages.lst{,.bak}
-		sedi -i  "/spark\/java/d" conf/languages.lst
-		sed  -i  "/spark\/scala/d" conf/languages.lst
-		sed  -i  "/spark\/python/d" conf/languages.lst
-		if [ `grep "spark" -c conf/languages.lst` == 0 ] ;then
-			lava-test-case "hibench edit config" --result pass
-		else 
-			lava-test-case "hibench edit config" --result fail
-		fi
-		
-		# edit hibench config file
-		cp conf/hadoop.conf.template conf/hadoop.conf
-		sed -i "s/hibench\.hadoop\.home.*/ hibench\.hadoop\.home  $HADOOP_HOME/"
-		
 	
-		bin/run-all.sh
-		
-				
-    cd ..
+	jps > /dev/null
+	print_info $? "hadoop java install" 
+	
 }
-
 
 
 function install_hadoop() {
     ### install hadoop
-    if [ ! -d hadoop-2.7.4 ];then
-		if [ ! -f hadoop-2.7.4.tar.gz ];then
-			wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
-		fi	
-		tar -zxf hadoop-2.7.4.tar.gz
-		
+    if [  -d hadoop-2.7.4 ];then
+		rm -rf hadoop-2.7.4
 	fi
- 	cd hadoop-2.7.4
+
+	if [ ! -f hadoop-2.7.4.tar.gz ];then
+        wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
+    fi
+    tar -zxf hadoop-2.7.4.tar.gz
+ 
+	cd hadoop-2.7.4
 	sed -i "s/export JAVA_HOME=.*/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk/g" etc/hadoop/hadoop-env.sh
 	print_info $? "hadoop edit config add JAVA_HOME env"
 	export HADOOP_HOME=`pwd`
+	if [ -n `echo $HADOOP_HOME` ];then
+		lava-test-case "hadoop set HADOOP_HOME" pass
+	else
+		lava-test-case "hadoop set HADOOP_HOME" fail
+	fi
 	
 }
 
@@ -83,7 +48,7 @@ function hadoop_standalone() {
 	rm -rf input output
 	mkdir input
   	cp etc/hadoop/*.xml input
-  	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep input output 'dfs[a-z.]+'
+  	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep input output 'dfs[a-z.]+' > /dev/null
   	if [ -f output/_SUCCESS ];then
 		lava-test-case "hadoop standalone test" pass
 	else
@@ -101,9 +66,16 @@ function hadoop_single_node() {
         <name>fs.defaultFS</name>
         <value>hdfs://localhost:9000</value>
     </property>
+	<property>
+        <name>hadoop.tmp.dir</name>
+        <value>/tmp/hadoop-root</value>
+    </property>
 </configuration>
+
 EOF
 	print_info $? "hadoop single node edit defaultFS argment"
+	
+	
 	cp etc/hadoop/hdfs-site.xml{,.bak}
 	cat <<EOF > etc/hadoop/hdfs-site.xml
 <configuration>
@@ -111,24 +83,33 @@ EOF
         <name>dfs.replication</name>
         <value>1</value>
     </property>
+
 </configuration>
+
 EOF
 	print_info $? "hadoop single node edit replication argment"
+
+
+
 	
 	#2\ ssh without password 
+	if [ -d ~/.ssh ];then
+		rm -rf ~/.ssh
+	fi	
 	ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
   	cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
    	chmod 0600 ~/.ssh/authorized_keys
-	
+	echo  "StrictHostKeyChecking=no" >> /etc/ssh/ssh_conf 
 	print_info $? "hadoop single node ssh without password"
 
 	# 3 format namenode 
+	rm -rf /tmp/*
 	bin/hdfs namenode -format	
 	
 	print_info $? "hadoop single node format namenode"
 
 	# 4 start namenode 
-	bin/start-dfs.sh
+	sbin/start-dfs.sh
 	print_info $? "hadoop single node start dfs"
 	
 	# 5 
@@ -138,40 +119,55 @@ EOF
 	res2=`$?`
 	jps | grep SecondaryNameNode | grep -v  Jps
 	res3=`$?`
-	if [ $res1 && $res2 && $res3 ];then
+	if [ -n $res1 ] && [  -n $res2 ] && [ -n  $res3 ];then
 		lava-test-case "hadoop single node dfs process" pass
 	else
 		lava-test-case "hadoop single node dfs process" fail
+		echo "-------------------------------------------------"
+		echo "---------------------hadoop hdfs can not start normal----------------------------"
+		echo "-------------------------------------------------"
+		exit 1
 	fi
-
-	bin/hdfs dfs -mkdir /aa &&\
-	bin/hdfs dfs -mkdir /bb
+	
+	bin/hdfs dfsadmin -safemode leave	
+	print_info $? "hadoop close safe node mode"
+	if [ `bin/hdfs dfs -test -e /aa`  ];then
+		bin/hdfs dfs -rm -rf /aa
+	fi
+	bin/hdfs dfs -mkdir /aa
 	print_info $? "hadoop mkdir command"
 
-	bin/hdfs dfs -put etc/hadoop /input
+	if [ ! `bin/hdfs dfs -test -e /input` ];then
+		bin/hdfs dfs -rm -r /input
+	fi	
+	bin/hdfs dfs -put etc/hadoop/core-site.xml /input
 	print_info $? "hadoop put command"
 	
 	bin/hdfs dfs -ls /aa
 	print_info $? "hadoop ls command"
-
-	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output 'dfs[a-z.]+'
+	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output 'dfs[a-z.]+' > /dev/null
 	
 	bin/hdfs dfs -ls /output/_SUCCESS
 	print_info $? "hadoop jar command"
 
 
 	sbin/stop-dfs.sh
-	res1=`jps | grep NameNode | grep -vi jps`
-	res2=`jps | grep DataNode | grep -vi jps`
-	res3=`jps | grep SecondaryNameNode | grep -vi jps`
-	print_info  $res1 && $res2 && $res3 "hadoop stop hdfs"
+	res1=`jps | grep NameNode | grep -vci jps`
+	res2=`jps | grep DataNode | grep -vic jps`
+	res3=`jps | grep SecondaryNameNode | grep -vci jps`
+	if [ $res1 -eq 0 ] && [ $res2 -eq 0] && [ $res3 -eq 0 ];then
+		true
+	else
+		false
+	fi
+	print_info $?  "hadoop stop hdfs"
 }
 function hadoop_single_with_yarn() {
 	cd $HADOOP_HOME
 	if [ !  -f  etc/hadoop/mapred-site.xml ];then
 		cp  etc/hadoop/mapred-site.xml.template etc/hadoop/mapred-site.xml
 	fi
-	cat >> etc/hadoop/mapred-site.xml <<EOF
+	cat > etc/hadoop/mapred-site.xml <<EOF
 <configuration>
     <property>
         <name>mapreduce.framework.name</name>
@@ -181,7 +177,7 @@ function hadoop_single_with_yarn() {
 EOF
 	print_info $? "hadoop edit mapreduce.frameword.name"
 	
-	cat >> etc/hadoop/yarn-site.xml <<EOF
+	cat > etc/hadoop/yarn-site.xml <<EOF
 <configuration>
     <property>
         <name>yarn.nodemanager.aux-services</name>
@@ -189,32 +185,33 @@ EOF
     </property>
 </configuration>
 EOF
-
+	print_info $? "hadoop edit enable shuffle para"
 	sbin/start-dfs.sh
 	sbin/start-yarn.sh
 	res1=`jps | grep NodeManager | grep -vc Jps`
 	res2=`jps | grep ResourceManager | grep -vc Jps`
-	if [ $res1 ==1 ] && [ $res2 == 1 ];then
+	if [ $res1 -eq 1 ] && [ $res2 -eq 1 ];then
 		lava-test-case "hadoop start yarn" pass
 	else
 		lava-test-case "hadoop start yarn" fail
 	fi
 	
-	bin/hadoop fs -test -e /input
-	res=`$?`
+	bin/hdfs dfs -test -e /input
+	res=$?
 	print_info $res "hadoop command dir test"
 	if [ ! $res ];then
-		bin/hdfs dfs -put etc/hadoop /input
+		bin/hdfs dfs -put etc/hadoop/core-site.xml /input
 	fi
 	
-	if [ `bin/hadoop fs -test -e /output` ];then
-		bin/hadoop fs -rm -R /output
+	bin/hadoop fs -test -e /output2
+	if [ $? ] ;then
+		bin/hdfs dfs -rm -R /output2
 		print_info $? "hadoop command rm dir"
 	fi
-	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output 'dfs[a-z.]+'
+	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output2 'dfs[a-z.]+' > /dev/null
 	
-	res1=`bin/hadoop fs -test -e /output/_SUCCESS`
-	print_info $res1 "hadoop single node exec mapred"
+	bin/hadoop fs -test -e /output/_SUCCESS
+	print_info  $?  "hadoop single node exec mapred"
 	
 	sbin/stop-yarn.sh
 	print_info $? "hadoop single node  stop yarn"
@@ -229,6 +226,6 @@ EOF
 install_jdk
 install_hadoop
 hadoop_standalone
-hadoop_sigle_node
-
+hadoop_single_node
+hadoop_single_with_yarn
 
