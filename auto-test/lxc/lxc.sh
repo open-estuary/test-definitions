@@ -40,7 +40,7 @@ cat << EOF > ${network_scripts_dir}/${config_name}
 STARTMODE='auto'
 BOOTPROTO='static'
 IPADDR="$ip_addr"
-NETMASK="255.25.255.0"
+NETMASK="255.255.255.0"
 BROADCAST="$ip_brd"
 BRIDGE='yes'
 BRIDGE_STP='off'
@@ -146,6 +146,7 @@ case "${distro}" in
 	*)
 		error_msg "Unsupported distribution!"
 esac
+print_info $? lxc-installed
 
 # -- bridge network -----------------------------------------------------------
 BRIDGE_NAME=virbr0
@@ -157,23 +158,22 @@ if [ x"$brtcl_exist" = x"" ]; then
 fi
 
 sed -i "s/lxcbr0/${BRIDGE_NAME}/g"  /etc/lxc/default.conf
+print_info $? lxc-virtual-bridge
 
 # -- lxc-checkconfig ----------------------------------------------------------
-which lxc-checkconfig
-if [ $? -ne 0 ]; then
-    LXC_VERSION=lxc-2.0.0.tar.gz
-    download_file http://linuxcontainers.org/downloads/lxc/${LXC_VERSION}
-    tar xf ${LXC_VERSION}
-    cd ${LXC_VERSION%%.tar.gz}
-    ./configure
-    make
-    make install
-    cd -
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-fi
+#which lxc-checkconfig
+#if [ $? -ne 0 ]; then
+#    LXC_VERSION=lxc-2.0.0.tar.gz
+#    download_file http://linuxcontainers.org/downloads/lxc/${LXC_VERSION}
+#    tar xf ${LXC_VERSION}
+#    cd ${LXC_VERSION%%.tar.gz}
+#    ./configure
+#    make
+#    make install
+#    cd -
+#    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+#fi
 
-which lxc-checkconfig
-print_info $? lxc-installed
 
 config_output=$(lxc-checkconfig)
 if [[ $config_output =~ 'missing' ]]; then
@@ -197,6 +197,7 @@ sed -i 's/^type ubuntu-cloudimg-query/#&/g' $LXC_TEMPLATE
 if [ $distro = "opensuse" ]; then
     sed -i '/"\$CLONE_HOOK_FN"/s/"\${cloneargs\[@]}"/& "--nolocales=true"/' $LXC_TEMPLATE
 fi
+print_info $? templates-config
 
 rand=$(date +%s)
 container=mylxc$rand
@@ -214,6 +215,8 @@ if [ $distro != "centos" ]; then
 	else
 		print_info 1 lxc-ls
 	fi
+else
+	print_info 0 lxc-ls
 fi
 
 # -- lxc-start ----------------------------------------------------------------
