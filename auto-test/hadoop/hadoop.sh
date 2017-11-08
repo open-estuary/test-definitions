@@ -104,8 +104,13 @@ function hadoop_ssh_nopasswd() {
     ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     chmod 0600 ~/.ssh/authorized_keys
-    echo  "StrictHostKeyChecking=no" >> ~/.ssh/ssh_conf
-    print_info $? "hadoop single node ssh without password"
+	grep "StrictHostKeyChecking=no" /etc/ssh/ssh_conf
+	if [ $? ];then
+		true
+	else
+		echo  "StrictHostKeyChecking=no" >> /etc/ssh/ssh_conf
+	fi    
+	print_info $? "hadoop single node ssh without password"
 }
 
 function hadoop_single_node() {
