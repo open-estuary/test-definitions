@@ -5,7 +5,9 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 kernel_name = "kernel-aarch64-4.12.0-estuary.1"
-dist_name
+dist_nam
+! check_root && error_msg "This script must be run as root"
+create_out_dir "${OUTPUT}"
 case "${dist}" in
     debian|ubuntu)
         echo "not surpport"        
