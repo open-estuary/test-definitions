@@ -48,7 +48,7 @@ function hadoop_standalone() {
 	rm -rf input output
 	mkdir input
   	cp etc/hadoop/*.xml input
-  	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep input output 'dfs[a-z.]+' > /dev/null 2>&1
+  	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep input output 'dfs[a-z.]+' > /dev/null
   	if [ -f output/_SUCCESS ];then
 		lava-test-case "hadoop standalone test" pass
 	else
@@ -141,7 +141,7 @@ EOF
 	
 	bin/hdfs dfs -ls /aa
 	print_info $? "hadoop ls command"
-	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output 'dfs[a-z.]+' > /dev/null 2>&1
+	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output 'dfs[a-z.]+' > /dev/null
 	
 	bin/hdfs dfs -ls /output/_SUCCESS
 	print_info $? "hadoop jar command"
@@ -206,8 +206,7 @@ EOF
 		print_info $? "hadoop command rm dir"
 	fi
 	sleep 3
-	bin/hdfs dfsadmin -safemode leave 
-	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output2 'dfs[a-z.]+'>/dev/null 2>&1
+	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output2 'dfs[a-z.]+'
 	
 	bin/hadoop fs -test -e /output2/_SUCCESS
 	print_info  $?  "hadoop single node exec mapred"
