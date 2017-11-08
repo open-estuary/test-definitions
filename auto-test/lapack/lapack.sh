@@ -69,7 +69,7 @@ install() {
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       fedora|centos)
-        pkgs="binutils gcc glibc-static make python sed tar wget gfortran"
+        pkgs="binutils gcc glibc-static make python sed tar wget gfortran gcc-gfortran"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
     esac
