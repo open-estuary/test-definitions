@@ -15,7 +15,7 @@ case "${distro}" in
 		yum clean dbcache
 		print_info $? setup-estuary-repository
 		
-		pkgs="bazel"
+		pkgs="gcc java-devel bazel"
 		install_deps "${pkgs}"
 		print_info $? install-bazel
 	;;
@@ -109,9 +109,12 @@ java_binary(
 EOF
 print_info $? setup-package-BUILD
 
-ins=`bazel build //src/main/java/com/example/cmdline:runner`
-cat $ins | grep 'ERROR'
-print_info $? run-package-ERROR
+bazel build //src/main/java/com/example/cmdline:runner
+if [ $? ];then
+	print_info 0 run-package-ERROR
+else
+	print_info 1 run-package-ERROR
+fi
 
 #sed -i '/example/Greeting.java/a\    visibility = ["//src/main/java/com/example/cmdline:__pkg__"],' BUILD
 cat > ./BUILD <<EOF
