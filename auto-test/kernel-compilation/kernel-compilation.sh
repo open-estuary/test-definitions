@@ -21,7 +21,7 @@ while getopts "v:s:h" o; do
         h|*) usage ;;
     esac
 done
-
+dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
     debian|ubuntu) pkgs="wget time bc xz-utils build-essential" ;;
