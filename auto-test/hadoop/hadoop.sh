@@ -383,17 +383,17 @@ function uninstall_hadoop() {
 }
 
 
-install_jdk
-install_hadoop
+#install_jdk
+#install_hadoop
 
-hadoop_standalone
+#hadoop_standalone
 
-hadoop_ssh_nopasswd
-hadoop_config_base
-hadoop_namenode_format
+#hadoop_ssh_nopasswd
+#hadoop_config_base
+#hadoop_namenode_format
 
-hadoop_single_node
+#hadoop_single_node
 
-hadoop_config_yarn
-hadoop_single_with_yarn
+#hadoop_config_yarn
+#hadoop_single_with_yarn
 
