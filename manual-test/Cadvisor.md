@@ -25,6 +25,7 @@ Remark:
        	yum install -y cadvisor
      
       	2.功能测试步骤暂未开发
+      	   补充：v500中Cadvisor已被kubernetes包含
       	
      	3.卸载cadvisor
        yum remove -y cadvisor
