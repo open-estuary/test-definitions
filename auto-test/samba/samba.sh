@@ -5,7 +5,7 @@ set -x
 cd ../../utils
     . ./sys_info.sh
 cd -
-
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "ubuntu")
           apt-get install samba -y
@@ -29,7 +29,7 @@ case $distro in
          print_info $? restart_smb
          systemctl stop samba
          ;;
-    "centos")
+    "CentOS")
          systemctl restart nmb.service smb.service
          print_info $? restart_smb
          systemctl start nmb.service smb.service
@@ -103,7 +103,7 @@ cat << EOF >> /etc/samba/smb.conf
 EOF
 
 systemctl restart samba
-
+systemctl restart nmb.service smb.service
 SMB_GET_LOG=smb_get_test.log
 SMB_PUT_LOG=smb_put_test.log
 mkdir tmp && cd tmp
@@ -122,7 +122,7 @@ print_info $? test_parm
 
 EXPECT=$(which expect)
 $EXPECT << EOF
-set timeout 10
+set timeout: 10
 spawn smbclient //localhost/share -U user
 expect "password:"
 send "\r"

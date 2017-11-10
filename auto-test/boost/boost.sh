@@ -11,10 +11,11 @@ if [ `whoami` != 'root' ]; then
     echo "You must be the superuser to run this script" >$2
     exit 1
 fi
+distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
-    "ubuntu")
-        apt-get install gcc -y
-        apt-get install g++ -y
+    "centos")
+        yum install gcc -y
+        yum install gcc-c++ -y
         wget http://192.168.1.107/boost_1_63_0.tar.gz
         tar -zxvf boost_1_63_0.tar.gz
         cd boost_1_63_0

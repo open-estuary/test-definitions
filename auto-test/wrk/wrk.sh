@@ -14,12 +14,13 @@ if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
         yum install wrk.aarch64 -y
          ;;
 esac
-
+#distro=`cat /etc/redhat-release |cut -b 1-6`
 #Test ' wrk server'
 TCID="wrk-test"
 wrk -c 1 -t 1 -d 1 http://www.baidu.com  2>&1 | tee wrk.log
