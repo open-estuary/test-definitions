@@ -29,7 +29,7 @@ CONCURENT=100
 
 #! check_root && error_msg "This script must be run as root"
 #create_out_dir "${OUTPUT}"
-
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 #dist_name
 # Install and configure LEMP.
 # systemctl available on Debian 8, CentOS 7 and newer releases.
