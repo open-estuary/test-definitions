@@ -25,6 +25,7 @@ cd -
 # Install and configure LEMP.
 # systemctl available on Debian 8, CentOS 7 and newer releases.
 # shellcheck disable=SC2154
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case "${distro}" in
     debian|ubuntu)
         if [ "${distro}" = "debian" ]; then

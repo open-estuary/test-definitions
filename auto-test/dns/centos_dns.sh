@@ -2,7 +2,7 @@
 #DNS is the server responsibel for domain name resolution
 #Author:mahongxin <hongxin_228@163.com>
 set -x
-cd utils
+cd ../../utils
 . ./sys_info.sh
 cd -
 #Test user id
@@ -10,9 +10,11 @@ if [ `whoami` != 'root' ]; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
         yum install bind-chroot bind -y
+        yum install bind-utils -y
         ;;
 esac
 #Copy the bind file to prepare the bind chroot environment
@@ -32,8 +34,8 @@ cp -p /etc/named.conf /var/named/chroot/etc/named.conf
 #configure bind in /etc/names.conf
 sed -i 's/127.0.0.1/any/g' /var/named/chroot/etc/named.conf
 sed -i 's/localhost/any/g' /var/named/chroot/etc/named.conf
-sed '52a zone "example.local" \{ \ntype master; \nfile "example.local.zone";\n\};\
-\nzone "1.168.192.in-addr.arpa" IN \{ \ntype master; \nfile "192.168.1.zone;\n\};' /var/named/chroot/etc/named.conf
+sed -i '55a zone "example.local" \{ \ntype master; \nfile "example.local.zone";\n\};\
+\nzone "1.168.192.in-addr.arpa" IN \{ \ntype master; \nfile "192.168.1.zone";\n\};' /var/named/chroot/etc/named.conf
 #create forward domain
 cat << EOF >> /var/named/chroot/var/named/example.local.zone
 ;
@@ -80,7 +82,7 @@ systemctl disable named
 systemctl start named-chroot
 systemctl enable named-chroot
 ln -s '/usr/lib/systemd/system/named-chroot.service' '/etc/systemd/system/multi-user.target.wants/named-chroot.service'
-board_ip=`ifconfig |grep "inet"|cut -c14-26|head -n 1`
+board_ip=`ip addr |grep "inet 192"|cut -c10-22`
 dig @${board_ip} example.local 2>&1 |tee dig.log
 throu1=`grep -Po "ns1.example.local." dig.log`
 TCID1="DNS test pass"
