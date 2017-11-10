@@ -15,9 +15,10 @@ vsftpd_op()
             $cmd | tee ${log_file}
             ;;
         * )
-            cmd="${operation}_service vsftpd"
+            #cmd="${operation}_service vsftpd"
+            cmd="systemctl ${operation} vsftpd.service"
             echo "$cmd" | tee ${log_file}
-            eval \$$cmd | tee ${log_file}
+           #eval \$$cmd | tee ${log_file}
             ;;
     esac
 }
@@ -41,7 +42,7 @@ set -x
 cd ../../utils
     . ./sys_info.sh
 cd -
-
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "ubuntu")
         apt-get install vsftpd -y
@@ -51,6 +52,7 @@ case $distro in
         yum install vsftpd -y
         yum install vsftpd.aarch64 -y
         yum install expect -y
+        yum install ftp -y
         ;;
     "opensuse")
         zypper install -y ftp
@@ -63,14 +65,14 @@ vsftpd_execute start
 vsftpd_execute restart
 vsftpd_execute stop
 
-process=$(vsftpd_op status | grep "running")
-if [ "$process"x != ""x  ]; then
-    vsftpd_op stop
-fi
+#process=$(vsftpd_op status | grep "running")
+#if [ "$process"x != ""x  ]; then
+ #   vsftpd_op stop
+#fi
 
 FTP_PUT_LOG=ftp_put_test.log
 FTP_GET_LOG=ftp_get_test.log
-if [ "$distro"x = "centos"x ] ; 
+if [ "$distro"x = "CentOS"x ] ;
 then
 	FTP_USERS=/etc/vsftpd/ftpusers
 	VSFTPD_CONF=/etc/vsftpd/vsftpd.conf
@@ -106,12 +108,16 @@ sed -i 's/write_enable=NO/write_enable=YES/g' $VSFTPD_CONF
 sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
 
 
-vsftpd_op start
+vsftpd_op restart
 #add liucaili 20170516
 sleep 5
 vsftpd_op status
-
+systemctl restart vsftpd.service
 # for get and put test
+cd /root
+#SELinux安全访问策略限制会导致550 Failed to open file的错误所以这里打开
+setsebool -P allow_ftpd_full_access 1
+cd -
 EXPECT=$(which expect)
 $EXPECT << EOF
 set timeout 100
@@ -120,6 +126,9 @@ expect "Name"
 send "\r"
 expect "password"
 send "root\r"
+expect "ftp>"
+#passive表示被动，ftp的工作模式有主动和被动解决"227 Entering Passive MOde"
+send "passive\r"
 expect "ftp>"
 send "get ftp_get_test.log\r"
 expect {

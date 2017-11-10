@@ -23,7 +23,7 @@ fi
    # h|*) usage ;;
  # esac
 #done
-
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "ubuntu")
          apt-get install iperf -y
@@ -44,7 +44,9 @@ case $distro in
          zypper install -y iperf
          ;;
  esac
-
+sed -i '$a\/usr/local/lib' /etc/ld.so.conf
+cd /etc
+ldconfig
 # Run local iperf3 server as a daemon when testing localhost.
 [ "${SERVER}" = "127.0.0.1" ] && iperf3 -s -D
 
