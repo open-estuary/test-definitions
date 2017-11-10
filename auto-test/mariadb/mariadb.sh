@@ -8,12 +8,13 @@ set -x
 cd ../../utils
     . ./sys_info.sh
 cd -
-
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 # Test user id
 if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+
 case $distro in
     "centos")
         yum install mariadb.aarch64 -y

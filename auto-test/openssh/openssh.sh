@@ -5,7 +5,7 @@ set -x
 cd ../../utils
     . ./sys_info.sh
 cd -
-
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "ubuntu")
         apt-get install openssh-server  -y

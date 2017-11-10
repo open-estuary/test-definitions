@@ -11,6 +11,7 @@ if [ `whoami` != 'root' ]; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+#distro=` cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
         yum install net-tools.aarch64 -y
@@ -43,3 +44,4 @@ if [ "$str" != "" ] ; then
     lava-test-case $TCID1 --result fail
 else
     lava-test-case $TCID1 --result pass
+fi
