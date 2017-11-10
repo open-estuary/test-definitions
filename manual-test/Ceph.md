@@ -51,7 +51,7 @@ Remark:
 		apt-get install openssh-server
 	修改/etc/ssh/sshd_config中:
       		PermitRootLogin=yes
-	重启ssh:service ssh restart
+	重启ssh:systemctl restart sshd
 	
 	5.设置使用SSH免密码登录
 	生成SSH: keysssh-keygen

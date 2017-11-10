@@ -26,10 +26,10 @@ if [ ! -e ${CUR_PATH}/${ROOTFS} ]; then
 fi
 
 if [[ -e ${CUR_PATH}/${IMAGE} && -e ${CUR_PATH}/${ROOTFS} ]]; then
-   lava-test-case imge_or_rootfs_exist --result pass
+   lava-test-case image_or_rootfs_exist --result pass
 else
    echo '${IMAGE} or ${ROOTFS} not exist'
-   lava-test-case imge_or_rootfs_exist --result fail
+   lava-test-case image_or_rootfs_exist --result fail
    exit 0
 fi
 
@@ -48,6 +48,7 @@ case "${distro}" in
 	*)
 		error_msg "Unsupported distribution!"
 esac
+print_info $? qemu-install
 
 qemu-system-aarch64 --help
 if [ $? -ne 0 ]; then
@@ -62,7 +63,7 @@ if [ $? -ne 0 ]; then
 
     qemu-system-aarch64 --help
 fi
-print_info $? qemu-system-aarch64-install
+print_info $? qemu-system-aarch64-help
 
 chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
 
