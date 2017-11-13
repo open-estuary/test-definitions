@@ -3,7 +3,7 @@ UEFI.md   -
 
 Hardware platform: D05
 Software Platform: CentOS
-Author: tanliqing@163.com
+Author: tanliqing2010@163.com
 Date: 2017.11.13
 Categories: Estuary Documents 
 Remark:
