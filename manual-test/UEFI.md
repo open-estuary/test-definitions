@@ -81,23 +81,29 @@ D05
 \------------------------------------------------------------------------------/ 
 ```
  4 进入“EBL”子菜单
+
 ```
  Embedded Boot Loader (EBL) prototype. Built at 10:17:28 on Oct 19 2017
 THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN 'AS IS' BASIS,
 WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 Please send feedback to edk2-devel@lists.sourceforge.net
 D05 >
-
 ```
+
+ 
  5 执行升级命令
  	D05 > biosupdate 192.168.1.107 -u $user -p $pw -f UEFI_D05.fd master
+ 
  6  执行重启单板命令
  	D05 > reset
+ 
  7  参看UEFI版本信息
  	D05 > version
+ 
  8  查看“UEFI Shell”菜单用户体验
  	a. 用户是否可以使用tab补全
  	b. 字符打印是否出现乱码
+ 
  9 更改选项(以更改自动启动时间为例)
  	a.主菜单---> Boot Maintenance Manager 
 
@@ -129,9 +135,7 @@ D05 >
  10 直接在UEFI主菜单启动系统
  	
  11 从硬盘去启动系统
- 	a.主菜单---> Boot Maintenance Manager 
- 	b.选中“Boot From File”,键入“Entry”
-
+ 	
 ```
 /------------------------------------------------------------------------------\
 |                                File Explorer                                 |
@@ -159,7 +163,8 @@ D05 >
 \------------------------------------------------------------------------------/
 
 ```
-
+    a.主菜单---> Boot Maintenance Manager 
+ 	b.选中“Boot From File”,键入“Entry”
     c.从上述菜单中选择一个有效菜单，进入系统
  
 12 更新UEFI后，安装新系统，测试能否正常开机
