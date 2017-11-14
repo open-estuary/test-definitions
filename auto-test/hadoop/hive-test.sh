@@ -114,7 +114,7 @@ function hive_outer_table(){
         print_info $? "hive create outer table data"
 
         hive -e  "create external table outer_tb(seq int, name string , year int , city string , day int)
-        partition by (day int)
+        partitioned by (day int)
         ROW FORMAT DELIMITED
         FIELDS TERMINATED BY '|'
         STORED AS TEXTFILE;"
@@ -158,13 +158,80 @@ function hive_outer_table(){
 
 }
 
-function hive-bucket-table() {
-   echo  
+function hive_partitioned_table() {
+	hive -e "create database if not exists mydb;"
+	print_info $? "hive create database"
+	hive -e "use mydb;"
+	print_info $? "hive switch database"
+	
+	hive -e "create table partTb (seq int , name string , yarn int ,city string , dt string)
+		partitioned by (day int)
+		ROW FORMAT DELIMITED FIELDS TERMINATED  BY ';'
+		STORED AS TEXTFILE;"
+	print_info $? "hive create partitioned table"
+	hive -e "load data local inpath '../hive-data1.txt' into table partTb partition (day=20);" && \
+	hive -e "load data local inpath '../hive-data2.txt' into table partTb partition (day=21);"
+	print_info $? "hive load data to partition table"
+	hdfs dfs -test -e /user/hive/warehouse/parttb/day=20
+	print_info $? "hive partition table in hdfs struct"
+	
+	hive -e "select * from partTb where day=20;" > tmp.log
+	res=`wc -l tmp.log | cut -f 1 -d " "`
+	if [ $res -gt 1 ];then
+		true
+	else
+		false
+	fi
+	print_info $? "hive select partition table"
+		
 
+	hive -e "drop table partTb;"
+	print_info $? "hive drop partition table"
+	hdfs dfs -test -e /user/hive/warehouse/parttb/day=20/hive-data1.txt
+	if [ $? -eq 0 ];then
+		false
+	else
+		true
+	fi
+	print_info $? "hive drop partition table that can delete data"
 }
+
+function hive_bucket_table(){
+	
+	
+	hive -e "create table if not exists buckettext (seq int , name string , yarn int , city string , dt string)
+		ROW FORMAT DELIMITED FIELDS TERMINATED BY '\073' 
+		STORED AS TEXTFILE;"
+	hive -e "LOAD DATA LOCAL INPATH '../hive-data1.txt' into table buckettext"
+	
+	hive -e "create table if not exists bucket(seq int , name string , yarn int , city string ,dt string)
+			clustered by(city) sorted by (city) into 4 buckets
+			row format delimited fields terminated by '\t'
+			stored as textfile;"
+	print_info $? "hive create bucket table"
+	
+	hive -e "set hive.enforce.bucketing=true;insert overwrite table bucket select * from buckettext;"
+	print_info $? "hive load data to bucket table"
+	
+	hdfs dfs -test -e /user/hive/warehouse/bucket/000000_0 && hdfs dfs -test -e /user/hive/warehouse/bucket/000003_0
+	print_info $? "hive bucket data on hdfs"
+	
+	hive -e "select * from bucket tablesample(bucket 1 out of 2 on city);" > tmp.log
+	res=`wc -l tmp.log | cut -d " " -f 1`
+	if [ $res -ge 1 ];then
+		true
+	else
+		false
+	fi
+	print_info $? "hive bucket table sample"
+	hive -e "select * from bucket;" > tmp.log
+	print_info $? "hive bucket table select"
+}
+
 
 hive_init
 hive_base_client_command
 hive_inner_table 
 hive_outer_table
-
+hive_partitioned_table
+hive_bucket_table
