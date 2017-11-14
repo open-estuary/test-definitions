@@ -1,5 +1,5 @@
 ---
-UEFI.md   -
+UEFI.md   
 
 Hardware platform: D05
 Software Platform: CentOS
@@ -30,9 +30,7 @@ Remark:
 ```                             
 D05                                                                            
  Hi1616                                              2.40 GHz                   
- Nemo 1.7.5 LTS                                      131072 MB RAM              
-                                                                                
-                                                                                
+ Nemo 1.7.5 LTS                                      131072 MB RAM                                                                                          
                                                                                 
    Select Language            <Standard English>         This is the option     
                                                          one adjusts to change  
@@ -43,12 +41,7 @@ D05
                                                                                 
    Continue                                                                     
    Reset                                                                        
-                                                                                
-                                                                                
-                                                                                
-                                                                                
-                                                                                
-                                                                                
+                                                                           
   ^v=Move Highlight       <Enter>=Select Entry
 ```
  3 进入“Boot Manager”菜单
@@ -83,7 +76,7 @@ D05
  4 进入“EBL”子菜单
 
 ```
- Embedded Boot Loader (EBL) prototype. Built at 10:17:28 on Oct 19 2017
+Embedded Boot Loader (EBL) prototype. Built at 10:17:28 on Oct 19 2017
 THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN 'AS IS' BASIS,
 WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 Please send feedback to edk2-devel@lists.sourceforge.net
@@ -101,12 +94,14 @@ D05 >
  	D05 > version
  
  8  查看“UEFI Shell”菜单用户体验
- 	a. 用户是否可以使用tab补全
+ 	
+	a. 用户是否可以使用tab补全
  	b. 验证命令输出格式是否规范
 	c. 输入命令回车，验证换行功能是否正常
 	d. 输入命令+退格键，验证退格键是否正常
  9 查看“EBL”菜单用户体验
-	 a. 用户是否可以使用tab补全
+	
+	a. 用户是否可以使用tab补全
         b. 验证命令输出格式是否规范
         c. 输入命令回车，验证换行功能是否正常
         d. 输入命令+退格键，验证退格键是否正常	
