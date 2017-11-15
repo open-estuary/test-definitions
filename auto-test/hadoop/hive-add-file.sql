@@ -1,4 +1,10 @@
+set yarn.nodemanager.vmem-pmem-ratio=4;
+set mapreduce.reduce.memory.mb=4096;
+set mapred.child.java.opts=-Xmx3024m;
+set mapreduce.map.memory.mb=4096;
 
+
+drop table if exists u_data_new;
 CREATE TABLE u_data_new (
   userid INT,
   movieid INT,
