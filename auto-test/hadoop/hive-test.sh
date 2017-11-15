@@ -12,25 +12,27 @@ export basedir
 
 . ./hive.sh
 
-# 1 start hadoop
-start_hadoop 
-if [ $? ];then
-    lava-test-case "hive: hadoop running" --result pass
-else
-    lava-test-case "hive: hadoop running" --result fail
-    exit 1
-fi
 
-hive_create_dir_on_hdfs
+function hive_install_config() {
 
-# 2 install hive
-cd $basedir
-hive_install
+	# 1 start hadoop
+	start_hadoop 
+	if [ $? ];then
+    		lava-test-case "hive: hadoop running" --result pass
+	else
+	    	lava-test-case "hive: hadoop running" --result fail
+    		exit 1
+	fi
 
-hive_edit_config
+	hive_create_dir_on_hdfs
 
+	# 2 install hive
+	cd $basedir
+	hive_install
+
+	hive_edit_config
+}
 # 3 
-cd $HIVE_HOME
 
 function hive_init() {
         schematool -initSchema -dbType derby  
@@ -67,7 +69,7 @@ function hive_inner_table() {
             yum install unzip -y
         fi
 
-        unzip ../ml-100k.zip
+        unzip -f ../ml-100k.zip
 
         hive -e "CREATE TABLE u_data (
                 userid INT,
@@ -82,7 +84,7 @@ function hive_inner_table() {
         hdfs dfs -test -e /user/hive/warehouse/u_data
         print_info $? "hive view data in hdfs"
 
-        hive -e "LOAD DATA LOCAL INPATH './ml-100k/u.data' OVERWRITE INTO TABLE u_data;"
+        hive -e "LOAD DATA LOCAL INPATH '../ml-100k/u.data' OVERWRITE INTO TABLE u_data;"
         print_info $? "hive load data "
 
         hive -e "insert into table u_data values(1,3,4,"121212121");"
@@ -107,16 +109,21 @@ function hive_inner_table() {
 }
 
 function hive_outer_table(){
+		hdfs dfs -test -d /text/in
+		if [ $? ];then
+			hdfs dfs -rm -r /text/in
+		fi
         hdfs dfs -mkdir -p /text/in/day20
         hdfs dfs -mkdir -p /text/in/day21
         hdfs dfs -put -f ../hive-data1.txt  /text/in/day20/20.txt &&
         hdfs dfs -put -f ../hive-data2.txt  /text/in/day21/21.txt
         print_info $? "hive create outer table data"
-
-        hive -e  "create external table outer_tb(seq int, name string , year int , city string , day int)
+	
+	# 0174 --> | 
+        hive -e  "create external table outer_tb(seq int, name string , year int , city string )
         partitioned by (day int)
         ROW FORMAT DELIMITED
-        FIELDS TERMINATED BY '|'
+        FIELDS TERMINATED BY '\073'
         STORED AS TEXTFILE;"
         print_info $? "hive create outer table"
 
@@ -127,11 +134,16 @@ function hive_outer_table(){
 
         hive -e "show partitions outer_tb;" > tmp.log
         cat tmp.log 
-
-
+		res=`grep day tmp.log -c` 
+		if [ $res -eq 2 ];then
+			true
+		else
+			false
+		fi
+		print_into $? "hive partitions count"
 
         hive -e "select count(*) from outer_tb ;" > tmp.log 
-        res=`wc -l tmp.log | cut -d " " -f 1`
+        res=`cat tmp.log`
         if [ $res -ge 1 ]; then
             true
         else
@@ -142,7 +154,7 @@ function hive_outer_table(){
 
         hdfs dfs -put ../hive-data2.txt /text/in/day20
         hive -e "select count(*) from outer_tb ;" > tmp.log 
-        res1=`wc -l tmp.log`
+        res1=`cat tmp.log`
         if [ $res1 -gt $res  ];then
             true
         else
@@ -164,9 +176,9 @@ function hive_partitioned_table() {
 	hive -e "use mydb;"
 	print_info $? "hive switch database"
 	
-	hive -e "create table partTb (seq int , name string , yarn int ,city string , dt string)
+	hive -e "create table partTb (seq int , name string , year int ,city string )
 		partitioned by (day int)
-		ROW FORMAT DELIMITED FIELDS TERMINATED  BY ';'
+		ROW FORMAT DELIMITED FIELDS TERMINATED  BY '\073'
 		STORED AS TEXTFILE;"
 	print_info $? "hive create partitioned table"
 	hive -e "load data local inpath '../hive-data1.txt' into table partTb partition (day=20);" && \
@@ -176,7 +188,7 @@ function hive_partitioned_table() {
 	print_info $? "hive partition table in hdfs struct"
 	
 	hive -e "select * from partTb where day=20;" > tmp.log
-	res=`wc -l tmp.log | cut -f 1 -d " "`
+	res=`wc -l tmp.log | cut -d " " -f 1`
 	if [ $res -gt 1 ];then
 		true
 	else
@@ -198,13 +210,13 @@ function hive_partitioned_table() {
 
 function hive_bucket_table(){
 	
-	
-	hive -e "create table if not exists buckettext (seq int , name string , yarn int , city string , dt string)
+	# 073 --> ;
+	hive -e "create table if not exists buckettext (seq int , name string , yarn int , city string )
 		ROW FORMAT DELIMITED FIELDS TERMINATED BY '\073' 
 		STORED AS TEXTFILE;"
 	hive -e "LOAD DATA LOCAL INPATH '../hive-data1.txt' into table buckettext"
 	
-	hive -e "create table if not exists bucket(seq int , name string , yarn int , city string ,dt string)
+	hive -e "create table if not exists bucket(seq int , name string , yarn int , city string )
 			clustered by(city) sorted by (city) into 4 buckets
 			row format delimited fields terminated by '\t'
 			stored as textfile;"
@@ -226,11 +238,36 @@ function hive_bucket_table(){
 	print_info $? "hive bucket table sample"
 	hive -e "select * from bucket;" > tmp.log
 	print_info $? "hive bucket table select"
+	
+	hive -e "drop table bucket"
+	print_info $? "hive exec drop bucket table"
+	hdfs dfs -test -d /user/hive/warehouse/bucket
+	if [ $? -eq 0 ];then
+		false
+	else
+		true
+	fi
+	print_info $? "hive drop bucket table on same delete file on hdfs"
+}
+
+function hive_uninstall(){
+	echo $basedir
+	cd $basedir
+	rm -rf apache-hive*
+	hdfs dfs -rm -r /user/hive
+	sed -i "/HIVE_HOME/d" ~/.bashrc
+	export HIVE_HOME 
+
 }
 
 
+hive_install_config
+
+cd $HIVE_HOME
 hive_init
+
 hive_base_client_command
+
 hive_inner_table 
 hive_outer_table
 hive_partitioned_table
