@@ -33,7 +33,7 @@ function hive_edit_config(){
 	cd $HIVE_HOME
 	cp -f  ${basedir}/hive-site.xml conf/hive-site.xml
     	
-	res=`diff  ${basedir}/hive-site.xml conf/hive-site.xml | grep "/tmp/hive" -c`
+	res=`diff  conf/hive-default.xml.template conf/hive-site.xml | grep "/tmp/hive" -c`
 	if [ $res -ge 3 ];then
 		lava-test-case "hive edit config file" --result pass
 	else 
@@ -102,6 +102,7 @@ function hive_create_dir_on_hdfs() {
 	hdfs dfs -test -e /user/hive/warehouse
 	if [ $? ];then
 		hdfs dfs -rm -f -r /user/hive/warehouse
+		sleep 3
 	fi
 	hdfs dfs -mkdir -p /user/hive/warehouse	 
 	print_info $?  'hive create /user/hive/warehouse'
