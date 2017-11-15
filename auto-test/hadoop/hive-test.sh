@@ -272,3 +272,4 @@ hive_inner_table
 hive_outer_table
 hive_partitioned_table
 hive_bucket_table
+hive_uninstall
