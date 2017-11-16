@@ -2,21 +2,17 @@
 set -x
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
-basedir=$(cd `dirname $0`;pwd)
-cd $basedir
-. ../../utils/sh-test-lib
-. ../../utils/sys_info.sh 
-
 
 ### install jdk
 function install_jdk() {
 
     yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
-    export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
-    export PATH=$PATH:$JAVA_HOME/bin
+    sed -i "/JAVA_HOME/d" ~/.bashrc
+    echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk" >> ~/.bashrc
+    echo "export PATH=$PATH:$JAVA_HOME/bin" >> ~/.bashrc
 	
-	jps > /dev/null
-	print_info $? "hadoop java install" 
+    jps > /dev/null
+    print_info $? "hadoop java install" 
 	
 }
 
@@ -34,7 +30,16 @@ function install_hadoop() {
 	cd hadoop-2.7.4
 	sed -i "s/export JAVA_HOME=.*/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk/g" etc/hadoop/hadoop-env.sh
 	print_info $? "hadoop edit config add JAVA_HOME env"
+	
+	grep HADOOP_HOME ~/bashrc
+	if [ $? ];then
+		sed -i "/HADOOP_HOME/d" ~/.bashrc	
+	fi
 	export HADOOP_HOME=`pwd`
+	echo "export HADOOP_HOME=`pwd`" >> ~/.bashrc
+	echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' >> ~/.bashrc
+	source ~/.bashrc
+	
 	if [ -n `echo $HADOOP_HOME` ];then
 		lava-test-case "hadoop set HADOOP_HOME" pass
 	else

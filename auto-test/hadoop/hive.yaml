@@ -1,8 +1,8 @@
 
 metadata:
-    name: hadoop-test
+    name: hive-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "hadoop testing"
+    description: "hive testing"
     maintainer:
         - tanliqing2010@163.com
     scope:
@@ -15,7 +15,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/hadoop; ./hadoop-test.sh > hadoop.log 2>&1; cd -"
+        - "cd auto-test/hadoop; ./hive-test.sh > hive.log 2>&1; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
