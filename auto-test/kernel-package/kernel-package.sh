@@ -9,9 +9,9 @@ dist_name
 ! check_root && error_msg "This script must be run as root"
 create_out_dir "${OUTPUT}"
 case "${dist}" in
-    debian|ubuntu)
-        package_list = "libcpupower1_4.12.0.estuary.500-1 libcpupower-dev_4.12.0.estuary.500-1 libusbip-dev_2.0+4.12.0.estuary.500-1 linux-cpupower_4.12.0.estuary.500-1 linux-estuary-doc_4.12+500 linux-estuary-perf_4.12+500 linux-estuary-source_4.12+500 linux-headers-4.12.0-500-all_4.12.0.estuary.500-1 linux-headers-4.12.0-500-all-arm64_4.12.0.estuary.500-1 linux-headers-4.12.0-500-arm64_4.12.0.estuary.500-1 linux-headers-4.12.0-500-common_4.12.0.estuary.500-1 linux-headers-estuary-arm64_4.12+500 linux-kbuild-4.12_4.12.0.estuary.500-1 linux-libc-dev_4.12.0.estuary.500-1 linux-perf-4.12_4.12.0.estuary.500-1 linux-source-4.12_4.12.0.estuary.500-1 linux-support-4.12.0-500_4.12.0.estuary.500-1 usbip_2.0+4.12.0.estuary.500-1"
-        for p in package_list;do
+    debian)
+        package_list="libcpupower1 libcpupower-dev libusbip-dev linux-cpupower linux-estuary-doc linux-estuary-perf  linux-estuary-source linux-headers-4.12.0-500-all linux-headers-4.12.0-500-all-arm64 linux-headers-4.12.0-500-arm64 linux-headers-4.12.0-500-common linux-headers-estuary-arm64 linux-kbuild-4.12 linux-libc-dev linux-perf-4.12 linux-source-4.12 linux-support-4.12.0-500 usbip"
+        for p in ${package_list};do
             echo "$p install"
             apt-get install -y $p
             status=$?
@@ -34,7 +34,7 @@ case "${dist}" in
         ;;
     centos) 
         package_list = "kernel-devel-4.12.0-estuary.1 kernel-headers-4.12.0-estuary.1 kernel-tools-4.12.0-estuary.1 kernel-tools-libs-4.12.0-estuary.1 kernel-tools-libs-devel-4.12.0-estuary.1 perf-4.12.0-estuary.1 python-perf-4.12.0-estuary.1"
-        for p in package_list;do
+        for p in ${package_list};do
             echo "$p install"
             yum install -y $p
             status=$?
