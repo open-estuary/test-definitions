@@ -1,5 +1,5 @@
 ---
-nginx-module-geoip.md - 一个网站基本都是静态，极少的地方是动态显示
+nginx-module-geoip.md - 使用nginx和GeoIp模块来处理不同国家的访问
 Hardware platform: D05，D03
 Software Platform: CentOS
 Author: mahongxin <hongxin_228@163.com>  
