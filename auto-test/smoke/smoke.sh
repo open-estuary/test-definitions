@@ -68,4 +68,6 @@ run "date"
 run "free"
 run "numastat"
 run "iostat"
-
+run "lshw"
+run "lsof"
+run "ls -l /sys/class/i2c-dev/*/device/firmware_node | grep HISI"
