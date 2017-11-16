@@ -1,9 +1,9 @@
 ---
-nginx-module-image-perl.md - 一个网站基本都是静态，极少的地方是动态显示
+nginx-module-geoip.md - 一个网站基本都是静态，极少的地方是动态显示
 Hardware platform: D05，D03
 Software Platform: CentOS
-Author: Liu Caili <hongxin_228@163.com>  
-Date: 2017-11-10 15:31
+Author: mahongxin <hongxin_228@163.com>  
+Date: 2017-11-16 09:13
 Categories: Estuary Documents  
 Remark:
 ---
@@ -30,7 +30,9 @@ Remark:
     　yum install perl-devel perl-ExtUtils-Embed -y
     4.进入到解压后的nginx-1.5.9进行编译
        cd nginx-1.5.9
-       ./configure --prefix=/usr/local/nginx --with-http_perl_module --with-ld-opt="-WL,-E"
+       ./configure --without-http_empty_gif_module --with-poll_module\
+       --with-htp_stub_status_module --with-http_ssl_module \
+       --with-http_geoip_module
        make
        make install
        
@@ -39,91 +41,53 @@ Remark:
        /usr/local/nginx/sbin/nginx
        cur http://loacalhost/index.html看到welcom nginx test的文字代表nginx安装启动成功
        
-   　　 6.修改nginx.conf配置文件</usr/local/nginx/conf/nginx.conf>如下所示
-      vi nginx.conf
-      
-      events {
-   　　 worker_connections  1024;
-　}
-
-
-　　　　http {
-    include       mime.types;
-    default_type  application/octet-stream;
-    types_hash_max_size 2048;#添加此行
-    types_hash_bucket_size 32;#添加此行
-    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-    #                  '$status $body_bytes_sent "$http_referer" '
-    #                  '"$http_user_agent" "$http_x_forwarded_for"';
-    perl_modules  perl/lib;####添加此行
-    perl_require  test.pm;#####添加此行
-
-    #access_log  logs/access.log  main;
-
-    sendfile        on;
-    #tcp_nopush     on;
-
-    #keepalive_timeout  0;
-    keepalive_timeout  65;
-
-    #gzip  on;
-
-      ＃配置images
-              location / {
-            root   html;
-            index  index.html index.htm;
-        }
-        ########################添加下面几行代码#############
-	location /user/ {
-        perl pkg_name::process;/usr/local/nginx/conf/html/user user下面的所有请求都交给tes.pm处理
-        }
-　　　　　##################添加下面几行代码##############################
-		
-        
-        #error_page  404              /404.html
-       
-     7.新建images测试文件夹并在文件夹里面放一个jpg格式的文件
-       mkdir /usr/local/nginx/html/user/
-       mkdir /usr/local/nginx/perl/lib/test.pm
-       
-      8.编写test.pm文件如下
-      package pkg_name;
-　　　　use Time::Local;
-　　　　use nginx;
-　　　　sub process {
-	my $r = shift;
-
-	$r->send_http_header('text/html;charset=utf-8');
-	my @arr = split('/',$r->uri);
-	my $username = @arr[2];
-	if (!$username || ($username eq "")){
-		$username = "Anonymous";
-	}
-	$r->print('hello,you name is :'.$username.'');
-	$r->rflush();
-	return;
-　　　　}
-　　　　1;
-　　　　_END_
-
-       
-    ９.开始进行图片测试
+    6.下载MaxMind的GeoIP库（MaxMind提供了免费的ＩＰ地域数据库，这个库文件是二进制的，需要用GeoIP库来读取）
+    wget http://geolite.maxmind.com/download/geoip/api/c/GeoIP.tar.gz
+    
+    7.解压GeoIP
+    tar -zxvf GeoIP.tar.gz
+    
+    ８．编译geoip
+    cd GeoIP-1.4.6
+    ./configure
+    make; make install
+    9.刚才安装的库自动安装到 /usr/local/lib 下，所以这个目录需要加到动态链接配置里面以便运行相关程序的时候能自动绑定到这个 GeoIP 库：
+      echo '/usr/local/lib' > /etc/ld.so.conf.d/geoip.conf
+      ldconfig
+    10.下载 IP 数据库
+    wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
+    
+    11.解压IP库
+    gunzip GeoIP.dat.gz
+    
+    １２．最后是配置 nginx，在相关地方加上如下的配置就可以了：
+ 　　　　　vi /etc/nginx/nginx.conf
+　　　　　...
+　　　　　geoip_country /home/vpsee/GeoIP.dat;
+　　　　　fastcgi_param GEOIP_COUNTRY_CODE $geoip_country_code;
+　　　　　fastcgi_param GEOIP_COUNTRY_CODE3 $geoip_country_code3;
+　　　　　fastcgi_param GEOIP_COUNTRY_NAME $geoip_country_name;
+　　　　　...
+ 　　　　if ($geoip_country_code = CN) {
+   　　　 root /home/vpsee/cn/;
+ 　　　　}
+    １３.开始进行测试
      /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf &
      
-     １０．查看单板的ip地址
+     １４．查看单板的ip地址
      ip addr
      
-　　　　1１．查看结果
-   　　在浏览器输入ip地址http://192.168.1.xxx/user/xxx 
-     　如果显示：hello,you name is xxx表示测试通过
+　　　　1５．查看结果
+   　　在浏览器输入ip地址
+     　这样，当来自中国的 IP 访问网站后就自动访问到预定的 /home/vpsee/cn 页面。关于 Nginx + GeoIP 还有很多有用的用法，比如做个简单的 CDN，来自　　　　中国的访问自动解析到国内服务器、来自美国的访问自动转向到美国服务器等。MaxMind 还提供了全球各个城市的 IP 信息，还可以下载城市 IP 数据库来针对　　　　不同城市做处理。
      
-     1２．结束测试
+     1６．结束测试
        kill -9 进程
        
-     1３.卸载nginx
+     1７.卸载nginx
        yum remove -y nginx
        
      
   
 - **Result:**
-      测试上述步骤是否全部通过，若是，则pass；若不是，则fail,可以通过对输入的名字不同来显示不同的结果
+      测试上述步骤是否全部通过，若是，则pass；若不是，则fail
