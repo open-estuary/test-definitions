@@ -17,18 +17,18 @@ case "${dist}" in
             status=$?
             if test $status -eq 0
             then
-                echo "$p install  [PASS]" | tee ${RESULT_FILE}
+                echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
             else
-                echo "$p install [FAIL]"  | tee ${RESULT_FILE}
+                echo "$p install [FAIL]"  | tee -a ${RESULT_FILE}
             fi
             echo "$p remove"
             apt-get remove -y $p
             status=$?
             if test $status -eq 0
             then
-                echo "$p remove  [PASS]" | tee ${RESULT_FILE}
+                echo "$p remove  [PASS]" | tee -a ${RESULT_FILE}
             else
-                echo "$p remove [FAIL]"  | tee ${RESULT_FILE}
+                echo "$p remove [FAIL]"  | tee -a ${RESULT_FILE}
             fi
         done
         ;;
@@ -40,18 +40,18 @@ case "${dist}" in
             status=$?
             if test $status -eq 0
             then
-                echo "$p install  [PASS]" | tee ${RESULT_FILE}
+                echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
             else
-                echo "$p install [FAIL]"  | tee ${RESULT_FILE}
+                echo "$p install [FAIL]"  | tee -a ${RESULT_FILE}
             fi
             echo "$p remove"
             yum remove -y $p
             status=$?
             if test $status -eq 0
             then
-                echo "$p remove  [PASS]" | tee ${RESULT_FILE}
+                echo "$p remove  [PASS]" | tee -a ${RESULT_FILE}
             else
-                echo "$p remove [FAIL]"  | tee ${RESULT_FILE}
+                echo "$p remove [FAIL]"  | tee -a ${RESULT_FILE}
             fi
         done
         ;;
