@@ -1,6 +1,6 @@
 
 metadata:
-    name: wrk _testing
+    name: wrk-testing
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "wrk is a simple HTTP performance testing tool"
     maintainer:
@@ -9,11 +9,11 @@ metadata:
         - functional
     os:
         - centos
-
     devices:
         - d05
         - d03
-
+    level:
+        - 1
 run:
     steps:
         - "cd auto-test/wrk; ./wrk.sh; cd - "
