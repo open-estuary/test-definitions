@@ -6,12 +6,14 @@ metadata:
     maintainer:
         - meili760628705@163.com
     scope:
-        - functional
+        - tool
     os:
         - centos
     devices:
         - d03
         - d05
+    level:
+        - 1
 
 run:
     steps:
