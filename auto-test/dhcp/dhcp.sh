@@ -17,13 +17,13 @@ case $distro in
         yum install dhclient.aarch64 -y
         ;;
 esac
-
+ROUTE_ADDR=$(ip route list |grep default |awk '{print $3}' |head -1)
 dhclient -v -r eth0
-ping 192.168.1.1
+ping -c 5 ${ROUTE_ADDR}
 
 dhclient -v eth0
 
-ping 192.168.1.1 -c 4 >> dhcp.log
+ping -c 5 ${ROUTE_ADDR} 2>&1 |tee dhcp.log
 
 str=`grep -Po "64 bytes" dhcp.log`
 TCID="dhcp test"

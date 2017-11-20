@@ -1,8 +1,8 @@
 
 metadata:
-    name: ftp_basic_testing
+    name: "ftp_basic_testing"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "ftp basic testing"
+    description: "the ftp server is the computer that provides file storage and access services on the internet"
     maintainer:
         - hongxin_228@163.com
     scope:
@@ -11,16 +11,11 @@ metadata:
         - ubuntu
         - opensuse
         - centos
-
     devices:
         - d05
         - d03
-#install:
-#   deps:
-#       - vsftpd
-#       - expect
-#        - ftp
-
+    level:
+        - 1
 run:
     steps:
         - "cd auto-test/ftp; ./ftp.sh; cd -"
