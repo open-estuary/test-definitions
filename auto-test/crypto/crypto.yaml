@@ -1,21 +1,20 @@
 metadata:
-    name: crypto
+    name: "crypto"
     format: "crypto-Test-Shell Test Definition 1.0"
     description: "crpto is a c++ lib"
     maintainer:
-        - hongxin_228@linaro.org
+        - hongxin_228@163.com
     os:
         - ubuntu
         - opensuse
         - centos
     scope:
         - performance
-    environment:
-        - lava-test-shell
     devices:
         - d03
         - d05
-
+    level:
+        - 1
 
 run:
     steps:
