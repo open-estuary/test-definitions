@@ -6,8 +6,7 @@ metadata:
     maintainer:
         - meili760628705@163.com
     scope:
-        - functional
-        - performance
+        - virtualization
     os:
         - ubuntu
         - centos
@@ -15,10 +14,8 @@ metadata:
     devices:
         - d03
         - d05
-
-params:
-    # Number of cycles helloworld is called (for loop repetitions)
-    REPEAT: 1
+    level:
+        - 1
 
 
 params:

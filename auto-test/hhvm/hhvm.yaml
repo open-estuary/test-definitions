@@ -1,18 +1,20 @@
 
 metadata:
-    name: hhvm 
+    name: hhvm
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "hhvm"
     maintainer:
         - meili760628705@163.com
     scope:
-        - functional
+        - virtualization
     os:
         - ubuntu
         - centos
     devices:
         - d03
         - d05
+    level:
+        - 1
 
 
 run:
