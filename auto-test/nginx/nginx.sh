@@ -13,6 +13,7 @@ case $distro in
          yum install nginx.aarch64 -y
          yum install gcc -y
          yum install zlib* -y
+         yum install pcre* -y
          wget http://nginx.org/download/nginx-1.5.9.tar.gz
          tar zxvf nginx-1.5.9.tar.gz
          cd nginx-1.5.9
