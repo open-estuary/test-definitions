@@ -87,9 +87,6 @@
     if (res.count() > 0)
     {
         run('lava-test-case' , 'mongodb find all match contional' , '--result' , 'pass');
-
-        
-
     }else
     {
         run('lava-test-case' , 'mongodb find all match contional' , '--result' , 'fail');
@@ -111,6 +108,33 @@
     {
         run('lava-test-case' , 'mongodb find with or contional' , '--result' , 'fail');
     }
+    
+    var isErr=false;
+    try {
+        var res1 = db.col.find({name : 'mongo'} , {name : 0 , by : 0});
+    }catch(err){
+        isErr = true;
+    }finally{
+        if(isErr){
+            run('lava-test-case' , 'mongodb find inclusion mode' , '--result' , 'fail');
+        }else{
+            run('lava-test-case' , 'mongodb find inclusion mode' , '--result' , 'pass');
+        }
+    }
+
+    var isErr=false;
+    try {
+        var res1 = db.col.find({name : 'mongo'} , {name : 1 , by : 1});
+    }catch(err){
+        isErr = true;
+    }finally{
+        if(isErr){
+            run('lava-test-case' , 'mongodb find exclusion mode' , '--result' , 'fail');
+        }else{
+            run('lava-test-case' , 'mongodb find exclusion mode' , '--result' , 'pass');
+        }
+    }
+
 
     db.col.dropIndexes();
     db.col.createIndex({name : 1});
@@ -155,17 +179,45 @@
         run('lava-test-case' , 'mongodb run mapreduce' , '--result' , 'pass');
     }
     
-    var res0 = db.col.find({name:'mongo'}).age
+    var res0 = db.col.find({name:'mongo'})[0].age;
     var res1 = db.col.findAndModify(
         {
             query:{ name : 'mongo'},
-            update :{ $inc : {age ,-1} }
+            update :{ $inc : {age : -1} }
         }
     );
 
+    
+    var data = db.col.find({name:'mongo'})[0].age;
+    if ( res0 - data == 1 ){
+        run('lava-test-case' , 'mongo atomic op' , '--result' , 'pass');
+    }else{
+        run('lava-test-case' , 'mongo atomic op' , '--result' , 'fail');
+    }
+    
+    var res2 = db.col.find().limit(2);
+    if (res2.countReturn() == 2 ){
+        run('lava-test-case' , 'mongodb limit op' , '--result' , 'pass' );
+    }else{
+        run('lava-test-case' , 'mongodb limit op' , '--result' , 'fail');
+    }
+    
+    var res4 = db.col.find();
+    var res3 = db.col.find().skip(3);
+    if (res4.countReturn() - res3.countReturn() == 3 ){
+        run('lava-test-case' , 'mongodb skip op' , '--result' , 'pass');
+    }else{
+        run('lava-test-case' , 'mongodb skip op' , '--result' , 'fail');
+    }
 
-    var data = db.col.find();
-    //printjson(data);
+    
+    db.col.insert({name : 1 , age : 100});
+    var res5 = db.col.find({name : {$type : 1}});
+    if(res5[0].name == 1){
+        run('lava-test-case' , 'mongodb \$type filter' , '--result' , 'pass');
+    }else{
+        run('lava-test-case' , 'mongodb \$type filter' , '--result' , 'fail');
+    }
 
     if(db.dropDatabase().ok == 1)
     {
@@ -174,3 +226,6 @@
     {
         run('lava-test-case' , 'mongodb drop database' , '--result' , 'fail');
     }
+
+
+    
