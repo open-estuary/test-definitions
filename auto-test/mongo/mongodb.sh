@@ -22,6 +22,20 @@ function mongodb_config(){
 
 }
 
+function isServerRunning(){
+    
+    ps -ef | grep "mongod --fork"
+    if [ $?  ];then
+        print_info 0 "mongodb server is running"
+    else
+        install_mongodb
+        mongodb_start 
+    fi
+
+}
+
+
+
 function mongodb_start(){
     ## --frok 是可以在后台运行
     ## --dbpath 是mongodb数据存放地方
@@ -44,11 +58,29 @@ function mongodb_start(){
 }
 
 function mongodb_client(){
-   cat > test.js <<-EOF
-   print('=========WECOME==========');
-
-   var cursor=db.user.find();
-   printjson(cursor.toArray());
-EOF
     mongo test.js 
+    print_info $? "mongodb client exec js file"
 }
+
+function mongodb_shutdown(){
+    ps -ef | grep 'mongod --fork'    
+    if [ $?  ] ;then 
+    mongo <<-EOF 
+    use admin;
+    db.shutdownServer();
+EOF
+    fi
+    ps -ef | grep 'mongod --fork'
+    if [ $? -ne 0  ];then
+        print_info $? 'mongodb shutdown'
+    fi 
+}
+
+
+function mongodb_uninsatll() {
+    yum -y remove mongodb
+    print_info $? 'mongdb uninstall'
+    rm -rf /mongodb
+
+}
+
