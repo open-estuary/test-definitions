@@ -14,7 +14,7 @@ metadata:
     devices:
         - d03
         - d05
-    level:
+    level: 1
         - 2
 
 run:

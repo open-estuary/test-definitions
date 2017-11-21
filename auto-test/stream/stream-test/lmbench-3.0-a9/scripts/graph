@@ -210,7 +210,6 @@ sub init
 		$tmp = $_[1] - $stat_median;
 		$stat_avgdev += $tmp > 0 ? $tmp : -$tmp;
 	}
-	$stat_var /= $items - 1;
 	$stat_stddev = sqrt($stat_var);
 	$stat_avgdev /= $items;
 	if ($ts) {
@@ -379,7 +378,6 @@ sub tick
 
 	$delta = $max - $min;
 	$tick = int(&logbase(10, $delta));
-	$tick = &expbase(10, $tick - 1);
 	if ($delta / $tick > 10) {
 		if ($base == 10) {
 			if (($delta / (2 * $tick)) > 15) {
@@ -634,7 +632,6 @@ sub titles
 		$cutthick = .75;
 		print "\n# Cut marks\n";
 		print "move to O.n + 0,.65; line thick $cutthick right .1\n";
-		print "move to O.w - 1,0; line thick $cutthick down .1\n";
 		print "move to O.e + .35,0; line thick $cutthick down .1\n";
 	}
 
