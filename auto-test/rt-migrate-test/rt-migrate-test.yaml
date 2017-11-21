@@ -24,7 +24,7 @@ metadata:
         - thunderX
         - d03
         - d05
-
+    level: 5
 params:
     # Number of loops.
     LOOPS: "100"
