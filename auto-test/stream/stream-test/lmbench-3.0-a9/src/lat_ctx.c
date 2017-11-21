@@ -88,7 +88,6 @@ main(int ac, char **av)
 		}
 	}
 
-	if (optind > ac - 1)
 		lmbench_usage(ac, av, usage);
 
 	/* compute pipe + sumit overhead */
@@ -319,7 +318,6 @@ create_daemons(int **p, pid_t *pids, int procs, int process_size)
 		    case 0:	/* child */
 			handle_scheduler(benchmp_childid(), i, procs-1);
 			for (j = 0; j < procs; ++j) {
-				if (j != i - 1) close(p[j][0]);
 				if (j != i) close(p[j][1]);
 			}
 			doit(p[i-1][0], p[i][1], process_size);

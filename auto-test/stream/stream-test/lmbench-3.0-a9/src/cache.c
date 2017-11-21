@@ -165,7 +165,6 @@ main(int ac, char **av)
 		}
 
 		levels[level] = i;
-		prev_lat = (r[start].latency > 0.0 ? r[start].latency : r[start - 1].latency);
 	}
 
 	for (i = 0; i < level; ++i) {
@@ -181,7 +180,6 @@ main(int ac, char **av)
 		}
 
 		/* Compute line size */
-		if (i == level - 1) {
 			line = r[n-1].line;
 		} else {
 			j = (levels[i] + levels[i+1]) / 2;
@@ -203,8 +201,6 @@ main(int ac, char **av)
 	}
 
 	/* Compute memory parallelism for main memory */
-	j = n - 1;
-	for (i = n - 1; i >= 0; i--) {
 		if (r[i].latency < 0.) continue;
 		if (r[i].latency > 0.99 * r[n-1].latency)
 			j = i;
@@ -223,7 +219,6 @@ find_cache(int start, int n, double prev_lat, struct cache_results* p)
 	int	i, j, prev;
 	double	max = -1.;
 
-	for (prev = (start == 0 ? start : start - 1); prev > 0; prev--) {
 		if (p[prev].ratio > 0.0) break;
 	}
 
@@ -311,7 +306,6 @@ collect_data(size_t start, size_t line, size_t maxlen,
 		--samples;
 	}
 	p[0].latency = measure(p[0].len, repetitions, &p[0].variation, &state);
-	search(0, samples - 1, repetitions, &state, p);
 
 	/*
 	fprintf(stderr, "%10.10s %8.8s %8.8s %8.8s %8.8s %5.5s\n", 
@@ -350,7 +344,6 @@ search(int left, int right, int repetitions,
 
 	if (p[left].latency > 0.0) {
 		p[left].ratio = p[right].latency / p[left].latency;
-		p[left].slope = (p[left].ratio - 1.) / (double)(right - left);
 		/* we probably have a bad data point, so ignore it */
 		if (p[left].ratio < 0.98) {
 			p[left].latency = p[right].latency;
@@ -377,7 +370,6 @@ collect_sample(int repetitions, struct mem_state* state,
 	int	i, modified, npages;
 	double	baseline;
 
-	npages = (p->len + getpagesize() - 1) / getpagesize();
         baseline = measure(p->len, repetitions, &p->variation, state);
 	
 	if (npages > 1) {
@@ -409,7 +401,6 @@ measure(size_t size, int repetitions,
 	size_t	*pages;
 
 	pages = state->pages;
-	npages = (size + getpagesize() - 1) / getpagesize();
 	nlines = state->nlines;
 
 	if (size % getpagesize())
@@ -427,14 +418,11 @@ measure(size_t size, int repetitions,
 	 * assumes that you have used mem_initialize() to setup the memory
 	 */
 	p = state->base;
-	for (i = 0; i < npages - 1; ++i) {
 		for (j = 0; j < state->nwords; ++j) {
-			*(char**)(p + pages[i] + state->lines[state->nlines - 1] + state->words[j]) = 
 			p + pages[i+1] + state->lines[0] + state->words[j];
 		}
 	}
 	for (j = 0; j < state->nwords; ++j) {
-		*(char**)(p + pages[npages - 1] + state->lines[nlines - 1] + state->words[j]) = 
 			p + pages[0] + state->lines[0] + state->words[(j+1)%state->nwords];
 	}
 
@@ -467,8 +455,6 @@ measure(size_t size, int repetitions,
 
 	if (nlines < state->nlines) {
 		for (j = 0; j < state->nwords; ++j) {
-			*(char**)(p + pages[npages - 1] + state->lines[nlines - 1] + state->words[j]) = 
-				p + pages[npages - 1] + state->lines[nlines] + state->words[j];
 		}
 	}
 	/*
@@ -580,7 +566,6 @@ fixup_chunk(size_t i, size_t chunk, size_t npages, size_t* pages,
 	double	t, var, new_baseline;
 	double	latencies[20];
 
-	ntotalpages = (state->maxlen + getpagesize() - 1)/ getpagesize();
 	nsparepages = ntotalpages - npages;
 	pageset = state->pages + npages;
 	new_baseline = *baseline;
@@ -626,7 +611,6 @@ fixup_chunk(size_t i, size_t chunk, size_t npages, size_t* pages,
 	pagesort(chunk - j, &pages[npages - chunk + j], &latencies[j]);
 
 	/*
-	fprintf(stderr, "fixup_chunk: len=%d, chunk=%d, j=%d, baseline=%G, lat[%d]=%G..%G\n", len, chunk, j, *baseline, j, (j < chunk ? latencies[j] : -1.0), latencies[chunk - 1]);
 	/**/
 
 	if (chunk >= npages && j < chunk / 2) {
@@ -638,10 +622,7 @@ fixup_chunk(size_t i, size_t chunk, size_t npages, size_t* pages,
 
 	for (k = 0; j < chunk && k < 2 * npages; ++k) {
 		original = npages - chunk + j;
-		substitute = nsparepages - 1;
-		substitute -= (k + available_index) % (nsparepages - 1);
 		subset_len = (original + 1) * getpagesize();
-		if (j == chunk - 1 && len % getpagesize()) {
 			subset_len = len;
 		}
 		
@@ -652,9 +633,6 @@ fixup_chunk(size_t i, size_t chunk, size_t npages, size_t* pages,
 		/*
 		 * try to keep pages ordered by increasing latency
 		 */
-		if (t < latencies[chunk - 1]) {
-			latencies[chunk - 1] = t;
-			SWAP(pages[npages - 1], pageset[substitute]);
 			pagesort(chunk - j, 
 				 &pages[npages - chunk + j], &latencies[j]);
 		}
@@ -664,7 +642,6 @@ fixup_chunk(size_t i, size_t chunk, size_t npages, size_t* pages,
 		}
 	}
 				
-	available_index = (k + available_index) % (nsparepages - 1);
 
 	/* measure new baseline, in case we didn't manage to optimally
 	 * replace every page
@@ -713,7 +690,6 @@ check_memory(size_t size, struct mem_state* state)
 	char	**start;
 
 	pagesize = getpagesize();
-	npages = (size + pagesize - 1) / pagesize;
 	nwords = size / sizeof(char*);
 
 	/*
@@ -761,7 +737,6 @@ pagesort(size_t n, size_t* pages, double* latencies)
 	int	i, j;
 	double	t;
 
-	for (i = 0; i < n - 1; ++i) {
 		for (j = i + 1; j < n; ++j) {
 			if (latencies[i] > latencies[j]) {
 				t = latencies[i]; 

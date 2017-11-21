@@ -14,8 +14,7 @@ metadata:
     devices:
         - d05
         - d03
-    level:
-        - 1
+    level: 1
 
 params:
     SKIP_INSTALL: "False"
