@@ -12,8 +12,7 @@ metadata:
     devices:
         - d05
         - d03
-    level:
-        - 1
+    level: 1
 run:
     steps:
         - "cd auto-test/httperf; ./httperf.sh; cd - "

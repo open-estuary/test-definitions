@@ -22,7 +22,7 @@ metadata:
         - thunderX
         - d03
         - d05
-
+    level: 5
 params:
     SKIP_INSTALL: "false"
 

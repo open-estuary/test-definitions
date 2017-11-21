@@ -1,0 +1,31 @@
+
+metadata:
+    name: kernel-package 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "内核包的安装和卸载"
+    maintainer:
+        - shuangshengchen@qq.com
+    scope:
+        - kernel
+    os:
+        - centos
+        - debian
+    devices:
+        - d05
+    level: 5
+params:
+    # Number of cycles helloworld is called (for loop repetitions)
+    REPEAT: 1
+
+
+       
+run:
+    steps:
+        - "cd ./auto-test/kernel-package; ./package.sh; cd -"
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

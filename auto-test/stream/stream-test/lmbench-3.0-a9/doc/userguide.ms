@@ -3234,7 +3234,6 @@ then that reference will be a cache hit.  More
 completely, the average memory access time $t bar$
 is:
 .EQ
-t bar = t sub miss + ( n - 1 ) t sub hit
 .EN
 expressed as a function of $n$, the number of accesses 
 to the cache line, $t sub miss$, the cache miss latency, 
