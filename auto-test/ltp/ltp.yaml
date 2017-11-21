@@ -19,6 +19,7 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - ifc6410
+    level: 5
 params:
     # LTP version
     LTP_VERSION: 20170516
