@@ -17,15 +17,11 @@ function install_mongodb() {
 
 }
 
-function mongodb_config(){
-    echo     
-
-}
 
 function isServerRunning(){
     
-    ps -ef | grep "mongod --fork"
-    if [ $?  ];then
+    ps -ef | grep "mongod --fork"| grep -v grep
+    if [ $? -eq 0 ];then
         print_info 0 "mongodb server is running"
     else
         install_mongodb
@@ -42,7 +38,8 @@ function mongodb_start(){
     ## --rest 是可以web访问的参数 端口是 27017 + 1000
     mon=`ps -ef |grep "mongod --fork" | grep -v grep`
     if [ $?  ];then
-        echo $mon | awk {'print $2'} | kill -4
+        mongod --shutdown --dbpath /mongodb/db/ 
+        print_info $? "mongodb shutdown server"
     fi
     if [ -d /mongodb/db  ];then
         rm -rf /mongodb/db 
@@ -77,7 +74,7 @@ EOF
 }
 
 
-function mongodb_uninsatll() {
+function mongodb_uninstall() {
     yum -y remove mongodb
     print_info $? 'mongdb uninstall'
     rm -rf /mongodb

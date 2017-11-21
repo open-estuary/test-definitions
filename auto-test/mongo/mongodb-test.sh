@@ -8,10 +8,14 @@ cd $basedir
 
 source ./mongodb.sh 
 
+set -x
 
 install_mongodb
 mongodb_start
+
+
 mongodb_client
+mongodb_uninstall
 
 
 

@@ -4,6 +4,8 @@ function install_mongo-tools() {
 
     yum install -y mongo-tools
     print_info $? 'install mongo-tools'
+    
+    yum install -y mongodb
 
     export LANG=en_US.UTF-8
     ver=`yum info mongo-tools | grep 'Version'| cut -d : -f 2`
@@ -14,6 +16,14 @@ function install_mongo-tools() {
     fi
 
 }
+
+function uninstall_mongo-tools(){
+    
+    yum remove -y mongo-tools
+    print_info $? "uninstall mongo-tools"
+
+}
+
 
 function mongo_mongostat(){
     
@@ -26,14 +36,14 @@ function mongo_mongostat(){
 
 function mongo_dump_restore(){
     
-    cat >  1.js <<- eof 
+    cat >  tmp.js <<- eof 
     var db = new Mongo().getDB('dump_restore');
     
     for(var i = 0 ; i < 100 ; i++){
         db.col.insert({name : 'scala' , age : 100});
     }
 eof
-    mongo 1.js
+    mongo tmp.js
     print_info $? "mongodb prepare database for dump"
 
     mongodump --db dump_restore  
@@ -48,11 +58,11 @@ eof
     fi
     
 
-    cat > 1.js << eof
+    cat > tmp.js << eof
     var db = new Mongo().getDB('dump_restore');
     db.dropdatabase();
 eof
-    mongo 1.js 
+    mongo tmp.js 
     mongorestore --db dump_restore dump 
     print_info $? "mongodb restore database"
     
@@ -70,7 +80,7 @@ eof
         lava-test-case "mongodb export json file" --result fail
     fi
     
-    mongo 1.js 
+    mongo tmp.js 
     mongoexport --db dump_restore --collection col --out=export.csv --type csv --fields name,age 
     if [ $?  ];then
         if [ -f export.csv  ];then
