@@ -176,7 +176,21 @@ dist_name() {
         rpb*) dist="oe-rpb" ;;
     esac
 }
-
+remove_pkg(){
+    pkgs="$1"
+    dist_name
+    case "${dist}" in
+        debian|ubuntu)
+            apt-get remove -y ${pkgs}
+            ;;
+        centos)
+            yum remove -y ${pkgs}
+            ;;
+    esac
+    if [ $? -ne 0 ]; then
+        error_msg "Failed to remove ${pkgs}"
+    fi
+}
 install_deps() {
     pkgs="$1"
     [ -z "${pkgs}" ] && error_msg "Usage: install_deps pkgs"
@@ -220,7 +234,39 @@ install_deps() {
         fi
     fi
 }
+remove_deps() {
+    pkgs="$1"
+    [ -z "${pkgs}" ] && error_msg "Usage: uninstall_deps pkgs"
+        if [ -z `which $pkgs`  ];then
+            echo "$pkgs has not installed"
+            return 0
+        fi
+        ! check_root && \
+            error_msg "About to install packages, please run this script as root."
+        info_msg "Uninstall ${pkgs}"
+        dist_name
+        case "${dist}" in
+          debian|ubuntu)
+             apt-get remove -q -y ${pkgs}
+            ;;
+          centos)
+            # shellcheck disable=SC2086
+            yum -e 0 -y remove ${pkgs}
+            ;;
+          fedora)
 
+            # shellcheck disable=SC2086
+            dnf -e 0 -y remove ${pkgs}
+            ;;
+          *)
+            warn_msg "Unsupported distro: ${dist}! Package installation skipped."
+            ;;
+        esac
+        # shellcheck disable=SC2181
+        if [ $? -ne 0 ]; then
+            error_msg "Failed to uninstall dependencies, exiting..."
+        fi
+}
 # Return the exit code of the first command when using pipe.
 pipe0_status() {
     [ "$#" -ne 2 ] && error_msg "Usage: pipe0_status cmd1 cmd2"

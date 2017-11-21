@@ -21,9 +21,12 @@ else
     distro="ubuntu"
 fi
 
-local_ip=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2)
+#local_ip=$(ip addr show `ip route | grep "default" | awk '{print $NF}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2)
+#modify by liucaili 20171028
+local_ip=$(ip addr show `ip route | grep "default" | awk '{print $5}'`| grep -o "inet [0-9\.]*" | cut -d" " -f 2)
 if [ ${local_ip}x = ""x ]; then
-    local_ip=$(ifconfig `route -n | grep "^0"|awk '{print $NF}'`|grep -o "addr inet:[0-9\.]*"|cut -d':' -f 2)
+    #local_ip=$(ifconfig `route -n | grep "^0"|awk '{print $NF}'`|grep -o "addr inet:[0-9\.]*"|cut -d':' -f 2)
+    local_ip=$(ifconfig `route -n | grep "^0"|awk '{print $5}'`|grep -o "addr inet:[0-9\.]*"|cut -d':' -f 2)
 fi
 
 start_service='systemctl start'

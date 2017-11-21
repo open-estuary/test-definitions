@@ -12,8 +12,7 @@ metadata:
     devices:
         - d05
         - d03
-    level:
-        - 1
+    level: 1
 run:
     steps:
         - "cd app/yaml-cpp; ./yaml-cpp.sh; cd - "

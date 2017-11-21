@@ -23,7 +23,7 @@ metadata:
         - hi6220-hikey
         - apq8016-sbc
         - rtsm_fvp_base-aemv8a
-
+    level: 5
 params:
     SKIP_INSTALL: "False"
 

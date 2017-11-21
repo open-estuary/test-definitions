@@ -6,6 +6,7 @@ metadata:
                   that kernel tick/resch interrups do not occur more than 1/sec."
     maintainer:
         - ravineet.singh@linaro.org
+        - shuangshengchen@qq.com
     os:
         - debian
         - ubuntu
@@ -13,11 +14,12 @@ metadata:
         - juno
         - arndale
         - x86
+        - D05
     scope:
         - functional
     environment:
         - lava-test-shell
-
+    level: 5
 params:
     ISOL_CORES:   "2,3"
     SKIP_INSTALL: "False"
