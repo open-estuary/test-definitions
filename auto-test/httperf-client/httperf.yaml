@@ -1,6 +1,6 @@
 
 metadata:
-    name: httperf _testing
+    name: "httperf-testing"
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "httperf is a simple HTTP performance testing tool"
     maintainer:
@@ -9,11 +9,11 @@ metadata:
         - functional
     os:
         - centos
-
     devices:
         - d05
         - d03
-
+    level:
+        - 1
 run:
     steps:
         - "cd auto-test/httperf; ./httperf.sh; cd - "

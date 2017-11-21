@@ -1,5 +1,5 @@
 metadata:
-    name: iperf
+    name: "iperf"
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "iperf is a tool for active measurements of the maximum
                   achievable bandwidth on IP networks."
@@ -11,13 +11,11 @@ metadata:
         - centos
     scope:
         - performance
-    environment:
-        - lava-test-shell
     devices:
         - d03
         - d05
-
-
+    level:
+        - 1
 run:
     steps:
         - "cd ./auto-test/iperf; ./iperf.sh; cd -"
