@@ -27,7 +27,7 @@ metadata:
         - d03
         - hi6220-hikey
         - apq8016-sbc
-
+    level: 5
 params:
     WORD_SIZE: "64"
     SKIP_INSTALL: "False"

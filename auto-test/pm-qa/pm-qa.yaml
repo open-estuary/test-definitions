@@ -28,7 +28,7 @@ metadata:
         - juno
         - hi6220-hikey
         - apq8016-sbc
-
+    level: 5
 params:
     RELEASE: "pm-qa-v0.5.2"
     TESTS: "cpufreq cpuidle cpuhotplug thermal cputopology"

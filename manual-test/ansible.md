@@ -4,7 +4,7 @@ ansible.md - ansible是自动化运维工具，基于python
 Hardware platform: D05 D03  
 Software Platform: CentOS 
 Author: Chen Shuangsheng <chenshuangsheng@huawei.com>  
-Date: 2017-16-09 15:38:05  
+Date: 2017-11-16 15:38:05  
 Categories: Estuary Documents  
 Remark:
 ---
