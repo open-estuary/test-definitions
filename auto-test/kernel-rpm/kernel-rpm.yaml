@@ -11,11 +11,11 @@ metadata:
         - centos
     devices:
         - d05
+    level: 5
 
 params:
     # Number of cycles helloworld is called (for loop repetitions)
     REPEAT: 1
-
 
        
 run:
