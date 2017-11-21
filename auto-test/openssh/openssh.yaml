@@ -1,6 +1,6 @@
 metadata:
-    format: Lava-Test Test Definition 1.0
     name: openssh
+    format: "Lava-Test-Shell Test Definition 1.0"
     description: "Use openssl speed command to test the performance of
                   cryptographic algorithms"
     maintainer:
@@ -14,7 +14,8 @@ metadata:
     devices:
         - d03
         - d05
-
+    level:
+        - 2
 
 run:
     steps:

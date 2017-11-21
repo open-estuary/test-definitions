@@ -1,5 +1,5 @@
 metadata:
-    name: ethernet
+    name: "ethernet"
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "This test checks if Ethernet is up and prints IP address."
     maintainer:
@@ -11,7 +11,8 @@ metadata:
     devices:
         - d03
         - d05
-
+    level:
+        - 1
 
 run:
     steps:
