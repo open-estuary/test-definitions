@@ -1,21 +1,22 @@
 
 metadata:
-    name: postgresql-test
+    name: mongo-c-driver-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "postgresql testing"
+    description: "mongodb c driver testing"
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - functional
+        - database
     os:
         - centos
     devices:
         - d03
         - d05
+    level: 1
 
 run:
     steps:
-        - "cd auto-test/postgresql; ./postgresql.sh; cd -"
+        - "cd auto-test/mongo; ./mongocdriver-test.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
