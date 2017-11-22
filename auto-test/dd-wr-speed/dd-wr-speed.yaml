@@ -4,37 +4,23 @@ metadata:
     description: "dd write/read speed test."
     maintainer:
         - fyuanz_2010@163.com
-    os:
-        - debian
-        - ubuntu
-        - fedora
-        - centos
-        - opensuse
-    devices:
-        - mustang
-        - hi6220-hikey
-        - apq8016-sbc
-        - d03
-        - d05
     scope:
         - performance
-    environment:
-        - lava-test-shell
-
-params:
-    # The currenty working directory will be used by default.
-    # Use '-p' specify partition that used for dd test.
-    # Example: /dev/sdb1
-    PARTITION: ""
-    # CAUTION: if FS_TYPE not equal to the existing fs type of the partition
-    # specified with '-p', the partition will be formatted.
-    FS_TYPE: ""
-    # You may need to run dd test 4-5 times for an accurate evaluation.
-    ITERATION: "5"
-    SKIP_INSTALL: "false"
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+    level: 1
 
 run:
     steps:
-        - cd ./auto-test/dd-wr-speed
+        - cd ./app/dd-wr-speed
         - ./dd-wr-speed.sh -p "${PARTITION}" -t "${FS_TYPE}" -i "${ITERATION}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
