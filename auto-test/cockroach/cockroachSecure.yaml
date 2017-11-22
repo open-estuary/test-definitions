@@ -12,10 +12,6 @@ metadata:
     devices:
         - d03
         - d05
-
-install:
-    deps:
-
 run:
     steps:
         - "cd auto-test/cockroach; ./cockroachSecureTest.sh; cd -"
