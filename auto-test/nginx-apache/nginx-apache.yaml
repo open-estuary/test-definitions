@@ -1,6 +1,6 @@
 
 metadata:
-    name: "nginx-apache-bench "
+    name: "nginx-apache-bench"
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "apachebench is a benchmark created to measure the webserver performance on HTTP protocol This test runs apachebench against apache nginx"
     maintainer:

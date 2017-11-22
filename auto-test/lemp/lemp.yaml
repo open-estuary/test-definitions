@@ -1,6 +1,6 @@
 
 metadata:
-    name: "lamp _testing"
+    name: "lemp_testing"
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Linux+Apache+Mysql/MariaDB+Perl/PHP/Python is often used to build open source software for dynamic web sites or servers"
     maintainer:
