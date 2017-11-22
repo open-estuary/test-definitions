@@ -15,7 +15,7 @@ pkgs="pipework"
 install_deps "${pkgs}"
 print_info $? install-pipework
 
-pipework -h
+pipework -h | grep Syntax
 print_info $? pipework-help
 
 docker pull centos
