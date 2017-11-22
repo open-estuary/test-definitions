@@ -67,33 +67,161 @@ Remark:
 		accelerate_multi_key = yes
 
 #测试
-	测试下在三台管理机器批量执行一个ping命令
-	 ansible all -m ping
-	结果如下：
-	ansible all -m ping运行结果
-	[root@localhost ansible]# ansible all -m ping
-	192.168.0.200 | SUCCESS => {
-	    "changed": false, 
-	    "ping": "pong"
-	}
-	192.168.0.201 | SUCCESS => {
-	    "changed": false, 
-	    "ping": "pong"
-	}
-	192.168.0.202 | SUCCESS => {
-	    "changed": false, 
-	    "ping": "pong"
-	}
-  	查看远程主机基本信息：
+    #setup模块
+  	1.查看远程主机基本信息：
 	ansible all -m setup
-	远程文件符号链接创建：
+
+    #ping模块
+    1.检查指定节点机器是否还能连通
+    ansible 192.168.0.200 -m ping
+
+	#file模块
+	1.远程文件符号链接创建：
 	ansible all -m file -a "src=/etc/resolv.conf dest=/tmp/resolv.conf state=link"
-	远程文件信息查看：
-	ansible all -m command -a "ls –al /tmp/resolv.conf"
-	远程文件符号删除：
+	2.远程文件符号删除：
 	ansible all -m file -a "path=/tmp/resolv.conf state=absent"
-	将本地文件“/etc/ansible/ansible.cfg”复制到远程服务器：
+    3.修改远程文件属性
+    ansible all -m file -a "dest=/tmp/t.sh mode=755 owner=root group=root"
+    
+	#copy模块
+	1.将本地文件“/etc/ansible/ansible.cfg”复制到远程服务器：
 	ansible all -m copy -a "src=/etc/ansible/ansible.cfg dest=/tmp/ansible.cfg owner=root group=root mode=0644"
-	在远程机器上执行命令：
+    
+	#commond模块
+	1.在远程机器上执行命令：
 	ansible all -m command -a "uptime"
-     	
+	2.远程文件信息查看
+    # ansible storm_cluster -m command -a "ls -al /tmp/ansible.cfg"
+    
+    #shell模块
+    1.远程执行脚本
+    # ansible storm_cluster -m shell -a "/tmp/rocketzhang_test.sh"
+    
+    #cron模块
+    1.在指定节点上定义一个计划任务，每隔3分钟到主控端更新一次时间
+    ansible all -m cron -a 'name="custom job" minute=*/3 hour=* day=* month=* weekday=* job="/usr/sbin/ntpdate 192.168.0.200"'
+    
+    #group模块
+    1.在所有节点上创建一个组名为nolinux，gid为2014的组
+    ansible all -m group -a 'gid=2014 name=nolinux'
+    
+    #user模块
+    1.在指定节点上创建一个用户名为nolinux，组为nolinux的用户
+    ansible 192.168.0.200 -m user -a 'name=nolinux groups=nolinux state=present'
+    2.删除指定用户
+    ansible 192.168.0.200 -m user -a 'name=nolinux  state=present removes=yes'
+
+    #yum模块
+    1.在指定节点上安装 apache 服务
+    ansible all -m yum -a "state=present name=httpd"
+    
+    #raw模块
+    1.在192.168.0.200节点上运行hostname命令
+    ansible 10.1.1.113 -m raw-a 'hostname|tee'
+
+    #get_url模块
+    1.将http://192.168.0.200/favicon.ico文件下载到指定节点的/tmp目录下
+    ansible 192.168.0.200 -m get_url -a 'url=http://192.168.0.201/favicon.ico dest=/tmp
+    
+    #synchronize模块
+    1.将主控方/root/a目录推送到指定节点的/tmp目录下
+    ansible 192.168.0.200 -m synchronize -a 'src=/root/a dest=/tmp/ compress=yes'
+    
+    #service 
+    1.检查服务状态为running
+    [root@ansibleserver ansible]#ansible nagiosserver -m service -a "name=nagios state=running"
+
+    SSH password:
+
+    192.168.0.200 | success >> {
+
+    "changed": false,
+
+    "name": "nagios",
+
+    "state": "started"
+
+    }
+    2.将服务停止
+    [root@ansibleserver ansible]#ansible nagiosserver -m service -a "name=nagios state=stopped"
+    SSH password:
+    192.168.0.200 | success >> {
+    
+        "changed": true,
+    
+        "name": "nagios",
+    
+        "state": "stopped"
+    
+    }
+    3.将服务重新启动
+    [root@ansibleserver ansible]#ansible nagiosserver -m service -a "name=nagios state=restarted"
+
+    SSH password:
+    
+    192.168.0.200 | success >> {
+    
+        "changed": true,
+    
+        "name": "nagios",
+    
+        "state": "started"
+    
+    }
+    4.将服务重新加载
+    [root@ansibleserver ansible]#ansible nagiosserver -m service -a "name=nagios state=reloaded"
+
+    SSH password:
+    
+    192.168.0.200 | success >> {
+    
+        "changed": true,
+    
+        "name": "nagios",
+    
+        "state": "started"
+    
+    }
+    5.当不存在服务的时候
+    [root@ansibleserver ansible]#ansible -i hosts kel -m service -a "name=nagios state=stopped"
+    
+    SSH password:
+    
+    192.168.0.200 | FAILED >> {
+    
+        "failed": true,
+    
+        "msg": "cannot find 'service' binary or init script for service,  possible typo in service name?, aborting"
+    
+    }
+    6.将服务设置为开机启动
+    [root@ansibleserver ansible]# ansible nagiosserver -m service -a "name=nagios enabled=no"
+
+    SSH password:
+    
+    192.168.0.200 | success >> {
+    
+        "changed": true,
+    
+        "enabled": false,
+    
+        "name": "nagios"
+    
+    }
+    
+     
+    
+    [root@ansibleserver ansible]# ansible nagiosserver -m service -a "name=nagios enabled=yes"
+    
+    SSH password:
+    
+    192.168.0.200 | success >> {
+    
+        "changed": true,
+    
+        "enabled": true,
+    
+        "name": "nagios"
+    
+    }
+    
