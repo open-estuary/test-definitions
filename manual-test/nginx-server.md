@@ -23,7 +23,7 @@ Remark:
 
 - **Test:**
     1.下载nginx压缩包
-  wget http://nginx.org/download/nginx-1.5.9.tar.gz
+      wget http://nginx.org/download/nginx-1.5.9.tar.gz
     2.解压nginx
      tar zxvf nginx-1.5.9.tar.gz
     3.安装依赖文件
