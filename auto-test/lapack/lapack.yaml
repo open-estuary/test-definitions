@@ -4,7 +4,7 @@ metadata:
     description: "Build and run lapack (Linear Algebra PACKage) tests natively"
     maintainer:
         - naresh.kamboju@linaro.org
-        - meili760628705@163.com
+        - liu_caili@hoperun.com
     os:
         - ubuntu
         - centos
