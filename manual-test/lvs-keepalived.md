@@ -8,6 +8,8 @@ Date: 2017-11-20 14:38:05
 Categories: Estuary Documents  
 Remark:
 ---
+#网络拓扑
+至少四台单板，同一局域网内，2台DR，一台主一台备份，2台RS
 # Dependency
 ```
   yum install -y lsof
@@ -17,7 +19,7 @@ Remark:
   yum -y install keepalived
 
 ```
-#DR
+#DR配置
 ```
 1.$vi /etc/keepalived/keepalived.conf
     global_defs {
@@ -93,7 +95,7 @@ $echo 1 > /proc/sys/net/ipv4/ip_forward
 
 $service keepalived start
 ```
-#RS
+#RS配置
 ```
 启动脚本如下：
     #!/bin/bash
@@ -133,7 +135,7 @@ $service keepalived start
     esac
     
     exit 0
-sh realserver.sh start
+$sh realserver.sh start
 ```
 #test 
 ```
@@ -141,5 +143,72 @@ sh realserver.sh start
     curl 192.168.1.160
     
 2.测试keepalived的监控检测
-    停掉RS1的nginx，然后在MASTER负载均衡服务器上可以到看VIP映射关系中已经剔除了192.168.1.223
+    1.停掉RS1的nginx
+    $service httpd stop
+    停止 httpd：                                               [确定]
+    2.在MASTER负载均衡服务器上可以到看VIP映射关系中已经剔除了192.168.1.223
+    [root@master ~]ipvsam -L -n
+    IP Virtual Server version 1.2.1 (size=4096)   
+    Prot LocalAddress:Port Scheduler Flags   
+      -> RemoteAddress:Port           Forward Weight ActiveConn InActConn   
+    TCP  192.168.1.160:80 rr   
+      -> 192.168.1.190:80            Route   1      0          0       
+    3.重新启动一下RS1
+    [root@node1 src]# service httpd start  
+    正在启动 httpd：                                           [确定]
+    4.再查看一下lvs状态
+    [root@master ~]# ipvsadm -L -n  
+    IP Virtual Server version 1.2.1 (size=4096)   
+    Prot LocalAddress:Port Scheduler Flags   
+      -> RemoteAddress:Port           Forward Weight ActiveConn InActConn   
+    TCP  192.168.1.160:80 rr   
+      -> 192.168.1.190:80            Route   1      0          0       
+      -> 192.168.1.223:80            Route   1      0          0
+    5.关闭主keepalived
+     [root@master ~]# service keepalived stop  
+     停止 keepalived：                                          [确定]   
+     [root@master ~]# ipvsadm -L -n   
+     IP Virtual Server version 1.2.1 (size=4096)   
+     Prot LocalAddress:Port Scheduler Flags   
+      -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
+
+    6.查看一下slave状态
+     [root@master ~]$ip addr show
+     1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN   
+        link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00   
+        inet 127.0.0.1/8 scope host lo   
+        inet6 ::1/128 scope host   
+           valid_lft forever preferred_lft forever   
+     2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000   
+        link/ether 00:0c:29:f9:e6:26 brd ff:ff:ff:ff:ff:ff   
+        inet 192.168.1.190/24 brd 192.168.18.255 scope global eth0   
+        inet 192.168.1.223/32 scope global eth0   
+        inet6 fe80::20c:29ff:fef9:e626/64 scope link   
+           valid_lft forever preferred_lft forever  
+    [root@slave ~]# ipvsadm -L -n   
+    IP Virtual Server version 1.2.1 (size=4096)   
+    Prot LocalAddress:Port Scheduler Flags   
+      -> RemoteAddress:Port           Forward Weight ActiveConn InActConn   
+    TCP  192.168.1.160:80 rr   
+      -> 192.168.1.190:80            Route   1      0          0       
+      -> 192.168.1.223:80            Route   1      0          0
+    7.关闭所有的RS并重新启动一下master与slave的keepalived
+    [root@node1 ~]# service httpd stop 
+    停止 httpd：                                               [确定]
+    [root@node2 ~]# service httpd stop 
+    停止 httpd：                                               [确定]
+    [root@master ~]# service keepalived restart 
+    停止 keepalived：                                          [确定]  
+    正在启动 keepalived：                                      [确定]
+    [root@slave ~]# service keepalived restart 
+    停止 keepalived：                                          [确定]  
+    正在启动 keepalived：                                      [确定]
+    8.查看一下lvs
+    [root@master ~]# ipvsadm -L -n 
+    IP Virtual Server version 1.2.1 (size=4096)  
+    Prot LocalAddress:Port Scheduler Flags  
+      -> RemoteAddress:Port           Forward Weight ActiveConn InActConn  
+    TCP  192.168.18.200:80 rr  
+      -> 127.0.0.1:80                 Local   1      0          0
+ 
 ```
