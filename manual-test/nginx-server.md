@@ -35,15 +35,20 @@ Remark:
        tar zxvf nginx-1.5.9.tar.gz
 
      3.安装依赖文件
-
-     　yum install gcc -y
+     
+       yum install gcc -y
+      
        yum install zlib* -y
+       
        yum install pcre* -y
 
     ４.编译
+    
 
-     　./configure
+      ./configure
+      
        make
+       
        make install
 
      5.修改配置文件
