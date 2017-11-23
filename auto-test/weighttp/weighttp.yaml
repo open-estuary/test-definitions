@@ -12,10 +12,10 @@ metadata:
     devices:
         - d05
         - d03
-   level: 1
+    level: 1
 run:
     steps:
-        - "cd app/weighttp; ./weighttp.sh; cd - "
+        - "cd auto-test/weighttp; ./weighttp.sh; cd - "
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
