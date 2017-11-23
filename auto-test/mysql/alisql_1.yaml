@@ -14,8 +14,8 @@ metadata:
         - d03
         - d05
 
-install:
-    deps:
+#install:
+#    deps:
         - 
 
 run:

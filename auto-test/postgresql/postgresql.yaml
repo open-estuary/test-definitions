@@ -13,9 +13,6 @@ metadata:
         - d03
         - d05
 
-install:
-    deps:
-
 run:
     steps:
         - "cd auto-test/postgresql; ./postgresql.sh; cd -"
