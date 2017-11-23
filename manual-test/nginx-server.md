@@ -1,5 +1,5 @@
 ---
-snappy.md - snappy test md
+nginx-server.md - nginx-server test md
 Hardware platform: D05，D03
 Software Platform: CentOS
 Author: mahongxin <hongxin_228@163.com>  
@@ -22,39 +22,39 @@ Remark:
     no
 
 - **Test:**
-    1.安装snappy安装包
-       yum install snappy.aarch64 -y
-    2.新建一个测试文件a.cpp
-     touch a.cpp && chmod 777 a.cpp
-    3.编辑测试文件
-    #include "snappy.h"
-　　#include <string>
-　　#include <iostream>
-　　int main(){
-	std::string s = "ddsandslkanlksdlfj;lkjsld;lfsjldkf;reioweor;dlskjfls";
-	std::string d;
-	snappy::Compress(s.data(),s.size(),&d);
-	std::cout<<d<<std::endl;
-	std::cout<<s.size()<<""<<d.size()<<std::endl;
-	return 0;
-}
-    ４．编译a.cpp文件
-    　　libtool --mode=compile g++ -c a.cpp
-	
-   5.　编译链接snappy库
-       libtool --mode=link g++ -o test a.lo libsnappy.la 
+    1.下载nginx压缩包
+      wget http://nginx.org/download/nginx-1.5.9.tar.gz
+    2.解压nginx
+     tar zxvf nginx-1.5.9.tar.gz
+    3.安装依赖文件
+    　　　yum install gcc -y
+         yum install zlib* -y
+         yum install pcre* -y
+    ４．编译
+    　　./configure
+      　　make
+         make install
+	 
+   5.　修改配置文件
+       server{
+       listen 80;
+       server_name test1.com;
+       location / {
+           return 500;
+	   }
+	  }
        
-   6.执行生成的可执行文件test
-       ./test
+   6.使用curl来测试
+       curl -i "test1.com/"
      
 　　7．查看结果
-   　　查看是否压缩成功
+   　　查看是否可以返回５００
      
   ８．结束测试
        kill -9 进程
        
    ９.卸载snappy
-       yum remove -y snappy
+       yum remove -y nginx
        
      
   
