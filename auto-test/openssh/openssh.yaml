@@ -15,7 +15,6 @@ metadata:
         - d03
         - d05
     level: 1
-        - 2
 
 run:
     steps:
