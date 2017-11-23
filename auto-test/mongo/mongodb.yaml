@@ -1,23 +1,26 @@
 
 metadata:
-    name: "mariadb_testing"
+    name: mongodb-client-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "The MariaDB database management system is a branch of MySQL"
+    description: "mongodb client testing"
     maintainer:
-        - hongxin_228@163.com
+        - tanliqing2010@163.com
     scope:
-        - functional
+        - database
     os:
         - centos
     devices:
-        - d05
         - d03
+        - d05
     level: 1
+
 run:
     steps:
-        - "cd auto-test/mariadb; ./mariadb.sh; cd - "
+        - "cd auto-test/mongo; ./mongodb-test.sh; cd -"
+
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
    FAIL: fail
    PASS: pass
+
