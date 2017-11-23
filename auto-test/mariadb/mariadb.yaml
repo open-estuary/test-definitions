@@ -1,6 +1,6 @@
 
 metadata:
-    name: "mariadb _testing"
+    name: "mariadb_testing"
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "The MariaDB database management system is a branch of MySQL"
     maintainer:

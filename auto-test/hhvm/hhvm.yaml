@@ -4,7 +4,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "hhvm"
     maintainer:
-        - meili760628705@163.com
+        - liu_caili@hoperun.com
     scope:
         - virtualization
     os:
