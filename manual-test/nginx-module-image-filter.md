@@ -10,44 +10,56 @@ Remark:
 - **Dependency:**
     
     １.添加estuary软件包源(可根据实际情况是否要进行此操作)
+
        sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo     
        sudo chmod +r /etc/yum.repos.d/estuary.repo               
        sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY               
        yum clean dbcache
 
 - **Source code:**
+- 
     no
 
 - **Build:**
+- 
     no
 
 - **Test:**
-    1.下载nginx安装包
+- 
+     1.下载nginx安装包
+
        wget http://nginx.org/download/nginx-1.5.9.tar.gz
-    2.解压nginx压缩包
-     tar -zxvf nginx-1.5.9.tar.gz
-    3.安装编译时候需要的安装包
+
+     2.解压nginx压缩包
+
+      tar -zxvf nginx-1.5.9.tar.gz
+
+     3.安装编译时候需要的安装包
+
     　yum install gd-devel -y
-    4.进入到解压后的nginx-1.5.9进行编译
+
+     4.进入到解压后的nginx-1.5.9进行编译
+
        cd nginx-1.5.9
        ./configure --prefix=/usr/local/nginx --with-http_image_filter_module
        make
        make install
        
-   5.查看nginx是否可以正常启动
+     5.查看nginx是否可以正常启动
+
        /usr/local/nginx/sbin/nginx -t
        /usr/local/nginx/sbin/nginx
        cur http://loacalhost/index.html看到welcom nginx test的文字代表nginx安装启动成功
        
-    6.修改nginx.conf配置文件</usr/local/nginx/conf/nginx.conf>
+     6.修改nginx.conf配置文件</usr/local/nginx/conf/nginx.conf>
       vi nginx.conf
       
       events {
     worker_connections  1024;
-}
+    }
 
 
-http {
+    http {
     include       mime.types;
     default_type  application/octet-stream;
     types_hash_max_size 2048;#添加此行
@@ -86,13 +98,14 @@ http {
        cd images/111.jpg#图片可以自己随意添加
        
      8.开始进行图片测试
-     /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf &
+       /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf &
      
      9．查看单板的ip地址
-     ip addr
+       ip addr
      
-　　10．查看结果
-   　　在浏览器输入ip地址http://192.168.1.xxx/images/111.jpg如果能正常显示图片代表成功
+    10．查看结果
+
+      在浏览器输入ip地址http://192.168.1.xxx/images/111.jpg如果能正常显示图片代表成功
      
      11．结束测试
        kill -9 进程
@@ -103,4 +116,5 @@ http {
      
   
 - **Result:**
+- 
       测试上述步骤是否全部通过，若是，则pass；若不是，则fail,可以通过对配置文件的修改来对图片进行不同风格的显示，大小变化，旋转等
