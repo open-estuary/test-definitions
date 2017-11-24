@@ -30,7 +30,17 @@ function install_redis(){
     print_info $? "redis edit config file ,that can run background"
     
 }
-
+function redis_uninstall(){
+    
+    ps -ef | grep redis_server | grep -v grep
+    if [ $? -eq 0 ];then
+        redis_stop -a
+    fi
+    yum -y remove redis 
+    print_info $? "redis uninstall"
+    rm -rf /redis/db/ 
+    print_info $? "redis clean up workdir"
+}
 function redis_start(){
    
     port=$1
@@ -120,7 +130,7 @@ function redis_stop(){
 function redis_auth(){
     
     res=`redis-cli CONFIG set requirepass 123`
-    if [ $res =="OK"  ];then
+    if [ $res == "OK"  ];then
         true
     else
         false
@@ -149,7 +159,7 @@ function redis_auth(){
 }
 
 
-fucntion redis_string_test(){
+function redis_string_test(){
     res=`redis-cli ping`
     if [ $res == "PONG"  ];then
         true
@@ -167,7 +177,7 @@ fucntion redis_string_test(){
     print_info $? "redis flushall command"
 
     res1=`redis-cli set redis redis`
-    if[ $res1 =="OK"  ];then
+    if [ $res1 == "OK"  ];then
         true
     else
         false
@@ -193,7 +203,7 @@ fucntion redis_string_test(){
     res6=`redis-cli get redis`
     res4=`redis-cli getset redis database`
     res5=`redis-cli get redis`
-    if[[ $res4 == $res6 && $res5 = "database"  ]];then
+    if [[ $res4 == $res6 && $res5 = "database"  ]];then
         true
     else
         false
@@ -203,7 +213,7 @@ fucntion redis_string_test(){
     redis-cli set estuary root
     res7=`redis-cli mget estuary redis`
     echo $res7 | grep database && echo $res7 | grep root
-    if[ $? -eq 0 ];then
+    if [ $? -eq 0 ];then
         true
     else
         false
@@ -254,7 +264,7 @@ fucntion redis_string_test(){
 function redis_hash_test(){
     
     res1=`redis-cli HMSET myhash field1 "hello" field2 "world"`
-    if[ $res1 == "OK" ];then
+    if [ $res1 == "OK" ];then
         true
     else
         false
@@ -270,7 +280,7 @@ function redis_hash_test(){
     print_info $? "redis hget command"
 
     res3=`redis-cli hexists myhash field2`
-    if[ $res3 == 1 ];then
+    if [ $res3 == 1 ];then
         true
     else
         false
@@ -279,7 +289,7 @@ function redis_hash_test(){
 
     res4=`redis-cli hkeys myhash`
     echo $res4 | grep "field1"  && echo $res4 | grep "field2"
-    if[ $? -eq 0 ];then
+    if [ $? -eq 0 ];then
         true
     else
         false
@@ -289,19 +299,226 @@ function redis_hash_test(){
 
     res5=`redis-cli hvals myhash`
     echo $res5 | grep "hello" && echo $res5 | grep "world"
-    if[ $? -eq 0 ];then
+    if [ $? -eq 0 ];then
         true
     else
         false
     fi
     print_info $? "redis HVALS command"
 
+}
 
+function redis_list_test(){
 
+    res1=`redis-cli LPUSH rediskey redis`
+    if [ $res1 -ge 1 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis HPUSH command"
+    
+    redis-cli LPUSH rediskey mongodb
+    res2=`redis-cli LRANGE rediskey 0 -1`
+    echo $res2 | grep "mongodb redis"
+    if [ $?  -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis LRANGE command"
+
+    redis-cli RPUSH rediskey mysql
+    res3=`redis-cli LINDEX rediskey -1`
+    if [ $res3 == "mysql" ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis RPUSH command"
+
+    redis-cli RPUSHX rediskey postgresql
+    res4=`redis-cli RPUSHX rediskeyx postgresql`
+    res5=`redis-cli LINDEX rediskey -1`
+    if [[  $res4 == 0 &&  $res5 == "postgresql" ]];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis RPUSHX command"
+
+    res6=`redis-cli LLEN rediskey`
+    if [ $res6 == 4 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis LLEN command"
+
+    res7=`redis-cli LPOP rediskey`
+    if [ $res7 == "mongodb" ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis LPOP command"
+
+    res8=`redis-cli RPOP rediskey`
+    if [ $res8 == "postgresql" ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis RPOP command"
 
 }
 
+function redis_set_test(){
 
+    res1=`redis-cli SADD redisset redis`
+    if [ $res1 -ge 1  ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis SADD command"
+
+
+    res2=`redis-cli SISMEMBER redisset redis`
+    if [ $res2 -eq 1  ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis SISMEMBER command"
+    redis-cli SADD redisset mysql
+    redis-cli SADD redisset mongodb 
+    redis-cli SADD redisset2 redis mysql postgresql 
+
+    res3=`redis-cli SCARD redisset`
+    res4=`redis-cli SCARD redisset3`
+    if [[ $res3 == 3 && $res4 == 0   ]];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis SCARD commad"
+
+    res5=`redis-cli SDIFF redisset redisset2`
+    if [ $res5 == "mongodb" ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis SDIFF command"
+
+    res6=`redis-cli SINTER redisset redisset2`
+    echo $res6 | grep redis && echo $res6 | grep mysql 
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis SINTER command"
+
+    res7=`redis-cli SUNION redisset redisset2`
+    echo $res7 | grep redis && echo $res7 | grep postgresql
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis SUNION command"
+
+    res8=`redis-cli SREM redisset redis`
+    if [ $res8 -eq 1 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis SREM command"
+
+}
+
+function redis_sortedset_test(){
+    
+   echo  
+
+}
+
+function redis_save_test(){
+
+    res=`redis-cli set save isSave`
+    res2=`redis-cli save`
+    if [ $res2 == "OK"  ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis sava database"
+
+    res3=`redis-cli CONFIG GET dir`
+    path=`echo $res3 | cut -d " " -f 2`
+
+   
+    mkdir -p /redis/db/7777 
+
+    cp ${path}/dump.rdb /redis/db/7777/
+    redis_start  7777
+
+
+    res4=`redis-cli -p 7777 GET save`
+    if [ $res4 == "isSave"  ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis restore database"
+
+}
+
+function redis_transaction_test(){
+
+    cat > tmp.txt <<-eof
+    MULTI
+    FLUSHALL 
+    SET bookname "c++" 
+    GET bookname
+    SADD tag "c++" "mastering series" "programming"
+    SISMEMBER tag "c++"
+    EXEC
+
+eof
+    
+    res1=`cat tmp.txt | redis-cli`
+    echo $res1 | grep "OK OK c++ 3 1"
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis transaction exec  command"
+
+
+    cat > tmp.txt <<-eof
+    MULTI
+    FLUSHALL 
+    SET bookname "c++" 
+    GET bookname
+    SADD tag "c++" "mastering series" "programming"
+    SISMEMBER tag "c++"
+    DISCARD
+eof
+    res2=`cat tmp.txt | redis-cli`
+    echo $res2 | grep "^OK.*OK$"
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "redis transaction  discard command"
+
+}
 
 
 
