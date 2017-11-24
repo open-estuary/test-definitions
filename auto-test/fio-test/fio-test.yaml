@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - cd ./app/fio-test/
+        - cd auto-test/fio-test
         - ./fio-test.sh -p "${PARTITION}" -i "${IOENGINE}" -b "${BLOCK_SIZE}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
