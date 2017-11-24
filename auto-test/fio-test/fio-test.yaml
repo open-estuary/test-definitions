@@ -12,7 +12,7 @@ metadata:
     devices:
         - d05
         - d03
-   level: 1
+    level: 1
 
 run:
     steps:
@@ -21,7 +21,7 @@ run:
         - ../../utils/send-to-lava.sh ./output/result.txt
 
 parse:
-   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
-   fixupdict:
-   FAIL: fail
-   PASS: pass
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+    FAIL: fail
+    PASS: pass
