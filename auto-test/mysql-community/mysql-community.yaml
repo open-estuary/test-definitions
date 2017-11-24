@@ -1,0 +1,29 @@
+
+metadata:
+    name: mysql-community
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "A very fast and reliable SQL database server
+                http://www.mysql.com/
+                Version     : 5.6.36
+                Release     : 2.el7.centos"
+    maintainer:
+        - liu_caili@hoperun.com
+    scope:
+        - database
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+    level: 1
+
+run:
+    steps:
+        - "cd auto-test/mysql-community; ./mysql-community.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+
