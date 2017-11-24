@@ -23,5 +23,18 @@ source ./redis.sh
 install_redis
 redis_start 
 
+redis_string_test 
 
-redis_stop 
+redis_hash_test
+redis_list_test
+redis_set_test
+redis_sortedset_test
+redis_transaction_test 
+
+redis_save_test 
+
+redis_auth
+
+redis_stop  -a
+# redis_uninstall 
+
