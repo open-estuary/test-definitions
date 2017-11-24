@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - cd ./app/usb-smoke
+        - cd auto-test/usb-smoke
         - ./usb-smoke-test.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 

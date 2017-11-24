@@ -17,7 +17,7 @@ metadata:
 
 run:
     steps:
-        - cd ./app/blogbench/
+        - cd auto-test/blogbench
         - ./blogbench.sh -i "${ITERATION}" -p "${PARTITION}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:
