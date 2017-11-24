@@ -21,6 +21,8 @@ print_info $? status-mysqld
 mysqladmin --version | grep 5.6
 print_info $? test-mysql-version
 
+cd ../../utils/mysql
+
 ./nonelogin.sh
 if [ $? -ne 0 ]; then
     echo 'anonymous login mysql ok'
@@ -40,7 +42,6 @@ else
 	print_info $? root-login
 fi
 
-
 ./createdb.sh
 if [ $? -ne 0 ]; then
     echo 'create test database ok'
@@ -48,7 +49,6 @@ if [ $? -ne 0 ]; then
 else
 	print_info $? create-database
 fi
-
 
 ./choocedb.sh
 if [ $? -ne 0 ]; then
@@ -179,10 +179,12 @@ else
 	print_info $? delete-database
 fi
 
+rm -f ./out.log
+cd -
+
 systemctl stop mysqld
 print_info $? stop-mysqld
 
 yum remove -y mysql-community-server mysql-community-common mysql-community-client mysql-community-devel
 print_info $? remove-mysql-community
 
-rm -f ./out.log
