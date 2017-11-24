@@ -26,34 +26,33 @@ Remark:
 
 - **Test:**
 -
-     1.下载nginx压缩包
+    1.下载nginx压缩包
 
-       wget http://nginx.org/download/nginx-1.5.9.tar.gz
+      wget http://nginx.org/download/nginx-1.5.9.tar.gz
 
-     2.解压nginx
+    2.解压nginx
 
-       tar zxvf nginx-1.5.9.tar.gz
+      tar zxvf nginx-1.5.9.tar.gz
 
-     3.安装依赖文件
-     
-       yum install gcc -y
-      
-       yum install zlib* -y
-       
-       yum install pcre* -y
+    3.安装依赖文件
+
+      yum install gcc -y
+
+      yum install zlib* -y
+
+      yum install pcre* -y
 
     ４.编译
-    
 
       ./configure
-      
-       make
-       
-       make install
 
-     5.修改配置文件
+      make
 
-       server{
+      make install
+
+    5.修改配置文件
+
+      server{
          listen 80;
          server_name test1.com;
          location / {
@@ -61,21 +60,21 @@ Remark:
          }
        }
 
-     6.使用curl来测试
+    6.使用curl来测试
 
-       curl -i "test1.com/"
+      curl -i "test1.com/"
 
-     7.查看结果
+    7.查看结果
 
-       查看是否可以返回500
+      查看是否可以返回500
 
-     8.结束测试
+    8.结束测试
 
-       kill -9 进程
+      kill -9 进程
 
-    ９.卸载snappy
+    9.卸载nginx
 
-       yum remove -y nginx
+      yum remove -y nginx
 
 
 
