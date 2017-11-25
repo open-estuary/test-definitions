@@ -11,12 +11,12 @@ yum erase -y mariadb-libs
 yum remove -y mariadb-libs
 yum update -y
 
-pkgs="mysql-community-common mysql-community-server 
-	mysql-community-client mysql-community-devel expect"
+pkgs="mysql57-community-common mysql57-community-server 
+	mysql57-community-client mysql57-community-devel expect"
 install_deps "${pkgs}"
 print_info $? install-mysql-community
 
-mysqladmin --version | grep 5.6
+mysqladmin --version | grep 5.7
 print_info $? test-mysql-version
 
 systemctl start mysqld
