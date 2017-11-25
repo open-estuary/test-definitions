@@ -160,6 +160,7 @@ function redis_auth(){
 
 
 function redis_string_test(){
+    
     res=`redis-cli ping`
     if [ $res == "PONG"  ];then
         true
@@ -442,7 +443,15 @@ function redis_set_test(){
 
 function redis_sortedset_test(){
     
-   echo  
+   res=`redis-cli ZADD sortkey 1  "one"`
+   if [ $res -eq 1 ];then
+       true
+   else
+       false
+   fi
+   print_info $? "redis ZADD commad"
+
+
 
 }
 
