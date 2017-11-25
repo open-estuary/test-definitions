@@ -189,6 +189,6 @@ cd -
 systemctl stop mysqld
 print_info $? stop-mysqld
 
-yum remove -y mysql-community-server mysql-community-common mysql-community-client mysql-community-devel
-print_info $? remove-mysql-community
+yum remove -y mysql57-community-server mysql57-community-common mysql57-community-client mysql57-community-devel
+print_info $? remove-mysql57-community
 
