@@ -111,3 +111,6 @@ info_msg "fio test directory: $(pwd)"
 for rw in "read" randread write randwrite rw randrw; do
     fio_test "${rw}"
 done
+
+#Remove fio package
+yum remove -y "${pkgs}"
