@@ -9,7 +9,7 @@ Remark:
 ---
 - **Dependency:**
 
-    １.添加estuary软件包源(可根据实际情况是否要进行此操作)
+    1.添加estuary软件包源(可根据实际情况是否要进行此操作)
 
        sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
        sudo chmod +r /etc/yum.repos.d/estuary.repo
@@ -42,7 +42,7 @@ Remark:
 
       yum install pcre* -y
 
-    ４.编译
+    4.编译
 
       ./configure
 
