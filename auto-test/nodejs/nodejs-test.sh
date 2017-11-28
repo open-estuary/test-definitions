@@ -19,4 +19,4 @@ source ./nodejs.sh
 nodejs_install
 nodejs_npm
 nodejs_fs_test
-#nodejs_uninstall
+nodejs_uninstall
