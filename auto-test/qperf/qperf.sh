@@ -15,6 +15,7 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 #name=`uname -a | awk '{print $2}'`
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
          yum install -y qperf

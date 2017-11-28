@@ -1,19 +1,18 @@
 
 metadata:
-    name: gtest_testing
+    name: "gtest-testing"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "gtest  testing"
+    description: "the test framework was generated on different platforms to write c++  tests"
     maintainer:
         - hongxin_228@163.com
     scope:
         - functional
     os:
         - centos
-
     devices:
         - d05
         - d03
-
+    level: 1
 run:
     steps:
         - "cd auto-test/gtest; ./gtest.sh; cd -"

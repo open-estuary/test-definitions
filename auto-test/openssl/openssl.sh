@@ -6,7 +6,7 @@
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
 set -x
-cd utils
+cd ../../utils
     . ./sys_info.sh
 cd -
 
@@ -23,6 +23,7 @@ if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "ubuntu")
          apt-get install openssl -y

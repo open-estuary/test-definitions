@@ -14,11 +14,7 @@ metadata:
     devices:
         - d03
         - d05
-
-install:
-    deps:
-        - samba
-
+    level: 1
 run:
     steps:
         - "cd auto-test/samba; ./samba.sh; cd -"
