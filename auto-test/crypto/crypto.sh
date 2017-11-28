@@ -11,10 +11,13 @@ if [ `whoami` != 'root' ]; then
     echo " You must be the superuser to run this script" >&2
     exit 1
 fi
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
         yum install gcc -y
-        yum install g++ -y
+        yum install gcc-c++ -y
+        yum install make -y
+        yum install unzip -y
         wget http://192.168.1.107/cryptopp-CRYPTOPP_5_6_5.zip
         unzip cryptopp-CRYPTOPP_5_6_5.zip
         ;;
@@ -132,10 +135,10 @@ EOF
 g++ -lcryptopp -lpthread Cryptopp_test.cc -o Cryptopp_test
 export LD_LIBRARY_PATH=/lib:$LD_LIBRARY_PATH
 sudo ldconfig
-./Crytopp_test >> crytest.log
+./Cryptopp_test >> crytest.log
 str=`grep -Po "Encrypted Text" crytest.log`
 TCID="crypto-policies-test"
-if [ "$str" != " " ];then
+if [ "$str" != "" ];then
     lava-test-case $TCID --result pass
 else
     lava-test-case $TCID --result fail

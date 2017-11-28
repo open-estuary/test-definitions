@@ -75,7 +75,7 @@ else
                 install_deps "sysbench mysql-devel mariadb-server mariadb"
                 systemctl start mariadb
             fi
-            [ sysbench --version ]# && install_sysbench
+            [ sysbench --version ] || install_deps "sysbench"
             ;;
         opensuse)
             install_deps "git gcc make automake"

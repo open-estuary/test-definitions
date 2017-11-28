@@ -7,9 +7,13 @@ if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
-
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
+         yum install nginx.aarch64 -y
+         yum install gcc -y
+         yum install zlib* -y
+         yum install pcre* -y
          wget http://nginx.org/download/nginx-1.5.9.tar.gz
          tar zxvf nginx-1.5.9.tar.gz
          cd nginx-1.5.9
@@ -18,12 +22,15 @@ case $distro in
          make install
          ;;
  esac
-cd /usr/local/nginx/conf
+#cd /usr/local/nginx/conf
+cd conf
 cp nginx.conf nginx.conf_bak
 sed -i '/default_type/a\    types_hash_max_size 2048;' nginx.conf
 sed -i '/types_hash_max_size/a\    types_hash_bucket_size 32;' nginx.conf
-/usr/local/nginx/sbin/nginx -t
-/usr/local/nginx/sbin/nginx
+#/usr/local/nginx/sbin/nginx -t
+#/usr/local/nginx/sbin/nginx
+/usr/sbin/nginx -t
+/usr/sbin/nginx
 curl http://localhost/index.html >> nginx.log
 str=`grep -Po "Welcome to nginx" nginx.log`
 TCID="nginx-test"

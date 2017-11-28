@@ -23,7 +23,7 @@ install() {
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}";;
-      fedora|centos) install_deps "redhat-lsb-core" "${SKIP_INSTALL}";;
+      fedora|centos) install_deps "redhat-lsb-core numactl usbutils" "${SKIP_INSTALL}";;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
@@ -55,3 +55,19 @@ run "dmidecode"
 run "lsusb"
 run "lsmod"
 run "numactl --hardware"
+run "cat /proc/cpuinfo "
+run "cat /proc/meminfo "
+run "ps -el"
+run "cat /proc/interrupts"
+run "echo $PATH"
+run "cat /proc/cmdline"
+run "cat /proc/devices"
+run "cat /proc/filesystems"
+run "echo $env"
+run "date"
+run "free"
+run "numastat"
+run "iostat"
+run "lshw"
+run "lsof"
+run "ls -l /sys/class/i2c-dev/*/device/firmware_node | grep HISI"
