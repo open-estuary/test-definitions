@@ -2,7 +2,7 @@
 #DNS is the server responsibel for domain name resolution
 #Author:mahongxin <hongxin_228@163.com>
 set -x
-cd utils
+cd ../../utils
 . ./sys_info.sh
 cd -
 #Test user id
@@ -10,84 +10,71 @@ if [ `whoami` != 'root' ]; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+
 case $distro in
     "centos")
-        yum install bind-chroot bind -y
+        yum install bind -y
+        yum install bind-utils -y
         ;;
 esac
-#Copy the bind file to prepare the bind chroot environment
-cp -R /usr/share/doc/bind-*/sample/var/named/* /var/named/chroot/var/named/
-#create the relevant files in the bind chroot directory
-touch /var/named/chroot/var/named/data/cache_dump.db
-touch /var/named/chroot/var/named/data/named_stats.txt
-touch /var/named/chroot/var/named/data/name_mem_stats.txt
-touch /var/named/chroot/var/named/data/named.run
-mkdir /var/named/chroot/var/named/dynamic
-touch /var/named/chroot/var/named/dynamic/managed-keys.bind
-#set the Bind lock file to writable
-chmod -R 777 /var/named/chroot/var/named/data
-chmod -R 777 /var/named/chroot/var/named/dynamic
-#copy /etc/name.conf to the bind chroot directory
-cp -p /etc/named.conf /var/named/chroot/etc/named.conf
-#configure bind in /etc/names.conf
-sed -i 's/127.0.0.1/any/g' /var/named/chroot/etc/named.conf
-sed -i 's/localhost/any/g' /var/named/chroot/etc/named.conf
-sed '52a zone "example.local" \{ \ntype master; \nfile "example.local.zone";\n\};\
-\nzone "1.168.192.in-addr.arpa" IN \{ \ntype master; \nfile "192.168.1.zone;\n\};' /var/named/chroot/etc/named.conf
-#create forward domain
-cat << EOF >> /var/named/chroot/var/named/example.local.zone
-;
-;    Addresses and other host information
-;
-$TTL 86400
-@       IN    SOA    example.local. hostmaster.example.local. (
-                        2014101901      ; Serial
-                        43200           ; Refresh
-                        3600            ; Retry
-                        3600000         ; Expire
-                        2592000)        ; Minimum
-;      Define the nameservers and the mail servers
-          IN      NS      ns1.example.local.
-          IN      NS      ns2.example.local.
-          IN      A       192.168.1.70
-          IN      MX      10 mx.example.local.
-centos7         IN  A     192.168.1.70
-mx              IN　A     192.168.1.50
-ns1             IN  A     192.168.1.70
-ns2             IN  A     192.168.1.80
-EOF
-cat << EOF >> /var/named/chroot/var/named/192.168.1.zone
-;
-;    Addresses and other host information
-;
-$TTL 86400
-@       IN    SOA    example.local. hostmaster.example.local. (
-                        2014101901      ;  Serial
-                        43200           ;  Retry
-                        3600            ;  Retry
-                        3600000         ;  Expire
-                        2592000)        ;  Minimum
-1.168.192.in-addr.addr.arpa. IN    NS    centos7.example.local.
+chmod 777 /etc/named.conf
+sed -i 's/127.0.0.1/any/g' /etc/named.conf
+sed -i 's/localhost/any/g' /etc/named.conf
+sed -i '42a zone "example.com" IN\{ \ntype master; \nfile "example.com.zone";\n\};\
+zone "realhostip.com" IN \{ \ntype master; \nfile "named.realhostip.com";\n\};' /etc/named.rfc1912.zones
+cp -p /var/named/named.localhost /var/named/example.com.zone
 
-70.1.168.192.in-addr.arpa. IN PTR mx.example.local.
-70.1.168.192.in-addr.arpa. IN PTR ns1.example.local.
-80.1.168.192.in-addr.arpa. IN PTR ns2.example.local.
+cat << EOF > /var/named/example.com.zone
+\$TTL  1D
+@       IN    SOA    server1.example.com. root.invalid. (
+                        20160614      ; serial
+                        1D           ; refresh
+                        1H           ; retry
+                        1W           ; expire
+                        3H )         ; minimum
+          NS    server1.example.com.
+server1   A     127.0.0.1
+www       AAAA  ::1
+bbs       CNAME news.example.com.
+news      A     192.168.1.70
+example.com.    MX 1       192.168.1.70.
 EOF
-#Boot from the bind-chroot
-/usr/libexec/setup-named-chroot.sh /var/named/chroot on
-systemctl stop named
-systemctl disable named
-systemctl start named-chroot
-systemctl enable named-chroot
-ln -s '/usr/lib/systemd/system/named-chroot.service' '/etc/systemd/system/multi-user.target.wants/named-chroot.service'
-board_ip=`ifconfig |grep "inet"|cut -c14-26|head -n 1`
-dig @${board_ip} example.local 2>&1 |tee dig.log
-throu1=`grep -Po "ns1.example.local." dig.log`
-TCID1="DNS test pass"
+chmod 777 /var/named/example.com.zone
+
+cat << EOF >> /var/named/named.realhostip.com
+\$TTL 1D
+@       IN    SOA    realhostip.com. rname.invalid. (
+                        0               ;  serial
+                        1D              ;  refresh
+                        1H              ;  retry
+                        1W              ;  expire
+                        3H )            ;  minimum
+       NS     @
+       A      127.0.0.1
+       AAAA   ::1
+192-168-1-70  IN A       192.168.1.70
+192-168-1-80  IN A       192.168.1.80
+EOF
+chmod 777 /var/named/named.realhostip.com
+board_ip=`ip addr |grep "inet 192"|cut -c10-22`
+sed -i "2i\\nameserver ${board_ip}" /etc/resolv.conf
+systemctl restart named.service
+
+dig 192-168-1-70.realhostip.com 2>&1 | tee dig.log
+
+dig -t mx example.com 2>&1 |tee dig1.log
+throu1=`grep -Po "192.168.1.70" dig.log`
+throu2=`grep -Po "server1.example.com." dig1.log`
+TCID1="DNS forward direction "
+TCID2="DNS reverse "
 if [ "$throu1" != "" ]; then
     lava-test-case $TCID --result pass
 else
     lava-test-case $TCID --result fail
 fi
-
+if [ "$throu2" != "" ]; then
+    lava-test-case $TCID2 --result pass
+else
+    lava-test-case $TCID2 --result fail
+fi
 

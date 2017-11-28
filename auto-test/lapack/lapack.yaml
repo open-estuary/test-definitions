@@ -2,10 +2,9 @@ metadata:
     name: lapack
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Build and run lapack (Linear Algebra PACKage) tests natively"
-
     maintainer:
         - naresh.kamboju@linaro.org
-        - meili760628705@163.com
+        - liu_caili@hoperun.com
     os:
         - ubuntu
         - centos
@@ -15,6 +14,7 @@ metadata:
     devices:
         - d05
         - d03
+    level: 1
 
 params:
     SKIP_INSTALL: "False"

@@ -1,6 +1,6 @@
 metadata:
-    format: Lava-Test Test Definition 1.0
-    name: openssl-speed
+    name: openssl
+    format: "Lava-Test Test Definition 1.0"
     description: "Use openssl speed command to test the performance of
                   cryptographic algorithms"
     maintainer:
@@ -14,9 +14,7 @@ metadata:
     devices:
         - d03
         - d05
-
-params:
-    SKIP_INSTALL: "False"
+    level: 1
 
 run:
     steps:
