@@ -21,11 +21,12 @@ case $distro in
          ;;
  esac
 
-str=`grep "error" eth-install.log`
-if [ str != " "];then
+str=`cat eth-install.log | grep error`
+if [ $str != '' ];then
     lava-test-case ethtool-install --result fail
 else
     lava-test-case ethtool-install --result pass
+fi
 
 # Check ethernet drive
 ethtool -i eth0
@@ -46,16 +47,20 @@ print_info $? check-statistics
 # Set ethernet speed
 ethtool -s eth0 speed 10
 print_info $? speed-10
+
 ethtool -s eth0 speed 100
 print_info $? speed-100
+
 ethtool -s eth0 speed 1000
 print_info $? speed-1000
 
 # Set ethernet duplex
 ethtool -s eth0 speed 10 duplex half
 print_info $? duplex-half
+
 ethtool -s eth0 speed 10 deplex full
 print_info $? duplex-full
+
 ethtool -s eth0 speed 1000 duplex full
 print_info $? duplex-full-1000
 
