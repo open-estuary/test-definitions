@@ -18,12 +18,13 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-         wget http://htsat.vicp.cc:804/netperf-2.7.0.tar.gz
-         tar xf netperf-2.7.0.tar.gz
-         cd netperf-2.7.0
-         ./configure --build=aarch64-unknown-linux-gnu
-         make
-         make install
+        # wget http://htsat.vicp.cc:804/netperf-2.7.0.tar.gz
+        # tar xf netperf-2.7.0.tar.gz
+        # cd netperf-2.7.0
+        # ./configure --build=aarch64-unknown-linux-gnu
+        # make
+        # make install
+        yum install netperf.aarch64 -y
          ;;
     "ubuntu")
          apt-get install netperf -y
