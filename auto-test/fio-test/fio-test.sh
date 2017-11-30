@@ -114,3 +114,4 @@ done
 
 #Remove fio package
 yum remove -y "${pkgs}"
+print_info $? remove-fio
