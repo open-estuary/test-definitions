@@ -2,7 +2,7 @@
 metadata:
     name: kernel-package 
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "内核包的安装和卸载"
+    description: "不同发行版内核包的安装和卸载"
     maintainer:
         - shuangshengchen@qq.com
     scope:
