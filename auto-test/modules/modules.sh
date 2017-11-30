@@ -2,12 +2,24 @@
 
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
-! check_root && error_msg "You need to be root to run this script."
-make
+LOG="${OUTPUT}/log"
+RESULT="${OUTPUT}/result"
 export RESULT_FILE
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
-
+dist_name
+headers="$(uname -r)"
+case "${dist}" in
+    debian | ubuntu)
+        apt-get install linux-headers-${headers}
+        ;;
+    centos)
+        yum install kernel-headers-${headers}
+        ;;
+    *)
+        echo "not surpport in this distribution"
+        ;;
+esac
 make all
 status=$?
 if [ $status -eq 0 ];then
@@ -15,10 +27,10 @@ if [ $status -eq 0 ];then
 else
     echo "make hello.c FAILED" | tee -a "${RESULT_FILE}"
 fi
-insmod hello.ko
-rmmod hello.ko
-make clean
-dmesg | tail -2 | tee text.log
+insmod hello.ko | tee -a "${LOG}" 
+rmmod hello.ko | tee -a "${LOG}"
+make clean | tee -a "${LOG}"
+dmesg | tail -2 | tee -a text.log
 cat text.log | grep Hello
 status=$?
 if [ $status -eq 0 ];then
