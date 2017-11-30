@@ -74,6 +74,8 @@ print_info $? c++-delete-data
 cat out.log  | grep "success drop test table"
 print_info $? c++-drop-table
 
+rm -f out.log
+
 systemctl stop mysqld
 print_info $? stop-mysqld
 
