@@ -13,11 +13,11 @@ fi
 
 case $distro in
     "centos" )
-         yum install -y devlibset-4 
-         print_info $? devlibset-4
+         yum install -y devtoolset-4-gcc 
+         print_info $? devtoolset-4-gcc
          ;;
  esac
 
 # Remove package
-yum remove -y devlibset-4
+yum remove -y devtoolset-4-gcc
 print_info $? remove
