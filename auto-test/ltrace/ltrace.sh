@@ -39,22 +39,26 @@ print_info $? gcc-hello.c
 print_info $? run-hello
 
 #可以看到程序调用了puts()函数
-ltrace ./hello
+ltrace ./hello  2>&1 | tee ltrace-hello.log
 print_info $? ltrace-hello
 
 #把系统调用都打印出来
-ltrace -S ./hello
+ltrace -S ./hello 2>&1 | tee ltrace-s-hello.log
 print_info $? ltrace-S-hello
 
 #耗时
-ltrace -c dd if=/dev/urandom of=/dev/null count=1000
+ltrace -c dd if=/dev/urandom of=/dev/null count=1000 2>&1 | tee ltrace-c-hello.log
 print_info $? ltrace-c-hello
 
 #输出调用时间开销
-ltrace -T ./hello
+ltrace -T ./hello 2>&1 | tee ltrace-T-hello.log
 print_info $? ltrace-T-hello
 
-pkill ltrace
+count=`ps -aux | grep ltrace | wc -l`
+if [ $count -gt 0 ]; then
+    kill -9 $(pidof ltrace)
+     print_info $? kill-ltrace
+fi
 
 apt-get remove ltrace -y
 print_info $? remove-ltrace
@@ -62,7 +66,7 @@ print_info $? remove-ltrace
 apt-get remove gcc -y
 print_info $? remove-gcc
 
-apt-get remove buid-essential -y
+apt-get remove build-essential -y
 print_info $? remove-build-essential -y
 
 
