@@ -106,13 +106,16 @@ sed -i 's/listen_ipv6=YES/#listen_ipv6=YES/g' $VSFTPD_CONF
 sed -i 's/#write_enable=YES/write_enable=YES/g' $VSFTPD_CONF
 sed -i 's/write_enable=NO/write_enable=YES/g' $VSFTPD_CONF
 sed -i 's/userlist_enable=YES/userlist_enable=NO/g' $VSFTPD_CONF
-
+if [ "$distro" == "ubuntu" ] ; then
+    sed -i 's/pam_service_name=vsftpd/pam_service_name=ftp/g' $VSFTPD_CONF
+fi
 
 vsftpd_op restart
 #add liucaili 20170516
 sleep 5
 vsftpd_op status
 systemctl restart vsftpd.service
+service restart vsftpd.service
 # for get and put test
 cd /root
 #SELinux安全访问策略限制会导致550 Failed to open file的错误所以这里打开
