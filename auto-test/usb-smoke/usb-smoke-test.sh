@@ -90,3 +90,4 @@ print_supported_usb_speeds
 # Remove usbutils package
 pkgs="usbutils"
 yum remove -y "${pkgs}"
+print_info $? remove-usbutils
