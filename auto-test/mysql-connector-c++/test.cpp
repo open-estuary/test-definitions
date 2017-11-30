@@ -70,6 +70,12 @@ try {
     delete pstmt;
     cout << "success delete data from test table" << endl;
     
+    /* Drop test TABLE */
+    stmt = con->createStatement();
+    stmt->execute("DROP TABLE test");
+    delete stmt;
+    cout << "success drop test table" << endl;
+
     delete con;    
 
 } catch (sql::SQLException &e) {
