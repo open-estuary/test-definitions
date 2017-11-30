@@ -21,6 +21,8 @@ case $distro in
          yum install -y qperf
          ;;
     "ubuntu")
+         apt-get install gcc -y
+         apt-get install make -y
          wget -c http://www.openfabrics.org/downloads/qperf/qperf-0.4.9.tar.gz
          tar xf qperf-0.4.9.tar.gz
          cd qperf-0.4.9
