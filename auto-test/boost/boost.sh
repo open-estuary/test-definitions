@@ -11,7 +11,7 @@ if [ `whoami` != 'root' ]; then
     echo "You must be the superuser to run this script" >$2
     exit 1
 fi
-distro=`cat /etc/redhat-release | cut -b 1-6`
+#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
         yum install gcc -y
