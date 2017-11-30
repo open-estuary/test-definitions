@@ -75,6 +75,20 @@ print_info $? python-drop-table
 
 rm -f out.log
 
+EXPECT=$(which expect)
+$EXPECT << EOF
+set timeout 100
+spawn mysql -uroot -p
+expect "password:"
+send "root\r"
+expect "mysql>"
+send "drop database test;\r"
+expect "OK"
+send "exit\r"
+expect eof
+EOF
+print_info $? drop-database
+
 systemctl stop mysqld
 print_info $? stop-mysqld
 
