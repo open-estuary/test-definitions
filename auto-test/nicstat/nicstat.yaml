@@ -1,25 +1,25 @@
 metadata:
-    name: fio-test
+    name: nicstat
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "FIO or Flexible IO is a versatile IO workload generator test
-                  on Linux."
+    description: "Install nicstat,Run nicstat tests and uninstall nicstat"
     maintainer:
         - fyuanz_2010@163.com
     scope:
+        - functional
         - performance
     os:
         - centos
     devices:
-        - d05
         - d03
+        - d05
     level: 1
 
 run:
     steps:
-        - cd auto-test/fio-test
-        - ./fio-test.sh -p "${PARTITION}" -i "${IOENGINE}" -b "${BLOCK_SIZE}" -s "${SKIP_INSTALL}"
+        - cd auto-test/nicstat
+        - ./nicstat.sh ;;
+        - esac
         - ../../utils/send-to-lava.sh ./output/result.txt
-
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
