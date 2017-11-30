@@ -14,9 +14,9 @@ fi
 case $distro in
     "centos" )
          yum install -y devtoolset-4 
+         print_info $? devlibset-4
          ;;
  esac
- print_info $? devtoolset-4
 
 # Remove package
 yum remove -y devtoolset-4

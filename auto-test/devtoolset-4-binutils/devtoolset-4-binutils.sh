@@ -14,9 +14,9 @@ fi
 case $distro in
     "centos" )
          yum install -y devtoolset-4-binutils 
+         print_info $? devtoolset-4-binutils
          ;;
  esac
- print_info $? devtoolset-4-binutils
 
 # Remove package
 yum remove -y devtoolset-4-binutils
