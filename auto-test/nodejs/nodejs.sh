@@ -74,7 +74,7 @@ function nodejs_fs_test(){
 function nodejs_uninstall(){
     
     yum remove -y nodejs 
-    print_info $? "uninstall nodejs":w
+    print_info $? "uninstall nodejs"
 
 
 }
