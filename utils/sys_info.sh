@@ -5,7 +5,7 @@ PASSWD="open1234asd"
 
 distro=""
 #sys_info=$(uname -a)
-sys_info=$(cat /etc/os-release)
+sys_info=$(cat /etc/os-release | grep PRETTY_NAME)
 
 if [ "$(echo $sys_info |grep -E 'UBUNTU|Ubuntu|ubuntu')"x != ""x ]; then
     distro="ubuntu"
