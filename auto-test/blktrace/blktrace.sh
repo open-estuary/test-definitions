@@ -10,13 +10,42 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
-# Install blktrace package
+version="1.0.5"
+from_repo="Estuary"
+package="blktrace"
+for P in ${package};do
+    echo "$P install"
+# Install package
 case $distro in
     "centos" )
-         yum install -y "${pkgs}"
+         yum install -y "$P"
+         print_info $? "$P"
          ;;
  esac
-print_info $? install
+# Check the package version && source
+ from=$(yum info $P | grep "^From repo" | awk '{print $4}')
+ if [ "$from" = "$from_repo" ];then
+     echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
+ else
+     rmflag=1
+     if [ "$from" != "anaconda" ];then
+         yum remove -y $P
+         yum install -y $P
+         from=$(yum info $P | grep "^From repo" | awk '{print $4}')
+        if [ "$from" = "$from_repo"  ];then
+           echo "$P install  [pass]" | tee -a ${RESULT_FILE}
+        else
+           echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
+        fi
+     fi
+ fi
+
+ vers=$(yum info $P | grep "^Version" | awk '{print $3}')
+ if [ "$vers" = "$version"  ];then
+     echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
+ else
+     echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
+ fi
 
 # Display the blktrace result on screen.
 blktrace -d /dev/sda -w 5 -o - |blkparse -i -
@@ -27,5 +56,5 @@ blktrace -d /dev/sda -w 10 -o trace | blkparse -i -
 print_info $? output
 
 # Remove the blktrace package
-yum remove -y blktrace
-print_info $? remove-blktrace
+yum remove -y "$P"
+print_info $? remove
