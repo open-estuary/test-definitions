@@ -17,24 +17,17 @@ fi
 case $distro in
     "centos")
         yum install java-1.8.0-openjdk.aarch64 -y
-        print_info $? install_java-openjdk
-        java -version
-        print_info $? java-version
         yum install mysql-community-server.aarch64 -y
-        print_info $? install_mysql-server
-        mysql -V
-        print_info $? mysql-version
         yum install expect -y
-        print_info $? install-expect
-
         yum install mycat -y
-        print_info $? install mycat
+        print_info $? install-package
 
          ;;
 esac
 service mysqld start
+print_info $? start-mysqld
 systemctl status mysqld.service |grep "active (running)"
-print_info $? mysql-start
+print_info $? mysql-status
 
 #修改密码
 EXPECT=$(which expect)
@@ -49,11 +42,11 @@ expect "Confirm"
 send "123456\n"
 expect eof
 EOF
-print_info $? mysql-password
+print_info $? mysql-set-password
 
 #登录mysql并创建3个库
 EXPECT=$(which expect)
-$EXPECT << EOF
+$EXPECT << EOF | tee -a out.log
 set timeout 100
 spawn mysql -uroot -p
 expect "Enter password"
@@ -68,6 +61,10 @@ expect "mysql>"
 send "exit;\n"
 expect eof
 EOF
+grep "Welcome to the MySQL" out.log
+print_info $? login-mysql
+grep "Query OK" out.log
+print_info $? create-db
 #添加mycat组
 groupadd mycat
 print_info $? groupadd-mycat
@@ -82,15 +79,16 @@ cat /usr/local/mycat/version.txt |grep "MavenVersion"
 print_info $? mycat-version
 #修改mycat所属组
 chown -R mycat.mycat /usr/local/mycat
-
+print_info $? chown-mycat
 #修改此项是为了解决mycat登录失败报错：java.lang.outofmemoryerror:direct buff
 #memory
 sed -i 's/wrapper.java.additional.5=-XX:MaxDirectMemorySize=2G/wrapper.java.additional.5=-XX:MaxDirectMemorySize=4G/g' /usr/local/mycat/conf/wrapper.conf
+print_info $? modification-wrapper.conf
 
 #启动mycat
 cd /usr/local/mycat/bin
 ./mycat start
-
+print_info $? start-mycat
 #TCID="mycat-start"
 #查看mycat是否正常启动
 ps -ef |grep mycat 2>&1 | tee mycat.log
@@ -101,9 +99,10 @@ else
     lava_test_case $TCID  --fail
 fi
 
+print_info $? mycat-status
 #通过mysql连接mycat
 EXPECT=$(which expect)
-$EXPECT << EOF
+$EXPECT << EOF | tee -a mycat.log
 set timeout 100
 spawn mysql -uroot -p -h127.0.0.1 -P8066 -DTESTDB
 expect "Enter password"
@@ -120,11 +119,17 @@ expect "mysql>"
 send "exit;\n"
 expect eof
 EOF
-
+grep "Welcome to the MySQL monitor" mycat.log
+print_info $? mysql-mycat
+count=grep "Query OK" mycat.log|wc -l
+if [ "$count" -eq  4 ]; then
+print_info $? creat-table
+print_info $? insert-table
+print_info $? explain-create
+print_info $? explain-insert
 count1=`ps -aux| grep mysql|wc -l`
 if [ $count1 -gt 0 ]; then
     kill -9 $(pidof mysql)
-    print_info $? kill-mysql
 fi
 count2=`ps -aux|grep mycat|wc -l`
 if [ $count2 -gt 0 ]; then
@@ -132,11 +137,8 @@ if [ $count2 -gt 0 ]; then
     print_info $? kill-mycat
 fi
 yum remove expect -y
-print_info $? remove-expect
 yum remove java-1.8.0-openjdk.aarch64 -y
-print_info $? remove-java
 yum remove mycat -y
-print_info $? remove-mycat
 yum remove mysql-community-server.aarch64 -y
-print_info $? remove-mysql
+print_info $? remove-package
 
