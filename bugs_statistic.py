@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 import pandas as pd
-import matplotlib.pyplot
+#import matplotlib.pyplot
 lcolumns=[u'测试项目',u'能否自动化',u'是否完成',u'责任人']
 dbugs_guy={u'刘彩丽':0,u'房元政':0,u'谭礼清':0,u'陈双胜':0,u'马红新':0}
 dautobugs_guy={u'刘彩丽':0,u'房元政':0,u'谭礼清':0,u'陈双胜':0,u'马红新':0}
@@ -23,8 +23,9 @@ for sheetname in lsheetlist:
     dft=df2.groupby(u'责任人').count()
     for name in dft.index:
         dautobugs_guy[name]=dautobugs_guy[name]+dft.loc[name][u'是否完成']
-print ("责任人\t"+"总用例数\t"+"自动化用例数\n")
+print ("责任人\t"+"个人总用例数\t"+"自动化用例数\t")
+sum=0
 for name in dbugs_guy.keys():
-    print ("%s\t%i\t\t%i"%(name,dbugs_guy[name],dautobugs_guy[name]))
-    #print "总用例数:%i"%dbugs_guy[name]
-    #print "自动化用例数:%i"%dautobugs_guy[name]
+    print ("%s\t%i\t\t%i"%(name,dbugs_guy[name],dautobugs_guy[name],))
+    sum+=dbugs_guy[name]
+print "总用例数:%i"%sum
