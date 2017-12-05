@@ -11,13 +11,19 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
+version="4.8"
+from_repo="Estuary"
+package="ethtool"
+
+for P in ${package};do
+    echo "$P install"
 # Install package
 case $distro in
     "ubuntu" | "debian" )
-         apt-get install -y ethtool >> eth-install.log
+         apt-get install -y $P >> eth-install.log
          ;;
     "centos" )
-         yum install -y ethtool >> eth-install.log
+         yum install -y $P >> eth-install.log
          ;;
  esac
 
@@ -27,6 +33,32 @@ if [ $str != '' ];then
 else
     lava-test-case ethtool-install --result pass
 fi
+
+# Check the package version && source
+from=$(yum info $P | grep "^From repo" | awk '{print $4}')
+if [ "$from" = "$from_repo"  ];then
+   echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
+else
+     rmflag=1
+      if [ "$from" != "anaconda"  ];then
+           yum remove -y $P
+            yum install -y $P
+             from=$(yum info $P | grep "^From repo" | awk '{print $4}')
+             if [ "$from" = "$from_repo"   ];then
+                echo "$P install  [pass]" | tee -a ${RESULT_FILE}
+            else
+                echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
+           fi
+        fi
+fi
+
+vers=$(yum info $P | grep "^Version" | awk '{print $3}')
+if [ "$vers" = "$version"   ];then
+    echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
+else
+  echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
+fi
+done
 
 # Check ethernet drive
 ethtool -i eth0
@@ -69,5 +101,5 @@ ethtool -s eth0 autoneg on
 print_info $? autoneg
 
 # Remove package
-yum remove -y ethtool 
+yum remove -y $P
 print_info $? remove ethtool
