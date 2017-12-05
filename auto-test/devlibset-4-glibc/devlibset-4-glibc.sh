@@ -47,6 +47,7 @@ if [ "$vers" = "$version"   ];then
 else
     echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
 fi
+done
 
 # Remove package
 yum remove -y $P
