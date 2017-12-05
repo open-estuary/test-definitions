@@ -46,6 +46,7 @@ case $distro in
  else
      echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
  fi
+done
 
 # Display the blktrace result on screen.
 blktrace -d /dev/sda -w 5 -o - |blkparse -i -
