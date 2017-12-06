@@ -14,7 +14,7 @@ headers=$(uname -r)
 case "${dist}" in
     ubuntu)
         kernel_name="linux-image-${headers}"
-        sudo apt-get build-dep ${kernel_name} | tee "${LOG}"
+        sudo apt-get -y build-dep ${kernel_name} | tee "${LOG}"
         status=$?
         if test $status -eq 0;then
             echo "内核编译依赖安装: [PASS]" | tee -a ${RESULT_FILE}
@@ -37,9 +37,9 @@ case "${dist}" in
         status=$?
         if test $status -eq 0
         then
-            echo "rpmbuild [PASS]" | tee -a ${RESULT_FILE}
+            echo "deb package build [PASS]" | tee -a ${RESULT_FILE}
         else
-            echo "rmpbuild [FAIL]" | tee -a ${RESULT_FILE}
+            echo "deb package [FAIL]" | tee -a ${RESULT_FILE}
         fi
         ;;
     centos) 
