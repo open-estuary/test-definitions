@@ -53,17 +53,18 @@ function percona_install(){
     fi
     export LANG="en_US.UTF-8"
 
-    res=`yum info Percona-Server-server-56`
-    version=`echo $res | grep Version |  cut -d : -f2`
-    repo=`echo $res | grep "From repo" | cut -d : -f 2`
-    if [[ $version == "5.6.35" && $repo == "Estuary"  ]];then
+    yum info Percona-Server-server-56 > tmpinfo
+    version=`cat tmpinfo | grep Version |  cut -d : -f2`
+    repo=`cat tmpinfo | grep "From repo" | cut -d : -f 2`
+    if [ $version == "5.6.35" -a $repo == "Estuary"  ];then
         true
     else
         false
     fi
-
     print_info $? "percona version is right"
+    rm -f tmpinfo
 
+    yum install -y git 
 }
 
 function percona_modify_system_args(){
@@ -139,7 +140,8 @@ function mysql_client(){
     # 这里是授权所有的ip都可以来连接，给了mysql 所有权限（all） 在所有的数据库所有的表（*.*）
     mysql -e "grant all privileges on *.* to 'mysql'@'%'"
     print_info $? "grant privileges on all ip address"
-    
+   
+    mysql -e "create user 'mysql'@'localhost' identified by '123'"
     mysql -e "grant all privileges on *.* to 'mysql'@'localhost'"
     print_info $? "grant all privileges on localhost"
 
@@ -149,7 +151,11 @@ function mysql_client(){
     ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
     mysql -h $ip -umysql -p123 -e "select user()"
     print_info $? "mysql login non root user by tcp"
-
+    
+    mysql -e "drop user 'mysql'@'%'"
+    print_info $? "mysql drop user@%"
+    mysql -e "drop user 'mysql'@'localhost'"
+    print_info $? "mysql drop user@localhost "
 
 }
 
@@ -167,7 +173,7 @@ function mysql_load_data(){
 function mysql_create(){
     
     mysql -e "drop database if exists mytest"
-    mysql -e "create database  mysql"
+    mysql -e "create database  mytest"
     print_info $? "mysql create database"
     
     mysql -e "create database if not exists mytest"
@@ -178,7 +184,7 @@ function mysql_create(){
     print_info $? "mysql lookout database just create"
     
 
-    mysql -e "create event mytest.myevent  on schedule at current_timestamp on select "ee""
+    mysql -e "create event mytest.myevent  on schedule at current_timestamp do select 'ee'"
     print_info $? "mysql create event"
 
     mysql <<- eof
@@ -186,13 +192,12 @@ function mysql_create(){
     delimiter //
     create procedure simpleproc (out param1 int)
         begin
-            --select count(*) into param1 from titles;
             select 4433 into param1;
         end//
     delimiter ;
 eof
     print_info $? "mysql create procedure"
-    res2=`mysql -e "call simpleproc(@a);select @a"`
+    res2=`mysql -e "use mytest ; call simpleproc(@a);select @a"`
     echo $res2 | grep 4433
     if [ $? -eq 0  ];then
         true
@@ -201,7 +206,7 @@ eof
     fi
     print_info $? "mysql call proceduce"
 
-    mysql -e "create server myservername foreign data wrapper mysql optinos (user 'remote',host '127.0.0.1',database 'test'  )"
+    mysql -e "create server myservername foreign data wrapper mysql options (user 'remote',host '127.0.0.1',database 'test'  )"
     print_info $? "mysql create server"
     res3=`mysql -e "select * from mysql.servers where server_name='myservername'"`
     echo $res3 | grep 1
@@ -213,7 +218,7 @@ eof
     print_info $? "mysql location of create server in the system table"
 
     # 创建表
-    mysql -e "use mytest;create table mytable (id int primary key not null auto_increment , name varchar(20) not null ,index iname (name))"
+    mysql -e "use mytest;create table mytable (id int primary key not null  , name varchar(20) not null ,index iname (name))"
     print_info $? "mysql create base table"
 
     mysql -e "use mytest ; create table t2 as select * from mysql.servers"
@@ -222,7 +227,7 @@ eof
     mysql -e "use mytest ; show create table t2"
     print_info $? "mysql verification 'create table as query_expr'"
 
-    mysql -e "use mytest ; create table t3 likeke t2"
+    mysql -e "use mytest ; create table t3 like t2"
     print_info $? "mysql use 'create table like'"
 
     #创建分区表
@@ -232,15 +237,16 @@ eof
     use mytest;
     create table t4 ( col1 INT , col2 CHAR(5))
         partition by hash(col1);
-    create table t5 (col1 int , col2 char(5) , col3 datatime)
+    create table t5 (col1 int , col2 char(5) , col3 datetime)
         partition by hash(year(col3));
     notee
 eof
+    cat log 
     grep -i  "error" log
     if [ $? -eq 0 ];then
-        true
-    else
         false
+    else
+        true
     fi
     print_info $? "mysql create partirion table use hash"
 
@@ -252,7 +258,7 @@ eof
     "
     print_info $? "mysql create partition table use key"
     
-    mysql -e "use mytest ; create table t6 (col int , col2 char(5) , col3 date)
+    mysql -e "use mytest ; create table t9 (col int , col2 char(5) , col3 date)
         partition by linear key(col3)
         partitions 5;"
     print_info $? "mysql create partition table use linear key"
@@ -264,16 +270,16 @@ eof
             partition p2 values less than (1999),
             partition p3 values less than (2003),
             partition p4 values less than (2006),
-            partition p5 values less than maxvalue,
+            partition p5 values less than maxvalue
     );"
-    print_info $? "mysql create partition table use range"
+    print_info $? "use mytest ;mysql create partition table use range"
 
-    mysql -e "create table t8 (id int , name varchar(35))
+    mysql -e "use mytest ; create table t8 (id int , name varchar(35))
     partition by list(id)(
         partition r0 values in (1,5,9,13,17,21),
         partition r1 values in (2,6,10,14,18,22),
         partition r2 values in (3,7,11,15,19,23),
-        partition r3 values in (4,8,12,16,20,24),
+        partition r3 values in (4,8,12,16,20,24)
     );"
     print_info $? "mysql create table use list"
 
@@ -289,7 +295,7 @@ eof
 
 function mysql_alter(){
 
-    mysql -e "alter database mytest character set = UTF8 collate = UTF8 "
+    mysql -e "alter database mytest character set = utf8 collate = utf8_general_ci "
     if [ $? -eq 0 ];then
         res=`mysql -e "show create database mytest"`
         echo $res | grep -i UTF8 
@@ -303,7 +309,7 @@ function mysql_alter(){
         print_info  1 "mysql alter database"
     fi
 
-    mysql -e "alter event myevent disable"
+    mysql -e "alter event mytest.myevent disable"
     print_info $? "mysql alter diabale"
 
     res2=`mysql -e "use mytest ;show events"`
@@ -317,7 +323,7 @@ function mysql_alter(){
 
     # 5.7.11
     mysql -e "alter instance rotate innodb master key"
-    print_info $? "mysql alter instance"
+    print_info $? "mysql alter instance only in 5.7.11 effictive"
 
 
     mysql -e "alter server myservername options (user 'newremote')"
@@ -340,7 +346,7 @@ function mysql_alter(){
     system echo "">log 
     tee log
     drop database if exists alterdb;
-    create dabase alterdb;
+    create database alterdb;
     use alterdb;
     create table a1 (col1 int , col2 int , col3 int ,col4 int);
     create table a2 (col1 int , col2 int , col3 int ,col4 int);
@@ -358,9 +364,9 @@ efo
     fi
     print_info $? "mysql alter table add column effictive"
 
-    mysql -e "use alterdb ;alter table a1 add primary key col1"
+    mysql -e "use alterdb ;alter table a1 add primary key (col1)"
     print_info $? "mysql exec alter table add primary key"
-    res5=`mysql -e 'desc alterdb.a1'>log`
+    mysql -e 'show create table alterdb.a1'>log
     cat log | grep col1 | grep -i "primary key"
     if [ $? -eq 0 ];then
         true
@@ -369,13 +375,13 @@ efo
     fi
     print_info $? "mysql alter table add primary key effiection"
 
-    mysql -e "use alterdb ; alter table a1 character set = UTF8 collate UTF8"
+    mysql -e "use alterdb ; alter table a1 character set = utf8 collate utf8_general_ci"
     print_info $? "mysql alter table character"
     res6=`mysql -e "show create table alterdb.a1"`
     echo $res6 | grep -i "default charset=utf8"
     print_info $? "mysql alter table character effiection"
 
-    mysql -e "alter table alterdb.a1 change col1 col1_new"
+    mysql -e "alter table alterdb.a1 change col1 col1_new int"
     print_info $? "mysql exec alter table change column name"
     mysql -e "desc alterdb.a1" | grep col1_new
     if [ $? -eq 0 ];then
@@ -406,15 +412,15 @@ efo
     print_info $? "mysql alter table drop primary key effiection"
 
     mysql -e "alter table alterdb.a1 modify col2 date"
-    mysql -e "desc alterdb.a1 | grep -i date"
+    mysql -e "desc alterdb.a1 "| grep -i date
     if [ $? -eq 0 ];then
         true
     else
         false
     fi
-    print_info $? "mysql alter table modifu column definition"
+    print_info $? "mysql alter table modify column definition"
 
-    mysql -e "alter table alterdb.a1 rename to a1_new"
+    mysql -e "alter table alterdb.a1 rename to alterdb.a1_new"
     mysql -e "use alterdb; show tables" | grep a1_new
     if [ $? -eq 0 ];then
         true
@@ -423,8 +429,8 @@ efo
     fi
     print_info $? "mysql alter table name"
 
-    mysql -e "alter table alterdb.a1  partition by key(col1) partitions 4"
-    mysql -e "show create table alterdb.a1" | grep partitions 
+    mysql -e "alter table alterdb.a1_new  partition by key (col2) partitions 4"
+    mysql -e "show create table alterdb.a1_new" | grep -i partitions 
     print_info $? "mysql alter table edit partition"
 
     mysql <<-eof
@@ -434,16 +440,16 @@ efo
         year_col int
     )
     partition by range(year_col)(
-        partition p0 values less then (1991),
-        partition p1 values less then (1995),
-        partition p2 values less then (1999)
+        partition p0 values less than (1991),
+        partition p1 values less than (1995),
+        partition p2 values less than (1999)
     );
 
 eof
 
     mysql -e "alter table alterdb.t3 add partition 
-        (partition p4_new values less then (2003))"
-    mysql -e "show create table alterdb.t3" | grep p4_new
+        (partition p4_new values less than (2003))"
+    mysql -e "use alterdb ; show create table t3" | grep p4_new
     if [ $? -eq 0 ];then
         true
     else
@@ -451,7 +457,7 @@ eof
     fi
     print_info $? "mysql alter add parition count"
     
-    mysql -e "alter table alterdb.t3 drop p4_new "
+    mysql -e "alter table alterdb.t3 drop partition p4_new "
     mysql -e "show create table alterdb.t3" | grep p4_new
     if [ $? -eq 0 ];then
         false
@@ -461,9 +467,9 @@ eof
     print_info $? "mysql alter table drop partition"
 
 
-    mysql -e "alter view  mytest.myview as select upper('mysql')"
-    res7=`mysql -e "select * from mytest.myevent"`
-    echo $res7 | grep MYSQL 
+    mysql -e "alter view  mytest.myview as select upper('mysqlview')"
+    res7=`mysql -e "select * from mytest.myview"`
+    echo $res7 | grep MYSQLVIEW 
     if [ $? -eq 0 ];then
         true
     else
@@ -526,7 +532,7 @@ function mysql_drop(){
     fi
     print_info $? "mysql drop index"
 
-    mysql -e 'drop index `PRIMARY` on mytest.mytable'
+    mysql -e 'use mytest ;drop index `PRIMARY` on mytable'
     mysql -e "show create table mytest.mytable" | grep -i PRIMARY 
     if [ $? -eq 0 ];then
         false
@@ -594,16 +600,276 @@ function mysql_select(){
     print_info $? "mysql select having clause"
 
     # 5 order by
-    mysql -e "select * from employees.employees  "
+    mysql -e "select * from employees.employees  order by 3 limit 1"
+    print_info $? "mysql order by clause"
     # 6 limit 
+    mysql -e "select * from employees.employees limit 3"
+    print_info $? "mysql limit clause"
 
     # 7 into outfile
+    intopath=`mysql -e "show variables like '%secure_file_priv%'\G" | grep -i value | cut -d : -f 2`
+    echo $intopath | grep -i null
+    if [ $? -ne 0 ];then
+        pushd .
+        cd $intopath
+        rm -f tmp.dump 
+        mysql -e "select * from employees.employees limit 10 into outfile 'tmp.dump'"
+        print_info $? "mysql into outfile clause"
+        popd 
+    fi
+   
 
+    # 多表查询问题
+    mysql -e "use employees ;select * from employees as e inner join dept_emp as d on e.emp_no=d.emp_no limit 3"
+    print_info $? "mysql inner join test"
+    
+    mysql -e "use employees ; select * from employees e left join dept_emp d on e.emp_no=d.emp_no limit 3"
+    print_info $? "mysql left join"
 
+    mysql -e "use employees ; select * from employees e right join dept_emp d on e.emp_no=d.emp_no limit 3 "
+    print_info $? "mysql right join"
+
+    #子查询问题
+    echo "mysql subquery as scalar operand"
+    mysql -e "use employees ; select upper((select dept_name from departments where dept_no='d001')) as dept from dual"
+    print_info $? "mysql subquery as saclar operand"
+
+    echo "mysql subquery use comparisions"
+    mysql -e "use employees ; select * from salaries as s where emp_no = (select emp_no from employees where last_name ='peac' and first_name ='yifei');"
+    print_info $? "mysql subquery comparisons"
+    
+    echo "mysql subquery with in"
+    mysql -e "use employees ; select * from employees where emp_no in (select emp_no from dept_manager)"
+    print_info $? "mysql subquery in"
+
+    echo "mysql subquery with not in"
+    mysql -e "use employees ; select count(*) from employees where emp_no not in (select emp_no from dept_manager)"
+    print_info $? "mysql with not in"
+
+    echo "mysql subquery with any"
+    mysql -e "use employees ; select count(*) from employees where emp_no = any (select emp_no from dept_manager)"
+    print_info $? "mysql with any"
+
+    
+    echo "mysql subquery with  all"
+    mysql -e "use employees ;  select count(*) from salaries s where s.salary > all (select s.salary from dept_manager d join salaries s on d.emp_no = s.emp_no where year(s.to_date)>year(current_date));"
+    print_info $? "mysql with not in"
+    
+
+    echo "mysql subquery in the from clause"
+    mysql -e "use employees ; select * from (select * from dept_manager) as new_table"
+    print_info $? "mysql subquery in from clause"
+
+    
+    echo "mysql update"
+    mysql -e "use employees ; update dept_manager set dept_no = 'd007' where emp_no = '111939'"
+    print_info $? "mysql update row information"
     
 }
 
 function mysql_insert(){
-echo
+    
+    mysql < "drop database if exists test;
+            create database test ;
+            create table t1 (id int , name varchar(20) , age int);
+            create table t2 (id int , name varchar(20))"
+    mysql -e "use test ; insert into t1 values(1 , 'tan' , 20)"
+    print_info $? "mysql insert into all colume values"
+
+    mysql -e "use test ; insert into t1 (id,name) values(2,'lee')"
+    print_info $? "mysql insert into special column value"
+
+    mysql -e "use test; insert into t1 set id=2 , name='tom' , age=20"
+    print_info $? "mysql insert into set "
+    
+    mysql -e "use test ; insert into t2 select t1.id , t1.name from t1 where t1.age =20"
+    print_info $? "mysql insert select"
+
+}
+
+function mysql_delete(){
+    mysql -e "use test ; delete from t1 where id=2"
+    print_info $? "mysql delete where clause"
+
+    mysql -e "use test ; delete from t1 where ag2 = 20 limit 1"
+    print_info $? "mysql delete where limit clause"
+}
+
+function mysql_transaction(){
+    res=`mysql -e "show variables like '%autocommit%'"`
+    echo $res | grep "ON"
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "mysql get default commit mode"
+
+    mysql -e "set autocommit=off"
+    print_info $? "mysql close autocommit"
+    mysql -e "set autocommit=on"
+
+    res1=`mysql -e "select @@tx_isolation"`
+    echo $res1 | grep -i "repeatble-read"
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "mysql default isolation level is repreatble_read"
+
+    mysql -e "set sesstion transaction isolation level read uncommitted"
+    print_info $? "mysql set isolation level"
+    
+
+    mysql -e '''
+    drop database if exists test;
+    create database test;
+    use test;
+    create table t1 (id int , name varchar(20));
+    insert into t1 values (1,"lee") ,(2,"tom");
+    exit
+'''
+    
+    
+    # 未提交读
+    echo "" > a.log 
+    mysql -e '''
+        set session transaction isolation level read uncommitted;
+        use test;
+        tee a.log ;
+        select name from t1 where id=1;
+        select sleep(1);
+        select name from t1 where id=1;
+        notee;
+        exit
+    ''' &
+    mysql -e '''
+        set session transaction isolation level read uncommitted;
+        start transaction;
+        use test;
+        update t1 set name="newlee" where id=1;
+        select sleep(2);
+        rollback;
+        exit
+''' &
+    sleep 3
+     grep newlee a.log 
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "mysql transaction read uncommitted "
+
+    
+    # 读已提交
+    echo "" > a.log 
+    mysql -e '''
+        set session transaction isolation level read committed;
+        use test; 
+        tee a.log;
+        start transaction;
+        select name from t1 where id=1;
+        select sleep(1);
+        select name from t1 where id=1;
+        notee;
+        exit
+    ''' &
+    mysql -e '''
+        use test;
+        set session transaction isolation level read committed;
+        start transaction;
+        update t1 set name="newlee" where id=1;
+        commit;
+        exit
+    '''
+    sleep 1
+    grep newlee a.log
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "mysql transaction read committed"
+
+    #可重复读
+    echo "" > a.log
+    mysql -e '''
+        set session transaction isolation level repeatable read;
+        use test;
+        tee a.log ;
+        start transaction;
+        select name from t1 where id=1;
+        select sleep(1);
+        select name from t1 where id=1;
+        notee;
+        exit
+    '''
+    mysql -e '''
+        use test;
+        set session transaction isolation level repeatable read;
+        start transaction;
+        update t1 set name="lizi" where id=1;
+        commit;
+        exit
+    ''' 
+    sleep 1
+    grep lizi a.log 
+    if [ $? -ne 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "mysql transaction repreatable read"
+
+    #串行化
+    echo "" > a.log 
+    mysql -e '''
+        use test;
+        set session transaction isolation level serializable;
+        start transaction;
+        insert into t1 values (1, "serializable");
+        select * from t1;
+        select sleep(50);
+        commit;
+        exit
+    ''' &
+    pid1=$! 
+    mysql -e '''
+        use test;
+        tee a.log;
+        set session transaction isolation level serializable;
+        start transaction;
+        insert into t1 values (5,"ddd");
+        select * from t1;
+        commit;
+        notee;
+        exit
+    '''  &
+    pid=$!
+    while (true)
+    do
+
+        ps -ef | grep $pid | grep -v grep  
+        if [ $? -eq 0 ];then
+            sleep 2
+        else
+            break
+        fi
+    done 
+    cat a.log 
+    kill -9 $pid1
+
+    grep -i error a.log  
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "mysql transaction serializable"
+
+
+    
 
 }
