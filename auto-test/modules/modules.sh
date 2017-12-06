@@ -11,12 +11,12 @@ dist_name
 headers="$(uname -r)"
 case "${dist}" in
     debian | ubuntu)
-        apt-get install linux-source-${headers}
+        apt-get install linux-source-estuary
         status=$?
         if [ $status -eq 0 ];then
-            echo "linux-source-${headers} install : PASS" | tee -a "${RESULT_FILE}"
+            echo "linux-source-estuary install : PASS" | tee -a "${RESULT_FILE}"
         else
-            echo "linux-source-${headers} install : FAILED" | tee -a "${RESULT_FILE}"
+            echo "linux-source-estuary install : FAILED" | tee -a "${RESULT_FILE}"
         fi
         
         apt-get install -y linux-headers-${headers}
