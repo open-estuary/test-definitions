@@ -24,15 +24,15 @@ case $distro in
  esac
 
 # Check the package version && source
-from=$(yum info $P | grep "^From repo" | awk '{print $4}')
+from=$(yum info $P | grep "Repo" | awk '{print $3}')
 if [ "$from" = "$from_repo"  ];then
     echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
 else
     rmflag=1
-    if [ "$from" != "anaconda"  ];then
+    if [ "$from" != "Estuary"  ];then
         yum remove -y $P
         yum install -y $P
-        from=$(yum info $P | grep "^From repo" | awk '{print $4}')
+        from=$(yum info $P | grep "Repo" | awk '{print $3}')
         if [ "$from" = "$from_repo"   ];then
             echo "$P install  [pass]" | tee -a ${RESULT_FILE}
         else
@@ -41,7 +41,7 @@ else
     fi
 fi
 
-vers=$(yum info $P | grep "^Version" | awk '{print $3}')
+vers=$(yum info $P | grep "Version" | awk '{print $3}')
 if [ "$vers" = "$version"   ];then
     echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
 else

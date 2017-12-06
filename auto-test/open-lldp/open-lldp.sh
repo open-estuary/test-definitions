@@ -11,16 +11,16 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
-version="4.1"
+version="1.0.1"
 from_repo="Estuary"
-package="devtoolset-6-make"
-
+package="open-lldp"
 for P in ${package};do
     echo "$P install"
+
 case $distro in
     "centos" )
          yum install -y $P
-         print_info $? devtoolset-6-make
+         print_info $? $P
          ;;
  esac
 
@@ -29,18 +29,18 @@ from=$(yum info $P | grep "Repo" | awk '{print $3}')
 if [ "$from" = "$from_repo"  ];then
     echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
 else
-     rmflag=1
-      if [ "$from" != "Estuary"  ];then
-         yum remove -y $P
-        yum install -y $P
-         from=$(yum info $P | grep "Repo" | awk '{print $3}')
-         if [ "$from" = "$from_repo"   ];then
-            echo "$P install  [pass]" | tee -a ${RESULT_FILE}
-        else
-           echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
-       fi
+   rmflag=1
+   if [ "$from" != "Estuary"  ];then
+   yum remove -y $P
+   yum install -y $P
+   from=$(yum info $P | grep "Repo" | awk '{print $3}')
+      if [ "$from" = "$from_repo"   ];then
+          echo "$P install  [pass]" | tee -a ${RESULT_FILE}
+      else
+          echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
+      fi
     fi
- fi
+fi
 
 vers=$(yum info $P | grep "Version" | awk '{print $3}')
 if [ "$vers" = "$version"   ];then
