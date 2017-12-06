@@ -11,13 +11,45 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
+version="4.0"
+from_repo="Estuary"
+package="devlitset-4"
+for P in ${package};do
+    echo "$P install"
+
 case $distro in
     "centos" )
-         yum install -y devlibset-4 
-         print_info $? devlibset-4
+         yum install -y $P
+         print_info $? $P
          ;;
  esac
 
+# Check the package version && source
+from=$(yum info $P | grep "^From repo" | awk '{print $4}')
+if [ "$from" = "$from_repo"  ];then
+    echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
+else
+   rmflag=1
+   if [ "$from" != "anaconda"  ];then
+   yum remove -y $P
+   yum install -y $P
+   from=$(yum info $P | grep "^From repo" | awk '{print $4}')
+      if [ "$from" = "$from_repo"   ];then
+          echo "$P install  [pass]" | tee -a ${RESULT_FILE}
+      else
+          echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
+      fi
+    fi
+fi
+
+vers=$(yum info $P | grep "^Version" | awk '{print $3}')
+if [ "$vers" = "$version"   ];then
+    echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
+else
+    echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
+fi
+done
+
 # Remove package
-yum remove -y devlibset-4
+yum remove -y $P
 print_info $? remove

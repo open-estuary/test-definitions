@@ -1,4 +1,5 @@
 
+
 #!/bin/sh -e
 set -x
 cd ../../utils
@@ -11,6 +12,12 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
+version="1.95"
+from_repo="Estuary"
+package="nicstat"
+
+for P in ${package};do
+    echo "$P install"
 # Install package
 case $distro in
     "centos" )
@@ -24,18 +31,42 @@ case $distro in
       #  yum install -y nicstat 
          ;;
  esac
+
+# Check the package version && source
+from=$(yum info $P | grep "^Repo" | awk '{print $4}')
+if [ "$from" = "$from_repo"  ];then
+       echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
+else
+     rmflag=1
+      if [ "$from" != "anaconda"  ];then
+           yum remove -y $P
+            yum install -y $P
+             from=$(yum info $P | grep "^Repo" | awk '{print $4}')
+             if [ "$from" = "$from_repo"   ];then
+                    echo "$P install  [pass]" | tee -a ${RESULT_FILE}
+            else
+                   echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
+               fi
+        fi
+fi
+
+vers=$(yum info $P | grep "^Version" | awk '{print $3}')
+if [ "$vers" = "$version"   ];then
+        echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
+else
+          echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
+fi
+done
+
 # Statistic ethernet flux 5 times
 nicstat 1 5
-print_info $? statistic
 
 # Statistic ethernet tcp flux
 nicstat -t 1 5
-print_info $? tcp-statistic
 
 # Statistic ethernet udp flux
 nicstat -u 1 5
-print_info $? udp-statistic
 
 # Remove package
-yum remove nicstat -y
+yum remove -y $P
 print_info $? remove
