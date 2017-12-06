@@ -52,29 +52,29 @@ $commond ls dir/file.txt
 print_info $? busybox-ls
 
 $commond cp dir/file.txt dir/file.txt.bak
-print_info busybox-cp
+print_info $? busybox-cp
 
 $commond rm dir/file.txt.bak
-print_info busybox-rm
+print_info $? busybox-rm
 
 $commond echo 'busybox test' > dir/file.txt
-print_info busybox-echo
+print_info $? busybox-echo
 
 $commond cat dir/file.txt
 print_info $? busybox-cat
 
 $commond grep 'busybox' dir/file.txt
-print_info busybox-grep
+print_info $? busybox-grep
 
 # shellcheck disable=SC2016
 $commond awk '{printf("%s: awk\n", $0)}' dir/file.txt
-print_info busybox-awk
+print_info $? busybox-awk
 
 $commond free
 print_info $? busybox-free
 
 $commond df
-print_info_$? busybox-df
+print_info $? busybox-df
 
 count=`ps -aux | grep busybox | wc -l`
 if [ $count -gt 0 ]; then
