@@ -40,16 +40,16 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      debian|ubuntu)
+      debian | ubuntu )
         pkgs="fio"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
-      fedora|centos)
+      fedora | centos )
         pkgs="libaio-devel gcc tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         fio_build_install
         ;;
-      opensuse)
+      opensuse )
         zypper install -y fio
       # When build do not have package manager
       # Assume development tools pre-installed
@@ -57,6 +57,37 @@ install() {
         ;;
     esac
 }
+version="2.19"
+from_repo="Estuary"
+package="fio"
+
+for P in ${package};do
+    echo "$P install"
+# Check the package version && source
+from=$(yum info $P | grep "Repo" | awk '{print $3}')
+if [ "$from" = "$from_repo"  ];then
+       echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
+else
+     rmflag=1
+      if [ "$from" != "Estuary"  ];then
+           yum remove -y $P
+            yum install -y $P
+             from=$(yum info $P | grep "Repo" | awk '{print $3}')
+             if [ "$from" = "$from_repo"   ];then
+                    echo "$P install  [pass]" | tee -a ${RESULT_FILE}
+            else
+                   echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
+           fi
+    fi
+fi
+
+vers=$(yum info $P | grep "Version" | awk '{print $3}')
+if [ "$vers" = "$version"   ];then
+    echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
+else
+  echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
+fi
+done
 
 fio_test() {
     # shellcheck disable=SC2039
