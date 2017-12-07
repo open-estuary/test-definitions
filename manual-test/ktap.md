@@ -15,6 +15,7 @@ yum install git gcc make libelf-dev
 # Install
 ```
   yum install -y ktap
+  yum info ktap
 
 ```
 
@@ -61,6 +62,8 @@ ktap -e 'var s = {}; trace probe:tcp_sendmsg { s[stack()] += 1 }
 
 # Tracing process execution, with simple (-s) info (currently broken):
 ktap -s sched:sched_process_exec
+
+yum remove ktap
 
 ```
 # Result
