@@ -15,14 +15,11 @@ cd $basedir
 . ../../utils/sys_info.sh
 
 source ./percona.sh 
+source ./mysql.sh 
 
 set -x
 
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
-
-mysql_transaction 
-exit 
-
 
 percona_install
 close_firewall_seLinux 
@@ -35,6 +32,6 @@ mysql_load_data
 mysql_select
 mysql_insert
 
-
+mysql_transaction 
 
 #percona_uninstall
