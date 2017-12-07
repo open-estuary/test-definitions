@@ -23,7 +23,7 @@ case $distro in
          ;;
  esac
 # Check the package version && source
- from=$(yum info $P | grep "Repo" | awk '{print $3}')
+ from=$(yum info $P | grep "From repo" | awk '{print $4}')
  if [ "$from" = "$from_repo" ];then
      echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
  else
@@ -31,7 +31,7 @@ case $distro in
      if [ "$from" != "Estuary" ];then
          yum remove -y $P
          yum install -y $P
-         from=$(yum info $P | grep "Repo" | awk '{print $3}')
+         from=$(yum info $P | grep "From repo" | awk '{print $4}')
         if [ "$from" = "$from_repo"  ];then
            echo "$P install  [pass]" | tee -a ${RESULT_FILE}
         else

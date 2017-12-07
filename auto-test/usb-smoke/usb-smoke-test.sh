@@ -18,38 +18,6 @@ while getopts "s:" o; do
   esac
 done
 
-version="007"
-from_repo="base"
-package="usbutils"
-for P in ${package};do
-    echo "$P install"
-
-# Check the package version && source
-from=$(yum info $P | grep "From repo" | awk '{print $4}')
-if [ "$from" = "$from_repo"  ];then
-           echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
-else
-     rmflag=1
-      if [ "$from" != "base"  ];then
-           yum remove -y $P
-            yum install -y $P
-             from=$(yum info $P | grep "From repo" | awk '{print $4}')
-             if [ "$from" = "$from_repo"   ];then
-                    echo "$P install  [pass]" | tee -a ${RESULT_FILE}
-            else
-                   echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
-               fi
-    fi
-fi
-
-vers=$(yum info $P | grep "Version" | awk '{print $3}')
-if [ "$vers" = "$version"   ];then
-    echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
-else
-  echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
-fi
-done
-
 increment_return_status() {
     exit_code="$?"
     [ "$#" -ne 1 ] && error_msg "Usage: increment_return_status value"
