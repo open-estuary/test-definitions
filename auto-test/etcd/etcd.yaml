@@ -2,7 +2,7 @@
 metadata:
     name: etcd
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "etcd"
+    description: "A highly-available key value store for shared configuration"
     maintainer:
         - liu_caili@hoperun.com
     scope:
