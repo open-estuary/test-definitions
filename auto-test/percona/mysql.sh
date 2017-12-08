@@ -212,13 +212,13 @@ function mysql_alter(){
         else
             false
         fi
-        print_info $? "mysql alter database"
+        print_info $? "mysql alter database character set "
     else
-        print_info  1 "mysql alter database"
+        print_info  1 "mysql alter database character set"
     fi
 
     mysql -e "alter event mytest.myevent disable"
-    print_info $? "mysql alter diabale"
+    print_info $? "mysql alter event diable"
 
     res2=`mysql -e "use mytest ;show events"`
     echo $res2 | grep -i disable 
@@ -556,12 +556,12 @@ function mysql_select(){
 
     echo "mysql subquery with any"
     mysql -e "use employees ; select count(*) from employees where emp_no = any (select emp_no from dept_manager)"
-    print_info $? "mysql with any"
+    print_info $? "mysql with =any"
 
     
     echo "mysql subquery with  all"
     mysql -e "use employees ;  select count(*) from salaries s where s.salary > all (select s.salary from dept_manager d join salaries s on d.emp_no = s.emp_no where year(s.to_date)>year(current_date));"
-    print_info $? "mysql with not in"
+    print_info $? "mysql with all"
     
 
     echo "mysql subquery in the from clause"
@@ -798,25 +798,27 @@ function mysql_variable(){
 function mysql_system_database(){
 
     mysql -e "select * from mysql.event"
-    print_info $? "mysql query all define event"
+    print_info $? "mysql query all define event from mysql database"
 
     mysql -e "select * from mysql.proc"
-    print_info $? "mysql query all define procedure"
+    print_info $? "mysql query all define procedure from mysql database"
 
     mysql -e "select * from mysql.func"
-    print_info $? "mysql query all define function"
+    print_info $? "mysql query all define function from mysql database"
 
     mysql -e "select * from mysql.user"
-    print_info $? "mysql query all users"
+    print_info $? "mysql query all users from mysql database"
 
     mysql -e "select * from information_schema.tables"
-    print_info $? "mysql query all tables in the server"
+    print_info $? "mysql query all tables in the server from information_schema database"
 
     mysql -e "select * from information_schema.triggers"
-    print_info $? "mysql query all define trigger"
+    print_info $? "mysql query all define trigger from information_schema database"
 
     mysql -e "select * from information_schema.views"
-    print_info $? "mysql query all define views"
+    print_info $? "mysql query all define views fromom information_schema database"
+
+
 
     
 }
@@ -858,3 +860,28 @@ function mysql_admin(){
 
 
 }
+
+function mysql_innodb(){
+
+    mysql -e "show variables like 'default_storage_engine'" | grep -i innodb
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "mysql default storage engine is innodb"
+
+    
+}
+
+
+
+function mysql_log(){
+
+    #开启二进制日志
+    echo 
+
+
+}
+
+
