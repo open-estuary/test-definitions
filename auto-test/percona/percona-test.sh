@@ -21,6 +21,9 @@ set -x
 
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
+mysql_muti_start 
+exit 
+
 percona_install
 close_firewall_seLinux 
 percona_start 
@@ -34,4 +37,5 @@ mysql_insert
 
 mysql_transaction 
 
+percona_start_stop_test
 #percona_uninstall
