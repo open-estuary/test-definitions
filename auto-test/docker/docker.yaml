@@ -2,7 +2,7 @@
 metadata:
     name: docker
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "docker"
+    description: "Automates deployment of containerized applications"
     maintainer:
         - liu_caili@hoperun.com
     scope:
