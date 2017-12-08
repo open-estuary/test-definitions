@@ -2,7 +2,7 @@
 metadata:
     name: go-bindata
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "go-bindata"
+    description: "A small utility which generates Go code from any file"
     maintainer:
         - liu_caili@hoperun.com
     scope:
