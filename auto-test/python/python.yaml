@@ -1,14 +1,15 @@
 
 metadata:
-    name: etcd
+    name: python
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "A highly-available key value store for shared configuration"
+    description: "An interpreted, interactive, object-oriented programming language"
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - distributed
+        - functional
     os:
         - centos
+        - ubuntu
     devices:
         - d03
         - d05
@@ -16,7 +17,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/etcd; ./etcd.sh; cd -"
+        - "cd auto-test/python; ./python.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

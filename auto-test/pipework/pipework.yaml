@@ -2,7 +2,7 @@
 metadata:
     name: pipework
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "pipework"
+    description: "Software-Defined Networking for Linux Containers"
     maintainer:
         - liu_caili@hoperun.com
     scope:
