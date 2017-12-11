@@ -2,7 +2,7 @@
 metadata:
     name: qemu
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "qemu"
+    description: "QEMU is a FAST! processor emulator"
     maintainer:
         - liu_caili@hoperun.com
     scope:
