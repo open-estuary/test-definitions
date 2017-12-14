@@ -139,3 +139,164 @@ function percona57_remove(){
     print_info $? "precona57 remove all application"
     
 }
+
+function percona57_custom_dir(){
+
+    local port=3306
+    if [ $# -ge 1  ];then
+        port=$1
+    fi
+    basedir="/percona57/$port"
+    mkdir -p $basedir/{data,log,run}
+    cp ./my57.cnf $basedir/my.cnf 
+    touch $basedir/log/mysqld.log 
+    sed -i s/3306/$port/ $basedir/my.cnf                                                
+    sed -i s?"datadir.*"?"datadir=$basedir/data"? ${basedir}/my.cnf
+    sed -i s?"socket.*"?"socket=$basedir/data/mysql.sock"? ${basedir}/my.cnf
+    sed -i s?"log-error.*"?"log-error=$basedir/log/mysqld.log"? ${basedir}/my.cnf
+    sed -i s?"pid-file.*"?"pid-file=$basedir/run/mysqld.pid"? ${basedir}/my.cnf 
+    chown -R mysql:mysql $basedir 
+    ln -s -f  $basedir/my.cnf ~/.my.cnf
+
+}
+
+function percona57_custom_init_passwd(){
+
+    
+    if [ ! -d ${basedir}/data/sys ];then 
+        mysqld --defaults-file=${basedir}/my.cnf --initialize
+        print_info $? "percona57 initialize data"
+    fi
+    
+    #  默认是不会安装‘validate_password’插件的
+    mysqld --defaults-file=${basedir}/my.cnf --daemonize --skip-grant-tables
+    sleep 2
+    ps -ef | grep mysqld | grep -v grep 
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "percona57 start server by command and skip-grant-table"
+    
+    local passwd="123"
+    if [ $# -eq 1 ];then
+        passwd=$1
+    fi
+
+    mysql -uroot -e "update mysql.user set authentication_string=password($passwd) where user='root' and host='localhost'"
+    print_info $? "percona57 update root password"
+    mysqladmin --defaults-file=${basedir}/my.cnf shutdown
+    mysqld --defaults-file=${basedir}/my.cnf --daemonize 
+    mysql -uroot -p$passwd -e "alter user 'root'@'localhost' identified by '123'" --connect-expired-password
+    print_info $? "percona57 alter user root password"
+}
+
+function percona57_custom_start(){
+    local port=$1
+    local passwd=$2
+    percona57_custom_dir $port
+    percona57_custom_init_passwd $passwd
+    
+}
+
+function percona57_custom_stop(){
+    
+    ps -ef | grep 'defaults-file' | grep -v grep 
+    if [ $? -ne 0 ];then
+        echo "All percona had stoped"
+        return 0
+    fi 
+
+    for file in `ps -ef | grep 'defaults-file=/percona57' | grep -v grep | awk {'print $9'}`
+    do 
+        mysqladmin $file shutdown
+    done 
+    ps -ef | grep 'defaults-file' | grep -v grep 
+    if [ $? -ne 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "percon57 stop all server"
+
+}
+
+function percona57_master(){
+
+    port=3310
+    percona57_custom_start $port 
+    repluser='repl'
+
+    ## node 我们这里是一台机器配置主从复制机制，
+    mysql -uroot -p123 -e "create user $repluser@'localhost' identified by '123' ; grant replication slave on *.* to $repluser@'localhost'"
+    print_info $? "percon57 master create replication account"
+    grep log_bin $basedir/my.cnf 
+    if [ $? -eq 0 ];then
+        sed -i s?.*log_bin.*?log_bin=mysql-bin? $basedir/my.cnf
+    else
+        cat >> $basedir/my.cnf <<-eof
+[mysqld]
+log_bin=mysql-bin
+eof
+    fi
+    print_info $? "percona57 master enable log_bin"
+    grep server-id $basedir/my.cnf
+    if [ $? -eq 0 ];then
+        sed -i s?.*server-id.*?server-id=$port? $basedir/my.cnf
+    else
+        cat >> $basedir/my.cnf <<-eof
+[mysqld]
+server-id=$port
+eof
+    fi 
+    print_info $? "percona57 master set server-id para"
+    mysqladmin --defaults-file=${basedir}/my.cnf shutdown -p123
+    mysqld --defaults-file=${basedir}/my.cnf --daemonize 
+    mstatus=`mysql -uroot -p123 -e "show master status"`
+}
+
+function percona57_slave(){
+    port=3320
+    percona57_custom_start $port
+    grep log_bin $basedir/my.cnf 
+    if [ $? -eq 0 ];then
+        sed -i s?.*log_bin.*?log_bin=mysql-bin? $basedir/my.cnf
+    else
+        cat >> $basedir/my.cnf <<-eof
+[mysqld]
+log_bin=mysql-bin
+eof
+    fi
+    print_info $? "percona57 slave enable log_bin "
+    grep server-id $basedir/my.cnf
+    if [ $? -eq 0 ];then
+        sed -i s?.*server-id.*?server-id=$port? $basedir/my.cnf
+    else
+        cat >> $basedir/my.cnf <<-eof
+[mysqld]
+server-id=$port
+eof
+    fi 
+    print_info $? "percona57 slave set server-id "
+    mysqladmin --defaults-file=${basedir}/my.cnf shutdown -p123
+
+    mysqld --defaults-file=${basedir}/my.cnf --daemonize
+
+    mysql -uroot -p123 -e "change master to master_host='localhost',master_user='repl',master_password='123', \
+        master_port=3310,master_log_file='mysql-bin.00001',master_log_pos=154"
+    print_info $? "percona57 slave change master to command"
+    
+    res=`mysql -uroot -p123 -e "start slave ; stop slave ; reset slave ; start slave ; show slave status"`
+    
+    echo $res | grep -i  "slave_io_running" | grep -i yes && echo $res | grep -i "slava_sql_running" | grep -i yes 
+    print_info $? "percona57 replication complication"
+    
+
+}
+
+function percona57_replication(){
+    percona57_master
+    percona57_slave
+    
+}
