@@ -39,5 +39,9 @@ mysql_innodb
 
 percona57_stop 
 
+
+percona57_replication
+percona57_cutstom_stop 
+
 #percona57_remove
 
