@@ -44,7 +44,7 @@ case "${dist}" in
                 fi
 
                 vs=$(apt show $p | grep "^Version" | awk '{print $2}')
-                if [ "$vs" = "$version1" -o "$vs" = "$version2" -o "$vs" = "$version3"];then
+                if [ "$vs" = "$version1" -o "$vs" = "$version2" -o "$vs" = "$version3" ];then
                     echo "$p version is $vs : [PASS]" | tee -a ${RESULT_FILE}
                 else
                     echo "$p version is $vs : [FAILED]" | tee -a ${RESULT_FILE}
