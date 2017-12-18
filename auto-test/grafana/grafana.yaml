@@ -1,0 +1,30 @@
+metadata:
+    name: grafana
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "grafana 可视化的工具."
+    maintainer:
+        - shuangchengchen@qq.com
+    os:
+        - centos
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+    devices:
+        - d03
+        - d05
+
+params:
+    # Test if lshw able to report the classes pre-defined in ${CLASSES}.
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./auto-test/grafana/
+        - ./grafana.sh -s "${SKIP_INSTALL}" 
+        - cd -
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass

@@ -247,7 +247,15 @@ fi
 #        ;;
 #esac
 
-#echo "lxc.aa_allow_incomplete = 1"  >> $LXC_CONFIG
+#modify by liucaili 20171128
+LXC_CONFIG=/var/lib/lxc/${container}/config
+case $distro in
+    "ubuntu" | "debian" )
+        echo "lxc.aa_allow_incomplete = 1"  >> $LXC_CONFIG
+       ;;
+    * )
+       ;;
+esac
 
 lxc-start --name ${container} --daemon
 result=$?

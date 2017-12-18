@@ -2,7 +2,7 @@
 metadata:
     name: lxc
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "lxc"
+    description: "Linux Resource Containers"
     maintainer:
         - liu_caili@hoperun.com
     scope:

@@ -35,18 +35,29 @@ Remark:
         
        2.本地安装方式
           
-          1）登录web 进入BMC 加载ISO
-                - 打开浏览器登录BMC，找到ISO装载页面，装入ISO文件
-                - 连接ISO文件，配置从光驱启动
+          1）登录web 进入BMC 加载mini ISO
+                - 打开浏览器登录BMC，找到ISO装载页面，装入mini ISO文件
+                - 连接mini ISO文件，配置从光驱启动
                 - 重启系统，测试系统能否进入安装menu
                 
-          2）BMC命令加载ISO（BMC版本不低于2.40）
+          2）登录web 进入BMC 加载everything ISO
+                - 打开浏览器登录BMC，找到ISO装载页面，装入everything ISO文件
+                - 连接everything ISO文件，配置从光驱启动
+                - 重启系统，测试系统能否进入安装menu
+                
+          3）BMC命令加载mini ISO（BMC版本不低于2.40）
                - 强制关机
                - 设置第一次开机启动项为cdrom
-               - 拷贝要挂载的ISO到NFS根目录上
-               - 通过bmc接口挂载ISO作为虚拟光驱
+               - 拷贝要挂载的mini ISO到NFS根目录上
+               - 通过bmc接口挂载mini ISO作为虚拟光驱
                - 进入安装菜单
-               
+          
+          4）BMC命令加载everything ISO（BMC版本不低于2.40）
+               - 强制关机
+               - 设置第一次开机启动项为cdrom
+               - 拷贝要挂载的everything ISO到NFS根目录上
+               - 通过bmc接口挂载everything ISO作为虚拟光驱
+               - 进入安装菜单     
   
   第二部分  安装过程
          
