@@ -23,14 +23,43 @@ while getopts "s:h" o; do
         h|*) usage ;;
     esac
 done
-dist_name
-case "${dist}" in
-    centos) pkgs="libbson libbson-devel";;
-esac
 ! check_root && error_msg "You need to be root to install packages!"
-install_deps "${pkgs}" "${SKIP_INSTALL}"
 create_out_dir "${OUTPUT}"
 cd "${OUTPUT}"
+dist_name
+case "${dist}" in
+    centos) 
+            version="1.6.2"
+            SOURCE="Estuary"
+            pkgs="libbson libbson-devel"
+            install_deps "${pkgs}" "${SKIP_INSTALL}"
+            v=$(yum info libbson | grep "^Version" | awk '{print $3}')
+            if [ $v = ${version} ];then
+                echo "libbson version is $v: [PASS]" | tee -a "${RESULT_FILE}"
+            else
+                echo "libbson version is $v: [FAIL]" | tee -a "${RESULT_FILE}"
+            fi
+            s=$(yum info libbson | grep "^From repo" | awk '{print $4}')
+            if [ $s = ${SOURCE} ];then
+                echo "libbson source is $s: [PASS]" | tee -a "${RESULT_FILE}"
+            else
+                echo "libbson source is $s: [FAIL]" | tee -a "${RESULT_FILE}"
+            fi
+
+            v=$(yum info libbson-devel | grep "^Version" | awk '{print $3}')
+            if [ $v = ${version} ];then
+                echo "libbson-devel version is $v: [PASS]" | tee -a "${RESULT_FILE}"
+            else
+                echo "libbson-devel version is $v: [FAIL]" | tee -a "${RESULT_FILE}"
+            fi
+            s=$(yum info libbson-devel | grep "^From repo" | awk '{print $4}')
+            if [ $s = ${SOURCE} ];then
+                echo "libbson-devel source is $s: [PASS]" | tee -a "${RESULT_FILE}"
+            else
+                echo "libbson-devel source is $s: [FAIL]" | tee -a "${RESULT_FILE}"
+            fi
+            ;;
+esac
 install_pkg-config
 cp ../hello_bson.c .
 gcc -o hello_bson hello_bson.c $(pkg-config --cflags --libs libbson-1.0 ) | tee "${LOGFILE}"

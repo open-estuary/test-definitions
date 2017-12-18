@@ -38,7 +38,7 @@ pkgs="expect wget qemu qemu-kvm gcc"
 install_deps "${pkgs}"
 case "${distro}" in
 	debian|ubuntu)
-		pkgs="bvirt-bin zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
+		pkgs="libvirt-bin zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
 		install_deps "${pkgs}"
 	;;
 	centos|fedora)

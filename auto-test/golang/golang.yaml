@@ -2,7 +2,7 @@
 metadata:
     name: golang
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "golang"
+    description: "The Go Programming Language"
     maintainer:
         - liu_caili@hoperun.com
     scope:

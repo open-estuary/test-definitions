@@ -22,9 +22,9 @@ case "${dist}" in
             apt-get install -y $p
             rmflag=0
             status=$?
-            if test ${status} eq 0;then
+            if test ${status} -eq 0;then
                 echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
-                from=$(apt show $p | grep "Source" | awk '{print $2}')
+                from=$(apt show $p | grep "^Source" | awk '{print $2}')
                 if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
                     #echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
                     echo "$p source is $from : [PASS]" | tee -a ${RESULT_FILE}
@@ -43,8 +43,8 @@ case "${dist}" in
                    # fi
                 fi
 
-                vs=$(apt show $p | grep Version | awk '{print $2}')
-                if [ "$vs" = "$version1" -o "$vs" = "$version2" -o "$vs" = "$version3"];then
+                vs=$(apt show $p | grep "^Version" | awk '{print $2}')
+                if [ "$vs" = "$version1" -o "$vs" = "$version2" -o "$vs" = "$version3" ];then
                     echo "$p version is $vs : [PASS]" | tee -a ${RESULT_FILE}
                 else
                     echo "$p version is $vs : [FAILED]" | tee -a ${RESULT_FILE}
@@ -53,7 +53,7 @@ case "${dist}" in
                 #对于自带的包不去做卸载处理
                 if test $rmflag -eq 0
                 then
-                    yum remove -y $p
+                    apt-get remove -y $p
                     status=$?
                     if test $status -eq 0
                     then
@@ -73,7 +73,7 @@ case "${dist}" in
         version="4.12.0"
         release="estuary.2"
         from_repo="Estuary"
-        package_list="kernel-devel kernel-headers kernel-tools kernel-tools-libs kernel-tools-libs-devel perf python-perf  kernel-debug kernel-debug-debuginfo kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
+        package_list="kernel  kernel-devel kernel-headers kernel-tools kernel-tools-libs kernel-tools-libs-devel perf python-perf  kernel-debug kernel-debug-debuginfo kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
             echo "$p install"
             yum install -y $p
@@ -82,7 +82,7 @@ case "${dist}" in
             if test $status -eq 0
             then
                 echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
-                from=$(yum info $p | grep "From repo" | awk '{print $4}')
+                from=$(yum info $p | grep "^From repo" | awk '{print $4}')
                 if [ "$from" = "$from_repo" ];then
                     #echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
                     echo "$p source is $from : [PASS]" | tee -a ${RESULT_FILE}
@@ -92,7 +92,7 @@ case "${dist}" in
                     if [ "$from" != "anaconda" ];then
                         yum remove -y $p
                         yum install -y $p
-                        from=$(yum info $p | grep "From repo" | awk '{print $4}')
+                        from=$(yum info $p | grep "^From repo" | awk '{print $4}')
                         if [ "$from" = "$from_repo" ];then
                             echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
                         else
@@ -101,14 +101,14 @@ case "${dist}" in
                     fi
                 fi
 
-                vs=$(yum info $p | grep Version | awk '{print $3}')
+                vs=$(yum info $p | grep "^Version" | awk '{print $3}')
                 if [ "$vs" = "$version" ];then
                     echo "$p version is $vs : [PASS]" | tee -a ${RESULT_FILE}
                 else
                     echo "$p version is $vs : [FAILED]" | tee -a ${RESULT_FILE}
                 fi
 
-                rs=$(yum info $p | grep Release | awk '{print $3}')
+                rs=$(yum info $p | grep "^Release" | awk '{print $3}')
                 if [ "$rs" = "$release" ];then
                     echo "$p release is $rs : [PASS]" | tee -a ${RESULT_FILE}
                 else

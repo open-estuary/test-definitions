@@ -2,7 +2,8 @@
 metadata:
     name: bazel
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "bazel"
+    description: "Build software of any size, quickly and reliably, 
+                  just as engineers do at Google."
     maintainer:
         - liu_caili@hoperun.com
     scope:
