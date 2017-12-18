@@ -264,6 +264,40 @@ install_deps() {
     fi
 }
 
+remove_deps() {
+    pkgs="$1"
+    [ -z "${pkgs}" ] && error_msg "Usage: remove_deps pkgs"
+    # skip_install parmater is optional.
+    skip_remove="$2"
+
+    if [ "${skip_remove" = "True" ] || [ "${skip_remove}" = "true" ]; then
+        info_msg "remove_deps skipped"
+    else
+        ! check_root && \
+            error_msg "About to remove packages, please run this script as root."
+        info_msg "Removing ${pkgs}"
+        dist_name
+        case "${dist}" in
+          debian|ubuntu)
+            apt-get remove -y ${pkgs}
+            ;;
+          centos)
+            yum -y remove ${pkgs}
+            ;;
+          fedora)
+            dnf remove -y ${pkgs}
+            ;;
+          *)
+            warn_msg "Unsupported distro: ${dist}! Package remove skipped."
+            ;;
+        esac
+        # shellcheck disable=SC2181
+        if [ $? -ne 0 ]; then
+            error_msg "Failed to remove dependencies, exiting..."
+        fi
+    fi
+}
+
 # Return the exit code of the first command when using pipe.
 pipe0_status() {
     [ "$#" -ne 2 ] && error_msg "Usage: pipe0_status cmd1 cmd2"
