@@ -16,9 +16,16 @@ else
 	print_info $? python-version
 fi
 
+
 pkgs="tensorflow"
 install_deps "${pkgs}"
 print_info $? install-tensorflow
+
+Check_Version "${pkgs}" "1.2.1"
+print_info $? check-tf-version
+
+Check_Repo "${pkgs}" "Estuary"
+print_info $? check-repo
 
 pkgs="python-pip python-devel gcc vim expect"
 install_deps "${pkgs}"
