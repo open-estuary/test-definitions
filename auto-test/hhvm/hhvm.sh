@@ -18,7 +18,7 @@ cd -
 #
 INSTALLDIR=$(cd $1; pwd)
 
-HOST=`uname -n`
+HOST=$distro
 
 PKG_NAME="hhvm"
 PKG_VER="3.17.3"
