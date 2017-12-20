@@ -37,7 +37,7 @@ function mongodb_start(){
     ## --dbpath 是mongodb数据存放地方
     ## --rest 是可以web访问的参数 端口是 27017 + 1000
     mon=`ps -ef |grep "mongod --fork" | grep -v grep`
-    if [ $?  ];then
+    if [ $? -eq 0 ];then
         mongod --shutdown --dbpath /mongodb/db/ 
         print_info $? "mongodb shutdown server"
     fi
@@ -53,6 +53,33 @@ function mongodb_start(){
     print_info $? "mongodb start server"
 
 }
+
+function mongodb_stop_by_service(){
+    
+    systemctl stop mongod.service 
+    local cmddir=`which mongod`
+    ps -ef | grep $cmddir | grep -v grep 
+    if [ $? -eq 0 ];then
+        false
+    else
+        true
+
+    fi 
+    print_info $? "mongod service stop by service"
+}
+
+function mongodb_start_by_service(){
+    systemctl start mongod
+    local cmddir=`which mongod`
+    ps -ef | grep $cmddir | grep -v grep 
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi 
+    print_info $? "mongod service start by service"
+}
+
 
 function mongodb_client(){
     mongo test.js 
