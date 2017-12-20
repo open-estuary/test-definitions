@@ -31,18 +31,18 @@ fi
         #*) usage ;;
     #esac
 #done
-package1="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl -y"
-package2="git wget zip tar python python-yaml python-lxml python-setuptools python-numpy python-colorama python2-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl xz -y"
+package1="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl "
+package2="git wget zip tar python python-yaml python-lxml python-setuptools python-numpy python-colorama python2-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl xz "
 cd "${TEST_DIR}"
 create_out_dir "${OUTPUT}"
 case $distro in
     "ubuntu"|"debian")
-    apt-get install "${package1}"
-    print_info $? install-package
-    ;;
+     install_deps "${package1}"
+     print_info $? install-package
+     ;;
   "centos")
-   yum install "${package2}"
-   print_info $? install-package
+    install_deps "${package2}"
+    print_info $? install-package
     ;;
 esac
     pip install --upgrade pip && hash -r
