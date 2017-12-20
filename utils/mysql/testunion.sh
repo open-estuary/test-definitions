@@ -10,11 +10,11 @@ send "root\r"
 expect "mysql>"
 send "use test;\r"
 expect "Database changed"
-send "CREATE TABLE IF NOT EXISTS `author_tbl`(
-`author_id` INT UNSIGNED AUTO_INCREMENT,
-`author_name` VARCHAR(40) NOT NULL,
-`author_home` VARCHAR(100) NOT NULL,
-PRIMARY KEY ( `author_id`  )
+send "CREATE TABLE IF NOT EXISTS author_tbl(
+author_id INT UNSIGNED AUTO_INCREMENT,
+author_name VARCHAR(40) NOT NULL,
+author_home VARCHAR(100) NOT NULL,
+PRIMARY KEY ( author_id  )
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;\r"
 expect "OK"
 send "INSERT INTO author_tbl
