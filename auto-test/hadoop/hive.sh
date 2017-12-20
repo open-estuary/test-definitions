@@ -18,16 +18,14 @@ function hive_install_innter(){
 		fi
 	fi
 	tar  -zxf apache-hive-2.1.1-bin.tar.gz
-	pushd .
-    cd apache-hive-2.1.1-bin
+    local hivedir= `pwd`/apache-hive-2.1.1-bin
 	sed -i "/HIVE_HOME/d" ~/.bashrc
-	export HIVE_HOME=`pwd` &&
-	echo "export HIVE_HOME=`pwd`" >> ~/.bashrc &&
+	export HIVE_HOME=$hivedir &&
+	echo "export HIVE_HOME=$hivedir" >> ~/.bashrc &&
 	echo 'export PATH=$PATH:$HIVE_HOME/bin' >> ~/.bashrc 
 	print_info $? "hive config system envriment parament"
 	source ~/.bashrc 	
 	print_info $? "hive install"
-    popd 
 }
 
 function hive_edit_config(){
@@ -97,7 +95,7 @@ function hive_create_dir_on_hdfs() {
 		hdfs dfs -rm -f -r /tmp
 	fi
 	hdfs dfs -mkdir /tmp
-	print_info $ "hive create tmp dir"
+	print_info $? "hive create tmp dir"
 
 	hdfs dfs -test -e /user/hive/warehouse
 	if [ $? ];then
@@ -162,15 +160,15 @@ function hive_base_client_command() {
 }
 
 function hive_inner_table() {
-        if [ ! -f ../ml-100k.zip ];then
-            wget -c http://files.grouplens.org/datasets/movielens/ml-100k.zip -O ../ml-100k.zip
+        if [ ! -f ./ml-100k.zip ];then
+            wget -c http://files.grouplens.org/datasets/movielens/ml-100k.zip -O ml-100k.zip
             print_info $? "hive download test data"
         fi
         if [ ! `which unzip` ];then
             yum install unzip -y
         fi
 
-        unzip -f ../ml-100k.zip
+        unzip -f ./ml-100k.zip
 
         hive -e "CREATE TABLE u_data (
                 userid INT,
@@ -185,7 +183,7 @@ function hive_inner_table() {
         hdfs dfs -test -e /user/hive/warehouse/u_data
         print_info $? "hive view data in hdfs"
 
-        hive -e "LOAD DATA LOCAL INPATH '../ml-100k/u.data' OVERWRITE INTO TABLE u_data;"
+        hive -e "LOAD DATA LOCAL INPATH './ml-100k/u.data' OVERWRITE INTO TABLE u_data;"
         print_info $? "hive load data "
 
         hive -e "insert into table u_data values(1,3,4,"121212121");"
@@ -194,7 +192,7 @@ function hive_inner_table() {
         hive -e "select count(*) from u_data;"
         print_info $? "hive base select count(*)"
 
-        cp ${basedir}/hive-add-file.sql .
+        cp $/hive-add-file.sql .
         print_info $? "hive create sql file"
 
         cp ${basedir}/weekday_mapper.py .
@@ -216,8 +214,8 @@ function hive_outer_table(){
 		fi
         hdfs dfs -mkdir -p /text/in/day20
         hdfs dfs -mkdir -p /text/in/day21
-        hdfs dfs -put -f ../hive-data1.txt  /text/in/day20/20.txt &&
-        hdfs dfs -put -f ../hive-data2.txt  /text/in/day21/21.txt
+        hdfs dfs -put -f ./hive-data1.txt  /text/in/day20/20.txt &&
+        hdfs dfs -put -f ./hive-data2.txt  /text/in/day21/21.txt
         print_info $? "hive create outer table data"
 	
 	# 0174 --> | 
@@ -253,7 +251,7 @@ function hive_outer_table(){
 
         print_info $? "hive outer table select operator"
 
-        hdfs dfs -put ../hive-data2.txt /text/in/day20
+        hdfs dfs -put ./hive-data2.txt /text/in/day20
         hive -e "select count(*) from outer_tb ;" > tmp.log 
         res1=`cat tmp.log`
         if [ $res1 -gt $res  ];then
@@ -282,8 +280,8 @@ function hive_partitioned_table() {
 		ROW FORMAT DELIMITED FIELDS TERMINATED  BY '\073'
 		STORED AS TEXTFILE;"
 	print_info $? "hive create partitioned table"
-	hive -e "load data local inpath '../hive-data1.txt' into table partTb partition (day=20);" && \
-	hive -e "load data local inpath '../hive-data2.txt' into table partTb partition (day=21);"
+	hive -e "load data local inpath './hive-data1.txt' into table partTb partition (day=20);" && \
+	hive -e "load data local inpath './hive-data2.txt' into table partTb partition (day=21);"
 	print_info $? "hive load data to partition table"
 	hdfs dfs -test -e /user/hive/warehouse/parttb/day=20
 	print_info $? "hive partition table in hdfs struct"
@@ -315,7 +313,7 @@ function hive_bucket_table(){
 	hive -e "create table if not exists buckettext (seq int , name string , yarn int , city string )
 		ROW FORMAT DELIMITED FIELDS TERMINATED BY '\073' 
 		STORED AS TEXTFILE;"
-	hive -e "LOAD DATA LOCAL INPATH '../hive-data1.txt' into table buckettext"
+	hive -e "LOAD DATA LOCAL INPATH './hive-data1.txt' into table buckettext"
 	
 	hive -e "create table if not exists bucket(seq int , name string , yarn int , city string )
 			clustered by(city) sorted by (city) into 4 buckets
