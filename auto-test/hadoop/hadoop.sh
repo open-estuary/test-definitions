@@ -1,7 +1,4 @@
 #! /bin/bash
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
-
 
 ### install jdk
 function install_jdk() {
@@ -13,7 +10,7 @@ function install_jdk() {
 	
     jps > /dev/null
     print_info $? "hadoop java install" 
-	
+    yum install -y wget 	
 }
 
 function install_hadoop() {
@@ -23,7 +20,7 @@ function install_hadoop() {
 	fi
 
 	if [ ! -f hadoop-2.7.4.tar.gz ];then
-        wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
+        wget -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
     fi
     tar -zxf hadoop-2.7.4.tar.gz
  
@@ -32,7 +29,7 @@ function install_hadoop() {
 	print_info $? "hadoop edit config add JAVA_HOME env"
 	
 	grep HADOOP_HOME ~/bashrc
-	if [ $? ];then
+	if [ $? -eq 0 ];then
 		sed -i "/HADOOP_HOME/d" ~/.bashrc	
 	fi
 	export HADOOP_HOME=`pwd`
@@ -97,7 +94,7 @@ EOF
 }
 function hadoop_namenode_format() {
 	cd $HADOOP_HOME
-	rm -rf /tmp/*
+	rm -rf /tmp/hadoop-root
     bin/hdfs namenode -format
     print_info $? "hadoop single node format namenode"
 }
@@ -106,15 +103,11 @@ function hadoop_ssh_nopasswd() {
     if [ -d ~/.ssh ];then
         rm -rf ~/.ssh
     fi
+    
     ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     chmod 0600 ~/.ssh/authorized_keys
-	grep "StrictHostKeyChecking=no" /etc/ssh/ssh_conf
-	if [ $? ];then
-		true
-	else
-		echo  "StrictHostKeyChecking=no" >> /etc/ssh/ssh_conf
-	fi    
+	echo  "StrictHostKeyChecking=no" >> ~/.ssh/config
 	print_info $? "hadoop single node ssh without password"
 }
 
@@ -373,12 +366,18 @@ jps
         lava-tese-case "hadoop start resourcemanager" --result fail
     fi
 jps	
+}
+
+function hadoop_stop_all(){
+
+    pushd .
+    cd $HADOOP_HOME
 	sbin/stop-yarn.sh
 	print_info $? "hadoop single node  stop yarn"
 
 	sbin/stop-dfs.sh
 	print_info $? "hadoop single node stop dfs"
-	
+	popd 
 }
 
 function uninstall_hadoop() {
@@ -387,18 +386,4 @@ function uninstall_hadoop() {
 	rm -rf /tmp/hadoop-root
 }
 
-
-#install_jdk
-#install_hadoop
-
-#hadoop_standalone
-
-#hadoop_ssh_nopasswd
-#hadoop_config_base
-#hadoop_namenode_format
-
-#hadoop_single_node
-
-#hadoop_config_yarn
-#hadoop_single_with_yarn
 
