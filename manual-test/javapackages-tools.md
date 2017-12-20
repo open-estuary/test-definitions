@@ -63,16 +63,6 @@ build-classpath jndi
 build-classpath-directory /usr/share/java
 返回结果:/usr/share/java/xxx.jar
 ```
-#测试create-jar-links
-```
-
-```
-#测试jvmjar
-```
-```
-#测试xmvn-builddep
-```
-```
 #卸载安装包
 ```
 yum remove javapackage-tool.noarch -y
