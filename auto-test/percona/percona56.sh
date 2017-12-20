@@ -36,16 +36,16 @@ function percona_install(){
     export LANG="en_US.UTF-8"
 
     yum info Percona-Server-server-56 > tmpinfo
-    version=`cat tmpinfo | grep Version |  cut -d : -f2`
+    version1=`cat tmpinfo | grep Version |  cut -d : -f2`
     repo=`cat tmpinfo | grep "From repo" | cut -d : -f 2`
-    if [ $version == "5.6.35" -a $repo == "Estuary"  ];then
+    if [ $version1 == "5.6.35" -a $repo == "Estuary"  ];then
         true
     else
         false
     fi
     print_info $? "percona version is right"
     rm -f tmpinfo
-
+    export version="percona-$version1-$repo"
 }
 
 function percona_modify_system_args(){
@@ -190,16 +190,19 @@ function mysql_muti_stop_clean(){
 }
 
 
-
 function percona56_vs_mysql56ce(){
-    
+    #TODO 
     percona_tokudb 
 
 }
 
 function percona_tokudb(){
-
+#TODO
 echo 
 }
 
+function percona56_diagnostic_features(){
+    #TODO 
+    echo 
+}
 
