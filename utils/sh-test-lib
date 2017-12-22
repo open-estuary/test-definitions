@@ -270,7 +270,7 @@ remove_deps() {
     # skip_install parmater is optional.
     skip_remove="$2"
 
-    if [ "${skip_remove" = "True" ] || [ "${skip_remove}" = "true" ]; then
+    if [ "${skip_remove}" = "True" ] || [ "${skip_remove}" = "true" ]; then
         info_msg "remove_deps skipped"
     else
         ! check_root && \

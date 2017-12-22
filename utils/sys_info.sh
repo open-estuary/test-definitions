@@ -85,3 +85,28 @@ download_file()
         let "i++"
     done
 }
+
+Check_Version()
+{
+	deps_name=$1
+	version=$2
+	ver_info=$(yum info $deps_name | grep Version | awk '{print $3}')
+	if [ $version == $ver_info ];then
+		return 0
+	else
+		return 1
+	fi
+}
+
+
+Check_Repo()
+{
+	deps_name=$1
+	repo=$2
+	repo_info=$(yum info $deps_name | grep Repo | awk '{print $3}')
+	if [ $repo == $repo_info ];then
+		return 0
+	else
+		return 1
+	fi
+}
