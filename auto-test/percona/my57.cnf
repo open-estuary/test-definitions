@@ -30,10 +30,9 @@ symbolic-links=0
 port=3306
 # Recommended in standard MySQL setup
 sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
-server-id=3306
+
 #log_bin=my-bin
 
-[mysqld_safe]
 log-error=/var/log/mysqld1.log
 pid-file=/var/run/mysqld/mysqld1.pid
 
