@@ -10,31 +10,31 @@ Remark:
 ---
 #测试程序test.c
 ```
-    1 #include <stdio.h>
-     2
-     3 int func(int n)
-     4 {
-     5         int sum=0,i;
-     6         for(i=0; i<n; i++)
-     7         {
-     8                 sum+=i;
-     9         }
-    10         return sum;
-    11 }
-    12
-    13
-    14 main()
-    15 {
-    16         int i;
-    17         long result = 0;
-    18         for(i=1; i<=100; i++)
-    19         {
-    20                 result += i;
-    21         }
-    22
-    23        printf("result[1-100] = %d /n", result );
-    24        printf("result[1-250] = %d /n", func(250) );
-    25 }
+     #include <stdio.h>
+    
+    int func(int n)
+    {
+            int sum=0,i;
+            for(i=0; i<n; i++)
+            {
+                    sum+=i;
+            }
+            return sum;
+    }
+   
+  
+   main()
+  {
+           int i;
+           long result = 0;
+           for(i=1; i<=100; i++)
+           {
+                   result += i;
+           }
+  
+         printf("result[1-100] = %d /n", result );
+         printf("result[1-250] = %d /n", func(250) );
+  }
 ```
 #编译:要-g才有调试信息
 ```
