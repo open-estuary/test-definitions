@@ -64,7 +64,6 @@ function mysql_client(){
     ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
     mysql -h $ip -umysql -p123 -e "select user()"
     print_info $? "mysql$version login non root user by tcp"
-    
     mysql -e "drop user 'mysql'@'%'"
     print_info $? "mysql$version drop user@%"
     mysql -e "drop user 'mysql'@'localhost'"
@@ -582,8 +581,9 @@ function mysql_select(){
 
 function mysql_insert(){
     
-    mysql < "drop database if exists test;
+    mysql -e  "drop database if exists test;
             create database test ;
+            use test;
             create table t1 (id int , name varchar(20) , age int);
             create table t2 (id int , name varchar(20))"
     mysql -e '''use test ; insert into t1 values(1 , "tan" , 20)'''
@@ -623,7 +623,7 @@ function mysql_transaction(){
     mysql -e "set autocommit=on"
 
     res1=`mysql -e "select @@tx_isolation"`
-    echo $res1 | grep -i "repeatble-read"
+    echo $res1 | grep -i "repeatable-read"
     if [ $? -eq 0 ];then
         true
     else
@@ -924,14 +924,23 @@ function mysql_log(){
     mysql -e "show variables like 'log_bin'" | grep OFF 
     print_info $? "mysql$version bin log default off"
 
-    sed -i s?"# bin-log.*"?"bin-log=myql-bin"? /etc/my.cnf 
+    sed -i s?".*log_bin.*"?"log_bin=myql-bin"? /etc/percona-server.conf.d/mysqld.cnf 
+    grep server-id /etc/percona-server.conf.d/mysqld.cnf 
+    if [ $? -eq 0 ];then
+        sed -i s/".*server-id.*"/"server-id=3306"/ /etc/percona-server.conf.d/mysqld.cnf 
+    else
+    cat >>/etc/percona-server.conf.d/mysqld.cnf <<eof
+[mysqld]
+server-id=3306
+eof
+    fi
+
     systemctl restart mysqld.service
     sleep 3
     mysql -e "show variables like 'log_bin'" | grep ON 
     print_info $? "mysql$version set bin log on "
     mysql -e "show binary logs" | grep mysql-bin 
     print_info $? "mysql$version show binary logs"
-    mysql -e "drop table if exists testdb.tb;create table testdb.tb (id int)"
     mysqlbinlog /var/lib/mysql/mysql-bin.000001 | grep "create table testdb.tb (id int)"
     print_info $? "mysql$version view bin log file"
 

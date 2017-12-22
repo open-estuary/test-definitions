@@ -16,7 +16,7 @@ function percona_uninstall(){
     yum remove -y mysql*
     yum remove -y Percona*
     print_info $? "percona uninstall"
-
+    exit 
 }
 
 function percona_install(){
@@ -64,7 +64,7 @@ function percona_stop(){
 
 function percona_clean_ps(){
 
-    ps -ef | grep mysqld |grep -v grep | awk {'print $2'} | xargs kill -s 9  2>&1 >/dev/null 
+    ps -ef | grep mysqld |grep -v grep | awk {'print $2'} | xargs kill -9  2>&1 >/dev/null 
 
 }
 
@@ -156,7 +156,7 @@ function mysql_muti_start(){
     sed -i s?"pid-file.*"?"pid-file=$basedir/run/mysqld.pid"? ${basedir}/my.cnf
     
     chown -R mysql:mysql $basedir 
-    ln -s $basedir/my.cnf ~/.my.cnf 
+#    ln -s $basedir/my.cnf ~/.my.cnf 
     mysql_install_db --defaults-file=$basedir/my.cnf >/dev/null  2>&1 
     nohup mysqld_safe --defaults-file=$basedir/my.cnf  &
     sleep 2
