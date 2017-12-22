@@ -29,9 +29,14 @@ Remark:
                - 验证能否进入mini系统
                
           2)  NFS安装方式
-               - 解压文件系统至NFS根目录下
+               - 解压文件系统至NFS的tftp目录下
                - 配置grub支持NFS
                - 重启目标单板，测试系统能否以NFS方式进入安装菜单
+       
+          3)  netboot安装方式
+               - 解压netboot包至NFS的tftp目录下
+               - 配置grub支持netboot
+               - 重启目标单板，测试系统能否以netboot方式进入安装菜单
         
        2.本地安装方式
           
