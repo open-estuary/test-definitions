@@ -25,6 +25,9 @@ case $distro in
      make
      make install
      ;;
+ "ubuntu")
+     apt-get install httperf -y
+     ;;
 esac
 #Test ' httperf server'
 

@@ -26,8 +26,9 @@ usage() {
     exit 1
 }
 
-while getopts ":n:t:s:" opt; do
+while getopts ":v:n:t:s:" opt; do
     case "${opt}" in
+        v) version="${OPTARG}" ;;
         n) NUM_THREADS="${OPTARG}" ;;
         t) TESTS="${OPTARG}" ;;
         s) SKIP_INSTALL="${OPTARG}" ;;
@@ -48,6 +49,13 @@ install_sysbench() {
     fi
     make install
     cd ../
+}
+remove_sysbench() {
+    if [ -d sysbench ];then
+        rm -rf sysbench
+    else
+       remove_deps install_deps
+    fi
 }
 
 ! check_root && error_msg "Please run this script as root."
@@ -72,10 +80,23 @@ else
         fedora|centos)
             install_deps "git gcc make automake libtool"
             if echo "${TESTS}" | grep "oltp"; then
-                install_deps "sysbench mysql-devel mariadb-server mariadb"
+                install_deps "sysbench-${version} mysql-devel mariadb-server mariadb"
                 systemctl start mariadb
             fi
-            [ sysbench --version ] || install_deps "sysbench"
+            v=sysbench --version | awk '{print $2}'
+            if test $v eq $version;then
+                echo "sysbench version is $v: [PASS]" | tee -a "${RESULT_FILE}"
+            else
+                echo "sysbench version is $v: [FAIL]" | tee -a "${RESULT_FILE}"
+                exit 1
+            fi
+            repo=yum info sysbench | grep "^From repo" | awk '{print $4}'
+            if [ $repo = "Estuary"];then
+                echo "sysbench source is ${repo}: [PASS]" | tee -a "${RESULT_FILE}"
+            else
+                echo "sysbench source is ${repo}: [FAIL]" | tee -a "${RESULT_FILE}"
+                exit 1
+            fi
             ;;
         opensuse)
             install_deps "git gcc make automake"
@@ -95,8 +116,6 @@ else
     esac
 fi
 
-# Verify test installation.
-sysbench --version
 
 general_parser() {
     # if $1 is there, let's append to test name in the result file
@@ -214,3 +233,6 @@ for tc in ${TESTS}; do
             ;;
     esac
 done
+remove_sysbench
+
+

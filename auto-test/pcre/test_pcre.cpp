@@ -43,6 +43,9 @@ int main()
                 printf("PCRE compilation failed at offset %d: %s\n", erroffset, error);
                 return 1;
         }
+        else{
+            printf("PCRE compilation pass");
+        }
 
         rc = pcre_exec(re, NULL, src, strlen(src), 0, 0, ovector, OVECCOUNT);
         if (rc < 0) {
@@ -62,6 +65,7 @@ int main()
         }
 
         free(re);
+        printf("free ok");
         return 0;
 }
 
