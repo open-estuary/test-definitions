@@ -16,5 +16,6 @@ install_c_driver
 
 mongo_c_driver_base
 
+mongodb_shutdown
 
-
+mongo_c_driver_uninstall

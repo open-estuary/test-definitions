@@ -19,8 +19,7 @@ source ./mysql.sh
 
 set -x
 
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
-
+export PS4='+{$0:$LINENO:${FUNCNAME[0]}} '
 percona57_install
 percona57_start
 
@@ -33,15 +32,14 @@ mysql_drop
 mysql_load_data
 mysql_select
 mysql_insert
+
 mysql_transaction
 mysql_log
 mysql_innodb
 
 percona57_stop 
-
-
 percona57_replication
-percona57_cutstom_stop 
+percona57_custom_stop 
 
 #percona57_remove
 
