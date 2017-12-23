@@ -22,165 +22,173 @@ print_info $? test-mysql-version
 systemctl start mysqld
 print_info $? start-mysqld
 
-systemcrl status mysqld | grep running
+systemctl status mysqld | grep running
 print_info $? status-mysqld
 
 cd ../../utils/mysql
 
 ./nonelogin.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'anonymous login mysql ok'
-	print_info $? anonymous-login
+	print_info 0 anonymous-login
 else
-	print_info $? anonymous-login
+	print_info 1 anonymous-login
 fi
 
 mysqladmin -u root password "root"
 print_info $? set-root-pwd
 
 ./rootlogin.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'root login mysql ok'
-	print_info $? root-login
+	print_info 0 root-login
 else
-	print_info $? root-login
+	print_info 1 root-login
 fi
 
 ./createdb.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'create test database ok'
-	print_info $? create-database
+	print_info 0 create-database
 else
-	print_info $? create-database
+	print_info 1 create-database
 fi
 
-./choocedb.sh
-if [ $? -ne 0 ]; then
+./choosedb.sh
+if [ $? -eq 0 ]; then
     echo 'choice test database ok'
-	print_info $? chooce-database
+	print_info 0 choose-database
 else
-	print_info $? chooce-database
+	print_info 1 choose-database
 fi
 
 ./createtb.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'create case table ok'
-	print_info $? create-table
+	print_info 0 create-table
 else
-	print_info $? create-table
+	print_info 1 create-table
 fi
 
 
 ./insertdata.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'insert data into case table ok'
-	print_info $? insert-data
+	print_info 0 insert-data
 else
-	print_info $? insert-data
+	print_info 1 insert-data
+fi
+
+./selectdata.sh
+if [ $? -eq 0 ]; then
+    echo 'select data from case table ok'
+	print_info 0 select-data
+else
+	print_info 1 select-data
 fi
 
 ./testwhere.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test where ok'
-	print_info $? test-where
+	print_info 0 test-where
 else
-	print_info $? test-where
+	print_info 1 test-where
 fi
 
 ./testlike.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test like ok'
-	print_info $? test-like
+	print_info 0 test-like
 else
-	print_info $? test-like
+	print_info 1 test-like
 fi
 
 ./testorder.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test order ok'
-	print_info $? test-order
+	print_info 0 test-order
 else
-	print_info $? test-order
+	print_info 1 test-order
 fi
 
 ./testgroup.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test group ok'
-	print_info $? test-group
+	print_info 0 test-group
 else
-	print_info $? test-group
+	print_info 1 test-group
 fi
 
 ./testunion.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test union ok'
-	print_info $? test-union
+	print_info 0 test-union
 else
-	print_info $? test-union
+	print_info 1 test-union
 fi
 
 ./testjoin.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test join ok'
-	print_info $? test-join
+	print_info 0 test-join
 else
-	print_info $? test-join
+	print_info 1 test-join
 fi
 
 ./testaffair.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test affair ok'
-	print_info $? test-affair
+	print_info 0 test-affair
 else
-	print_info $? test-affair
+	print_info 1 test-affair
 fi
 
 ./testalter.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test alter ok'
-	print_info $? test-alter
+	print_info 0 test-alter
 else
-	print_info $? test-alter
+	print_info 1 test-alter
 fi
 
 ./testindex.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'test index ok'
-	print_info $? test-index
+	print_info 0 test-index
 else
-	print_info $? test-index
+	print_info 1 test-index
 fi
 
 ./updatedata.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'update data of case table ok'
-	print_info $? update-data
+	print_info 0 update-data
 else
-	print_info $? update-data
+	print_info 1 update-data
 fi
 
 ./deletedata.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'delete data of case table ok'
-	print_info $? delete-data
+	print_info 0 delete-data
 else
-	print_info $? delete-data
+	print_info 1 delete-data
 fi
 
 ./deletetb.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'delete table ok'
-	print_info $? delete-table
+	print_info 0 delete-table
 else
-	print_info $? delete-table
+	print_info 1 delete-table
 fi
 
 ./deletedb.sh
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     echo 'delete test database ok'
-	print_info $? delete-database
+	print_info 0 delete-database
 else
-	print_info $? delete-database
+	print_info 1 delete-database
 fi
 
 rm -f ./out.log
@@ -189,6 +197,6 @@ cd -
 systemctl stop mysqld
 print_info $? stop-mysqld
 
-yum remove -y mysql57-community-server mysql57-community-common mysql57-community-client mysql57-community-devel
-print_info $? remove-mysql57-community
+yum remove -y mysql-community-server mysql-community-common mysql-community-client mysql-community-devel
+print_info $? remove-mysql-community
 
