@@ -37,7 +37,7 @@ mysql_transaction
 
 mysql_log
 mysql_innodb
-
 percona_start_stop_test
 mysql_muti_start 
+mysql_muti_stop_clean
 percona_uninstall

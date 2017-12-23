@@ -44,20 +44,24 @@ if test $? -eq 0;then
     echo "pcre build: [PASS]" | tee -a "${RESULT_FILE}"
 else
     echo "pcre build: [FAIL]" | tee -a "${RESULT_FILE}"
-
+fi
 ./pcre | tee -a "${LOG_FILE}"
-if [ cat ${LOG_FILE} | grep "PCRE compilation pass" ];then
+ cat ${LOG_FILE} | grep "PCRE compilation pass" 
+ if [ $? -eq 0 ];then 
     echo "正则表达式编译: [PASS]" | tee -a ${RESULT_FILE}
 else
     echo "正则表达式编译: [FIAL]" | tee -a ${RESULT_FILE}
 fi
 
-if [ cat ${LOG_FILE} | grep "OK, has matched" ];then
+#if [ cat ${LOG_FILE} | grep "OK, has matched" ];then
+ cat ${LOG_FILE} | grep "OK, has matched" 
+ if [ $? -eq 0 ];then
     echo "正则表达式匹配: [PASS]" | tee -a ${RESULT_FILE}
 else
     echo "正则表达式匹配: [FIAL]" | tee -a ${RESULT_FILE}
 fi
-if [ cat ${LOG_FILE} | grep "free ok" ];then
+ cat ${LOG_FILE} | grep "free ok" 
+ if [ $? -eq 0 ];then
     echo "正则表达式释放: [PASS]" | tee -a ${RESULT_FILE}
 else
     echo "正则表达式释放: [FIAL]" | tee -a ${RESULT_FILE}
