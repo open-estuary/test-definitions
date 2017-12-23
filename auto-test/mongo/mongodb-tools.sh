@@ -58,9 +58,9 @@ eof
     fi
     
 
-    cat > tmp.js << eof
+    cat > tmp.js <<- eof
     var db = new Mongo().getDB('dump_restore');
-    db.dropdatabase();
+    db.dropDatabase();
 eof
     mongo tmp.js 
     mongorestore --db dump_restore dump 

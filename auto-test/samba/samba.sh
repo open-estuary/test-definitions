@@ -11,6 +11,7 @@ case $distro in
           apt-get install samba -y
           apt-get install smbclient -y
           apt-get install expect -y
+          apt-get install selinux-utils -y
           ;;
     "centos")
           yum install samba -y
@@ -102,7 +103,7 @@ chown -R smb:smbgrp secured/
     #writable = yes
     #browsable = yes
 #EOF
-
+chmod 777 /home/share
 systemctl restart samba
 systemctl restart nmb.service smb.service
 SMB_GET_LOG=smb_get_test.log
@@ -182,6 +183,6 @@ cd -
 
 cd ..
 
-rm -rf share
+#rm -rf share
 
 

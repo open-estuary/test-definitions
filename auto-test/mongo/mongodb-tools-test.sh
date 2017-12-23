@@ -15,6 +15,7 @@ install_mongo-tools
 
 mongo_mongostat
 mongo_dump_restore
+mongodb_shutdown
 uninstall_mongo-tools 
 
 
