@@ -1,12 +1,12 @@
 #! /bin/bash
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 . ../../utils/sys_info.sh
 . ../../utils/sh-test-lib
 
+set -x
+export PS4='+{$LINENO:${FUNCNAME[0]}} '
 source ./hadoop.sh
 
 install_jdk
@@ -22,6 +22,8 @@ hadoop_single_node
 
 hadoop_config_yarn
 hadoop_single_with_yarn
+
+hadoop_stop_all 
 
 
 

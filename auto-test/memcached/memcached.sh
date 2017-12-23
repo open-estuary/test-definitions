@@ -7,27 +7,105 @@ cd $basedir
 dist=`dist_name`
 echo $dist
 
-yum install -y memcached
-print_info $? "memcacehd install"
+set -x 
+export PS4='+{$LINENO:${FUNCTION[0]}} '
 
-yum install -y libevent python-pip
-print_info $? "memcacehd preinstall"
 
-pip install -q python-memcached
-print_info $? "memcached client install"
 
-su - postgres -c "memcached -d -p 11211 -m 64m"
-ps -ef |grep "memcached -d -p" | grep -v grep
-print_info $? "memcached start"
+function memcached_install(){
+    yum install -y memcached
+    print_info $? "memcacehd install"
 
-res=`echo "stats" | nc localhost 11211`
-if [ $? = 0 ];then
-    lava-test-case "memcache connect" --result pass
-else
-    lava-test-case "memcache connect" --result fail
-fi
-python ./mc.py
+    yum install -y libevent python-pip
+    print_info $? "memcacehd preinstall"
 
-yum remove -y memcached
-print_info $? "memcached uninstall"
+    pip install -q python-memcached
+    print_info $? "memcached client install"
 
+    yum install -y nmap-ncat 
+}
+
+function memcached_start_by_command(){
+
+    useradd memtest
+    memcached -d -p 11211 -m 64m -u memtest 
+    ps -ef |grep "memcached -d -p" | grep -v grep
+    print_info $? "memcached start"
+}
+
+function memcached_start_by_service(){
+
+    systemctl start memcached.service 
+    ps -ef | grep '/usr/bin/memcached' | grep -v grep 
+
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi
+    print_info $? "memcached start by systemd"
+}
+
+
+function memcached_conn(){
+    res=`echo "stats" | nc localhost 11211`
+    if [ $? -eq 0 ] ; then
+        lava-test-case "memcache connect" --result pass
+    else
+        lava-test-case "memcache connect" --result fail
+    fi 
+
+}
+
+function memcached_exec(){
+    echo "-------begin memcache innter function------"
+    echo 
+    python ./mc.py
+    echo 
+    echo "-------stop memcached innter function------"
+}
+
+function memcached_stop_by_service(){
+   systemctl stop memcached.service 
+   ps -ef | grep '/usr/bin/memcached' | grep -v grep 
+   if [ $? -eq 0 ];then
+       false
+   else
+       true
+   fi
+   print_info $? "memcached stop service by systemd"
+}
+
+function memcached_stop_by_command(){
+    
+    pid=`ps -ef | grep '/usr/bin/memcached' | grep -v grep | awk {'print $2'}`
+    if [ $? -eq 0 ];then
+        kill -9 $pid
+    fi 
+    ps -ef | grep '/usr/bin/memcached' | grep -v grep 
+    if [ $? -eq 0 ];then
+        false
+    else
+        true
+    fi
+    print_info $? "memcached stop service by command"
+
+}
+
+
+
+function memcached_uninstall(){
+    yum remove -y memcached
+    print_info $? "memcached uninstall"
+}
+
+memcached_install
+memcached_start_by_service
+memcached_conn
+memcached_exec
+memcached_stop_by_service
+
+memcached_start_by_service
+memcached_stop_by_command 
+
+#memcached_uninstall
