@@ -1,11 +1,16 @@
 #!/bin/sh
 
 # shellcheck disable=SC1091
-. ../lib/sh-test-lib
+. ../../lib/sh-test-lib
+. ../../utils/sys_info.sh 
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 VERSION="8"
+
+set -x 
+export PS4='+{$LINENO:${FUNCNAME[0]}} '
+
 
 usage() {
     echo "Usage: $0 [-v <8|9>] [-s <true|false>]" 1>&2
@@ -21,7 +26,6 @@ while getopts "v:s:" o; do
 done
 
 ! check_root && error_msg "You need to be root to run this script."
-create_out_dir "${OUTPUT}"
 
 if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     info_msg "JDK package installation skipped"
@@ -55,27 +59,15 @@ for link in java javac; do
     update-alternatives --set "${link}" "${path}"
 done
 
-javaversion=`java -version 2>&1 | grep "version \"1.${VERSION}"`
-exit_on_fail "check-java-version"
+java -version 2>&1 | grep "version \"1.${VERSION}"
+print_info $? OpenJDK-CheckJavaVersion 
 
-if [ -z $javaversion  ];then
-    lava-test-case OpenJDK-CheckJavaVersion --result pass
-else
-    lava-test-case OpenJDK-CheckJavaVersion --result fail
-fi
-
-javacversion=`javac -version 2>&1 | grep "javac 1.${VERSION}"`
-exit_on_fail "check-javac-version"
-
-if [ -z $javacversion  ];then
-    lava-test-case OpenJDK-CheckJavacVersion --result pass
-else
-    lava-test-case OpenJDK-CheckJavacVersion --result fail
-fi
+javac -version 2>&1 | grep "javac 1.${VERSION}"
+print_info $? OpenJDK-CheckJavacVersion
 
 
 # shellcheck disable=SC2164
-cd "${OUTPUT}"
+
 cat > "HelloWorld.java" << EOL
 public class HelloWorld {
     public static void main(String[] args) {
@@ -84,19 +76,13 @@ public class HelloWorld {
 }
 EOL
 
-javac=`javac HelloWorld.java`
-check_return "compile-HelloWorld"
-if [ $javac = 0  ];then
-    lava-test-case OpenJDK-compileHelloWorld --result pass
-else
-    lava-test-case OpenJDK-CompileHelloWorld --result fail
-fi
+javac HelloWorld.java 
+print_info $?  OpenJDK-compileHelloWorld 
 
-java=`java HelloWorld | grep "Hello, World"`
-check_return "execute-HelloWorld"
-if [ $java = 0  ];then
-    lava-test-case OpenJDK-ExecuteHelloWorld --result pass
+java HelloWorld | grep "Hello, World"
+if [ $? -eq 0  ];then
+    true 
 else
-    lava-test-case OpenJDK-ExecuteHelloWorld --result fail
+    false
 fi
-
+print_info $?  OpenJDK-ExecuteHelloWorld 
