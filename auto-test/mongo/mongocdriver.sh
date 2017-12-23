@@ -16,6 +16,16 @@ function install_c_driver(){
         false
     fi
     print_info $? "mongo c driver version"
+
+    yum install -y mongo-c-driver-devel 
+
+}
+
+function mongo_c_driver_uninstall(){
+    
+    yum remove -y mongo-c-driver
+    print_info $? "uninstall mongo c driver"
+    yum remove -y mongo-c-driver-devel 
 }
 
 function mongo_c_driver_base(){

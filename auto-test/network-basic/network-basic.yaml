@@ -1,6 +1,6 @@
 
 metadata:
-    name: network _testing
+    name: network_testing
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "network_basic is the most basic function of the network"
     maintainer:
