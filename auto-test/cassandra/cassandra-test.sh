@@ -26,6 +26,6 @@ cassandra20_sql_ddl
 
 cassandra20_stop_by_service
 
-cassandra20_uninstall
+#cassandra20_uninstall
 
 

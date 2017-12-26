@@ -14,8 +14,16 @@ cd $basedir
 . ../../lib/sh-test-lib
 . ../../utils/sys_info.sh
 
+source ./cassandra-cpp-driver.sh 
 source ./cassandra.sh 
 set -x
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
-cassandra20_install
+ccdriver_install
+ccdriver_server_isRunning 
+ccdriver_sample_exec
+
+cassandra20_stop_by_service
+cassandra_uninstall 
+ccdriver_uninstall 
+

@@ -26,21 +26,22 @@ int main() {
       printf("Connect result: %s\n", cass_error_desc(rc));
 
       /* Run queries... */
+    /*
     CassStatement* statement = cass_statement_new("select * from system.schema_keyspaces" , 0 );
 //      = cass_statement_new("INSERT INTO example (key, value) VALUES ('abc', 123)", 0);
 
     CassFuture* query_future = cass_session_execute(session, statement);
 
-    /* Statement objects can be freed immediately after being executed */
+  //   Statement objects can be freed immediately after being executed 
     cass_statement_free(statement);
 
-    /* This will block until the query has finished */
-    rc = cass_future_error_code(query_future);
+    // This will block until the query has finished 
+    CassError rc1 = cass_future_error_code(query_future);
 
-    printf("Query result: %s\n", cass_error_desc(rc));
+    printf("Query result: %s\n", cass_error_desc(rc1));
 
     cass_future_free(query_future);
-
+*/
       cass_future_free(connect_future);
       cass_session_free(session);
       cass_cluster_free(cluster);

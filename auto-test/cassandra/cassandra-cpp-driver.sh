@@ -10,17 +10,55 @@
 
 source ./cassandra.sh 
 
+function ccdriver_server_isRunning(){
+
+
+    which cassandra && true || false 
+    if [ $? -ne 0 ];then
+        cassandra20_install
+        cassandra20_edit_config
+        cassandra20_start_by_service 
+        pgrep -U cassandra && true || false 
+        if [ $? -eq 0 ];then 
+            return 0
+        else
+            exit 1
+        fi 
+
+    fi 
+
+    pid=`pgrep -U cassandra `
+    if [ $? -eq 0 ];then
+        kill -9 $pid
+        sleep 3
+    fi
+    cassandra20_edit_config 
+    grep -E "^authenticator: AllowAllAuthenticator" /etc/cassandra/default.conf/cassandra.yaml 
+    if [ $? -ne 0 ];then 
+        echo "authenticator: AllowAllAuthenticator" >> /etc/cassandra/default.conf/cassandra.yaml 
+    fi 
+
+    systemctl start cassandra 
+
+    pgrep -U cassandra && true || false 
+    print_info $? "start cassandra" 
+}
+
+
+
+
 function ccdriver_install(){
     
     yum install cassandra-cpp-driver -y 
     print_info $? "install cassandra cpp driver "
 
+    yum install cassandra-cpp-driver-devel -y 
     export LANG=en_US.UTF8 
     yum info cassandra-cpp-driver > tmp.info 
     local version=`grep Version tmp.info | cut -d : -f 2`
     local repo=`grep "From repo" tmp.info | cut -d : -f 2`
 
-    if [ $version = "1.7.0" -a $repo = "Estuary" ];then
+    if [ $version = "2.7.0" -a $repo = "Estuary" ];then
         true
     else
         false
@@ -29,13 +67,19 @@ function ccdriver_install(){
     
 }
 
+function ccdriver_uninstall(){
+
+    yum remove -y cassandra-cpp-driver 
+    print_info $? "uninstall cassandra cpp driver"
+}
+
 
 function ccdriver_sample_exec(){
 
     gcc -o sampleQuery connect.c -lcassandra
-    print_info $? "use cassandra dynamic lib expline "
-
-    ./sampleQuery 2>&1 | grep -i error 
+    print_info $? "link cassandra dynamic lib "
+jps
+    su cassandra -c "./sampleQuery 2>&1 | grep -i error "
     if [ $? -eq 0 ];then
         false
     else

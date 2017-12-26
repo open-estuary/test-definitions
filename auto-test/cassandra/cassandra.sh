@@ -43,7 +43,7 @@ function cassandra20_install(){
 
 function cassandra20_edit_config(){
     
-    sed -i s"/JVM_OPTS=$JVM_OPTS -Xss256k/JVM_OPTS=$JVM_OPTS -Xss328k/"  /etc/cassandra/default.conf/cassandra-env.sh 
+    sed -i s/'JVM_OPTS="$JVM_OPTS -Xss256k"'/'JVM_OPTS="$JVM_OPTS -Xss328k"'/  /etc/cassandra/default.conf/cassandra-env.sh 
     grep "Xss328k" /etc/cassandra/default.conf/cassandra-env.sh 
     if [ $? -eq 0 ];then
         true
@@ -83,7 +83,7 @@ function cassandra20_stop_by_service(){
 
 }
 
-functioyn cassandra20_sql_ddl(){
+function cassandra20_sql_ddl(){
     
     cat > temp.cql <<-eof
 create keyspace if not exists db1 \
@@ -104,35 +104,35 @@ function cassandra20_uninstall(){
 
 
 
-functioyn cassandra20_sql_dml(){
+function cassandra20_sql_dml(){
 echo
 #TODO
 }
 
-functioyn cassandra20_sql_index(){
+function cassandra20_sql_index(){
     #TODO
 echo
 }
 
 
-functioyn cassandra20_sql_role_perm(){
+function cassandra20_sql_role_perm(){
     #TODO
 echo
 }
 
-functioyn cassandra20_sql_udf(){
-    #TODO
-echo
-}
-
-
-functioyn cassandra20_sql_udt(){
+function cassandra20_sql_udf(){
     #TODO
 echo
 }
 
 
-functioyn cassandra20_sql_trigger(){
+function cassandra20_sql_udt(){
+    #TODO
+echo
+}
+
+
+function cassandra20_sql_trigger(){
     #TODO
 echo
 }
