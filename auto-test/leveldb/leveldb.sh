@@ -16,7 +16,7 @@ function install_leveldb(){
     yum info leveldb > tmp.info 
     local version=`grep Version tmp.info | cut -d : -f 2`
     local repo=`grep "From repo" tmp.info | cut -d : -f 2`
-    if [ $version = "1.2" -a $repo = "Estuary" ];then
+    if [ $version = "1.20" -a $repo = "Estuary" ];then
         true
     else
         false
@@ -42,7 +42,7 @@ function uninstall_leveldb(){
     
     yum remove -y leveldb
     print_info $? "uninstall leveldb"
-    pip uninstall -q plyvel 
+    pip uninstall -y plyvel 
     print_info $? "uninstall plyvel of python package"
 
 }
