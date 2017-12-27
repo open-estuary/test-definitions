@@ -12,11 +12,13 @@ case $distro in
           apt-get install smbclient -y
           apt-get install expect -y
           apt-get install selinux-utils -y
+          print_info $? install-package
           ;;
     "centos")
           yum install samba -y
           yum install samba-client.aarch64 -y
           yum install expect -y
+          print_info $? install-package
           ;;
      "opensuse")
           zypper install -y samba
@@ -24,13 +26,14 @@ case $distro in
 esac
 case $distro in
     "ubuntu")
+
          systemctl start samba
          print_info $? start_smb
          systemctl restart samba
          print_info $? restart_smb
          systemctl stop samba
          ;;
-    "CentOS")
+    "centos")
          systemctl restart nmb.service smb.service
          print_info $? restart_smb
          systemctl start nmb.service smb.service
@@ -183,6 +186,20 @@ cd -
 
 cd ..
 
-#rm -rf share
-
+rm -rf share
+count = `ps -aux |grep samba |wc -l`
+if [ $count -gt 0 ];then
+    kill -9 $(pidof samba)
+    print_info $? kill-samba
+fi
+case $distro in
+    "centos")
+     yum remove samba smbclient expect selinux-utils -y
+     print_info $? remove-package
+     ;;
+ "ubuntu")
+    apt-get remove samba samba-client.aarch64 expect -y
+    print_info $? remove-package
+    ;;
+esac
 
