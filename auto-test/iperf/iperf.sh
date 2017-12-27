@@ -28,6 +28,7 @@ case $distro in
     "ubuntu")
          apt-get install iperf -y
          apt-get install iperf3 -y
+         print_info $? install-iperf
          ;;
     "centos")
          yum install wget -y
@@ -39,6 +40,7 @@ case $distro in
          ./configure
          make
          make install
+         print_info $? install-iperf
          ;;
     "opensuse")
          zypper install -y iperf
@@ -49,10 +51,11 @@ cd /etc
 ldconfig
 # Run local iperf3 server as a daemon when testing localhost.
 [ "${SERVER}" = "127.0.0.1" ] && iperf3 -s -D
-
+print_info $? start-iperf-server
 # Run iperf test with unbuffered output mode.
 stdbuf -o0 iperf3 -c "${SERVER}" -t "${TIME}" -P "${THREADS}" 2>&1 \
     | tee iperf.log
+print_info $? start-iperf-client
 TCID="iperf test"
 # Parse logfile.
 if [ "${THREADS}" -eq 1 ]; then
@@ -71,3 +74,14 @@ fi
 
 # Kill iperf test daemon if any.
 pkill iperf3 || true
+print_info $? kill-iperf
+case $distro in
+    "ubuntu")
+        apt-get remove iperf* -y
+        print_info $? remove-package
+        ;;
+    "centos")
+        yum remove gcc make wget -y
+        print_info $? remove-package
+        ;;
+esac

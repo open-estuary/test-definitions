@@ -71,7 +71,7 @@ case "${dist}" in
         ;;
     centos)
         version="4.12.0"
-        release="estuary.2"
+        release="estuary.3"
         from_repo="Estuary"
         package_list="kernel  kernel-devel kernel-headers kernel-tools kernel-tools-libs kernel-tools-libs-devel perf python-perf  kernel-debug kernel-debug-debuginfo kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
@@ -134,15 +134,15 @@ case "${dist}" in
         done
         ;;
     ubuntu)
-        package_list="linux-estuary linux-headers-estuary linux-image-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-4.12.0-501 linux-headers-4.12.0-501-generic linux-image-4.12.0-501-generic linux-image-extra-4.12.0-501-generic linux-libc-dev linux-source-4.12.0 linux-tools-4.12.0-501 linux-tools-4.12.0-501-generic linux-tools-common"
+        package_list="linux-estuary linux-headers-estuary linux-image-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-4.12.0-502 linux-headers-4.12.0-502-generic linux-image-4.12.0-502-generic linux-image-extra-4.12.0-502-generic linux-libc-dev linux-source-4.12.0 linux-tools-4.12.0-502 linux-tools-4.12.0-502-generic linux-tools-common"
         for p in ${package_list};do
             echo "$p install"
             apt-get install -y $p
             status=$?
             from_repo1='linux-meta-estuary'
             from_repo2='linux'
-            version1='4.12.0.501.2'
-            version2='4.12.0-501.estuary'
+            version1='4.12.0.502.2'
+            version2='4.12.0-502.estuary'
             rmflag=0
             if test $status -eq 0
             then

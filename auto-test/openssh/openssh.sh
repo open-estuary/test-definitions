@@ -10,14 +10,17 @@ case $distro in
     "ubuntu")
         apt-get install openssh-server  -y
         apt-get install expect -y
+        print_info $? install-package
         ;;
     "centos")
         yum install openssh-server.aarch64 -y
         yum install expect -y
+        print_info $? install-package
         ;;
     "opensuse")
         zypper install -y openssh
         zypper install -y expect
+        print_info $? install-package
         ;;
 esac
 
@@ -43,7 +46,7 @@ expect {
 #send "root\n"
 expect eof
 EOF
-
+print_info $? test-login
 #for get and put test "EXPECT=$(which expect)
 $EXPECT << EOF
 set timeout 100
@@ -58,7 +61,7 @@ expect "sftp>"
 send "quit\r"
 expect eof
 EOF
-
+print_info $? get-put-test
 if [ $(find . -maxdepth 1 -name "$FTP_GET_LOG")x != ""x ]; then
     lava-test-case sftp-download --result pass
 else
@@ -76,3 +79,13 @@ else
 fi
 
 rm -rf tmp
+case $distro in
+    "ubuntu")
+        apt-get remove expect openssh-server -y
+        print_info $? remove-package
+        ;;
+    "centos")
+        yum remove expect openssh-server -y
+        print_info $? remove-package
+        ;;
+esac

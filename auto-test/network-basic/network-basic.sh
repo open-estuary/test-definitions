@@ -28,6 +28,7 @@ INTERFACE="eth0"
 install() {
     pkgs="curl net-tools"
     install_deps "${pkgs}" "${SKIP_INSTALL}"
+    print_info $? install-pkgs
 }
 
 run() {
@@ -49,13 +50,23 @@ install
 GATEWAY=$(ip route list  | grep default | awk '{print $3}')
 
 run "netstat -an" "print-network-statistics"
+print_info $? netstat
 run "ip addr" "list-all-network-interfaces"
+print_info $? ip-addr
 run "route" "print-routing-tables"
+print_info $? route
 run "ip link set lo up" "ip-link-loopback-up"
+print_info $? ip-link
 run "route" "route-dump-after-ip-link-loopback-up"
+print_info $? route-dump
 run "ip link set ${INTERFACE} up" "ip-link-interface-up"
 run "ip link set ${INTERFACE} down" "ip-link-interface-down"
+print_info $? ip-link
 run "dhclient -v ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhclient-v"
+print_info $? dhclient
 run "route" "print-routing-tables-after-dhclient-request"
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
+print_info $? ping-gateway
 run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI -o curl_big_video.avi" "download-a-file"
+print_info $? curl
+remove_deps "${pkgs}"

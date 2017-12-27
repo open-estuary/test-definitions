@@ -16,11 +16,13 @@ case $distro in
     "centos")
         yum install gcc -y
         yum install gcc-c++ -y
+        print_info $? install-package
         wget http://192.168.1.107/boost_1_63_0.tar.gz
         tar -zxvf boost_1_63_0.tar.gz
         cd boost_1_63_0
         sudo ./bootstrap.sh
         ./b2 install
+        print_info $? install-boost
         ;;
 esac
 touch test_boost.cpp
@@ -50,4 +52,5 @@ if [ "$str" != "" ]; then
 else
     lava-test-case $TCID --result fail
 fi
-
+yum remove gcc gcc-c++ -y
+print_info $? remove-gcc
