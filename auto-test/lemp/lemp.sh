@@ -167,3 +167,5 @@ case "${distro}" in
         rm -f /etc/nginx/default.d/default.conf
         ;;
 esac
+remove_deps "${pkgs}"
+print_info $? remove-package

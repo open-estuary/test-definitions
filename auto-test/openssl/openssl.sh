@@ -27,12 +27,15 @@ fi
 case $distro in
     "ubuntu")
          apt-get install openssl -y
+         print_info $? install-openssl
          ;;
      "centos")
          yum install openssl -y
+         print_info $? install-openssl
          ;;
      "opensuse")
          zypper install -y openssl
+         print_info $? install-openssl
          ;;
 esac
 
@@ -40,6 +43,7 @@ esac
 openssl_version="$(openssl version | awk '{print $2}')"
 #add_metric "openssl-version" "pass" "${openssl_version}" "version"
 
+print_info $? openssl-version
 # Test run
 TCID="openssl test"
 cipher_commands="md5 sha1 sha256 sha512 des des-ede3 aes-128-cbc aes-192-cbc \
@@ -74,3 +78,13 @@ for test in ${cipher_commands}; do
     esac
        # lava-test-case $TCID --result fail
 done
+case $distro in
+    "ubuntu")
+        apt-get remove openssl -y
+        print_info $? remove-openssl
+        ;;
+    "centos")
+        yum remove opensssl -y
+        print_info $? remove-openssl
+        ;;
+esac

@@ -47,12 +47,14 @@ case $distro in
     "ubuntu")
         apt-get install vsftpd -y
         apt-get install expect -y
+        print_info $? install-package
         ;;
     "centos")
         yum install vsftpd -y
         yum install vsftpd.aarch64 -y
         yum install expect -y
         yum install ftp -y
+        print_info $? install-package
         ;;
     "opensuse")
         zypper install -y ftp
@@ -127,7 +129,7 @@ set timeout 100
 spawn ftp localhost
 expect "Name"
 send "\r"
-expect "password"
+expect "Password"
 send "root\r"
 expect "ftp>"
 #passive表示被动，ftp的工作模式有主动和被动解决"227 Entering Passive MOde"
@@ -172,3 +174,13 @@ else
 fi
 
 rm -rf tmp
+case $distro in
+    "ubuntu")
+        apt-get remove vsftpd expect -y
+        print_info $? remove-package
+        ;;
+    "centos")
+        yum remove vsftpd expect -y
+        print_info $? remove-package
+        ;;
+esac
