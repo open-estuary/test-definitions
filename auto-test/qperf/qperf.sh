@@ -19,6 +19,7 @@ fi
 case $distro in
     "centos")
          yum install -y qperf
+         print_info $? install-qperf
          ;;
     "ubuntu")
          apt-get install gcc -y
@@ -29,6 +30,7 @@ case $distro in
          ./configure
          make
          make install
+         print_info $? install-qperf
          ;;
 esac
 
@@ -52,6 +54,7 @@ echo "Performing qperf client test..."
 TCID1="qperf-bw-test"
 TCID2="qperf-lat-test"
 qperf 127.0.0.1 tcp_bw tcp_lat 2>&1 | tee qperf-client.log
+print_info $? qperf-client-start
 bw=`grep -Po "bw" qperf-client.log`
 lat=`grep -Po "latency" qperf-client.log`
 if [ "$bw" != "" ] ; then
@@ -71,4 +74,13 @@ else
 fi
 rm qperf-client.log
 pkill qperf
-
+print_info $? kill-qperf
+case $distro in
+    "ubuntu")
+        apt-get remove gcc make -y
+        print_info $? remove-package
+        ;;
+    "centos")
+       yum remove qperf -y
+       ;;
+esac

@@ -30,19 +30,8 @@ systemctl status mysqld.service |grep "active (running)"
 print_info $? mysql-status
 
 #修改密码
-EXPECT=$(which expect)
-$EXPECT << EOF
-set timeout 100
-spawn mysqladmin -uroot -p password
-expect "Enter"
-send "123456\n"
-expect "New"
-send "123456\n"
-expect "Confirm"
-send "123456\n"
-expect eof
-EOF
-print_info $? mysql-set-password
+mysqladmin -uroot -p password "123456"
+print_info $? set-passwd
 
 #登录mysql并创建3个库
 EXPECT=$(which expect)
