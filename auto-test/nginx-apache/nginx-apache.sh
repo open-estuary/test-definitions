@@ -98,3 +98,5 @@ print_info $? time per request
 # shellcheck disable=SC2129
 grep "Transfer rate:" "${LOGFILE}" | awk '{print "Transfer-rate pass " $3 " kb/s"}'""
 print_info $? transfer rate
+remove_deps "${pkgs}" "${SKIP_INSTALL}"
+print_info $? remove-package

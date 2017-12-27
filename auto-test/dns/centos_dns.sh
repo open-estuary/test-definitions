@@ -15,6 +15,7 @@ case $distro in
     "centos")
         yum install bind -y
         yum install bind-utils -y
+        print_info $? install-package
         ;;
 esac
 chmod 777 /etc/named.conf
@@ -59,10 +60,11 @@ chmod 777 /var/named/named.realhostip.com
 board_ip=`ip addr |grep "inet 192"|cut -c10-22|head -1`
 sed -i "2i\\nameserver ${board_ip}" /etc/resolv.conf
 systemctl restart named.service
-
+print_info $? restart-dns
 dig 192-168-1-70.realhostip.com 2>&1 | tee dig.log
-
+print_info $? forward-test
 dig -t mx example.com 2>&1 |tee dig1.log
+print_info $? reverse-test
 throu1=`grep -Po "192.168.1.70" dig.log`
 throu2=`grep -Po "server1.example.com." dig1.log`
 TCID1="DNS forward direction "
@@ -77,4 +79,10 @@ if [ "$throu2" != "" ]; then
 else
     lava-test-case $TCID2 --result fail
 fi
+case $distro in
+    "centos")
+        yum remove bind bind-utils -y
+        print_info $? remove-package
+        ;;
+esac
 

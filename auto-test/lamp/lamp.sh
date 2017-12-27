@@ -116,3 +116,7 @@ print_info $? php-delete-record
 
 # Delete myDB for the next run.
 mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
+print_info $? delete-database
+remove_deps "${pkgs}"
+print_info $? remove-package
+
