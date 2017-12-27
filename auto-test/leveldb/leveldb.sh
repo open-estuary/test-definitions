@@ -38,10 +38,18 @@ function install_plyvel(){
 
 }
 
-function leveldb_test(){
-
+function uninstall_leveldb(){
     
+    yum remove -y leveldb
+    print_info $? "uninstall leveldb"
+    pip uninstall -q plyvel 
+    print_info $? "uninstall plyvel of python package"
 
+}
+
+
+function leveldb_test(){
+    python ./leveldb-test.py 
 }
 
 
