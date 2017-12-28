@@ -1,0 +1,19 @@
+Loaded plugins: fastestmirror, priorities
+Loading mirror speeds from cached hostfile
+ * epel: mirrors.ustc.edu.cn
+654 packages excluded due to repository priority protections
+Installed Packages
+Name        : findbugs
+Arch        : noarch
+Version     : 2.0.3
+Release     : 9.el7.centos
+Size        : 6.9 M
+Repo        : installed
+From repo   : Estuary
+Summary     : Find bugs in Java code
+URL         : http://findbugs.sourceforge.net/
+License     : LGPLv2+
+Description : Findbugs is a program which uses static analysis to look for bugs
+            : in Java code. It can check for null pointer exceptions,
+            : multithreaded code errors, and other bugs.
+
