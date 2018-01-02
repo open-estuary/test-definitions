@@ -9,7 +9,7 @@ metadata:
         - opensuse
         - centos
     scope:
-        - performance
+        - distribution
     devices:
         - d03
         - d05
