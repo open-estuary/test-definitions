@@ -12,7 +12,7 @@ metadata:
         - openembedded
         - opensuse
     scope:
-        - functional
+        - distribution
     environment:
         - lava-test-shell
     devices:
