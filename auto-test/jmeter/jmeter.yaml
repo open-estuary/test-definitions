@@ -1,12 +1,12 @@
 
 metadata:
-    name: yaml-cpp_basic_testing
+    name: jmeter-testing
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "yaml-cpp testing"
+    description: "solr is a search engine server"
     maintainer:
         - hongxin_228@163.com
     scope:
-        - distribution
+        - functional
     os:
         - centos
     devices:
@@ -15,7 +15,7 @@ metadata:
     level: 1
 run:
     steps:
-        - "cd app/yaml-cpp; ./yaml-cpp.sh; cd - "
+        - "cd auto-test/jmeter; ./jmeter.sh; cd - "
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

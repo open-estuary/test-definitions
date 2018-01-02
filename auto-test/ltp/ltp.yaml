@@ -11,7 +11,7 @@ metadata:
         - centos
         - opensuse
     scope:
-        - functional
+        - performance
     devices:
         - panda
         - panda-es
