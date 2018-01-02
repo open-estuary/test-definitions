@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - tool
+        - virtualization
     os:
         - centos
     devices:
