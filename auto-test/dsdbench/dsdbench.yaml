@@ -6,7 +6,6 @@ metadata:
     maintainer:
         - shuangshengchen@qq.com
     scope:
-        - functional
         - performance
     os:
         - ubuntu
