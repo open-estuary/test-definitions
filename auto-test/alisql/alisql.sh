@@ -88,3 +88,9 @@ function alisql_stop_custom(){
 
     rm -f ~/.my.cnf
 }
+
+function alisql_sequece(){
+
+#TODO
+echo 
+}
