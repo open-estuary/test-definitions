@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - shuangshengchen@qq.com
     scope:
-        - functional
+        - distribution
     os:
         - centos7.3
 

@@ -8,7 +8,7 @@ metadata:
         - ubuntu
         - debian
     scope:
-        - functional
+        - performance
     environment:
         - lava-test-shell
     devices:
