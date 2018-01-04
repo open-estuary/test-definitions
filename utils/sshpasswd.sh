@@ -13,11 +13,12 @@
 #set -x
 function ssh_no_passwd(){
     
-    rm -rf ~/.ssh 
-    ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-    cat ~/.ssh/id_rsa.pub > ~/.ssh/authorized_keys
+    if [ ! -f ~/.ssh/id_rsa.pub ];then
+        ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+    fi
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     chmod 0600 ~/.ssh/authorized_keys
-    echo "StrictHostKeyChecking NO" > ~/.ssh/config
+    echo "StrictHostKeyChecking NO" >> ~/.ssh/config
 
 }
 
