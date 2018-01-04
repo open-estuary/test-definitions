@@ -13,17 +13,28 @@
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 . ../../lib/sh-test-lib
-. ../../utils/sys_info.sh
+. ../../utils/sys_info.sh 
+. ../../utils/sshpasswd.sh 
 
 source ./ansible.sh 
 set -x
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 install_ansible 
-
-./../../utils/sshpasswd-ex.sh oneway $1 
-
+if [ -z $1 ];then
+    hostfile='./hostfile'
+else
+    hostfile=$1
+fi 
+ansible_host_file $hostfile 
+#exit
 ansible_system_test
 ansible_file_test
+ansible_command_test
+ansible_package_test
+
+ansible_network_test
+
+
 
 
