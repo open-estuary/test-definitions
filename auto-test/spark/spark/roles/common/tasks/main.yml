@@ -1,0 +1,63 @@
+---
+
+- name: install openjdk
+  package: name={{ item }}  state=present
+  with_items:
+    - 'java-1.8.0-openjdk' 
+    - 'java-1.8.0-openjdk-devel'
+  tags: jdk
+
+- name: create bigdata/spark directory
+  file:
+    dest: ~/bigdata/spark/ 
+    state: directory 
+
+- name: copy file to all targets
+  copy: 
+    src:  ~/bigdata/spark/scala-2.12.4.tgz 
+    dest: ~/bigdata/spark/scala-2.12.4.tgz 
+
+- name: copy spark file to all targets
+  copy:
+    src: ~/bigdata/spark/spark-2.2.0-bin-hadoop2.7.tgz 
+    dest: ~/bigdata/spark/spark-2.2.0-bin-hadoop2.7.tgz 
+
+- name: unarchive spark package
+  unarchive:
+    src: ~/bigdata/spark/spark-2.2.0-bin-hadoop2.7.tgz 
+    dest: ~/bigdata/spark/ 
+    remote_src: yes 
+
+- name: change spark name
+  file:
+    src: ~/bigdata/spark/spark-2.2.0-bin-hadoop2.7/ 
+    dest: /var/bigdata/spark/
+    state: link
+
+
+
+- name: unarchive scala package
+  unarchive:
+    src: ~/bigdata/spark/scala-2.12.4.tgz 
+    dest: ~/bigdata/spark/  
+    remote_src: yes
+
+- name: change scala name 
+  file:
+    src: ~/bigdata/spark/scala-2.12.4/
+    dest: /var/bigdata/scala/
+    state: link 
+
+- name: copy sparkRunningRnv.sh file 
+  copy:
+    src: sparkRunningRnv.sh
+    dest: ~/bigdata/spark/ 
+
+- name: setup spark run envariment
+  command: ~/bigdata/spark/sparkRunningRnv.sh all 
+
+
+ 
+
+
+
