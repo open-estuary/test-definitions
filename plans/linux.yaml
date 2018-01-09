@@ -1,0 +1,22 @@
+metadata:
+  # name key is needed by test-runner
+  name: linux-test-plan-example
+  description: Linux test plan example
+  os: debian
+  devices:
+    - d03
+    - d05
+  maintainer:
+    - fang_yuanzheng@hoperun.com
+  approver:
+    - fang_yuanzheng@hoperun.com
+  owner:
+    - fang_yuanzheng@hoperun.com
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: auto-test/kernel-compilation/kernel-compilation.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900

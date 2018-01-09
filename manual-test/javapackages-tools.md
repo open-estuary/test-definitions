@@ -1,9 +1,9 @@
 ---
-java.md - distro是测试发行版启动后一些基本功能，确保单板网络通讯正常，可以正常添加用户，以及开关机等操作
+javapackages-tools.md - 测试javapackages-tools的基本使用和方法
 
 Hardware platform: D05　D03
 Software Platform: CentOS
-Author: Chen Shuangsheng <hongxin_228@163.com>
+Author: Ma Hongxin <hongxin_228@163.com>
 Date: 2017-12-19 13:50:05
 Categories: Estuary Documents
 Remark:
