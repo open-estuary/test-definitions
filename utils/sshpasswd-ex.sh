@@ -10,7 +10,7 @@
 #
 #================================================================
 
-#set -x
+set -x
 
 function ssh_install(){
 
@@ -38,12 +38,32 @@ function ssh_parse_host_passwd(){
         host=`echo $line | cut -d : -f 1`
         user=`echo $line | cut -d : -f 2`
         passwd=`echo $line | cut -d : -f 3`
-        
+        hostnm=`echo $line | cut -d : -f 4`
+
         echo "host=$host , user=$user , password=$passwd "
+        
         res=`sshpass -p$passwd ssh -n $user@$host "test -f ~/.ssh/id_rsa.pub && echo 7 || echo 8 " `
         if [ $? -eq 0 ];then
             if [ $res -eq 8 ];then
+                if [ ! -z $hostnm ];then 
+                    hnm=`sshpass -p$passwd ssh -n $user@$host  " hostname"`
+                    #echo $hnm ----------------------------------------------
+                    if [ $hnm != $hostnm ];then
+                        #sshpass -p$passwd ssh -n $user@$host "echo $host  $hostnm >> /etc/hosts "
+                        sshpass -p$passwd ssh -n $user@$host "hostname $hostnm"
+                    fi 
+                fi
                 sshpass -p$passwd ssh -n $user@$host "ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa"
+            else 
+                if [ ! -z $hostnm ];then
+                    hnm=`sshpass -p$passwd ssh -n $user@$host "hostname"`
+                    echo $hnm ----------------------------------------------
+                    if [ $hnm != $hostnm ];then
+                        sshpass -p$passwd ssh -n $user@$host "hostname $hostnm"
+                        #sshpass -p$passwd ssh -n $user@$host "echo $host $hostnm >> /etc/hosts"
+                        sshpass -p$passwd ssh -n $user@$host "ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa"
+                    fi 
+                fi
             fi 
         else 
             echo "sshpass error --$host-$user-$passwd-"
@@ -82,9 +102,13 @@ function ssh_no_passwd_each_hostfile(){
     local user=""
     local passwd=""
     basedir=$(cd `dirname $0`;pwd)
-    sshfile="$basedir/sshpasswd.sh"
+    sshfile="$basedir/sshpasswd-ex.sh"
     echo $sshfile
     #while read line
+
+    echo ------------------------------
+    echo ------ssh each other without password
+    echo ----------begin----------------------
     for line in `cat $file`
     do
         echo $line | grep "^#.*" && continue
@@ -93,13 +117,15 @@ function ssh_no_passwd_each_hostfile(){
         user=`echo $line | cut -d : -f 2`  
         passwd=`echo $line | cut -d : -f 3`
         
-        ssh $user@$host "mkdir -f  ssh_tmp"
+        ssh $user@$host "mkdir -p  ~/ssh_tmp"
         scp $file $user@$host:~/ssh_tmp/hostfile 
-        scp $sshfile $user@$host:~/ssh_tmp
+        scp $sshfile $user@$host:~/ssh_tmp/
        
         ssh $user@$host "~/ssh_tmp/sshpasswd.sh install"
-        ssh $user@$host "~/ssh_tmp/sshpasswd.sh oneway ~/ssh_tmp/hostfile"
+        ssh $user@$host "~/ssh_tmp/sshpasswd-ex.sh oneway ~/ssh_tmp/hostfile"
     done 
+    echo ------------end------------------
+    echo ---------------------------------
     
 }
 
@@ -122,6 +148,9 @@ if [ $1 = "install" ];then
 elif [ $1 = "oneway" ];then
     ssh_no_passwd_local_hostfile $2
 elif [ $1 = "twoway" ];then
+    ssh_no_passwd_each_hostfile $2
+elif [ $1 = "all" ];then
+    ssh_no_passwd_local_hostfile $2
     ssh_no_passwd_each_hostfile $2
 else
     usage $0 
