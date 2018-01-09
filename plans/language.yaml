@@ -1,8 +1,10 @@
 metadata:
   # name key is needed by test-runner
-  name: linux-test-plan-example
-  description: Linux test plan example
-  os: debian
+  name: language
+  description: Some programing languages
+  os:
+    - centos
+    - ubuntu
   devices:
     - d03
     - d05
@@ -18,5 +20,23 @@ metadata:
 tests:
   automated:
     - path: auto-test/python/python.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/golang/golang.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/go-bindata/go-bindata.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/openjdk/openjdk-smoke.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/nodejs/nodejs.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/findbugs/findbugs.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/jmeter/jmeter.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900

@@ -1,8 +1,10 @@
 metadata:
   # name key is needed by test-runner
-  name: linux-test-plan-example
-  description: Linux test plan example
-  os: debian
+  name: virtualization
+  description: test virtualization app
+  os:
+    - ubuntu
+    - centos
   devices:
     - d03
     - d05
@@ -18,5 +20,20 @@ metadata:
 tests:
   automated:
     - path: auto-test/hhvm/hhvm.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/docker/docker.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/lxc/lxc.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/qemu/qemu.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/pipework/pipework.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/etcd/etcd.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
