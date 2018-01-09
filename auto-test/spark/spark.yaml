@@ -1,12 +1,12 @@
 
 metadata:
-    name: percona-56-test
+    name: spark-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "percona-56-testing"
+    description: "spark-testing"
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - database
+        - bigdata
     os:
         - centos
     devices:
@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/percona; ./percona56-test.sh; cd -"
+        - "cd auto-test/spark; ./spark-test.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
