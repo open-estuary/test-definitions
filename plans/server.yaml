@@ -1,0 +1,22 @@
+metadata:
+  # name key is needed by test-runner
+  name: linux-test-plan-example
+  description: Linux test plan example
+  os: debian
+  devices:
+    - d03
+    - d05
+  maintainer:
+    - ma_hongxin@hoperun.com
+  approver:
+    - ma_hongxin@hoperun.com
+  owner:
+    - ma_hongxin@hoperun.com
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: auto-test/lamp/lamp.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
