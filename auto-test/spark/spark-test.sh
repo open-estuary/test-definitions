@@ -21,4 +21,5 @@ set -x
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 spark_download
-
+spark_login_no_passwd
+spark_slave_host
