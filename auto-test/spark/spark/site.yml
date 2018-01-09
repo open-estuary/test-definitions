@@ -1,5 +1,13 @@
 ---
 
 - hosts: all
+  gather_facts: no
   roles:
     - common
+
+
+- hosts: sparkmaster
+  gather_facts: no
+  roles:
+    - spark 
+
