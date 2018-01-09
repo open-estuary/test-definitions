@@ -1,22 +1,22 @@
 
 metadata:
-    name: go-bindata
+    name: percona-56-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "A small utility which generates Go code from any file"
+    description: "percona-56-testing"
     maintainer:
-        - liu_caili@hoperun.com
+        - tanliqing2010@163.com
     scope:
-        - language
+        - database
     os:
         - centos
     devices:
         - d03
         - d05
-    level: 1
+
 
 run:
     steps:
-        - "cd auto-test/go-bindata; ./go-bindata.sh; cd -"
+        - "cd auto-test/percona; ./percona56-test.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
