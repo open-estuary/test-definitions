@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - cd auto-test/disk-partitioning/
+        - cd test-definitions/auto-test/disk-partitioning/
         - ./disk-partitioning.sh -d "${DEVICE}" -l "${DISKLABEL}" -f "${FILESYSTEM}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
