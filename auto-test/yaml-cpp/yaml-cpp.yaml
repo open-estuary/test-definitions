@@ -15,7 +15,7 @@ metadata:
     level: 1
 run:
     steps:
-        - "cd app/yaml-cpp; ./yaml-cpp.sh; cd - "
+        - "cd test-definitions/auto-test/yaml-cpp; ./yaml-cpp.sh; cd - "
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
