@@ -59,14 +59,16 @@ Remark:
 ---
 # Test
 ```bash
-    追踪某个命令
-    会输出很多系统调用命令， 如下面，  =左边是系统调用，右边是系统调用结果
-    $strace ls -l      能看到ls -l命令整个的系统调用情况
-    stat("/etc/localtime", {st_mode=S_IFREG|0644, st_size=388, ...}) = 0
+    能否正常安装工具
+    $ yum install -y strace
+    
+    追踪某个命令,会输出很多系统调用命令， 如下面，  =左边是系统调用，右边是系统调用结果
+    $ strace ls -l      能看到ls -l命令整个的系统调用情况
+      stat("/etc/localtime", {st_mode=S_IFREG|0644, st_size=388, ...}) = 0
     
     -p 追踪某个进程，需要带上-f来追踪所有子进程
     
-    $strace -f -p 5926 -o /home/***/5926.strace.log
+    $ strace -f -p 5926 -o /home/***/5926.strace.log
     
     -c 参数，输出统计结果
     
@@ -97,34 +99,34 @@ Remark:
     -T 输出系统调用花费时间
     
     -T  表示记录各个系统调用花费的时间，精确到微妙，结果中的 <0.000020> 为时间
-    $strace -T -f -e trace=network  -p 9618 -o /home/A/desc.trace.9618
-    $cat /home/A/desc.trace.9618
+    $ strace -T -f -e trace=network  -p 9618 -o /home/A/desc.trace.9618
+    $ cat /home/A/desc.trace.9618
     9700  getsockopt(76, SOL_SOCKET, SO_ERROR, [111], [4]) = 0 <0.000020>
     
     -t 打印系统调用的发生时间
     
-    $strace -f -t   -p 9618 -o /home/A/9618.strace
-    $cat /home/A/9618.strace
+    $ strace -f -t   -p 9618 -o /home/A/9618.strace
+    $ cat /home/A/9618.strace
     9705  21:57:09 getsockopt(54, SOL_SOCKET, SO_ERROR, [111], [4]) = 0
     
     -e expr, 可以指定某个系统调用
     
     下面为追踪read的系统调用
-    $strace -f -e read -p 9618   -o 9618.read.log
+    $ strace -f -e read -p 9618   -o 9618.read.log
     
     -e trace=network  追踪网络调用情况
     
-    $strace -f -t  -e trace=network  -p 9618 -o /home/A/desc.trace.9618.withouti
-    $cat /home/A/desc.trace.9618.withouti
+    $ strace -f -t  -e trace=network  -p 9618 -o /home/A/desc.trace.9618.withouti
+    $ cat /home/A/desc.trace.9618.withouti
     9705  21:57:09 getsockopt(54, SOL_SOCKET, SO_ERROR, [111], [4]) = 0
     ...
     
     -e trace=open 追踪open系统调用
     
     也可以trace=open,close,read,write
-    $strace -e trace=open  -o a.txt.log
+    $ strace -e trace=open  -o a.txt.log
     
-    $less a.txt.log
+    $ less a.txt.log
     open("/etc/ld.so.cache", O_RDONLY)      = 3
     open("/lib64/libtinfo.so.5", O_RDONLY)  = 3
     open("/lib64/libpcre.so.0", O_RDONLY)   = 3
@@ -133,20 +135,20 @@ Remark:
     -e trace=file, 记录文件操作
     
     把5926对文件的操作记录下来，相当于trace=open.stat,chmod,unlink...
-    $strace -f -e trace=file -p 5926 -o 5926.file.trace.log
+    $ strace -f -e trace=file -p 5926 -o 5926.file.trace.log
     
     -e trace=process, 把关于进程的系统调用记录下来
     
     把6259对process系统调用的操作记录下来，相当于trace=
-    $strace -f -e trace=process -p 6259 -o 6259.file.process.log
+    $ strace -f -e trace=process -p 6259 -o 6259.file.process.log
     
     -e trace=network, 把关于进程的系统调用记录下来
     
     把5926对网络的系统调用记录下来
-    $strace -f -e trace=network -p 5926  -o 5926.network.log
+    $ strace -f -e trace=network -p 5926  -o 5926.network.log
     
     -e trace=ipc  把进程间通讯记录下来
     
     把5926对进程间通讯的系统调用记录下来
-    $strace -f -e trace=ipc -p 5926  -o 5926.ipc.log
+    $ strace -f -e trace=ipc -p 5926  -o 5926.ipc.log
 ```
