@@ -122,8 +122,20 @@ function spark_stop_cluster(){
 
 }
 
+function spark_RDD_test(){
+
+    $SPARK_HOME/bin/pyspark --master spark://sparkmaster:7077 RDD_test.py 2>&1 | grep -vE "Warn|INFO" > out.tmp
+    grep "rdd_test_parallelize" out.tmp && true || false 
+    print_info $? "spark_rdd_parallelize_test"
+    grep "rdd_test_file" out.tmp && true || false
+    print_info $? "spark_rdd_file_test"
+
+}
+
+function spark_conf_test(){
 
 
+}
 
 
 
