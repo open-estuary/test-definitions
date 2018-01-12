@@ -37,7 +37,7 @@ function install_hadoop() {
 	echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' >> ~/.bashrc
 	source ~/.bashrc
 	
-	if [ -n `echo $HADOOP_HOME` ];then
+	if [ -n $HADOOP_HOME ];then
 		lava-test-case "hadoop set HADOOP_HOME" pass
 	else
 		lava-test-case "hadoop set HADOOP_HOME" fail
