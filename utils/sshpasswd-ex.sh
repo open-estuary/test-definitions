@@ -49,7 +49,7 @@ function ssh_parse_host_passwd(){
                     hnm=`sshpass -p$passwd ssh -n $user@$host  " hostname"`
                     #echo $hnm ----------------------------------------------
                     if [ $hnm != $hostnm ];then
-                        #sshpass -p$passwd ssh -n $user@$host "echo $host  $hostnm >> /etc/hosts "
+                        sshpass -p$passwd ssh -n $user@$host "echo   $hostnm > /etc/hostname "
                         sshpass -p$passwd ssh -n $user@$host "hostname $hostnm"
                     fi 
                 fi
@@ -60,7 +60,7 @@ function ssh_parse_host_passwd(){
                     echo $hnm ----------------------------------------------
                     if [ $hnm != $hostnm ];then
                         sshpass -p$passwd ssh -n $user@$host "hostname $hostnm"
-                        #sshpass -p$passwd ssh -n $user@$host "echo $host $hostnm >> /etc/hosts"
+                        sshpass -p$passwd ssh -n $user@$host "echo  $hostnm > /etc/hostname"
                         sshpass -p$passwd ssh -n $user@$host "ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa"
                     fi 
                 fi
