@@ -7,36 +7,50 @@ set -x
 
 cd ../../utils
     . ./sys_info.sh
+    . ./sh-test-lib
 cd -
 
-# Test user id
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
-case $distro in
-    "centos")
-        yum install jmeter.noarch -y
-        print_info $? install-jmeter
-         ;;
-esac
-TCID="jmeter-test"
+install_deps "jmeter"
+print_info $? install-jmeter
 
-./jmeter -n -t my_test.jmx -l test.jtl 2>&1 | tee jmeter.log
+Check_Version "3.3"
+print_info $? jmeter-version
+
+Check_Repo "Estuary"
+print_info $? jmeter-repo
+
+pkgs="java nginx vim git expect"
+install_deps "${pkgs}"
+print_info $? install-depends
+
+java -version
+print_info $? java-version
+
+systemctl restart nginx
+print_info $? restart-web-server
+
+jmeter -v
+print_info $? jmeter-deploy
+
+#./jmeter -n -t my_test.jmx -l test.jtl 2>&1 | tee jmeter.log
+jmeter -n -t /opt/jmeter/bin/examples/CSVSample.jmx -l result.csv -j log.log
 print_info $? run-jmeter
 
-str=`grep -Po "successfully " jmeter.log`
-if [ "$str" != "" ] ; then
-    lava-test-case $TCID --result pass
+cat result.csv | grep false
+if [ $? ] ; then
+	print_info 0 run-sample-jmx
 else
-    lava-test-case $TCID --result fail
+	print_info 1 run-sample-jmx
 fi
 
-pkill jmeter
-print_info $? kill-jmeter
-case $distro in
-    "centos")
-        yum remove jmeter -y
-        print_info $? remove-jmeter
-        ;;
-esac
+systemctl stop nginx
+print_info $? stop-web-server
+
+remove_deps "jmeter"
+print_info $? install-jmeter
+
+pkgs="java nginx"
+remove_deps "${pkgs}"
+print_info $? install-depends
+
+rm -f result.csv log.log
