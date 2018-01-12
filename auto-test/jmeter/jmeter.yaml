@@ -1,12 +1,15 @@
 
 metadata:
-    name: jmeter-testing
+    name: jmeter
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "solr is a search engine server"
+    description: "The Apache JMeter™ application is open source software, a 100% 
+                  pure Java application designed to load test functional behavior 
+                  and measure performance."
     maintainer:
         - hongxin_228@163.com
+        - liu_caili@hoperun.com
     scope:
-        - functional
+        - language
     os:
         - centos
     devices:
