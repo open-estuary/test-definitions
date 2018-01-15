@@ -14,13 +14,13 @@ export PS4='+{$LINENO:${FUNCTION[0]}} '
 
 function memcached_install(){
     yum install -y memcached
-    print_info $? "memcacehd install"
+    print_info $? "memcacehd_install"
 
     yum install -y libevent python-pip
-    print_info $? "memcacehd preinstall"
+    print_info $? "memcacehd_preinstall"
 
     pip install -q python-memcached
-    print_info $? "memcached client install"
+    print_info $? "memcached_client_install"
 
     yum install -y nmap-ncat 
 }
@@ -30,7 +30,7 @@ function memcached_start_by_command(){
     useradd memtest
     memcached -d -p 11211 -m 64m -u memtest 
     ps -ef |grep "memcached -d -p" | grep -v grep
-    print_info $? "memcached start"
+    print_info $? "memcached_start"
 }
 
 function memcached_start_by_service(){
@@ -43,16 +43,16 @@ function memcached_start_by_service(){
     else
         false
     fi
-    print_info $? "memcached start by systemd"
+    print_info $? "memcached_start by systemd"
 }
 
 
 function memcached_conn(){
     res=`echo "stats" | nc localhost 11211`
     if [ $? -eq 0 ] ; then
-        lava-test-case "memcache connect" --result pass
+        lava-test-case "memcache_connect" --result pass
     else
-        lava-test-case "memcache connect" --result fail
+        lava-test-case "memcache_connect" --result fail
     fi 
 
 }
@@ -73,7 +73,7 @@ function memcached_stop_by_service(){
    else
        true
    fi
-   print_info $? "memcached stop service by systemd"
+   print_info $? "memcached_stop_service_by_systemd"
 }
 
 function memcached_stop_by_command(){
@@ -88,7 +88,7 @@ function memcached_stop_by_command(){
     else
         true
     fi
-    print_info $? "memcached stop service by command"
+    print_info $? "memcached_stop_service_by_command"
 
 }
 
@@ -96,7 +96,7 @@ function memcached_stop_by_command(){
 
 function memcached_uninstall(){
     yum remove -y memcached
-    print_info $? "memcached uninstall"
+    print_info $? "memcached_uninstall"
 }
 
 memcached_install
