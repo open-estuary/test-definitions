@@ -11,7 +11,7 @@
 function install_ycsb(){
 
     yum install -y ycsb java-1.8.0-openjdk
-    print_info $? "install ycsb"
+    print_info $? "install_ycsb"
 
     export LANG=en_US.UTF8
     yum info ycsb > tmp.info 
@@ -22,7 +22,7 @@ function install_ycsb(){
     else
         false
     fi 
-    print_info $? "ycsb version is right"
+    print_info $? "ycsb_version_is_right"
 }
 
 function ycsb_env(){
@@ -41,13 +41,13 @@ function ycsb_env(){
     else
         false
     fi
-    print_info $? "ycsb add YCSB_HOME env"
+    print_info $? "ycsb_add_YCSB_HOME_env"
     
 }
 
 function uninstall_ycsb(){
     yum remove -y ycsb
-    print_info $? "uninstall ycsb"
+    print_info $? "uninstall_ycsb"
     sed -i /'YCSB_HOME'/d ~/.bashrc 
 
 }
