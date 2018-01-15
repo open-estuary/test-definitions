@@ -11,7 +11,7 @@
 function install_leveldb(){
 
     yum install -y leveldb  leveldb-devel
-    print_info $? "install leveldb "
+    print_info $? "install_leveldb "
 
     yum info leveldb > tmp.info 
     local version=`grep Version tmp.info | cut -d : -f 2`
@@ -21,29 +21,29 @@ function install_leveldb(){
     else
         false
     fi 
-    print_info $? "leveldb version is right"
+    print_info $? "leveldb_version_is_right"
 
 }
 
 function install_plyvel(){
 
     yum install -y python-pip 
-    pip install plyvel
+    pip install_plyvel
     python -c "import plyvel"
     if [ $? -ne 0 ];then
-        print_info 1 "install plyvel"
+        print_info 1 "install_plyvel"
         exit 1
     fi
-    print_info 0 "install plyvel"
+    print_info 0 "install_plyvel"
 
 }
 
 function uninstall_leveldb(){
     
     yum remove -y leveldb
-    print_info $? "uninstall leveldb"
+    print_info $? "uninstall_leveldb"
     pip uninstall -y plyvel 
-    print_info $? "uninstall plyvel of python package"
+    print_info $? "uninstall_plyvel_of_python_package"
 
 }
 
