@@ -16,7 +16,7 @@ function install_redis(){
     print_info $? "install_redis"
 
     version=`redis-server --version | awk {'print $3'}`
-    if [ $version == "v=4.0.2" ];then
+    if [ x"$version" == x"v=4.0.2" ];then
         true
     else
         false

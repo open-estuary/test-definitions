@@ -30,7 +30,7 @@ function percona57_install(){
     export LANG="en_US.UTF-8"
     local version1=`yum info Percona-Server-server-57 | grep  Version | cut -d : -f 2 | tr -d "[:blank:]"`
     local repo=`yum info Percona-Server-server-57 | grep "From repo" | cut -d : -f 2 `
-    if [ $version1 = "5.7.17" -a $repo = "Estuary" ];then
+    if [ x"$version1" = x"5.7.17" -a x"$repo" = x"Estuary" ];then
         true
     else
         false
