@@ -3,56 +3,56 @@
     var str = conn.host.match('27017');
     if (str == null)
     {
-       run('lava-test-case','monggodb client connect' , '--result' , 'fail');
+       run('lava-test-case','monggodb_client_connect' , '--result' , 'fail');
     }else
     {
-       run('lava-test-case' , 'mongodb client connect' , '--result' , 'pass');
+       run('lava-test-case' , 'mongodb_client_connect' , '--result' , 'pass');
     }
 
     var db  = conn.getDB('mydb');
     if(db.getName() == 'mydb')
     {
-        run('lava-test-case' , 'mongodb switch database' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_switch_database' , '--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb switch database' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_switch_database' , '--result' , 'fail');
     }
     if(db.col.count() > 0)
     {
         var res = db.col.drop();
         if (res)
         {
-            run('lava-test-case' , 'mongodb drop table' , '--result' , 'pass');
+            run('lava-test-case' , 'mongodb_drop_table' , '--result' , 'pass');
         }else{
-            run('lava-test-case' , 'mongodb drop table' , '--result' , 'pass');
+            run('lava-test-case' , 'mongodb_drop_table' , '--result' , 'pass');
         }
     }
     var res1 = db.col.insert({"name":"mongo" , "age":27});
     var res2 = db.col.insert({"name" : "scala" , "age" : 80});
     if(! res1.hasWriteError() && ! res2.hasWriteError())
     {   
-        run('lava-test-case' , 'mongodb insert data' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_insert_data' , '--result' , 'pass');
     }else{
-        run('lava-test-case' , 'mongodb insert data' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_insert_data' , '--result' , 'fail');
     }
     
     var res = db.col.update({name : "mongo"} , {name:'mongo' , age : 100});
     if(res.nModified == 1)
     {
-        run('lava-test-case' , 'mongodb update document in collection' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_update_document_in_collection' , '--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb update document in collection' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_update_document_in_collection' , '--result' , 'fail');
     }
 
     var res = db.col.update({name: 'scala'},
                             {$set:{ age : '190'}});
     if(res.nModified == 1)
     {
-        run('lava-test-case' , 'mongodb update specific field' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_update_specific_field' , '--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb update specific field' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_update_specific_field' , '--result' , 'fail');
     }
     
     db.col.insert({"name":"mongo" , "age":27});
@@ -60,19 +60,19 @@
     var res = db.col.remove({name : 'mongo'} , true);
     if(res.nRemoved == 1)
     {
-        run('lava-test-case' , 'mongodb remove single document' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_remove_single_document' , '--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb remove single document' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_remove_single_document' , '--result' , 'fail');
     }
     db.col.remove({name : 'mongo'} );
     var res = db.col.find({name : 'mongo'});
     if(res.count() == 0)
     {
-        run('lava-test-case' , 'mongodb remove multi document' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_remove_multi_document' , '--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb remove multi document' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_remove_multi_document' , '--result' , 'fail');
     }
 
     db.col.insert({"name":"mongo" , "age":27});
@@ -86,27 +86,27 @@
     var res = db.col.find({name : 'mongo'});
     if (res.count() > 0)
     {
-        run('lava-test-case' , 'mongodb find all match contional' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_find_all_match_contional' , '--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb find all match contional' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_find_all_match_contional' , '--result' , 'fail');
     }
     var res = db.col.find({name : 'mongo' , age : 27} , {age : 1 , by : 1});
     if(res.count()>0)
     {
-        run('lava-test-case' , 'mongo find multi contional' , '--result' , 'pass');
+        run('lava-test-case' , 'mongo_find_multi_contional' , '--result' , 'pass');
     }else
     {   
-        run('lava-test-case' , 'mongodb find multi contional' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_find_multi_contional' , '--result' , 'fail');
     }
     
     var res = db.col.find({$or : [{name : 'php'} , {age : 127} ]});
     if(res.count() == 2)
     {
-        run('lava-test-case' , 'mongodb find with or contional' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_find_with_or_contional' , '--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb find with or contional' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_find_with_or_contional' , '--result' , 'fail');
     }
     
     var isErr=false;
@@ -116,9 +116,9 @@
         isErr = true;
     }finally{
         if(isErr){
-            run('lava-test-case' , 'mongodb find inclusion mode' , '--result' , 'fail');
+            run('lava-test-case' , 'mongodb_find_inclusion_mode' , '--result' , 'fail');
         }else{
-            run('lava-test-case' , 'mongodb find inclusion mode' , '--result' , 'pass');
+            run('lava-test-case' , 'mongodb_find_inclusion_mode' , '--result' , 'pass');
         }
     }
 
@@ -129,9 +129,9 @@
         isErr = true;
     }finally{
         if(isErr){
-            run('lava-test-case' , 'mongodb find exclusion mode' , '--result' , 'fail');
+            run('lava-test-case' , 'mongodb_find_exclusion_mode' , '--result' , 'fail');
         }else{
-            run('lava-test-case' , 'mongodb find exclusion mode' , '--result' , 'pass');
+            run('lava-test-case' , 'mongodb_find_exclusion_mode' , '--result' , 'pass');
         }
     }
 
@@ -141,19 +141,19 @@
     var len =  db.col.getIndexes().length
     if (len == 2)
     {
-        run('lava-test-case' , 'mongodb create index' ,'--result' , 'pass');
+        run('lava-test-case' , 'mongodb_create_index' ,'--result' , 'pass');
     }else
     {
-        run('lave-test-case' , 'mongodb create index' , '--result' , 'fail');
+        run('lave-test-case' , 'mongodb_create_index' , '--result' , 'fail');
     }
     db.col.dropIndexes();
     var len = db.col.getIndexes().length;
     if( len == 1 )
     {
-        run('lava-test-case' , 'mongodb drop index' ,'--result' , 'pass');
+        run('lava-test-case' , 'mongodb_drop_index' ,'--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb drop index' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_drop_index' , '--result' , 'fail');
     }
 
     for(var i = 0 ; i<5 ; i++)
@@ -173,10 +173,10 @@
         }
     )
     if(res == 1){
-        run('lava-test-case' , 'mongodb run mapreduce' , '--result' ,'pass');
+        run('lava-test-case' , 'mongodb_run_mapreduce' , '--result' ,'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb run mapreduce' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_run_mapreduce' , '--result' , 'pass');
     }
     
     var res0 = db.col.find({name:'mongo'})[0].age;
@@ -190,24 +190,24 @@
     
     var data = db.col.find({name:'mongo'})[0].age;
     if ( res0 - data == 1 ){
-        run('lava-test-case' , 'mongo atomic op' , '--result' , 'pass');
+        run('lava-test-case' , 'mongo_atomic_op' , '--result' , 'pass');
     }else{
-        run('lava-test-case' , 'mongo atomic op' , '--result' , 'fail');
+        run('lava-test-case' , 'mongo_atomic_op' , '--result' , 'fail');
     }
     
     var res2 = db.col.find().limit(2);
     if (res2.countReturn() == 2 ){
-        run('lava-test-case' , 'mongodb limit op' , '--result' , 'pass' );
+        run('lava-test-case' , 'mongodb_limit_op' , '--result' , 'pass' );
     }else{
-        run('lava-test-case' , 'mongodb limit op' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_limit_op' , '--result' , 'fail');
     }
     
     var res4 = db.col.find();
     var res3 = db.col.find().skip(3);
     if (res4.countReturn() - res3.countReturn() == 3 ){
-        run('lava-test-case' , 'mongodb skip op' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_skip_op' , '--result' , 'pass');
     }else{
-        run('lava-test-case' , 'mongodb skip op' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_skip_op' , '--result' , 'fail');
     }
 
     
@@ -221,10 +221,10 @@
 
     if(db.dropDatabase().ok == 1)
     {
-        run('lava-test-case' , 'mongodb drop database' , '--result' , 'pass');
+        run('lava-test-case' , 'mongodb_drop_database' , '--result' , 'pass');
     }else
     {
-        run('lava-test-case' , 'mongodb drop database' , '--result' , 'fail');
+        run('lava-test-case' , 'mongodb_drop_database' , '--result' , 'fail');
     }
 
 

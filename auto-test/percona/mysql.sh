@@ -291,7 +291,7 @@ efo
     print_info $? "mysql$version_alter_table_character"
     res6=`mysql -e "show create table alterdb.a1"`
     echo $res6 | grep -i "default charset=utf8"
-    print_info $? "mysql$version_alter_table_character effiection"
+    print_info $? "mysql$version_alter_table_character_effiection"
 
     mysql -e "alter table alterdb.a1 change col1 col1_new int"
     print_info $? "mysql$version_exec_alter_table_change_column_name"
@@ -570,7 +570,7 @@ function mysql_select(){
 
     echo "mysql subquery in the from clause"
     mysql -e "use employees ; select * from (select * from dept_manager) as new_table"
-    print_info $? "mysql$version_subquery_in from clause"
+    print_info $? "mysql$version_subquery_in_from_clause"
 
     
     echo "mysql update"

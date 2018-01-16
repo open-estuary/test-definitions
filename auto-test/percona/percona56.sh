@@ -45,7 +45,7 @@ function percona_install(){
     fi
     print_info $? "percona_version_is_right"
     rm -f tmpinfo
-    export version="percona-$version1-$repo"
+    export version=` tr -d [:space:] "percona-$version1-$repo"`
 }
 
 function percona_modify_system_args(){
@@ -132,7 +132,7 @@ function percona_start_stop_test(){
     else
         true
     fi
-    print_info $? "mysql_use_mysqladmin_to_stop server"
+    print_info $? "mysql_use_mysqladmin_to_stop_server"
 
 }
 

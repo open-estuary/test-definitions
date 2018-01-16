@@ -13,7 +13,7 @@ else
 fi
 
 version=`cockroach_version | grep "Build Tag:" | awk '{print $3}'`
-if [ $version = "v1.0.3"  ];then
+if [ x"$version" = x"v1.0.3"  ];then
     lava-test-case "cockroach_version" --result pass 
 else
     lava-test-case "cockroach_version" --result fail 
