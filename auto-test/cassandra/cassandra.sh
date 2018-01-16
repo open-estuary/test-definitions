@@ -35,7 +35,7 @@ function cassandra20_install(){
         source ~/.bashrc 
     fi 
     
-    yum install -y python-pip 
+    yum install -y python2-pip 
     pip install cqlsh==4.1.1 
 
 
