@@ -17,7 +17,7 @@ function install_ycsb(){
     yum info ycsb > tmp.info 
     local version=`grep Version tmp.info | cut -d : -f 2`
     local repo=`grep "From repo" tmp.info | cut -d : -f 2`
-    if [ $version = "0.12.0" -a $repo = "Estuary" ];then
+    if [ x"$version" = "0.12.0" -a x"$repo" = x"Estuary" ];then
         true
     else
         false

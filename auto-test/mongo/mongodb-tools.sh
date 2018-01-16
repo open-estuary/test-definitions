@@ -9,8 +9,8 @@ function install_mongo-tools() {
 
     export LANG=en_US.UTF-8
     ver=`yum info mongo-tools | grep 'Version'| cut -d : -f 2`
-    if [ $ver == '3.5.7'  ];then
-        lava-test-case_'mongo-tools_version'_--result_pass
+    if [ x"$ver" == x"3.5.7"  ];then
+        lava-test-case 'mongo-tools_version' --result pass
     else 
         lava-test-case "mongo-tools_version" --result fail
     fi

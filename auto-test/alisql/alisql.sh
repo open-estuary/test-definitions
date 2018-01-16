@@ -33,7 +33,7 @@ function alisql_install(){
     yum info AliSQL-server > tmp.info
     local version=`grep Version tmp.info | cut -d : -f 2`
     local repo=`grep "From repo" tmp.info | cut -d : -f 2`
-    if [ $version = "5.6.32" -a $repo = "Estuary" ];then
+    if [ x"$version" = x"5.6.32" -a x"$repo" = x"Estuary" ];then
         true
     else
         false
