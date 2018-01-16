@@ -16,7 +16,7 @@ function memcached_install(){
     yum install -y memcached
     print_info $? "memcacehd_install"
 
-    yum install -y libevent python-pip
+    yum install -y libevent python2-pip
     print_info $? "memcacehd_preinstall"
 
     pip install -q python-memcached
