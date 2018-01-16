@@ -17,18 +17,18 @@ else
     exit 1
 fi
 version=`postgres -V`
-if [ $version = "postgres (PostgreSQL) 9.2.23" ];then
+if [ "$version" = "postgres (PostgreSQL) 9.2.23" ];then
     lava-test-case "postgresql_version" --result pass
 else
     lava-test-case "postgresql_version" --result fail
 fi
 
-su -l - postgres <<-EOF
+su -l  postgres <<-EOF
       
     set -x
     #if $(`ps -ef |grep "/bin/postgres -D data" -c` -eq 2);then
     ps -ef |grep "/bin/postgres -D data" | grep -v grep
-    if [ \$? = 0 ];then
+    if [ $? = 0 ];then
         pg_ctl -D data stop
 	sleep 5
     fi
@@ -49,7 +49,7 @@ su -l - postgres <<-EOF
     if [ -f logfile ];then
         grep -i -E  "fatal|error" logfile
 	
-        if [ \$? = 1 ];then
+        if [ $? = 1 ];then
             lava-test-case "postgresql_start" --result pass
         else 
             lava-test-case "postgresql_start" --result fail
