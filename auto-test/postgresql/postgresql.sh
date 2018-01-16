@@ -24,9 +24,7 @@ else
 fi
 
 su -l  postgres <<-EOF
-     
-export PATH=$PATH:/tmp/lava_test_shell
-
+      
     set -x
     #if $(`ps -ef |grep "/bin/postgres -D data" -c` -eq 2);then
     ps -ef |grep "/bin/postgres -D data" | grep -v grep
@@ -51,7 +49,7 @@ export PATH=$PATH:/tmp/lava_test_shell
     if [ -f logfile ];then
         grep -i -E  "fatal|error" logfile
 	
-        if [ \$? = 1 ];then
+        if [ $? = 1 ];then
             lava-test-case "postgresql_start" --result pass
         else 
             lava-test-case "postgresql_start" --result fail
