@@ -17,7 +17,7 @@ else
     exit 1
 fi
 version=`postgres -V`
-if [ "$version" = "postgres (PostgreSQL) 9.2.23" ];then
+if [ x"$version" == x"postgres (PostgreSQL) 9.2.23" ];then
     lava-test-case "postgresql_version" --result pass
 else
     lava-test-case "postgresql_version" --result fail

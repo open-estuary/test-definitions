@@ -10,7 +10,7 @@ function install_c_driver(){
 
     export LANG=en_US.UTF-8
     ver=`yum info mongo-c-driver|grep "Version" | cut -d : -f 2`
-    if [ $ver == "1.6.2"  ];then
+    if [ x"$ver" == x"1.6.2"  ];then
         true
     else
         false

@@ -17,7 +17,7 @@ function cassandra20_install(){
     yum info cassandra20 | tee tmp.info
     local version=`echo tmp.info | grep -i Version | cut -d : -f 2`
     local repo=`echo tmp.info | grep -i "From repo" | cut -d : -f 2`
-    if [ $repo = "Estuary" ] && [ $version = "2.0.9" ];then
+    if [ x"$repo" = x"Estuary" ] && [ x"$version" = x"2.0.9" ];then
         true
     else
         false

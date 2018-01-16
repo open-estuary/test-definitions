@@ -38,7 +38,7 @@ function percona_install(){
     yum info Percona-Server-server-56 > tmpinfo
     version1=`cat tmpinfo | grep Version |  cut -d : -f2`
     repo=`cat tmpinfo | grep "From repo" | cut -d : -f 2`
-    if [ $version1 == "5.6.35" -a $repo == "Estuary"  ];then
+    if [ x"$version1" == x"5.6.35" -a x"$repo" == x"Estuary"  ];then
         true
     else
         false
