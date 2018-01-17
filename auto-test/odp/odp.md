@@ -24,6 +24,7 @@ $ ../debian_ubuntu/run-test.sh > result
 # CentOS/RedHat/Fedora systems
 ```
 $ yum install CUnit-devel.aarch64
+$ yum install libatomic.aarch64
 ```
 
 ## testing
