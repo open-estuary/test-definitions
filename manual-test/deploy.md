@@ -9,8 +9,8 @@ Remark:
 ---
 
 - **Dependency:**
-       - 准备编译好的iso和文件系统压缩包
-       - 自动化实现过程可见：
+    - 准备编译好的iso和文件系统压缩包
+    - 自动化实现过程可见：
            - https://github.com/qinshulei/ci-scripts/tree/master/deploy-scripts
 
 - **Source code:**
