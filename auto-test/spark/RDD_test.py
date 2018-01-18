@@ -238,6 +238,13 @@ def zipWithIndex(sc):
     if( ret[0] == ("a" , 1) ):
         print("zipWithIndex_test_ok")
 
+def boardcast(sc):
+    bc = sc.boardcase([1,2,3,4])
+    if(bc.value == [1,2,3,4]):
+        print("boardcast_test_case")
+    bc.unpersist()
+    
+
 
 if __name__ == '__main__':
     conf = SparkConf().setAppName("rdd_test_parallelize").setMaster("local")
@@ -277,3 +284,4 @@ if __name__ == '__main__':
     take(sc)
     zip(sc)
     zipWithIndex(sc)
+    boardcast(sc)

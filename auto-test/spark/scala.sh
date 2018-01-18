@@ -13,13 +13,14 @@ function scala_install(){
     if [ ! -d ~/bigdata/spark ];then
         mkdir -p ~/bigdata/spark/ 
     fi 
-
+    pushd .
     cd ~/bigdata/spark
 
         if [ -d scala-2.12.4 ];then 
             mkdir -p /var/spark 
             rm -f /var/spark/scala 
             ln -s ~/bigdata/spark/scala-2.12.4/ /var/spark/scala 
+            popd 
             return 0
         fi 
     
@@ -28,10 +29,11 @@ function scala_install(){
             print_info $? "download_scala_bin"
         fi 
         tar -zxf scala-2.12.4.tgz
+        print_info $? "tar_scala_bin_package"
         mkdir -p /var/spark/ 
         rm -f /var/spark/scala 
         ln -s ~/bigdata/spark/scala-2.12.4/ /var/spark/scala
-    cd - 
+    popd 
 
 }
 
