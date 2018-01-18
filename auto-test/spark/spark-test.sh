@@ -15,10 +15,18 @@ cd $basedir
 . ../../utils/sys_info.sh
 . ../../utils/sshpasswd.sh 
 source ./spark.sh 
-
+source ./scala.sh 
 set -x
 
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
+
+scala_install 
+scala_env_path 
+scala_test_if
+scala_test_for 
+scala_test_string
+scala_test_collection
+
 spark_download
 #spark_login_no_passwd
 ssh_no_passwd
