@@ -35,7 +35,8 @@ def cogroup(sc):
     x = sc.parallelize([ ("a" , 1) , ("b" , 4) ])
     y = sc.parallelize([ ("a" , 2) ])
     lst = sorted(list(x.cogroup(y).collect()))
-    ret = [(x , tuple(map(list, y)))  for x,y in lst]
+    import __builtin__ 
+    ret = [(x , tuple(__builtin__.map(list, y)))  for x,y in lst]
     if (ret[0][1][0] == [1]):
         print("cogroup_test_ok")
 
@@ -94,7 +95,7 @@ def flatMap(sc):
 def flatMapValue(sc):
     rdd = sc.parallelize( [ ("a" , ["x" , "y" , "x"]) , ("b" , ["p" , "r"]) ] )
     def f(x) : return x
-    ret = rdd.flatMapValue(f).collect()
+    ret = rdd.flatMapValues(f).collect()
     if (len(ret) == 6):
         print("flatMapValue_test_ok")
 
@@ -119,6 +120,124 @@ def getNumPartitions(sc):
         print("getNumPartitions_test_ok")
 
 
+def groupBy(sc):
+    rdd = sc.parallelize([1,1,2,3,5,8])
+    result = rdd.groupBy(lambda x : x % 2 ).collect()
+    ret = sorted( [ (x , sorted(y))    for x , y in result])
+    if ( ret[0][1] == [2,8] ):
+        print("groupBy_test_ok")
+
+def groupByKey(sc):
+    rdd = sc.parallelize([ ("a" , 1) , ("b" , 1) , ("a" , 1) ])
+    ret = sorted(rdd.groupByKey().mapValues(len).collect())
+    if (len(ret) == 2 and ret[0][1] == 2):
+        print("groupByKey_test_ok")
+
+def groupWith(sc):
+    w = sc.parallelize([ ("a" , 5) , ("b" , 6) ])
+    x = sc.parallelize([ ("a" , 1) , ("b" , 4) ])
+    y = sc.parallelize([ ("a" , 2) ])
+    z = sc.parallelize([ ("b" , 42) ])
+    import __builtin__
+    ret = [ (x , tuple(__builtin__.map(list , y))) for x , y in sorted(list(w.groupWith(x,y,z).collect() )) ]
+    if (len(ret) == 2 and len(ret[0][1]) == 4):
+        print("groupWith_test_ok")
+
+def intersection(sc):
+    rdd1 = sc.parallelize([1 , 10 ,2, 3, 4, 5])
+    rdd2 = sc.parallelize([1 , 6, 2 ,3 ,7 ,8])
+    ret = sorted(rdd1.intersection(rdd2).collect())
+    if (ret == [1 ,2 ,3]):
+        print("intersection_test_ok")
+
+def keyBy(sc):
+    x = sc.parallelize(range(0 ,3)).keyBy(lambda x : x * x )
+    ret = x.collect()
+    if(ret == [(0,0) , (1 ,1 ) , (4,2)]):
+        print("keyBy_test_ok")
+
+def keys(sc):
+    m = sc.parallelize([(1,2) , (3,4)]).keys()
+    ret = m.collect()
+    if(ret == [1,3]):
+        print("keys_test_ok")
+
+def map(sc):
+    rdd = sc.parallelize(["a" , "b" , "c"])
+    ret = sorted(rdd.map(lambda x : (x , 1)).collect())
+    if (ret[0] == ("a" , 1)):
+        print("map_test_ok")
+
+def mapPartitions(sc):
+    rdd = sc.parallelize([1,2,3,4] , 2)
+    def f(iter) : yield sum(iter)
+    ret = rdd.mapPartitions(f).collect()
+    if (len(ret) == 2):
+        print("mapPartitions_test_ok")
+
+def mapValues(sc):
+    x = sc.parallelize([ ("a" , ["apple" , "banana" , "lemon"]) , ("b" , ["grapes"]) ])
+    def f(x) : return len(x)
+    ret = sorted(x.mapValues(f).collect())
+    if ( ret[0] == ("a" , 3) ):
+        print("mapValues_test_ok")
+
+def partitionBy(sc):
+    pairs = sc.parallelize([1,2,3,4,2,4,1]).map(lambda x : (x , x))
+    sets = pairs.partitionBy(2).glom().collect()
+    if (len(sets) == 2):
+        print("partitionBy_test_ok")
+
+def reduce(sc):
+    from operator import add 
+    rdd = sc.parallelize([1,2,3,4,5])
+    ret = rdd.reduce(add)
+    if( ret == 15 ):
+        print("reduce_test_ok")
+
+def reduceByKey(sc):
+    from operator import add
+    rdd = sc.parallelize([ ("a" , 1) , ("a" , 1) ])
+    ret = rdd.reduceByKey(add).collect()
+    if ( ret[0] == ("a" , 2)):
+        print("reduceByKey_test_ok")
+
+def repartition(sc):
+    num = 2
+    rdd1 = sc.parallelize([1,2,3,4,5,6] , num)
+    rdd2 = rdd1.repartition(4)
+    num2 = rdd2.getNumPartitions()
+    if ( num2 == 4 ):
+        print("repartition_test_ok")
+
+def sortBy(sc):
+    tmp = [('a', 1), ('b', 2), ('1', 3), ('d', 4), ('2', 5)]
+    rdd = sc.parallelize(tmp)
+    ret = rdd.sortBy(lambda x : x[0]).collect()
+    ret2 = sorted(tmp)
+    if (ret == ret2):
+        print("sortBy_test_ok")
+   
+
+def take(sc):
+    rdd = sc.parallelize([2,3,4,5,6])
+    ret = rdd.take(1)
+    if ( ret == [2] ):
+        print("take_test_ok")
+
+def zip(sc):
+    x = sc.parallelize(range(0,5))
+    y = sc.parallelize(range(1000,1005))
+    ret = x.zip(y).collect()
+    if( ret[0] == (0,1000) and len(ret) == 5):
+        print("zip_test_ok")
+
+def zipWithIndex(sc):
+    rdd = sc.parallelize(["a" , "b"  , "c"])
+    ret = rdd.zipWithIndex().collect()
+    if( ret[0] == ("a" , 1) ):
+        print("zipWithIndex_test_ok")
+
 
 if __name__ == '__main__':
     conf = SparkConf().setAppName("rdd_test_parallelize").setMaster("local")
@@ -138,4 +257,23 @@ if __name__ == '__main__':
     fold(sc)
     foldByKey(sc)
     getNumPartitions(sc)
+    groupBy(sc)
+    groupByKey(sc)
+    groupWith(sc)
+    intersection(sc)
+    keys(sc)
+    keyBy(sc)
+    map(sc)
+    mapPartitions(sc)
+    mapValues(sc)
+    
+    partitionBy(sc)
 
+
+    reduce(sc)
+    reduceByKey(sc)
+    repartition(sc)
+    sortBy(sc)
+    take(sc)
+    zip(sc)
+    zipWithIndex(sc)

@@ -29,8 +29,8 @@ function spark_download(){
             wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
         fi 
     cd -
-
 }
+
 function spark_login_no_passwd(){
     
     # 本机到hostfile中每一个主机都是无密码登录，且hostfile中主机相互之间也是免密登录
@@ -93,10 +93,18 @@ function spark_slave_host(){
 function spark_deploy_cluster(){
 
     ansible-playbook -i ./spark/hosts ./spark/site.yml -t spark
-    if [ $> -eq 0 ];then
+    ret=$?
+    if [ $ret -eq 0 ];then
+        true
+    else
+        false
+    fi 
+    print_info $? "spark_deploy_cluster"
+    if [ $ret -ne 0 ];then
         echo "---------------"
         echo "-----ERROR-----"
         echo "---------------"
+        exit 1
     fi 
 }
 
@@ -105,37 +113,106 @@ function spark_start_cluster(){
     ansible-playbook -i ./spark/hosts ./spark/site.yml -t start_cluster
 
     jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
-    ansible -i ./spark/hosts --list-hosts all 
+    if [ $jps_cnt = 2 ];then
+        true
+    else
+        false
+    fi 
 
+    print_info $? "spark_start_cluster"
     
 }
+
 function spark_stop_cluster(){
     
-    ansible_playbook -i ./spark/hosts ./spark/site.yml -t stop_cluster 
+    ansible-playbook -i ./spark/hosts ./spark/site.yml -t stop_cluster 
     jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
     if [ $jps_cnt -eq 0 ];then
         true
     else
         false
     fi 
-    print_info $? "spark stop cluster"
+    print_info $? "spark_stop_cluster"
+
+}
+
+function spark_SparkContext_test(){
+
+    $SPARK_HOME/bin/spark-submit ./addfile.py 2>&1 | egrep -vi "warn|info" | grep "addfile_test_ok"
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi 
+    print_info $? "sparkcontext_addfile_function_test"
+
+    $SPARK_HOME/bin/spark-submit ./cancelJobGroup.py 2>&1 | egrep -vi "warn|info" | grep "cancelJobGroup_test_ok"
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi 
+    print_info $? "sparkcontext_cancelJobGroup_function_test"
+
+
+
+    $SPARK_HOME/bin/spark-submit ./wholeTextFiles.py 2>&1 | egrep -vi "warn|info" | grep "wholeTextFiles_test_ok"
+    if [ $? -eq 0 ];then
+        true
+    else
+        false
+    fi 
+    print_info $? "sparkcontext_wholeTextFiles_function_test"
 
 }
 
 function spark_RDD_test(){
-
-    $SPARK_HOME/bin/pyspark --master spark://sparkmaster:7077 RDD_test.py 2>&1 | grep -vE "Warn|INFO" > out.tmp
-    grep "rdd_test_parallelize" out.tmp && true || false 
-    print_info $? "spark_rdd_parallelize_test"
-    grep "rdd_test_file" out.tmp && true || false
-    print_info $? "spark_rdd_file_test"
+    
+    
+    $SPARK_HOME/bin/spark-submit ./RDD_test.py 2>&1 | egrep -vi "warn|info" > out.tmp
+    list='''ggregate
+    cartesian
+    glom
+    coalesce
+    cogroup
+    collectAsMap
+    combineByKey
+    countByKey
+    countByValue
+    distinct
+    filter
+    first
+    flatMap
+    flatMapValue
+    fold
+    foldByKey
+    getNumPartitions
+    groupBy
+    groupByKey
+    groupWith
+    intersection
+    keyBy
+    keys
+    map
+    mapPartitions
+    mapValues
+    partitionBy
+    reduce
+    reduceByKey
+    repartition
+    sortBy
+    take
+    zip'''
+    for word in $list 
+    do 
+        grep "${word}_test_ok" out.tmp
+        if [ $? -eq 0 ];then
+            true
+        else
+            false
+        fi 
+        print_info $? "sparkcontext_${word}_function_test"
+    done 
 
 }
-
-function spark_conf_test(){
-
-
-}
-
-
 
