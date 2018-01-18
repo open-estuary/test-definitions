@@ -9,7 +9,9 @@ Remark:
 ---
 
 - **Dependency:**
-    已在D05单板上部署好Ubuntu或CentOS系统
+    - 已在D05单板上部署好Ubuntu或CentOS系统
+    - 自动化实现过程可见：
+         - https://github.com/qinshulei/ci-scripts/tree/master/build-scripts
 
 - **Source code:**
     https://github.com/open-estuary/estuary.git
