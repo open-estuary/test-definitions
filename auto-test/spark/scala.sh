@@ -25,6 +25,7 @@ function scala_install(){
     
         if [ ! -f scala-2.12.4.tgz ];then
             wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz 
+            print_info $? "download_scala_bin"
         fi 
         tar -zxf scala-2.12.4.tgz
         mkdir -p /var/spark/ 
@@ -43,6 +44,7 @@ function scala_env_path(){
     echo "export SCALA_HOME=/var/spark/scala" >> ~/.bashrc 
     echo 'export PATH=$PATH:$SCALA_HOME/bin' >> ~/.bashrc 
     source ~/.bashrc > /dev/null 
+    print_info $? "set_scala_env"
 }
 
 
@@ -65,7 +67,7 @@ eof
     else 
         false
     fi 
-    print_info $? "scalac compile scala file"
+    print_info $? "scalac_compile_scala_file"
 
     ret=`scala if_test`
     if [ x$ret = x"if_is_ok" ];then
@@ -73,7 +75,7 @@ eof
     else
         false
     fi 
-    print_info $? "scala if test"
+    print_info $? "scala_if_test"
     
 }
 
@@ -103,7 +105,7 @@ eof
     else
         false
     fi 
-    print_info $? "scala for test"
+    print_info $? "scala_for_test"
 
     cat > while_test.scala<<-eof
     object while_test{
@@ -128,7 +130,7 @@ eof
     else
         false
     fi 
-    print_info $? "scala while test"
+    print_info $? "scala_while_test"
 
 
     cat > dowhile_test.scala <<-eof
@@ -157,7 +159,7 @@ eof
     else
         false
     fi 
-    print_info $? "scala do while test"
+    print_info $? "scala_do_while_test"
 
 
     cat > break_test.scala <<-eof
@@ -191,7 +193,7 @@ eof
     else
         false
     fi 
-    print_info $? "scala break test"
+    print_info $? "scala_break_test"
 
 
 }
@@ -220,7 +222,7 @@ eof
     else
         false
     fi 
-    print_info $? "scala string test"
+    print_info $? "scala_string_test"
 
 
 }
@@ -249,7 +251,7 @@ eof
         false
     fi 
 
-    print_info $? "scala list test"
+    print_info $? "scala_list_test"
 
 }
 
