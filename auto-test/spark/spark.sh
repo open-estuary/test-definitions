@@ -18,7 +18,7 @@ function spark_download(){
     if [ -z $SPARKVERSION ];then
         SPARKVERSION="2.2.0"
     fi
-
+    pushd . 
     cd ~/bigdata/spark
         if [ ! -f spark-$SPARKVERSION-bin-hadoop2.7.tgz ];then
             wget -c http://mirror.bit.edu.cn/apache/spark/spark-$SPARKVERSION/spark-$SPARKVERSION-bin-hadoop2.7.tgz
@@ -28,7 +28,7 @@ function spark_download(){
         if [ ! -f scala-2.12.4.tgz  ];then
             wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
         fi 
-    cd -
+    popd 
 }
 
 function spark_login_no_passwd(){
@@ -91,7 +91,7 @@ function spark_slave_host(){
 }
 
 function spark_deploy_cluster(){
-
+echo `pwd`
     ansible-playbook -i ./spark/hosts ./spark/site.yml -t spark
     ret=$?
     if [ $ret -eq 0 ];then
@@ -202,7 +202,8 @@ function spark_RDD_test(){
     repartition
     sortBy
     take
-    zip'''
+    zip
+    boardcast'''
     for word in $list 
     do 
         grep "${word}_test_ok" out.tmp
