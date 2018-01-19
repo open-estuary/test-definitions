@@ -217,3 +217,31 @@ function spark_RDD_test(){
 
 }
 
+
+function spark_sql_test(){
+
+
+    $SPARK_HOME/bin/spark-submit ./RDD_test.py 2>&1 | egrep -vi "warn|info" > out.tmp
+    list='''SparkSession
+    createDataFrameFromList
+    createDataFrameFromRDD
+    createDataFrameListSchema
+    createDataFrameUseRowSchema
+    createDataFrameUseStructType
+    range
+    registerFunction'''
+
+    for word in $list
+    do 
+        grep "${word}_test_ok" out.tmp
+        if [ $? -eq 0 ];then
+            true
+        else
+            false
+        fi 
+        print_info $? "spark_sql_${word}_function_test"
+
+    done 
+
+
+}

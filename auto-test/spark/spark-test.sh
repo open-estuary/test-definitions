@@ -36,6 +36,6 @@ spark_start_cluster
 
 spark_SparkContext_test
 spark_RDD_test 
-
+spark_sql_test
 
 #spark_stop_cluster
