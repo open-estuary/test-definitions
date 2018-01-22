@@ -11,18 +11,18 @@
 function cassandra20_install(){
     
     yum install -y cassandra20
-    print_info $? "install_cassandra20"
+    print_info $? "install cassandra20"
     
     export LANG=en_US.UTF8
     yum info cassandra20 | tee tmp.info
-    local version=`echo tmp.info | grep -i Version | cut -d : -f 2`
-    local repo=`echo tmp.info | grep -i "From repo" | cut -d : -f 2`
-    if [ x"$repo" = x"Estuary" ] && [ x"$version" = x"2.0.9" ];then
+    local version=`grep -i Version | cut -d : -f 2`
+    local repo=`grep -i "From repo" | cut -d : -f 2`
+    if [ $repo = "Estuary" ] && [ $version = "2.0.9" ];then
         true
     else
         false
     fi
-    print_info $? "cassandra20_version=$version_and_from_repo=$repo"
+    print_info $? "cassandra20 version=$version and from_repo=$repo"
 
     yum install java-1.8.0-openjdk-devel -y 
     javadir=`which java`
@@ -35,7 +35,7 @@ function cassandra20_install(){
         source ~/.bashrc 
     fi 
     
-    yum install -y python2-pip 
+    yum install -y python-pip 
     pip install cqlsh==4.1.1 
 
 
@@ -50,7 +50,7 @@ function cassandra20_edit_config(){
     else
         false
     fi
-    print_info $? "cassandra20_edit_config_of_JVM_OPTS_per-thread_stack_size"
+    print_info $? "cassandra20 edit config of JVM_OPTS per-thread stack size"
 }
 
 
@@ -58,7 +58,7 @@ function cassandra20_start_by_service(){
 
         
     systemctl start cassandra 
-    print_info $? "cassandra20_start"
+    print_info $? "cassandra20 start"
 
     jps | grep CassandraDaemon 
     if [ $? -eq 0 ];then
@@ -66,7 +66,7 @@ function cassandra20_start_by_service(){
     else
         false
     fi
-    print_info $? "lookout_cassandra20_daemon_java_process"
+    print_info $? "lookout cassandra20 daemon java process"
 
 }
 
@@ -79,7 +79,7 @@ function cassandra20_stop_by_service(){
     else
         false
     fi
-    print_info $? "cassandra20_stop_by_service"
+    print_info $? "cassandra20 stop by service"
 
 }
 
@@ -99,7 +99,7 @@ eof
 function cassandra20_uninstall(){
     
     yum remove -y cassandra20 
-    print_info $? "unintall_cassandra20"
+    print_info $? "unintall cassandra20"
 }
 
 

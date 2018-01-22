@@ -74,7 +74,7 @@ vsftpd_execute stop
 
 FTP_PUT_LOG=ftp_put_test.log
 FTP_GET_LOG=ftp_get_test.log
-if [ "$distro"x = "centos"x ] ;
+if [ "$distro"x = "CentOS"x ] ;
 then
 	FTP_USERS=/etc/vsftpd/ftpusers
 	VSFTPD_CONF=/etc/vsftpd/vsftpd.conf
