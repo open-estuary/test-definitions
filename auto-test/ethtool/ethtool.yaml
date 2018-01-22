@@ -5,8 +5,7 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - functional
-        - performance
+        - tool
     os:
         - centos
     devices:

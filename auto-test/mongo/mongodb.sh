@@ -3,17 +3,17 @@
 
 function install_mongodb() {
     yum install -y mongodb 
-    print_info $? "mongodb_install_mongodb_client"
+    print_info $? "mongodb install mongodb client"
     yum install -y mongodb-server
-    print_info $? "mongodb_install_mongodb_server"
+    print_info $? "mongodb install mongodb server"
 
     mZersion=`mongo -version | grep "shell version" | awk {'print $4'}`
     echo  $version | grep "v3.4.3"
-    print_info $? "mongodb_client_version"
+    print_info $? "mongodb client version"
 
     version=`mongod -version | grep "db version | awk {'print $3'}"`
     echo $version | grep "v3.4.3"
-    print_info $? "mongodb_server_version"
+    print_info $? "mongodb server version"
 
 }
 
@@ -22,7 +22,7 @@ function isServerRunning(){
     
     ps -ef | grep "mongod --fork"| grep -v grep
     if [ $? -eq 0 ];then
-        print_info 0 "mongodb_server_is_running"
+        print_info 0 "mongodb server is running"
     else
         install_mongodb
         mongodb_start 
@@ -39,7 +39,7 @@ function mongodb_start(){
     mon=`ps -ef |grep "mongod --fork" | grep -v grep`
     if [ $? -eq 0 ];then
         mongod --shutdown --dbpath /mongodb/db/ 
-        print_info $? "mongodb_shutdown_server"
+        print_info $? "mongodb shutdown server"
     fi
     if [ -d /mongodb/db  ];then
         rm -rf /mongodb/db 
@@ -50,7 +50,7 @@ function mongodb_start(){
     mkdir -p /mongodb/db 
     mkdir -p /mongodb/log
     mongod --fork --dbpath /mongodb/db --logpath /mongodb/log/mongodb.log --logappend --rest
-    print_info $? "mongodb_start_server"
+    print_info $? "mongodb start server"
 
 }
 
@@ -65,7 +65,7 @@ function mongodb_stop_by_service(){
         true
 
     fi 
-    print_info $? "mongod_service_stop_by_service"
+    print_info $? "mongod service stop by service"
 }
 
 function mongodb_start_by_service(){
@@ -77,13 +77,13 @@ function mongodb_start_by_service(){
     else
         false
     fi 
-    print_info $? "mongod_service_start_by_service"
+    print_info $? "mongod service start by service"
 }
 
 
 function mongodb_client(){
     mongo test.js 
-    print_info $? "mongodb_client_exec_js_file"
+    print_info $? "mongodb client exec js file"
 }
 
 function mongodb_shutdown(){
@@ -96,14 +96,14 @@ EOF
     fi
     ps -ef | grep 'mongod --fork'
     if [ $? -ne 0  ];then
-        print_info $? 'mongodb_shutdown'
+        print_info $? 'mongodb shutdown'
     fi 
 }
 
 
 function mongodb_uninstall() {
     yum -y remove mongodb
-    print_info $? 'mongdb_uninstall'
+    print_info $? 'mongdb uninstall'
     rm -rf /mongodb
 
 }
