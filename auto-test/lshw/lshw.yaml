@@ -5,6 +5,7 @@ metadata:
                   on the hardware configuration of the machine."
     maintainer:
         - shuangchengchen@qq.com
+        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
@@ -13,7 +14,7 @@ metadata:
         - openembedded
         - opensuse
     scope:
-        - functional
+        - linux
     environment:
         - lava-test-shell
     devices:

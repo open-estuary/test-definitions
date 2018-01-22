@@ -5,8 +5,9 @@ metadata:
     description: "不同发行版内核包的安装和卸载"
     maintainer:
         - shuangshengchen@qq.com
+        - fyuanz_2010@163.com
     scope:
-        - kernel
+        - linux
     os:
         - centos
         - debian
