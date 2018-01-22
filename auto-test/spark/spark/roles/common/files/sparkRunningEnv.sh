@@ -50,15 +50,15 @@ if [ $1 = "all" ];then
     setupJDK
     setupScala
     setupSpark 
-else if [ $1 = "JDK" ];then
+elif [ $1 = "JDK" ];then
     setupJDK
-else if [ $1 = 'scala' ];then
+elif [ $1 = 'scala' ];then
     setupScala
-else if [ $1 = "spark" ];then
+elif [ $1 = "spark" ];then
     setupSpark
 else
     echo "usage: $0 [all | JDK | scala ]"
     exit 1
 fi 
-
+source ~/.bashrc 
 
