@@ -87,64 +87,9 @@ run_ltp() {
     cd "${LTP_PATH}"
     #pipe0_status "./runltp -f commands"
     pipe0_status "./runltp -p -q -f ${TST_CMDFILES} -l ${OUTPUT}/LTP_${LOG_FILE}.log -C ${OUTPUT}/LTP_${LOG_FILE}.failed ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
- check_return "runltp_${LOG_FILE}"
-   ./runltp -f commands 2>&1 | tee ltp.log
-   print_info $? commands-test
-   ./runltp -f fs_perms_simple 2>&1 | tee -a ltp.log
-   print_info $? files-groups
-   ./runltp -f modules 2>&1 | tee -a ltp.log
-   print_info $? kernel-modules
-   ./runltp -f pipes 2>&1 | tee -a ltp.log
-   print_info $? ipc-pipeline
-   ./runltp -f sched 2>&1 | tee -a ltp.log
-   print_info $? dispatching-pressure
-   ./runltp -f tracing 2>&1 |tee -a ltp.log
-   print_info $? tracing-test
-   ./runltp -f io 2>&1 |tee -a ltp.log
-   print_info $? aio-input-output
-   ./runltp -f can 2>&1 |tee -a ltp.log
-   print_info $? controller-area-network
-   ./runltp tpm_tools | tee -a ltp.log
-   print_info $? TPM-tool
-   #测试信号量
-    cd testcases/open_posix_testsuite
-    make
-    cd bin
-    ./run-posix-option-group-test.sh AIO 2>&1 | tee ltp-posix.log
-    print_info $? posix-AIO
-    ./run-posix-option-group-test.sh SIG 2>&1 | tee -a ltp-posix.log
-    print_info $? posix-SIG
-    ./run-posix-option-group-test.sh SEM 2>&1 | tee -a ltp-posix.log
-    print_info $? posix-SEM
-    ./run-posix-option-group-test.sh THR 2>&1 | tee -a ltp-posix.log
-    print_info $? posix-THR
-    ./run-posix-option-group-test.sh TMR 2>&1 | tee -a ltp-posix.log
-    print_info $? posix-TMR
-    ./run-posix-option-group-test.sh MSG 2>&1 | tee -a ltp-posix.log
-    print_info $? posix-MSG
-    ./run-posix-option-group-test.sh TPS 2>&1 | tee -a ltp-posix.log
-    print_info $? posix-TPS
-    ./run-posix-option-group-test.sh MEM 2>&1 | tee -a ltp-posix.log
-    print_info $? posix-MEM
-    cd /opt/ltp
-    ./runltp ipv6_lib 2>&1 |tee -a ltp.log
-    print_info $? ipv6-addr
-    ./runltp multicase 2>&1 |tee -a ltp.log
-    print_info $? multicast-test
-    ./runltp -f nfs  2>&1 |tee -a ltp.log
-    print_info $? nfs-test
-    ./runltp -f net_stress.interface 2>&1 |tee -a ltp.log
-    print_info $? net-interface
-    ./runltp -f net_stress.ipsec_icmp 2>&1 |tee -a ltp.log
-    print_info $? net-icmp
+    check_return "runltp_${LOG_FILE}"
+
     parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
-    ./runltp -f net_stress.ipsec_tcp 2>&1 |tee -a ltp.log
-    print_info $? net-tcp
-    ./runltp -f net_stress.ipsec_udp 2>&1 |tee -a ltp.log
-    print_info $? net-udp
-    cd /opt/ltp/testscripts
-    ./adp.sh -d 2 -n 2 2>&1 |tee -a ltp.log
-    print_info $? adp-test
 }
 
 # Test run.

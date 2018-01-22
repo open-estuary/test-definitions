@@ -38,10 +38,10 @@ function ccdriver_server_isRunning(){
         echo "authenticator: AllowAllAuthenticator" >> /etc/cassandra/default.conf/cassandra.yaml 
     fi 
 
-    systemctl start_cassandra 
+    systemctl start cassandra 
 
     pgrep -U cassandra && true || false 
-    print_info $? "start_cassandra" 
+    print_info $? "start cassandra" 
 }
 
 
@@ -50,7 +50,7 @@ function ccdriver_server_isRunning(){
 function ccdriver_install(){
     
     yum install cassandra-cpp-driver -y 
-    print_info $? "install_cassandra_cpp_driver "
+    print_info $? "install cassandra cpp driver "
 
     yum install cassandra-cpp-driver-devel -y 
     export LANG=en_US.UTF8 
@@ -63,21 +63,21 @@ function ccdriver_install(){
     else
         false
     fi 
-    print_info $? "cassandra_cpp_driver_version_and_repo_is_right"
+    print_info $? "cassandra cpp driver version and repo is right"
     
 }
 
 function ccdriver_uninstall(){
 
     yum remove -y cassandra-cpp-driver 
-    print_info $? "uninstall_cassandra_cpp_driver"
+    print_info $? "uninstall cassandra cpp driver"
 }
 
 
 function ccdriver_sample_exec(){
 
     gcc -o sampleQuery connect.c -lcassandra
-    print_info $? "link_cassandra_dynamic_lib "
+    print_info $? "link cassandra dynamic lib "
 jps
     su cassandra -c "./sampleQuery 2>&1 | grep -i error "
     if [ $? -eq 0 ];then
@@ -85,7 +85,7 @@ jps
     else
         true
     fi
-    print_info $? "cassandra_cpp_driver_proglme_exec "    
+    print_info $? "cassandra cpp driver proglme exec "    
 
 }
 

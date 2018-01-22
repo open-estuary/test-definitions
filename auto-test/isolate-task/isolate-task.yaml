@@ -16,7 +16,7 @@ metadata:
         - x86
         - D05
     scope:
-        - performance
+        - functional
     environment:
         - lava-test-shell
     level: 5
