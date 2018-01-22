@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - kernel
+        - linux
     os:
         - centos
     devices:
