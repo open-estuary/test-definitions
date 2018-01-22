@@ -20,6 +20,7 @@ export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 alisql_install
 alisql_start_custom
+
 mysql_client
 mysql_create
 mysql_alter

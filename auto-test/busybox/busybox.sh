@@ -18,7 +18,7 @@ case $distro in
         yum install gcc -y
         yum install make -y
         yum install bzip2 -y
-        yum install wget -y
+
         wget https://busybox.net/downloads/busybox-1.27.2.tar.bz2
         print_info $? download-busybox
         tar -jxvf busybox-1.27.2.tar.bz2
