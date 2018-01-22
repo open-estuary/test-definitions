@@ -10,7 +10,7 @@ metadata:
         - fedora
         - centos
     scope:
-        - performance
+        - functional
     devices:
         - all
 

@@ -9,7 +9,7 @@ function install_jdk() {
     echo "export PATH=$PATH:$JAVA_HOME/bin" >> ~/.bashrc
 	
     jps > /dev/null
-    print_info $? "hadoop_java_install" 
+    print_info $? "hadoop java install" 
     yum install -y wget 	
 }
 
@@ -20,15 +20,15 @@ function install_hadoop() {
 	fi
 
 	if [ ! -f hadoop-2.7.4.tar.gz ];then
-        wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz 
+        wget -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
     fi
     tar -zxf hadoop-2.7.4.tar.gz
  
 	cd hadoop-2.7.4
 	sed -i "s/export JAVA_HOME=.*/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk/g" etc/hadoop/hadoop-env.sh
-	print_info $? "hadoop_edit_config_add_JAVA_HOME_env"
+	print_info $? "hadoop edit config add JAVA_HOME env"
 	
-	grep HADOOP_HOME ~/.bashrc 
+	grep HADOOP_HOME ~/bashrc
 	if [ $? -eq 0 ];then
 		sed -i "/HADOOP_HOME/d" ~/.bashrc	
 	fi
@@ -37,10 +37,10 @@ function install_hadoop() {
 	echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' >> ~/.bashrc
 	source ~/.bashrc
 	
-	if [ -n $HADOOP_HOME ];then
-		lava-test-case "hadoop_set_HADOOP_HOME" --result pass
+	if [ -n `echo $HADOOP_HOME` ];then
+		lava-test-case "hadoop set HADOOP_HOME" pass
 	else
-		lava-test-case "hadoop_set_HADOOP_HOME" --result fail
+		lava-test-case "hadoop set HADOOP_HOME" fail
 	fi
 	
 }
@@ -52,9 +52,9 @@ function hadoop_standalone() {
   	cp etc/hadoop/*.xml input
   	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep input output 'dfs[a-z.]+' > /dev/null 2>&1
   	if [ -f output/_SUCCESS ];then
-		lava-test-case "hadoop_standalone_test" --result pass
+		lava-test-case "hadoop standalone test" pass
 	else
-		lava-test-case "hadoop_standalone_test" --result fail
+		lava-test-case "hadoop standalone test" fail
 	fi
 }
 
@@ -76,7 +76,7 @@ function hadoop_config_base() {
 </configuration>
 
 EOF
-    print_info $? "hadoop_single_node_edit_defaultFS_argment"
+    print_info $? "hadoop single node edit defaultFS argment"
 
     cp etc/hadoop/hdfs-site.xml{,.bak}
     cat <<EOF > etc/hadoop/hdfs-site.xml
@@ -88,7 +88,7 @@ EOF
 
 </configuration>
 EOF
-    print_info $? "hadoop_single_node_edit_replication_argment"
+    print_info $? "hadoop single node edit replication argment"
 
 
 }
@@ -96,7 +96,7 @@ function hadoop_namenode_format() {
 	cd $HADOOP_HOME
 	rm -rf /tmp/hadoop-root
     bin/hdfs namenode -format
-    print_info $? "hadoop_single_node_format_namenode"
+    print_info $? "hadoop single node format namenode"
 }
 function hadoop_ssh_nopasswd() {
 	#2\ ssh without password
@@ -108,7 +108,7 @@ function hadoop_ssh_nopasswd() {
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     chmod 0600 ~/.ssh/authorized_keys
 	echo  "StrictHostKeyChecking=no" >> ~/.ssh/config
-	print_info $? "hadoop_single_node_ssh_without_password"
+	print_info $? "hadoop single node ssh without password"
 }
 
 function hadoop_single_node() {
@@ -118,7 +118,7 @@ function hadoop_single_node() {
 
 	# 4 start namenode 
 	sbin/start-dfs.sh
-	print_info $? "hadoop_single_node_start_dfs"
+	print_info $? "hadoop single node start dfs"
 	
 	# 5 
 	jps | grep NameNode | grep -v Jps
@@ -128,9 +128,9 @@ function hadoop_single_node() {
 	jps | grep SecondaryNameNode | grep -v  Jps
 	res3=$?
 	if [ -n $res1 ] && [  -n $res2 ] && [ -n  $res3 ];then
-		lava-test-case "hadoop_single_node_dfs_process" --result pass
+		lava-test-case "hadoop single node dfs process" pass
 	else
-		lava-test-case "hadoop_single_node_dfs_process" --result fail
+		lava-test-case "hadoop single node dfs process" fail
 		echo "-------------------------------------------------"
 		echo "---------------------hadoop hdfs can not start normal----------------------------"
 		echo "-------------------------------------------------"
@@ -138,27 +138,27 @@ function hadoop_single_node() {
 	fi
 	
 	bin/hdfs dfsadmin -safemode leave	
-	print_info $? "hadoop_close_safe_node_mode"
+	print_info $? "hadoop close safe node mode"
 	bin/hdfs dfs -test -e /aa
 	if [ $? ];then
 		bin/hdfs dfs -rm  -r /aa
 	fi
 	bin/hdfs dfs -mkdir /aa
-	print_info $? "hadoop_mkdir_command"
+	print_info $? "hadoop mkdir command"
 
 	bin/hdfs dfs -test -e /input
 	if [ $? -eq 0 ];then
 		bin/hdfs dfs -rm -r /input
 	fi	
 	bin/hdfs dfs -put etc/hadoop /input
-	print_info $? "hadoop_put_command"
+	print_info $? "hadoop put command"
 	
 	bin/hdfs dfs -ls /aa
-	print_info $? "hadoop_ls_command"
+	print_info $? "hadoop ls command"
 	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output 'dfs[a-z.]+' > /dev/null 2>&1
 	
 	bin/hdfs dfs -ls /output/_SUCCESS
-	print_info $? "hadoop_jar_command"
+	print_info $? "hadoop jar command"
 
 
 	sbin/stop-dfs.sh
@@ -170,7 +170,7 @@ function hadoop_single_node() {
 	else
 		false
 	fi
-	print_info $?  "hadoop_stop_hdfs"
+	print_info $?  "hadoop stop hdfs"
 }
 
 function hadoop_config_yarn() {
@@ -186,7 +186,7 @@ function hadoop_config_yarn() {
     </property>
 </configuration>
 EOF
-    print_info $? "hadoop_edit_mapreduce.frameword.name"
+    print_info $? "hadoop edit mapreduce.frameword.name"
     
     cat > etc/hadoop/yarn-site.xml <<EOF
 <configuration>
@@ -196,21 +196,21 @@ EOF
     </property>
 </configuration>
 EOF
-    print_info $? "hadoop_edit_enable_shuffle_para"	
+    print_info $? "hadoop edit enable shuffle para"	
 }
 
 function hadoop_single_with_yarn() {
 	cd $HADOOP_HOME
-	print_info $? "hadoop_edit_enable_shuffle_para"
+	print_info $? "hadoop edit enable shuffle para"
 	sbin/start-dfs.sh
 	sbin/start-yarn.sh
 	res1=`jps | grep NodeManager | grep -vc Jps`
 	res2=`jps | grep ResourceManager | grep -vc Jps`
 	if [ $res1 -eq 1 ] && [ $res2 -eq 1 ];then
-		lava-test-case "hadoop_start_yarn" --result pass
+		lava-test-case "hadoop start yarn" pass
 	else
-		lava-test-case "hadoop_start_yarn" --result fail
-		echo "hadoop_start_yarn error ---------------"
+		lava-test-case "hadoop start yarn" fail
+		echo "hadoop start yarn error ---------------"
 		echo 'for try ,use "ps -ef |grep java | grep -v grep | awk {'print $2'} | xargs kill -9"'
 		exit 1
 	fi
@@ -224,34 +224,34 @@ function hadoop_single_with_yarn() {
 	
 	bin/hadoop fs -test -e /input
 	res=$?
-	print_info $res "hadoop_command_dir_test"
+	print_info $res "hadoop command dir test"
 	
 	bin/hdfs dfs -test -e /output2	
 	if [ $? -eq 0 ] ;then
 		bin/hdfs dfs -rm -R /output2
-		print_info $? "hadoop_command_rm_dir"
+		print_info $? "hadoop command rm dir"
 	fi
 	sleep 3
 	bin/hdfs dfsadmin -safemode leave 
 	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep /input /output2 'dfs[a-z.]+'>/dev/null 2>&1
 	
 	bin/hadoop fs -test -e /output2/_SUCCESS
-	print_info  $?  "hadoop_single_node_exec_mapred"
+	print_info  $?  "hadoop single node exec mapred"
 
 	bin/hdfs dfs -cat /input/core-site.xml | grep defaultFS
-	print_info $? "hadoop_commadn_cat_file"
+	print_info $? "hadoop commadn cat file"
 	
 	bin/hdfs getconf -confkey dfs.replication
-	print_info $? "hadoop_get_config_from_key"
+	print_info $? "hadoop get config from key"
 
 	bin/hdfs dfsadmin -report
-	print_info $? "hadoop_report_status"
+	print_info $? "hadoop report status"
 	
 	bin/hdfs dfs -cp /input/core-site.xml /output2/core-site.xml
-    print_info $? "hadoop_command_cp_operator"
+    print_info $? "hadoop command cp operator"
 	
 	bin/hdfs dfs -mv /input/core-site.xml /output/core-site.xml
-	print_info $? "hadoop_command_mv_operator"
+	print_info $? "hadoop command mv operator"
 	sleep 3
 jps
 	sbin/hadoop-daemon.sh stop namenode
@@ -262,9 +262,9 @@ jps
 		else
 			false
 		fi
-		print_info $? "hadoop_stop_namenode_daemon "
+		print_info $? "hadoop stop namenode daemon "
 	else
-		lava-test-case "hadoop_stop_namenode_daemon" --result fail
+		lava-test-case "hadoop stop namenode daemon" --result fail
 	fi
 jps	
 	sleep 3
@@ -272,12 +272,12 @@ jps
 	if [ $? -eq 0 ];then
 		res1=`jps | grep -i namenode | grep -vi secondarynamenode | grep -ivc jps`
 		if [ $res1 -eq 1 ];then
-			lava-test-case "hadoop_start_namenode" --result pass
+			lava-test-case "hadoop start namenode" --result pass
 		else
-			lava-test-case "hadoop_start_namenode" --result fail
+			lava-test-case "hadoop start namenode" --result fail
 		fi
 	else
-		lava-test-case "hadoop_start_namenode" --result fail
+		lava-test-case "hadoop start namenode" --result fail
 	fi
 jps
 	sleep 3
@@ -289,18 +289,18 @@ jps
 		else
 			true
 		fi
-		print_info  $?  "hadoop_stop_datanode"
+		print_info  $?  "hadoop stop datanode"
 	else
-		lava-test-case "hadoop_stop_datanode" --result fail
+		lava-test-case "hadoop stop datanode" --result fail
 	fi
 jps	
 	sleep 3
 	sbin/hadoop-daemon.sh start datanode
 	if [ $? -eq 0 ];then
 		jps | grep -i datanode | grep -v Jps
-		print_info $? "hadoop_start_datanode"
+		print_info $? "hadoop start datanode"
 	else
-		lava-test-case "hadoop_start_datanode" --result fail
+		lava-test-case "hadoop start datanode" --result fail
 	fi
 jps	
 	sbin/hadoop-daemon.sh stop secondarynamenode
@@ -311,17 +311,17 @@ jps
 		else
 			true
 		fi
-		print_info $? "hadoop_stop_secondarynamenode"
+		print_info $? "hadoop stop secondarynamenode"
 	else
-		lava-tese-case "hadoop_stop_secondarynamenode" --result fail
+		lava-tese-case "hadoop stop secondarynamenode" --result fail
 	fi
 jps
  	sbin/hadoop-daemon.sh start secondarynamenode
     if [ $? -eq 0 ];then
         jps | grep -i secondarynamenode | grep -vi jps 
-        print_info $? "hadoop_start_secondarynamenode"
+        print_info $? "hadoop start secondarynamenode"
     else    
-        lava-tese-case "hadoop_start_secondarynamenode" --result fail
+        lava-tese-case "hadoop start secondarynamenode" --result fail
     fi		
 jps
 	sbin/yarn-daemon.sh stop nodemanager
@@ -332,17 +332,17 @@ jps
         else    
             true    
         fi      
-        print_info $? "hadoop_stop_nodemanager"
+        print_info $? "hadoop stop nodemanager"
     else    
-        lava-tese-case "hadoop_stop_nodemanager" --result fail
+        lava-tese-case "hadoop stop nodemanager" --result fail
     fi
 jps
 	sbin/yarn-daemon.sh start nodemanager
     if [ $? -eq 0 ];then
         jps | grep -i nodemanager | grep -vi jps      
-        print_info $? "hadoop_start_nodemanager"
+        print_info $? "hadoop start nodemanager"
     else    
-        lava-tese-case "hadoop_start_nodemanager" --result fail
+        lava-tese-case "hadoop start nodemanager" --result fail
     fi
 jps	
  	sbin/yarn-daemon.sh stop resourcemanager
@@ -353,17 +353,17 @@ jps
         else    
             true    
         fi      
-        print_info $? "hadoop_stop_resourcemanager"
+        print_info $? "hadoop stop resourcemanager"
     else    
-        lava-tese-case "hadoop_stop_resourcemanager" --result fail
+        lava-tese-case "hadoop stop resourcemanager" --result fail
     fi 
 jps
 	sbin/yarn-daemon.sh start resourcemanager
     if [ $?  -eq 0 ];then
         jps | grep -i resourcemanager | grep -vi jps      
-        print_info $? "hadoop_start_resourcemanager"
+        print_info $? "hadoop start resourcemanager"
     else    
-        lava-tese-case "hadoop_start_resourcemanager" --result fail
+        lava-tese-case "hadoop start resourcemanager" --result fail
     fi
 jps	
 }
@@ -373,10 +373,10 @@ function hadoop_stop_all(){
     pushd .
     cd $HADOOP_HOME
 	sbin/stop-yarn.sh
-	print_info $? "hadoop_single_node_stop_yarn"
+	print_info $? "hadoop single node  stop yarn"
 
 	sbin/stop-dfs.sh
-	print_info $? "hadoop_single_node_stop_dfs"
+	print_info $? "hadoop single node stop dfs"
 	popd 
 }
 

@@ -18,7 +18,7 @@ metadata:
 
 run:
     steps:
-        - "cd test-definitions/auto-test/openssl; ./openssl.sh; cd -"
+        - "cd ./auto-test/openssl; ./openssl.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

@@ -11,12 +11,12 @@
 function nodejs_install(){
     
     yum install -y nodejs 
-    print_info $? "install_nodejs"
+    print_info $? "install nodejs"
     
     res=`node -v`
 
     echo $res | grep "v6"
-    print_info $? "nodejs_version"
+    print_info $? "nodejs version"
 
 }
 
@@ -24,23 +24,23 @@ function nodejs_npm(){
 
     res=`npm -v`
     echo $res | grep "3.10"
-    print_info $? "nodejs_npm_version"
+    print_info $? "nodejs npm version"
     
     npm install "express"
-    print_info $? "nodejs_install_package_local"
+    print_info $? "nodejs install package local"
    
     if [ -d ./node_modules/express/  ];then
         true
     else
         false
     fi
-    print_info $? "nodejs_list_local_package_at_current_dir"
+    print_info $? "nodejs list local package at current dir"
 
     npm install "express" -g
-    print_info $? "nodejs_install_package_global"
+    print_info $? "nodejs install package global"
     
     npm list  -g | grep express 
-    print_info $? "nodejs_list_global_package_at_/usr/lib/node_modules/"
+    print_info $? "nodejs list global package at /usr/lib/node_modules/"
     
     
     npm uninstall express
@@ -49,7 +49,7 @@ function nodejs_npm(){
     else
         true
     fi
-    print_info $? "nodejs_uninstall_local_package"
+    print_info $? "nodejs uninstall local package"
 
     npm uninstall express -g
     npm list express -g
@@ -58,14 +58,14 @@ function nodejs_npm(){
     else
         false
     fi
-    print_info $? "nodejs_uninstall_global_package"
+    print_info $? "nodejs uninstall global package"
 
 }
 
 function nodejs_fs_test(){
 
     npm install 'child_process' -g
-    print_info $? "nodejs_insatll_'child_process'_package"
+    print_info $? "nodejs insatll 'child_process' package"
     node readFile.js
     
 
@@ -74,7 +74,7 @@ function nodejs_fs_test(){
 function nodejs_uninstall(){
     
     yum remove -y nodejs 
-    print_info $? "uninstall_nodejs"
+    print_info $? "uninstall nodejs"
 
 
 }

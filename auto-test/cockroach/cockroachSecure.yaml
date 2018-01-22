@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - database
+        - functional
     os:
         - centos
     devices:

@@ -5,6 +5,7 @@ metadata:
     maintainer:
         - milosz.wasilewski@linaro.org
         - shuangshengchen@qq.com
+        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
@@ -13,12 +14,8 @@ metadata:
         - opensuse
         - openembedded
     scope:
-        - functional
+        - tool
     devices:
-        - mustang
-        - overdrive
-        - moonshot
-        - thunderX
         - d03
         - d05
     level: 5
