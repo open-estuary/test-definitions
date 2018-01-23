@@ -10,7 +10,7 @@ metadata:
         - ubuntu
         - centos
     scope:
-        - performance
+        - distribution
     devices:
         - d03
         - d05
@@ -18,7 +18,7 @@ metadata:
 
 run:
     steps:
-        - "cd ./auto-test/openssh; ./openssh.sh; cd -"
+        - "cd test-definitions/auto-test/openssh; ./openssh.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

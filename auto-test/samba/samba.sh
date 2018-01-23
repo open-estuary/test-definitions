@@ -112,8 +112,8 @@ systemctl restart nmb.service smb.service
 SMB_GET_LOG=smb_get_test.log
 SMB_PUT_LOG=smb_put_test.log
 cd share
-echo 'For samba put testing' > $SMB_GET_LOG
-echo 'For samba get testing' > ~/$SMB_PUT_LOG
+echo 'For samba put testing' > $SMB_PUT_LOG
+echo 'For samba get testing' > ~/$SMB_GET_LOG
 
 EXPECT=$(which expect)
 $EXPECT << EOF
