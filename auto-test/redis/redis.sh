@@ -21,7 +21,7 @@ function install_redis(){
     else
         false
     fi
-    print_info $? "redis version is 4.0.2 ?"
+    print_info $? "redis_version_is_4.0.2?"
 
 
     #修改配置文件，可以后台运行
@@ -57,9 +57,10 @@ function redis_start(){
     
     mkdir -p /redis/db/$port
 
-    unalias cp 
-    cp -f /etc/redis.conf /redis/db/$port 
+    cpCmd=`which cp --skip-alias` 
+    $cpCmd -f /etc/redis.conf /redis/db/$port 
     
+    file="/redis/db/${port}/redis.conf"
     #修改配置文件，可以后台运行
     sed -i 's/daemonize no/daemonize yes/' /redis/db/${port}/redis.conf 
     grep "daemonize yes" /redis/db/${port}/redis.conf  
@@ -67,8 +68,7 @@ function redis_start(){
 
     # 修改数据存放位置
     sed -i "s/^dir.*/dir \/redis\/db\/${port}/" /redis/db/${port}/redis.conf 
-
-    file="/redis/db/${port}/redis.conf"
+    sed -i "s/^port.*/port $port/" $file
 
     ps -ef | grep  "redis-server.*$port" | grep -v grep 
     if [ $? -eq 0  ];then
@@ -106,12 +106,12 @@ function redis_stop(){
         done 
         count=`ps -ef | grep "redis-server" | grep -v -c grep`
         if [ $count -eq 0 ];then
-            true
+            ret=0
         else
-            false
+            ret=1
         fi
-        print_info $? "redis_shutdownt_all_server"
-        return 0
+        print_info $ret "redis_shutdownt_all_server"
+        return $ret
     fi
 
 
