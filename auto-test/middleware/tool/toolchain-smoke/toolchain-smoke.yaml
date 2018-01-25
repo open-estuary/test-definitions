@@ -5,20 +5,12 @@ metadata:
     maintainer:
         - milosz.wasilewski@linaro.org
         - shuangshengchen@qq.com
+        - fyuanz_2010@163.com
     os:
-        - debian
-        - ubuntu
-        - fedora
         - centos
-        - opensuse
-        - openembedded
     scope:
-        - functional
+        - tool
     devices:
-        - mustang
-        - overdrive
-        - moonshot
-        - thunderX
         - d03
         - d05
     level: 5
@@ -28,7 +20,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/toolchain-smoke/
+        - cd ./auto-test/middleware/toolchain-smoke/
         - ./toolchain-smoke.sh -s ${SKIP_INSTALL} -t ${STATIC}
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

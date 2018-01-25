@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - performance
+        - tool
     os:
         - centos
     devices:
@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - cd auto-test/fio-test
+        - cd auto-test/middleware/fio-test
         - ./fio-test.sh -p "${PARTITION}" -i "${IOENGINE}" -b "${BLOCK_SIZE}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
