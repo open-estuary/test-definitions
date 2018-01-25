@@ -12,7 +12,7 @@ metadata:
         - openembedded
         - opensuse
     scope:
-        - functional
+        - distribution
     environment:
         - lava-test-shell
     devices:
@@ -25,7 +25,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/pcre/
+        - cd test-definitions/auto-test/pcre/
         - ./pcre.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:

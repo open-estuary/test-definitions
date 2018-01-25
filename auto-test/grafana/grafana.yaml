@@ -4,11 +4,10 @@ metadata:
     description: "grafana 可视化的工具."
     maintainer:
         - shuangchengchen@qq.com
-        - fyuanz_2010@163.com
     os:
         - centos
     scope:
-        - tool
+        - functional
     environment:
         - lava-test-shell
     devices:

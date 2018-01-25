@@ -5,11 +5,10 @@ metadata:
                   Test runs chromium, chrome and firefox browser test cases."
     maintainer:
         - naresh.kamboju@linaro.org
-        - fyuanz_2010@163.com
     os:
         - debian
     scope:
-        - tool
+        - functional
     devices:
         - hi6220-hikey
         - apq8016-sbc
