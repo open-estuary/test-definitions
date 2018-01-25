@@ -10,17 +10,24 @@ metadata:
         - lisa.nguyen@linaro.org
         - chase.qi@linaro.org
         - shuangshengchen@qq.com
-        - fyuanz_2010@163.com
     os:
         - ubuntu
         - debian
         - openembedded
         - opensuse
     scope:
-        - linux
+        - functional
+        - performance
     devices:
-        - d03
-        - d05
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+        - beaglebone-black
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
     level: 5
 params:
     RELEASE: "pm-qa-v0.5.2"

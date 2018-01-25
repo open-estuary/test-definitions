@@ -4,11 +4,10 @@ metadata:
     description: "source-highlight 语法高亮代码"
     maintainer:
         - shuangshengchen@qq.com
-        - fyuanz_2010@163.com
     os:
         - centos
     scope:
-        - tool
+        - functional
     environment:
         - lava-test-shell
     devices:
