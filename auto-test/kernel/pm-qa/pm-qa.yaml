@@ -10,24 +10,14 @@ metadata:
         - lisa.nguyen@linaro.org
         - chase.qi@linaro.org
         - shuangshengchen@qq.com
+        - fyuanz_2010@163.com
     os:
-        - ubuntu
-        - debian
-        - openembedded
-        - opensuse
+        - centos
     scope:
-        - functional
-        - performance
+        - linux
     devices:
-        - panda
-        - panda-es
-        - arndale
-        - vexpress-a9
-        - vexpress-tc2
-        - beaglebone-black
-        - juno
-        - hi6220-hikey
-        - apq8016-sbc
+        - d05
+        - d03
     level: 5
 params:
     RELEASE: "pm-qa-v0.5.2"
@@ -36,7 +26,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/pm-qa/
+        - cd ./auto-test/kernel/pm-qa/
         - ./pm-qa.sh -r "${RELEASE}" -t "${TESTS}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

@@ -4,10 +4,11 @@ metadata:
     description: "grafana 可视化的工具."
     maintainer:
         - shuangchengchen@qq.com
+        - fyuanz_2010@163.com
     os:
         - centos
     scope:
-        - functional
+        - tool
     environment:
         - lava-test-shell
     devices:
@@ -20,7 +21,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/grafana/
+        - cd ./auto-test/middleware/grafana/
         - ./grafana.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:
