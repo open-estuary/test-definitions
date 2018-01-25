@@ -5,14 +5,11 @@ metadata:
     maintainer:
         - shuangshengchen@qq.com
         - chase.qi@linaro.org
+        - fyuanz_2010@163.com
     os:
-        - debian
-        - ubuntu
         - centos
-        - fedora
-        - openembedded
     scope:
-        - functional
+        - linux
     devices:
         - d03
         - d05
@@ -22,7 +19,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/smoke/
+        - cd ./auto-test/kernel/smoke/
         - ./smoke.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
         - cd -

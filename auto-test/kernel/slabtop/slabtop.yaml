@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - tool
+        - linux
     os:
         - centos
     devices:
@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/slabtop; ./slabtop.sh; cd -"
+        - "cd auto-test/kernel/slabtop; ./slabtop.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
