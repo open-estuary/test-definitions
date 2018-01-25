@@ -8,7 +8,7 @@ metadata:
     os:
         - debian
     scope:
-        - functional
+        - tool
     devices:
         - hi6220-hikey
         - apq8016-sbc
@@ -20,7 +20,7 @@ params:
     SKIP_INSTALL: "False"
 run:
     steps:
-        - cd ./automated/linux/ui-browser-test/
+        - cd ./automated/middleware/ui-browser-test/
         - ./ui-browser-test.sh -u "${TESTUSER}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/ui-browser-test-results.txt
 parse:

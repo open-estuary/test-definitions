@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/devtoolset-6-make; ./devtoolset-6-make.sh; cd -"
+        - "cd auto-test/middleware/devtoolset-6-make; ./devtoolset-6-make.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
