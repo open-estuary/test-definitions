@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - shuangshengchen@qq.com
     scope:
-        - functional
+        - distribution
     os:
         - centos7.3
 
@@ -16,7 +16,7 @@ metadata:
     level: 5
 run:
     steps:
-        - "cd auto-test/libbson; ./libbson.sh; cd -"
+        - "cd test-definitions/auto-test/libbson; ./libbson.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

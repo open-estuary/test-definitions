@@ -7,7 +7,7 @@ metadata:
     os:
         - centos
     scope:
-        - functional
+        - performance
     environment:
         - lava-test-shell
     devices:

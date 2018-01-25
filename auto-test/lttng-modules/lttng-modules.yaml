@@ -3,11 +3,11 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "lttng-modules内核调试工具"
     maintainer:
-        - fyuanz_2010@163.com
+        - shuangshengchen@qq.com
     os:
         - centos
     scope:
-        - tool
+        - functional
     environment:
         - lava-test-shell
     devices:

@@ -15,7 +15,7 @@ function percona_uninstall(){
     yum remove -y mariadb*
     yum remove -y mysql*
     yum remove -y Percona*
-    print_info $? "percona uninstall"
+    print_info $? "percona_uninstall"
     exit 
 }
 
@@ -27,25 +27,25 @@ function percona_install(){
         percona_uninstall
         yum install -y Percona-Server-server-56
         if [ $? -ne 0  ];then
-            print_info 1 "install percona server"
+            print_info 1 "install_percona_server"
             exit 1
         fi 
     else
-        print_info 0 "install percona server"
+        print_info 0 "install_percona_server"
     fi
     export LANG="en_US.UTF-8"
 
     yum info Percona-Server-server-56 > tmpinfo
     version1=`cat tmpinfo | grep Version |  cut -d : -f2`
     repo=`cat tmpinfo | grep "From repo" | cut -d : -f 2`
-    if [ $version1 == "5.6.35" -a $repo == "Estuary"  ];then
+    if [ x"$version1" == x"5.6.35" -a x"$repo" == x"Estuary"  ];then
         true
     else
         false
     fi
-    print_info $? "percona version is right"
+    print_info $? "percona_version_is_right"
     rm -f tmpinfo
-    export version="percona-$version1-$repo"
+    export version=` tr -d [:space:] "percona-$version1-$repo"`
 }
 
 function percona_modify_system_args(){
@@ -81,7 +81,7 @@ function percona_start_stop_test(){
         
         false
     fi
-    print_info $? "mysql use systemctl start "
+    print_info $? "mysql_use_systemctl_start "
 
     systemctl stop mysqld.service 
     ps -ef | grep mysqld  | grep -v grep
@@ -90,7 +90,7 @@ function percona_start_stop_test(){
     else
         true
     fi
-    print_info $? "mysql use systemctl stop"
+    print_info $? "mysql_use_systemctl_stop"
     percona_clean_ps
 
     # 2直接使用mysqld_safe 来启动mysql
@@ -102,7 +102,7 @@ function percona_start_stop_test(){
     else
         false
     fi
-    print_info $? "mysql use mysqld_safe to start"
+    print_info $? "mysql_use_mysqld_safe_to_start"
 
     mysqladmin --defaults-file=/etc/my.cnf shutdown 
     ps -ef | grep mysqld | grep -v grep
@@ -111,7 +111,7 @@ function percona_start_stop_test(){
     else
         true
     fi
-    print_info $? "mysql use mysqladmin to stop"
+    print_info $? "mysql_use_mysqladmin_to_stop"
 
     percona_clean_ps
     # 3 使用mysqld来启动 ，基本不使用该方式
@@ -123,7 +123,7 @@ function percona_start_stop_test(){
     else
         false
     fi
-    print_info $? "mysql use mysqld to start"
+    print_info $? "mysql_use_mysqld_to_start"
 
     mysqladmin --defaults-file=/etc/my.cnf shutdown 
     ps -ef | grep mysqld | grep -v grep 
@@ -132,7 +132,7 @@ function percona_start_stop_test(){
     else
         true
     fi
-    print_info $? "mysql use mysqladmin to stop server"
+    print_info $? "mysql_use_mysqladmin_to_stop_server"
 
 }
 
@@ -181,7 +181,7 @@ function mysql_muti_stop_clean(){
     ps -ef | grep $port |grep -v grep 
     if [ $? -eq 0 ];then
         mysqladmin --defaults-file=/percona/${port}/my.cnf shutdown
-        print_info $? "mysql shutdown selfdefine config"
+        print_info $? "mysql_shutdown_selfdefine_config"
     fi
 
     if [ -n $2  ];then 
