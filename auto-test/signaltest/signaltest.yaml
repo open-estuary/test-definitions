@@ -15,7 +15,6 @@ metadata:
         - openembedded
     scope:
         - performance
-        - preempt-rt
     environment:
         - lava-test-shell
     devices:

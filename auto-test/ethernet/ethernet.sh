@@ -29,16 +29,16 @@ ip addr show "${INTERFACE}"
 IP_ADDR=$(ip addr show "${INTERFACE}" | grep -a2 "state UP" | tail -1 | awk '{print $2}' | cut -f1 -d'/')
 TCID="test-IP"
 if [ -n "${IP_ADDR}" ];then
-    lava-test-case $TCID --result fail
-else
     lava-test-case $TCID --result pass
+else
+    lava-test-case $TCID --result fail
 fi
 # Get default Route IP address of a given interface
 ROUTE_ADDR=$(ip route list  | grep default | awk '{print $3}' | head -1)
 
 # Run the test
 ping -c 5 ${ROUTE_ADDR} 2>&1 | tee ether.log
-str="0 packet loss"
+str="0% packet loss"
 TCID1="ethernet-ping-route"
 if [ "$str" != "" ] ; then
     lava-test-case $TCID1 --result fail

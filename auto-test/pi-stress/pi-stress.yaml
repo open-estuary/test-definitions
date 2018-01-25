@@ -14,8 +14,7 @@ metadata:
         - opensuse
         - openembedded
     scope:
-        - functional
-        - preempt-rt
+        - stress
     devices:
         - hi6220-hikey
         - apq8016-sbc

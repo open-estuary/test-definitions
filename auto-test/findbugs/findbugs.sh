@@ -17,7 +17,7 @@ function install_findbugs(){
     yum info findbugs > tmp.info 
     local version=`grep Version tmp.info | cut -d : -f 2`
     local repo=`grep "From repo" tmp.info | cut -d : -f 2`
-    if [ $version = "2.0.3" -a $repo = "Estuary" ];then
+    if [ x"$version" = x"2.0.3" -a x"$repo" = x"Estuary" ];then
         true
     else
         false

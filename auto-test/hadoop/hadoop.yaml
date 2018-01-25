@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - functional
+        - bigdata
     os:
         - centos
     devices:
@@ -15,7 +15,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/hadoop; ./hadoop-test.sh > hadoop.log 2>&1; cd -"
+        - "cd auto-test/hadoop; ./hadoop-test.sh ; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
