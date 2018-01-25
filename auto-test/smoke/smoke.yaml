@@ -5,7 +5,6 @@ metadata:
     maintainer:
         - shuangshengchen@qq.com
         - chase.qi@linaro.org
-        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
@@ -13,7 +12,7 @@ metadata:
         - fedora
         - openembedded
     scope:
-        - linux
+        - functional
     devices:
         - d03
         - d05

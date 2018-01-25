@@ -16,6 +16,7 @@ case $distro in
     "centos")
         yum install gcc -y
         yum install gcc-c++ -y
+        yum install wget -y
         print_info $? install-package
         wget http://192.168.1.107/boost_1_63_0.tar.gz
         tar -zxvf boost_1_63_0.tar.gz

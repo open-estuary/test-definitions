@@ -25,7 +25,7 @@ metadata:
         - thunderX
 
     scope:
-        - functional
+        - performance
     level: 5
 params:
     SKIP_INSTALL: "false"

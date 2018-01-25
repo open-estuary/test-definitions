@@ -8,17 +8,21 @@ metadata:
     maintainer:
         - naresh.kamboju@linaro.org
         - shuangshengchen@qq.com
-        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
         - centos
         - fedora
     scope:
-        - tool
+        - functional
     devices:
+        - juno
+        - overdrive
         - d05
         - d03
+        - hi6220-hikey
+        - apq8016-sbc
+        - rtsm_fvp_base-aemv8a
     level: 5
 params:
     SKIP_INSTALL: "False"

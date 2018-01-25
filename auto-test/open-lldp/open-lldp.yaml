@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - tool
+        - lldp protocol
     os:
         - centos
     devices:

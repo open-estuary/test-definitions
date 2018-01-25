@@ -4,7 +4,6 @@ metadata:
     description: "测试内核模块的编译、加载、卸载过程是否正常"
     maintainer:
         - shuangchengchen@qq.com
-        - fyuanz_2010@163.com
     os:
         - debian
         - ubuntu
@@ -12,7 +11,7 @@ metadata:
         - centos
         - opensuse
     scope:
-        - linux
+        - functional
     environment:
         - lava-test-shell
     devices:

@@ -11,9 +11,9 @@ function hive_install_innter(){
 	else
 		wget -c  http://mirrors.shuosc.org/apache/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz
 		if [ $? ];then
-			lava-test-case "hive download bin file" --result pass
+			lava-test-case "hive_download_bin_file" --result pass
 		else
-			lava-test-case "hive download bin file" --result fail
+			lava-test-case "hive_download_bin_file" --result fail
 			exit 1
 		fi
 	fi
@@ -23,9 +23,9 @@ function hive_install_innter(){
 	export HIVE_HOME=$hivedir &&
 	echo "export HIVE_HOME=$hivedir" >> ~/.bashrc &&
 	echo 'export PATH=$PATH:$HIVE_HOME/bin' >> ~/.bashrc 
-	print_info $? "hive config system envriment parament"
+	print_info $? "hive_config_system_envriment_parament"
 	source ~/.bashrc 	
-	print_info $? "hive install"
+	print_info $? "hive_install"
 }
 
 function hive_edit_config(){
@@ -33,9 +33,9 @@ function hive_edit_config(){
     	
 	res=`diff  $HIVE_HOME/conf/hive-default.xml.template $HIVE_HOME/conf/hive-site.xml | grep "/tmp/hive" -c`
 	if [ $res -ge 3 ];then
-		lava-test-case "hive edit config file" --result pass
+		lava-test-case "hive_edit_config_file" --result pass
 	else 
-		lava-test-case "hive edit config file" --result fail
+		lava-test-case "hive_edit_config_file" --result fail
 	fi
 
 }
@@ -95,7 +95,7 @@ function hive_create_dir_on_hdfs() {
 		hdfs dfs -rm -f -r /tmp
 	fi
 	hdfs dfs -mkdir /tmp
-	print_info $? "hive create tmp dir"
+	print_info $? "hive_create_tmp_dir"
 
 	hdfs dfs -test -e /user/hive/warehouse
 	if [ $? ];then
@@ -103,10 +103,10 @@ function hive_create_dir_on_hdfs() {
 		sleep 3
 	fi
 	hdfs dfs -mkdir -p /user/hive/warehouse	 
-	print_info $?  'hive create /user/hive/warehouse'
+	print_info $?  'hive_create_/user/hive/warehouse'
 	
 	hdfs dfs -chmod g+w /tmp /user/hive/warehouse
-	print_info $? "hive change work dir mod"	
+	print_info $? "hive_change_work_dir_mod"	
  
 }
 
@@ -123,9 +123,9 @@ function hive_start_hadoop(){
 	# 1 start hadoop
 	start_hadoop 
 	if [ $? -eq 0 ];then
-    	lava-test-case "hive: hadoop running" --result pass
+    	lava-test-case "hive_hadoop_running" --result pass
 	else
-        lava-test-case "hive: hadoop running" --result fail
+        lava-test-case "hive_hadoop_running" --result fail
     	exit 1
 	fi
     
@@ -137,32 +137,32 @@ function hive_init() {
     schematool -initSchema -dbType derby  
     if [ $? ];then
         echo "init hive ok"
-        lava-test-case "hive init metastore" --result pass
+        lava-test-case "hive_init_metastore" --result pass
     else
-        lava-test-case "hive init metastore" --result fail
+        lava-test-case "hive_init_metastore" --result fail
         exit 1
     fi
     # 4 
      hive -S -e "show databases;"
      if [ $? ];then
-         lava-test-case "hive show databases" --result pass
+         lava-test-case "hive_show_databases" --result pass
      else
-         lava-test-case "hive show databases" --result fail   
+         lava-test-case "hive_show_databases" --result fail   
      fi
 }
 
 function hive_base_client_command() {
         hive -e "! ls" > my.log
-        print_info $? "hive exec shell command"
+        print_info $? "hive_exec_shell_command"
 
         hive -e "dfs -ls /"
-        print_info $? "hive exec dfs command"
+        print_info $? "hive_exec_dfs_command"
 }
 
 function hive_inner_table() {
         if [ ! -f ./ml-100k.zip ];then
             wget -c http://files.grouplens.org/datasets/movielens/ml-100k.zip -O ml-100k.zip
-            print_info $? "hive download test data"
+            print_info $? "hive_download_test_data"
         fi
         if [ ! `which unzip` ];then
             yum install unzip -y
@@ -178,33 +178,33 @@ function hive_inner_table() {
         ROW FORMAT DELIMITED
         FIELDS TERMINATED BY '\t'
         STORED AS TEXTFILE;"
-        print_info $? "hive create inner table"
+        print_info $? "hive_create_inner_table"
 
         hdfs dfs -test -e /user/hive/warehouse/u_data
-        print_info $? "hive view data in hdfs"
+        print_info $? "hive_view_data_in_hdfs"
 
         hive -e "LOAD DATA LOCAL INPATH './ml-100k/u.data' OVERWRITE INTO TABLE u_data;"
-        print_info $? "hive load data "
+        print_info $? "hive_load_data "
 
         hive -e "insert into table u_data values(1,3,4,"121212121");"
-        print_info $? "hive insert into table"
+        print_info $? "hive_insert_into_table"
 
         hive -e "select count(*) from u_data;"
         print_info $? "hive base select count(*)"
 
         cp $/hive-add-file.sql .
-        print_info $? "hive create sql file"
+        print_info $? "hive_create_sql_file"
 
         cp ${basedir}/weekday_mapper.py .
-        print_info $? "hive create outer script file"
+        print_info $? "hive_create_outer_script_file"
 
         hive -f "hive-add-file.sql"
-        print_info $? "hive batch mode commands"
+        print_info $? "hive_batch_mode_commands"
 
         hive -e "SELECT weekday, COUNT(*)
         FROM u_data_new
         GROUP BY weekday;"
-        print_info $? "hive exec outer script"
+        print_info $? "hive_exec_outer_script"
 }
 
 function hive_outer_table(){
@@ -216,7 +216,7 @@ function hive_outer_table(){
         hdfs dfs -mkdir -p /text/in/day21
         hdfs dfs -put -f ./hive-data1.txt  /text/in/day20/20.txt &&
         hdfs dfs -put -f ./hive-data2.txt  /text/in/day21/21.txt
-        print_info $? "hive create outer table data"
+        print_info $? "hive_create_outer_table_data"
 	
 	# 0174 --> | 
         hive -e  "create external table outer_tb(seq int, name string , year int , city string )
@@ -224,12 +224,12 @@ function hive_outer_table(){
         ROW FORMAT DELIMITED
         FIELDS TERMINATED BY '\073'
         STORED AS TEXTFILE;"
-        print_info $? "hive create outer table"
+        print_info $? "hive_create_outer_table"
 
         hive -e "alter table outer_tb  add partition (day=20) location '/text/in/day20'"
         hive -e "alter table outer_tb  add partition (day=21) location '/text/in/day21'"
         
-        print_info $? "hive outer table bind data"
+        print_info $? "hive_outer_table_bind_data"
 
         hive -e "show partitions outer_tb;" > tmp.log
         cat tmp.log 
@@ -249,7 +249,7 @@ function hive_outer_table(){
             false
         fi
 
-        print_info $? "hive outer table select operator"
+        print_info $? "hive_outer_table_select_operator"
 
         hdfs dfs -put ./hive-data2.txt /text/in/day20
         hive -e "select count(*) from outer_tb ;" > tmp.log 
@@ -259,32 +259,32 @@ function hive_outer_table(){
         else
             false
         fi
-        print_info $? "hive outer table dynamic add data"
+        print_info $? "hive_outer_table_dynamic_add_data"
 
         hive -e "drop table outer_tb"
-        print_info $? "hive drop outer table "
+        print_info $? "hive_drop_outer_table "
 
         hdfs dfs -test -e  /text/in/day20/20.txt 
-        print_info $? "hive outer table should not delete outer data"
+        print_info $? "hive_outer_table_should_not_delete_outer_data"
 
 }
 
 function hive_partitioned_table() {
 	hive -e "create database if not exists mydb;"
-	print_info $? "hive create database"
+	print_info $? "hive_create_database"
 	hive -e "use mydb;"
-	print_info $? "hive switch database"
+	print_info $? "hive_switch_database"
 	
 	hive -e "create table partTb (seq int , name string , year int ,city string )
 		partitioned by (day int)
 		ROW FORMAT DELIMITED FIELDS TERMINATED  BY '\073'
 		STORED AS TEXTFILE;"
-	print_info $? "hive create partitioned table"
+	print_info $? "hive_create_partitioned_table"
 	hive -e "load data local inpath './hive-data1.txt' into table partTb partition (day=20);" && \
 	hive -e "load data local inpath './hive-data2.txt' into table partTb partition (day=21);"
-	print_info $? "hive load data to partition table"
+	print_info $? "hive_load_data_to_partition_table"
 	hdfs dfs -test -e /user/hive/warehouse/parttb/day=20
-	print_info $? "hive partition table in hdfs struct"
+	print_info $? "hive_partition_table_in_hdfs_struct"
 	
 	hive -e "select * from partTb where day=20;" > tmp.log
 	res=`wc -l tmp.log | cut -d " " -f 1`
@@ -293,18 +293,18 @@ function hive_partitioned_table() {
 	else
 		false
 	fi
-	print_info $? "hive select partition table"
+	print_info $? "hive_select_partition_table"
 		
 
 	hive -e "drop table partTb;"
-	print_info $? "hive drop partition table"
+	print_info $? "hive_drop_partition_table"
 	hdfs dfs -test -e /user/hive/warehouse/parttb/day=20/hive-data1.txt
 	if [ $? -eq 0 ];then
 		false
 	else
 		true
 	fi
-	print_info $? "hive drop partition table that can delete data"
+	print_info $? "hive_drop_partition_table_that_can_delete_data"
 }
 
 function hive_bucket_table(){
@@ -319,13 +319,13 @@ function hive_bucket_table(){
 			clustered by(city) sorted by (city) into 4 buckets
 			row format delimited fields terminated by '\t'
 			stored as textfile;"
-	print_info $? "hive create bucket table"
+	print_info $? "hive_create_bucket_table"
 	
 	hive -e "set hive.enforce.bucketing=true;insert overwrite table bucket select * from buckettext;"
-	print_info $? "hive load data to bucket table"
+	print_info $? "hive_load_data_to_bucket_table"
 	
 	hdfs dfs -test -e /user/hive/warehouse/bucket/000000_0 && hdfs dfs -test -e /user/hive/warehouse/bucket/000003_0
-	print_info $? "hive bucket data on hdfs"
+	print_info $? "hive_bucket_data_on_hdfs"
 	
 	hive -e "select * from bucket tablesample(bucket 1 out of 2 on city);" > tmp.log
 	res=`wc -l tmp.log | cut -d " " -f 1`
@@ -334,19 +334,19 @@ function hive_bucket_table(){
 	else
 		false
 	fi
-	print_info $? "hive bucket table sample"
+	print_info $? "hive_bucket_table_sample"
 	hive -e "select * from bucket;" > tmp.log
-	print_info $? "hive bucket table select"
+	print_info $? "hive_bucket_table_select"
 	
 	hive -e "drop table bucket"
-	print_info $? "hive exec drop bucket table"
+	print_info $? "hive_exec_drop_bucket_table"
 	hdfs dfs -test -d /user/hive/warehouse/bucket
 	if [ $? -eq 0 ];then
 		false
 	else
 		true
 	fi
-	print_info $? "hive drop bucket table on same delete file on hdfs"
+	print_info $? "hive_drop_bucket_table_on_same_delete_file_on_hdfs"
 }
 
 function hive_uninstall(){

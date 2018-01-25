@@ -10,7 +10,7 @@ metadata:
         - centos
         - fedora
     scope:
-        - functional
+        - language
     devices:
         - juno
         - hi6220-hikey
