@@ -5,15 +5,11 @@ metadata:
                   on the hardware configuration of the machine."
     maintainer:
         - shuangchengchen@qq.com
+        - fyuanz_2010@163.com
     os:
-        - debian
-        - ubuntu
-        - fedora
         - centos
-        - openembedded
-        - opensuse
     scope:
-        - functional
+        - linux
     environment:
         - lava-test-shell
     devices:
@@ -27,7 +23,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/lshw/
+        - cd ./auto-test/kernel/lshw/
         - ./lshw.sh -s "${SKIP_INSTALL}" -c "${CLASSES}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:
