@@ -5,8 +5,9 @@ metadata:
     description: "不同发行版内核包的安装和卸载"
     maintainer:
         - shuangshengchen@qq.com
+        - fyuanz_2010@163.com
     scope:
-        - kernel
+        - linux
     os:
         - centos
         - debian
@@ -21,7 +22,7 @@ params:
        
 run:
     steps:
-        - "cd ./auto-test/kernel-package; ./package.sh; cd -"
+        - "cd ./auto-test/kernel/kernel-package; ./package.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

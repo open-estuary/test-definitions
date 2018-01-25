@@ -4,10 +4,11 @@ metadata:
     description: "lttng-modules内核调试工具"
     maintainer:
         - shuangshengchen@qq.com
+        - fyuanz_2010@163.com
     os:
         - centos
     scope:
-        - functional
+        - tool
     environment:
         - lava-test-shell
     devices:
@@ -21,7 +22,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/lttng-modules/
+        - cd ./auto-test/middleware/lttng-modules/
         - ./lttng-modules.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:

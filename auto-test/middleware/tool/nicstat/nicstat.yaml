@@ -5,8 +5,7 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - functional
-        - performance
+        - tool
     os:
         - centos
     devices:
@@ -16,7 +15,7 @@ metadata:
 
 run:
     steps:
-        - cd auto-test/nicstat
+        - cd auto-test/middleware/nicstat
         - ./nicstat.sh ;;
         - esac
         - ../../utils/send-to-lava.sh ./output/result.txt

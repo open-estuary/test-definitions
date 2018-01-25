@@ -5,8 +5,9 @@ metadata:
     description: "用src.rpm编译内核rpm包"
     maintainer:
         - shuangshengchen@qq.com
+        - fyuanz_2010@163.com
     scope:
-        - functional
+        - linux
     os:
         - centos
     devices:
@@ -20,7 +21,7 @@ params:
        
 run:
     steps:
-        - "cd ./auto-test/kernel-rpm; ./rpm.sh; cd -"
+        - "cd ./auto-test/kernel/kernel-rpm; ./rpm.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
