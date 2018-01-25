@@ -17,7 +17,7 @@ metadata:
         - centos
         - fedora
     scope:
-        - functional
+        - performance
     devices:
         - rtsm_ve-armv8
         - arndale

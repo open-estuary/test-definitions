@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - functional
+        - language
     os:
         - centos
         - ubuntu

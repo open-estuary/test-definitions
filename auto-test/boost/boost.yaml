@@ -3,13 +3,13 @@ metadata:
     format: "boost-Test-Shell Test Definition 1.0"
     description: "boost is a c++ lib"
     maintainer:
-        - hongxin_228@linaro.org
+        - hongxin_228@163.com
     os:
         - ubuntu
         - opensuse
         - centos
     scope:
-        - performance
+        - distribution
     devices:
         - d03
         - d05
@@ -17,7 +17,7 @@ metadata:
 
 run:
     steps:
-        - "cd ./auto-test/boost; ./boost.sh; cd -"
+        - "cd test-definitions/auto-test/boost; ./boost.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

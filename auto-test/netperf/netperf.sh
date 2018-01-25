@@ -25,9 +25,11 @@ case $distro in
         # make
         # make install
         yum install netperf.aarch64 -y
+        print_info $? install-netperf
          ;;
     "ubuntu")
          apt-get install netperf -y
+         print_info $? install-netperf
          ;;
 esac
 
