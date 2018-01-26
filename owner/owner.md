@@ -12,15 +12,19 @@ developer : liuxinliang
 tester    : liucaili
 
 # distributions
-## ubuntu
+## build
 developer : linwenkai
 tester    : liucaili
-## centos
-developer : linwenkai
-tester    : liucaili
-## debian
-developer : linwenkai
-tester    : liucaili
+## deploy
+### ubuntu
+developer : 
+tester    : 
+### centos
+developer : 
+tester    : 
+### debian
+developer : 
+tester    : 
 
 # bootloaders
 ## uefi
@@ -57,17 +61,9 @@ tester    : fangyuanzheng
 ## stress
 developer : liuxinliang
 tester    : mahongxin
-## server
-developer : 
-tester    :
+
 
 # hardwareboards
-## build
-developer : linwenkai
-tester    : liucaili
-## deploy
-developer : linwenkai
-tester    : liucaili
 ## hns
 developer : tiantao
 tester    : fangyuanzheng
@@ -80,5 +76,8 @@ tester    : fangyuanzheng
 developer : 
 tester    :
 ## language
+developer : 
+tester    :
+## server
 developer : 
 tester    :
