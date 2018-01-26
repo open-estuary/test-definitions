@@ -1,0 +1,23 @@
+metadata:
+    name: perf
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "hisi perf"
+    maintainer:
+        - fyuanz_2010@163.com
+    scope:
+        - performance
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+    level: 1
+
+run:
+    steps:
+        - "cd auto-test/apps/perf; ./perf.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+    FAIL: fail
+    PASS: pass

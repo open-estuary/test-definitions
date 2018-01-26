@@ -18,7 +18,7 @@ metadata:
   # format key is needed by test-runner
   format: Linaro Test Plan v2
 
-  test:
+tests:
   automated:
     - path: test-definitions/auto-test/openssh/openssh.yaml
       repository: https://github.com/open-estuary/test-definitions.git
