@@ -1,0 +1,24 @@
+
+metadata:
+    name: "gtest-testing"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "the test framework was generated on different platforms to write c++  tests"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        -distribution
+    os:
+        - centos
+    devices:
+        - d05
+        - d03
+    level: 1
+run:
+    steps:
+        - "cd test-definitions/auto-test/distributions/distribution/gtest; ./gtest.sh; cd -"
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+
