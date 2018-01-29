@@ -25,7 +25,7 @@ params:
 
 run:
     steps:
-        - "cd ./auto-test/qemu; ./qemu-kvm.sh $BINURL; cd -"
+        - "cd ./auto-test/virtualization/qemu; ./qemu-kvm.sh $BINURL; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
