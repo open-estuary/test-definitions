@@ -1,0 +1,23 @@
+
+metadata:
+    name: ltrace
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "the ltrace command is used to track the process call function"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        - tool
+    os:
+        - debian
+    devices:
+        - d05
+        - d03
+    level: 1
+run:
+    steps:
+        - "cd auto-test/middleware/ltrace; ./ltrace.sh; cd - "
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
