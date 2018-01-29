@@ -17,25 +17,25 @@ function percona57_install(){
         echo $vv | grep -i alisql  &&   yum remove -y AliSQL* 
         echo $vv | grep -i mariadb &&   yum remove -y mariadb* 
         yum remove -y mysql* 
-        print_info $? "percona57 remove other sql databases"
+        print_info $? "percona57_remove_other_sql_databases"
         yum install -y Percona-Server-server-57 
     fi
     if [ $? -eq 0 ];then
-        print_info 0 "percona-server-57 install"
+        print_info 0 "percona-server-57_install"
     else
-        print_info 1 "centos Percona-Server-57 install fail"
+        print_info 1 "centos_Percona-Server-57_install_fail"
         exit 1
     fi
 
     export LANG="en_US.UTF-8"
     local version1=`yum info Percona-Server-server-57 | grep  Version | cut -d : -f 2 | tr -d "[:blank:]"`
     local repo=`yum info Percona-Server-server-57 | grep "From repo" | cut -d : -f 2 `
-    if [ $version1 = "5.7.17" -a $repo = "Estuary" ];then
+    if [ x"$version1" = x"5.7.17" -a x"$repo" = x"Estuary" ];then
         true
     else
         false
     fi
-    print_info $? "percona57 version"
+    print_info $? "percona57_version"
     export version="percona-$version1-$repo"
 
 }
@@ -57,7 +57,7 @@ function percona57_start(){
     ps -ef | grep mysqld | grep -v grep 
     if [ $? -eq 0 ];then
         mysql -e "update mysql.user set authentication_string=password($passwd) where user='root' and host='localhost' "
-        print_info $? "percona57 change native password"
+        print_info $? "percona57_change_native_password"
         mysqladmin shutdown
     else
         echo 
@@ -72,12 +72,12 @@ function percona57_password(){
 
     pswd="Hipassword123;"
     mysql -uroot -p$passwd -e "alter user 'root'@'localhost' identified by 'Hipassword123;'" --connect-expired-password
-    print_info $? "percona57 use 'alter user' change root password"
+    print_info $? "percona57_use_'alter_user'_change_root_password"
     mysql -uroot -p$pswd -e "set password for 'root'@'localhost' = password('123')"
     if [ $? -eq 0 ];then
-        print_info 1 "percona57 password does not satisfy the current policy requirements"
+        print_info 1 "percona57_password_does_not_satisfy_the_current_policy_requirements"
     else
-        print_info 0 "percona57 password does not satisfy the current policy requirements"
+        print_info 0 "percona57_password_does_not_satisfy_the_current_policy_requirements"
     fi 
     mysql -uroot -p$pswd -e "show plugins" | grep validate_password | grep -i active
     if [ $? -eq 0 ];then
@@ -85,14 +85,14 @@ function percona57_password(){
     else
         false
     fi
-    print_info $? "percon57 validate_password default active"
+    print_info $? "percon57_validate_password_default_active"
     mysql -uroot -p$pswd -e "show variables like '%password%'" | grep validate_password_policy | grep MEDIUM
     if [ $? -eq 0 ];then
         true
     else
         false
     fi
-    print_info $? "percon57 default password policy is MEDIUM"
+    print_info $? "percon57_default_password_policy_is_MEDIUM"
 
 
     grep "validate_password" /etc/percona-server.conf.d/mysqld.cnf 
@@ -105,7 +105,7 @@ validate_password=off
 eof
     fi 
     systemctl restart mysqld.service 
-    print_info $? "percon57 turnoff validate_password"
+    print_info $? "percon57_turnoff_validate_password"
 
     mysql -uroot -p$pswd -e "set password for 'root'@'localhost' =password('')"
     if [ $? -ne 0 ];then
@@ -123,16 +123,16 @@ function percona57_start_inner(){
         systemctl start mysqld.service
 
         if [ $? -eq 0 ];then
-            print_info $? "percona57 startd"
+            print_info $? "percona57_startd"
         else
-            print_info $? "percona57 startd"
+            print_info $? "percona57_startd"
             exit 1
         fi
 }
 
 function percona57_stop(){
     systemctl stop mysqld.service
-    print_info $? "percona57 stop server"
+    print_info $? "percona57_stop_server"
 }
 
 function percona57_remove(){
@@ -142,10 +142,10 @@ function percona57_remove(){
         kill -9 $pid
     fi
     rm -rf /var/lib/mysql/ 
-    print_info $? "percona57 clean up work dir "
+    print_info $? "percona57_clean_up_work_dir "
 
     yum remove -y Percona*
-    print_info $? "precona57 remove all application"
+    print_info $? "precona57_remove_all_application"
     
 }
 
@@ -174,7 +174,7 @@ function percona57_custom_init_passwd(){
     
     if [ ! -d ${basedir}/data/sys ];then 
         mysqld --defaults-file=${basedir}/my.cnf --initialize
-        print_info $? "percona57 initialize data"
+        print_info $? "percona57_initialize_data"
     fi
     
     #  默认是不会安装‘validate_password’插件的
@@ -186,7 +186,7 @@ function percona57_custom_init_passwd(){
     else
         false
     fi
-    print_info $? "percona57 start server by command and skip-grant-table"
+    print_info $? "percona57_start_server_by_command_and_skip-grant-table"
     
     local passwd="123"
     if [ $# -eq 1 ];then
@@ -194,11 +194,11 @@ function percona57_custom_init_passwd(){
     fi
 
     mysql --defaults-file=${basedir}/my.cnf -uroot -e "update mysql.user set authentication_string=password($passwd) where user='root' and host='localhost'"
-    print_info $? "percona57 update root password"
+    print_info $? "percona57_update_root_password"
     mysqladmin --defaults-file=${basedir}/my.cnf shutdown
     mysqld --defaults-file=${basedir}/my.cnf --daemonize 
     mysql --defaults-file=${basedir}/my.cnf  -uroot -p$passwd -e "alter user 'root'@'localhost' identified by '123'" --connect-expired-password
-    print_info $? "percona57 alter user root password"
+    print_info $? "percona57_alter_user_root_password"
 }
 
 function percona57_custom_start(){
@@ -227,7 +227,7 @@ function percona57_custom_stop(){
     else
         false
     fi
-    print_info $? "percon57 stop all server"
+    print_info $? "percon57_stop_all_server"
 
 }
 
@@ -239,7 +239,7 @@ function percona57_master(){
 
     ## node 我们这里是一台机器配置主从复制机制，
     mysql --defaults-file=${basedir}/my.cnf -uroot -p123 -e "create user $repluser@'localhost' identified by '123' ; grant replication slave on *.* to $repluser@'localhost'"
-    print_info $? "percon57 master create replication account"
+    print_info $? "percon57_master_create_replication_account"
     grep log_bin $basedir/my.cnf 
     if [ $? -eq 0 ];then
         sed -i s?.*log_bin.*?log_bin=mysql-bin? $basedir/my.cnf
@@ -249,7 +249,7 @@ function percona57_master(){
 log_bin=mysql-bin
 eof
     fi
-    print_info $? "percona57 master enable log_bin"
+    print_info $? "percona57_master_enable_log_bin"
     grep server-id $basedir/my.cnf
     if [ $? -eq 0 ];then
         sed -i s?.*server-id.*?server-id=$port? $basedir/my.cnf
@@ -259,7 +259,7 @@ eof
 server-id=$port
 eof
     fi 
-    print_info $? "percona57 master set server-id para"
+    print_info $? "percona57_master_set_server-id_para"
     mysqladmin --defaults-file=${basedir}/my.cnf shutdown -p123
     mysqld --defaults-file=${basedir}/my.cnf --daemonize 
     mysql --defaults-file=${basedir}/my.cnf -uroot -p123 -e "show master status"
@@ -277,7 +277,7 @@ function percona57_slave(){
 log_bin=mysql-bin
 eof
     fi
-    print_info $? "percona57 slave enable log_bin "
+    print_info $? "percona57_slave_enable_log_bin "
     grep server-id $basedir/my.cnf
     if [ $? -eq 0 ];then
         sed -i s?.*server-id.*?server-id=$port? $basedir/my.cnf
@@ -287,21 +287,21 @@ eof
 server-id=$port
 eof
     fi 
-    print_info $? "percona57 slave set server-id "
+    print_info $? "percona57_slave_set_server-id "
     mysqladmin --defaults-file=${basedir}/my.cnf shutdown -p123
 
     mysqld --defaults-file=${basedir}/my.cnf --daemonize
 
     mysql --defaults-file=${basedir}/my.cnf -uroot -p123 -e "change master to master_host='localhost',master_user='repl',master_password='123', \
         master_port=3310,master_log_file='mysql-bin.00001',master_log_pos=154"
-    print_info $? "percona57 slave change master to command"
+    print_info $? "percona57_slave_change_master_to_command"
     
     mysql --defaults-file=${basedir}/my.cnf  -uroot -p123 -e "start slave ; stop slave ; reset slave ; start slave" 
     sleep 3
     mysql --defaults-file=${basedir}/my.cnf  -uroot -p123 -e " show slave status\G" | tee slave.status
     
     grep -i  "slave_io_running" slave.status | grep -i yes &&  grep -i "slave_sql_running" slave.status | grep -i yes 
-    print_info $? "percona57 replication complication"
+    print_info $? "percona57_replication_complication"
 
 }
 

@@ -13,12 +13,29 @@ basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 . ../../lib/sh-test-lib
 . ../../utils/sys_info.sh
-
+. ../../utils/sshpasswd.sh 
 source ./spark.sh 
-
+source ./scala.sh 
 set -x
 
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
-spark_download
+scala_install 
+scala_env_path 
+scala_test_if
+scala_test_for 
+scala_test_string
+scala_test_collection
 
+spark_download
+#spark_login_no_passwd
+ssh_no_passwd
+#spark_slave_host
+spark_deploy_cluster
+spark_start_cluster
+
+spark_SparkContext_test
+spark_RDD_test 
+spark_sql_test
+
+#spark_stop_cluster
