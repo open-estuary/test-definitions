@@ -21,7 +21,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/php; ./phptest.sh; cd -"
+        - "cd auto-test/middleware/language/php; ./phptest.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

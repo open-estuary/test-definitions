@@ -17,7 +17,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/python; ./python.sh; cd -"
+        - "cd auto-test/middleware/language/python; ./python.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
