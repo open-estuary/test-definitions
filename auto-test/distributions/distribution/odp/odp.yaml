@@ -1,0 +1,32 @@
+metadata:
+    name: odp
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ODP有多种含义，Open Directory Project,即开放式分类目录搜索系统，是目前网上最大的人工编制的分类检索系统."
+    maintainer:
+        - shuangshengchen@qq.com
+    os:
+        - ubuntu
+        - debian
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - d03
+        - d05
+    level: 1
+
+params:
+    # Test if lshw able to report the classes pre-defined in ${CLASSES}.
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./auto-test/distributions/distribution/odp/
+        - ./odp.sh -s "${SKIP_INSTALL}" 
+        - cd -
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
