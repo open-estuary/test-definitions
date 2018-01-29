@@ -17,7 +17,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/docker; ./docker.sh; cd -"
+        - "cd auto-test/virtualization/docker; ./docker.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
