@@ -2,8 +2,12 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
+
+echo $basedir
 . ../../utils/sys_info.sh
 . ../../utils/sh-test-lib
+
+
 
 set -x
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
@@ -11,7 +15,6 @@ source ./hadoop.sh
 
 install_jdk
 install_hadoop
-
 hadoop_standalone
 
 hadoop_ssh_nopasswd

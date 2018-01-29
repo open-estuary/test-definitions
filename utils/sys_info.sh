@@ -73,7 +73,7 @@ print_info()
 
     test_name=$2
     echo "the result of $test_name is $result"
-    lava-test-case $test_name --result $result
+    lava-test-case "$test_name" --result $result
 }
 
 download_file()
