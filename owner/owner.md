@@ -22,18 +22,18 @@ tester    : liucaili
 ## deploy
 ### ubuntu
 ```
-developer : 
-tester    : 
+developer : linwenkai
+tester    : mahongxin
 ```
 ### centos
 ```
-developer : 
-tester    : 
+developer : linwenkai
+tester    : tanliqing
 ```
 ### debian
 ```
-developer : 
-tester    : 
+developer : linwenkai
+tester    : fangyuanzheng
 ```
 # bootloaders
 ## uefi
@@ -65,8 +65,8 @@ tester    : fangyuanzheng
 # apps
 ## bigdata
 ```
-developer : 
-tester    :
+developer : dingwei
+tester    : tanliqing
 ```
 ## e-commerce
 ```
@@ -75,8 +75,8 @@ tester    : fengliang
 ```
 ## performance
 ```
-developer : 
-tester    : 
+developer : yulijie
+tester    : mahongxin
 ```
 ## website
 ```
@@ -102,16 +102,16 @@ tester    : fangyuanzheng
 ```
 ## database
 ```
-developer : 
-tester    :
+developer : dingwei
+tester    : tanliqing
 ```
 ## language
 ```
-developer : 
-tester    :
+developer : liuxinliang
+tester    : liucaili
 ```
 ## server
 ```
-developer : 
-tester    :
+developer : wangyu
+tester    : mahongxin
 ```
