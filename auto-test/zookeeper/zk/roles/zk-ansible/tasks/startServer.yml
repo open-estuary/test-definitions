@@ -1,6 +1,0 @@
----
-
-
-
-- name: ensure zk is running
-  shell: '{{ zk_home }}/zookeeper-{{ zk_version }}/bin/zkServer.sh start'
