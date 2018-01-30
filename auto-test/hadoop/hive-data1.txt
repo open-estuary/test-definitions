@@ -1,9 +1,0 @@
-2;Lily;1991;Shanghai
-3;Jack;1992;Guangxi
-4;Jenny;1999;Xinjiang
-5;Jay;1995;Xizang
-6;Tom;1990;Beijing
-7;Lily;1991;Shanghai
-8;Jack;1992;Guangxi
-9;Jenny;1999;Xinjiang
-10;Jay;1995;Xizang

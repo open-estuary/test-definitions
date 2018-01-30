@@ -1,7 +1,0 @@
----
-# handlers file for zk-ansible
-#
-
-
-- name: restart zk
-  shell: '{{ zk_home }}/zookeeper-{{ zk_version }}/bin/zkServer.sh restart'
