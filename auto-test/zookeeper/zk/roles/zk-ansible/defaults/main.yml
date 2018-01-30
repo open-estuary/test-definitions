@@ -1,7 +1,0 @@
----
-# defaults file for zk-ansible
-
-zk_version: 3.4.11 
-zk_home: /var/bigdata/zookeeper 
-zk_cfg: zoo.cfg 
-zookeeper_package: http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-{{ zk_version }}/zookeeper-{{ zk_version }}.tar.gz 
