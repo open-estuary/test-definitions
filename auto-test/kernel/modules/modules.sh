@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../../lib/sh-test-lib
+. ../../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 LOG="${OUTPUT}/log"
 RESULT_FILE="${OUTPUT}/result"
