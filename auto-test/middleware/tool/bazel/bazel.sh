@@ -2,9 +2,9 @@
 
 set -x
 
-cd ../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+cd ../../../../utils
+.            ./sys_info.sh
+.            ./sh-test-lib
 cd -
 
 case "${distro}" in
