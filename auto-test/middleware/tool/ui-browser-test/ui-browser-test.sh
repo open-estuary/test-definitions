@@ -21,7 +21,7 @@
 # Author: Naresh Kamboju <naresh.kamboju@linaro.org>
 
 set -eu
-. ../../lib/sh-test-lib
+. ../../../../lib/sh-test-lib
 WD="$(pwd)"
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/ui-browser-test-results.txt"
