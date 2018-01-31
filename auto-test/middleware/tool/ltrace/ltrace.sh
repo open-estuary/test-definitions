@@ -4,8 +4,8 @@
 
 set -x
 
-cd ../../utils
-    . ./sys_info.sh
+cd ../../../../utils
+    .        ./sys_info.sh
 cd -
 
 # Test user id
