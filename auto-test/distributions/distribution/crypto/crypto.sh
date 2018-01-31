@@ -2,7 +2,7 @@
 #gtest is Google's Unit test tool
 # Author: mahongxin <hongxin_228@163.com>
 set -x
-cd ../../../utils
+cd ../../../../utils
 . ./sys_info.sh
 cd -
 

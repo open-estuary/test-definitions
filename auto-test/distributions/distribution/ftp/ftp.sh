@@ -39,7 +39,7 @@ vsftpd_execute()
 
 set -x
 
-cd ../../../utils
+cd ../../../../utils
     . ./sys_info.sh
 cd -
 #distro=`cat /etc/redhat-release | cut -b 1-6`

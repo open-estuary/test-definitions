@@ -1,5 +1,5 @@
 #!/bin/bash
-. ../../../lib/sh-test-lib
+. ../../../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/sysstat.txt"

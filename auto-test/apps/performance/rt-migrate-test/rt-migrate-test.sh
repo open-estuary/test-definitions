@@ -2,7 +2,7 @@
 # rt-migrate-test verifies the RT threads scheduler balancing.
 
 # shellcheck disable=SC1091
-. ../../../lib/sh-test-lib
+. ../../../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/rt-migrate-test.txt"
