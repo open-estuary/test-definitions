@@ -22,7 +22,7 @@ while getopts ":l:" opt; do
     esac
 done
 
-. "${TEST_DIR}/../../../lib/sh-test-lib"
+. "${TEST_DIR}/../../../../lib/sh-test-lib"
 
 ! check_root && error_msg "Please run this script as root."
 create_out_dir "${OUTPUT}"

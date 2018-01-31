@@ -4,7 +4,7 @@
 # Test suite source https://github.com/dmcgowan/dsdbench
 
 # shellcheck disable=SC1091
-. ../../../lib/sh-test-lib
+. ../../../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 TEST_SUITE="BENCHMARKS"
 RESULT_FILE="${OUTPUT}/result.txt"

@@ -6,7 +6,7 @@
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
 set -x
-cd ../../../utils
+cd ../../../../utils
     . ./sys_info.sh
 cd -
 
