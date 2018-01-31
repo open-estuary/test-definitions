@@ -5,26 +5,17 @@ metadata:
                   This will perform Basic MMC tests"
     maintainer:
         - shuangchengchen@qq.com
+        - fyuanz_2010@163.com
     os:
-        - debian
-        - ubuntu
         - centos
-        - fedora
-        - openembedded
-        - opensuse
     scope:
-        - functional
+        - peripheral
     devices:
-        - panda
-        - panda-es
-        - arndale
-        - beaglebone-black
-        - hi6220-hikey
-        - apq8016-sbc
+        - d05
 
 run:
     steps:
-        - cd ./auto-test/mmc
+        - cd ./auto-test/peripheral/mmc
         - ./mmc.sh
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:
