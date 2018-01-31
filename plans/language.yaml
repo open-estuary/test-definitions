@@ -19,24 +19,24 @@ metadata:
 
 tests:
   automated:
-    - path: auto-test/middleware/python/python.yaml
+    - path: auto-test/middleware/language/python/python.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/middleware/golang/golang.yaml
+    - path: auto-test/middleware/language/golang/golang.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/middleware/go-bindata/go-bindata.yaml
+    - path: auto-test/middleware/language/go-bindata/go-bindata.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/middleware/openjdk/openjdk-smoke.yaml
+    - path: auto-test/middleware/language/openjdk/openjdk-smoke.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/middleware/nodejs/nodejs.yaml
+    - path: auto-test/middleware/language/nodejs/nodejs.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/middleware/findbugs/findbugs.yaml
+    - path: auto-test/middleware/language/findbugs/findbugs.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/middleware/jmeter/jmeter.yaml
+    - path: auto-test/middleware/language/jmeter/jmeter.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
