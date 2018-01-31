@@ -2,7 +2,7 @@
 #Boots is a standard library for c++,portable,and available source code
 #Author mahongxin <hongxin_228@163.com>
 set -x
-cd ../../../utils
+cd ../../../../utils
 . ./sys_info.sh
 cd -
 

@@ -2,7 +2,7 @@
 # signaltest is a RT signal roundtrip test software.
 
 # shellcheck disable=SC1091
-. ../../../lib/sh-test-lib
+. ../../../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/signaltest.txt"

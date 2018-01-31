@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 set -x
-cd ../../../utils
+cd ../../../../utils
    . ./sh-test-lib
    . ./sys_info.sh
 cd -
