@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/middleware/twemproxy; ./twemproxy-test.sh; cd -"
+        - "cd auto-test/middleware/database/twemproxy; ./twemproxy-test.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
