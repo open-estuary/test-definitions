@@ -19,7 +19,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/middleware/mysql57-community; ./mysql57-community.sh; cd -"
+        - "cd auto-test/middleware/database/mysql57-community; ./mysql57-community.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

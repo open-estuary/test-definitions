@@ -15,7 +15,7 @@ metadata:
     level: 1
 run:
     steps:
-        - "cd auto-test/middleware/nginx-apache; ./nginx-apache.sh; cd - "
+        - "cd auto-test/middleware/database/nginx-apache; ./nginx-apache.sh; cd - "
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

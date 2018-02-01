@@ -21,7 +21,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/middleware/lapack/
+        - cd ./auto-test/apps/bigdata/lapack/
         - ./lapack.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
