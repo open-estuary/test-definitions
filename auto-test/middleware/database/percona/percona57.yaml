@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/middleware/percona; ./percona57-test.sh; cd -"
+        - "cd auto-test/middleware/database/percona; ./percona57-test.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
