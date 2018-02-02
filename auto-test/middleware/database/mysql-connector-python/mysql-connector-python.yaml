@@ -1,0 +1,29 @@
+
+metadata:
+    name: mysql-connector-python
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "MySQL Connector/Python enables Python programs to access MySQL
+                 databases, using an API that is compliant with the Python DB API
+                 version 2.0. It is written in pure Python and does not have any
+                 dependencies except for the Python Standard Library."
+    maintainer:
+        - liu_caili@hoperun.com
+    scope:
+        - database
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+    level: 1
+
+run:
+    steps:
+        - "cd auto-test/middleware/databases/mysql-connector-python; ./mysql-connector-python.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+
