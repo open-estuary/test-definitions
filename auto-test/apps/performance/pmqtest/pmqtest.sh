@@ -31,6 +31,7 @@ create_out_dir "${OUTPUT}"
 detect_abi
 ./bin/"${abi}"/pmqtest -S -l "${LOOPS}" | tee "${LOGFILE}"
 
+print_info $? start-pmqtest
 # Parse test log.
 tail -n "$(nproc)" "${LOGFILE}" \
     | sed 's/,//g' \
@@ -38,3 +39,6 @@ tail -n "$(nproc)" "${LOGFILE}" \
            {printf("t%s-avg-latency pass %s us\n", NR, $(NF-2))};
            {printf("t%s-max-latency pass %s us\n", NR, $NF)};'  \
     | tee -a "${RESULT_FILE}"
+print_info $? posix-max
+print_info $? posix-avg
+print_info $? posix-min

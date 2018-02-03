@@ -71,5 +71,14 @@ else
 fi
 rm netperf-client64.log
 rm netperf-client1024.log
-pkill netserver
+case $distro in
+    "centos")
+        yum remove netperf -y
+        print_info $? remove-netperf
+        ;;
+    "ubuntu")
+        yum remove netperf -y
+        print_info $? remove-netperf
+        ;;
+esac
 

@@ -18,25 +18,31 @@ fi
 case $distro in
     "centos")
          wget http://htsat.vicp.cc:804/libev-3.7.tar.gz
+         print_info $? get-libev
          tar -zxvf libev-3.7.tar.gz
+         print_info $? tar-libev
          cd libev-3.7
          ./configure --build=arm-linux
          make
          make install
          wget http://htsat.vicp.cc:804/weighttp-master.tar.gz
+         print_info $? wget-weighttp
          tar -zxvf weighttp-master.tar.gz
+         print_info $? tar-weighttp
          cd weighttp-master
          echo "/usr/local/lib" >> /etc/ld.so.conf
          /sbin/ldconfig
          ./waf configure
          ./waf build
          ./waf install
+         print_info $? install-weighttp
          ;;
 esac
 
 #Test ' weighttp server'
 TCID="weighttp-test"
 weighttp -n 1 -k http://192.168.1.107  2>&1 | tee weighttp.log
+print_info $? test-weighttp
 str=`grep -Po "0 failed" weighttp.log`
 if [ "$str" != "" ] ; then
     lava-test-case $TCID --result pass

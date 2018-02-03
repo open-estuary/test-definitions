@@ -33,18 +33,22 @@ case "${dist}" in
             SOURCE="Estuary"
             pkgs="libbson libbson-devel"
             install_deps "${pkgs}" "${SKIP_INSTALL}"
+            print_info $? install-libbson-devel
+            print_info $? install-libbson
             v=$(yum info libbson | grep "^Version" | awk '{print $3}')
             if [ $v = ${version} ];then
                 echo "libbson version is $v: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "libbson version is $v: [FAIL]" | tee -a "${RESULT_FILE}"
             fi
+            print_info $? libbson-version
             s=$(yum info libbson | grep "^From repo" | awk '{print $4}')
             if [ $s = ${SOURCE} ];then
                 echo "libbson source is $s: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "libbson source is $s: [FAIL]" | tee -a "${RESULT_FILE}"
             fi
+            print_info $? libbson-source
 
             v=$(yum info libbson-devel | grep "^Version" | awk '{print $3}')
             if [ $v = ${version} ];then
@@ -52,19 +56,26 @@ case "${dist}" in
             else
                 echo "libbson-devel version is $v: [FAIL]" | tee -a "${RESULT_FILE}"
             fi
+            print_info $? libbson-dever-version
             s=$(yum info libbson-devel | grep "^From repo" | awk '{print $4}')
             if [ $s = ${SOURCE} ];then
                 echo "libbson-devel source is $s: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "libbson-devel source is $s: [FAIL]" | tee -a "${RESULT_FILE}"
             fi
+            print_info $? libbson-devel-source
             ;;
 esac
 install_pkg-config
+print_info $? install-pkg-config
 cp ../hello_bson.c .
 gcc -o hello_bson hello_bson.c $(pkg-config --cflags --libs libbson-1.0 ) | tee "${LOGFILE}"
+print_info $? complie-cpp
 command="./hello_bson | grep  'bson'"
 skip_list="execute_binary"
 run_test_case "${command}" "${skip_list}"
+print_info $? run-bson
 remove_pkg "${pkgs}"
+print_info $? remove-bson
 rm -rf pkg-config-0.29.2
+print_info $? remove-pkg

@@ -66,7 +66,6 @@ esac
 vsftpd_execute start
 vsftpd_execute restart
 vsftpd_execute stop
-
 #process=$(vsftpd_op status | grep "running")
 #if [ "$process"x != ""x  ]; then
  #   vsftpd_op stop
