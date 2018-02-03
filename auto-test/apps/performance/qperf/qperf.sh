@@ -82,5 +82,6 @@ case $distro in
         ;;
     "centos")
        yum remove qperf -y
+       print_info $? remove-package
        ;;
 esac

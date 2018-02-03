@@ -41,6 +41,7 @@ case $distro in
      fi
  fi
 
+print_info $? source-perf
  vers=$(yum info $P | grep "Version" | awk '{print $3}')
  if [ "$vers" = "$version"  ];then
      echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
@@ -48,7 +49,7 @@ case $distro in
      echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
  fi
 done
-
+print_info $? perf-version
 # check the hisi perf 
 perf list |grep hisi*
 print_info $? hisi_*

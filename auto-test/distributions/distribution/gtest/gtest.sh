@@ -18,12 +18,14 @@ case $distro in
         yum install gcc-c++ -y
         yum install git -y
         git clone https://github.com/google/googletest.git
+        print_info $? install-gtest
         ;;
 esac
 cp Makefile googletest/googletest/samples
 cd googletest/googletest/samples
 make
 ./run_test
+print_info $? compile-gtest
 touch sqrt.h
 chmod 777 sqrt.h
 touch sqrt.cpp
@@ -92,7 +94,9 @@ TEST(SQRTTest,Negative){
 EOF
 make clean
 make
+print_info $? compile-cpp
 ./run_test
+print_info $? run-cpp
 file1="./sqrt.o"
 file2="./sqrt_unittest.o"
 TCID="gtest-testing"
@@ -101,4 +105,9 @@ if [ -f "$file1" ] && [ -f "$file2" ];then
 else
     lava-test-case $TCID --result fail
 fi
-
+case $distro in
+    "centos")
+        yum remove gcc gcc-c++ git -y
+        print_info $? remove-pkgs
+        ;;
+esac

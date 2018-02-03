@@ -29,11 +29,12 @@ create_disklabel() {
     echo
     echo "Creating ${DEVICE} disklabel: ${DISKLABEL}"
     umount "${DEVICE}*" > /dev/null 2>&1
+    print_info $? format-disk
     # If mklabel fails, skip the following tests.
     skip_list="create-partition format-partition mount-partition umount-partition"
     parted -s "${DEVICE}" mklabel "${DISKLABEL}"
     exit_on_fail "create-disklabel" "${skip_list}"
-
+    print_info $? creat-disklable
     sync
     sleep 10
 }
@@ -44,7 +45,7 @@ create_partition() {
     skip_list="format-partition mount-partition umount-partition"
     parted -s "${DEVICE}" mkpart primary 0% 100%
     exit_on_fail "create-partition" "${skip_list}"
-
+    print_info $? creat-partition
     sync
     sleep 10
 }
@@ -59,6 +60,7 @@ format_partition() {
         echo "y" | mkfs -t "${FILESYSTEM}" "${DEVICE}1"
     fi
     exit_on_fail "format-partition" "${skip_list}"
+    print_info $? format-partition
 
     sync
     sleep 10
@@ -71,9 +73,11 @@ disk_mount() {
     skip_list="umount-partition"
     mount "${DEVICE}1" /mnt
     exit_on_fail "mount-partition" "${skip_list}"
+    print_info $? mount-disk
 
     umount "${DEVICE}1"
     check_return "umount-partition"
+    print_info $? umount-disk
 }
 
 # Test run.

@@ -26,6 +26,7 @@ done
 
 ! check_root && error_msg "Please run this script as root."
 install_deps "gzip" "${SKIP_INSTALL}"
+print_info $? install-pkgs
 create_out_dir "${OUTPUT}"
 
 # Check kernel config.
@@ -34,6 +35,7 @@ if [ -f "/proc/config.gz" ]; then
 elif [ -f "/boot/config-$(uname -r)" ]; then
     test_cmd="grep CONFIG_RCU_TORTURE_TEST=m /boot/config-$(uname -r)"
 fi
+print_info $? check-kernel
 if [ -n "${test_cmd}" ]; then
     tc_id="check-kernel-config"
     skip_list="modprobe-rcutorture rctorture-start rmmod-rcutorture rcutorture-end"
@@ -64,7 +66,7 @@ test_cmd="rmmod rcutorture"
 tc_id="rmmod-rcutorture"
 skip_list="rcutorture-end"
 run_test_case "${test_cmd}" "${tc_id}" "${skip_list}"
-
+print_info $? load-rcutorture
 # Check if rcutoruture test finished successfully.
 sleep 10
 dmesg > "${LOGFILE}"
@@ -74,3 +76,6 @@ else
     report_fail "rcutorture-end"
     cat "${LOGFILE}"
 fi
+print_info $? cat-rcutorture
+remove_deps "gzip"
+print_info $? remove-pkgs

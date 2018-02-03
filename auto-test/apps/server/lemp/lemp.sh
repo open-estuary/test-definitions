@@ -36,7 +36,7 @@ case "${distro}" in
 	        pkgs="nginx mysql-server php php-mysql php-common libapache2-mod-php curl php7.0-fpm"
         fi
         install_deps "${pkgs}"
-
+        print_info $? install-pkgs
         # Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
 
@@ -59,7 +59,7 @@ case "${distro}" in
         [ "$(uname -m)" = "x86_64" ] && install_deps "epel-release"
         pkgs="nginx mariadb-server mariadb php php-mysql php-fpm curl"
         install_deps "${pkgs}"
-
+        print_info $? install-pkgs
         # Stop apache server in case it is installed and running.
         systemctl stop httpd.service > /dev/null 2>&1 || true
 
