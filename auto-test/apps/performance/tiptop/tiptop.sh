@@ -21,6 +21,7 @@ install_tiptop() {
                 echo "${PACKAGE} install: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? install-pkgs
             version=$(yum info ${PACKAGE} | grep "^Version" | awk '{print $3}')
             if [ ${version} = ${VERSION} ];then
                 echo "${PACKAGE} version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
@@ -28,6 +29,7 @@ install_tiptop() {
                 echo "${PACKAGE} version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? tiptop-version
             sourc=$(yum info ${PACKAGE} | grep "^From repo" | awk '{print $4}')
             if [ ${sourc} = ${SOURCE} ];then
                 echo "${PACKAGE} source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
@@ -35,6 +37,7 @@ install_tiptop() {
                 echo "${PACKAGE} source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? tiptop-source
             ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
@@ -47,5 +50,5 @@ else
     echo "${PACKAGE} remove: [FAIL]" | tee -a "${RESULT_FILE}"
     exit 1
 fi
-
+print_info $? remove-pkgs
 

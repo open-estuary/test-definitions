@@ -15,6 +15,7 @@ fi
 case $distro in
     "centos")
         yum install net-tools.aarch64 -y
+        print_info $? install-pkgs
         ;;
 esac
 
@@ -24,7 +25,7 @@ INTERFACE="eth0"
 ip addr
 # Print given network interface status
 ip addr show "${INTERFACE}"
-
+print_info $? show-interface
 # Get IP address of a given interface
 IP_ADDR=$(ip addr show "${INTERFACE}" | grep -a2 "state UP" | tail -1 | awk '{print $2}' | cut -f1 -d'/')
 TCID="test-IP"
@@ -35,7 +36,7 @@ else
 fi
 # Get default Route IP address of a given interface
 ROUTE_ADDR=$(ip route list  | grep default | awk '{print $3}' | head -1)
-
+print_info $? eht0-ip
 # Run the test
 ping -c 5 ${ROUTE_ADDR} 2>&1 | tee ether.log
 str="0% packet loss"
@@ -45,3 +46,9 @@ if [ "$str" != "" ] ; then
 else
     lava-test-case $TCID1 --result pass
 fi
+case $distro in
+    "centos")
+        yum remove net-tools.aarch64 -y
+        print_info $? remove net-tools
+        ;;
+esac

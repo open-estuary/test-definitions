@@ -18,12 +18,15 @@ fi
 case $distro in
     "centos")
          wget http://htsat.vicp.cc:804/yaml-cpp-yaml-cpp-0.5.3.tar.gz
+         print_info $? wget-yaml-cpp
          tar -zxvf yaml-cpp-yaml-cpp-0.5.3.tar.gz
+         print_info $? tar-yaml-cpp
          yum install cmake* -y
          yum install boost* -y
          cd yaml-cpp-yaml-cpp-0.5.3
          cmake -DBUILD_SHARED_LIBS=ON
          make
+         print_info $? compile-yaml-cpp
          ;;
 esac
 mkdir test3
@@ -110,6 +113,7 @@ cd /usr/lib
 ln -s libyaml-cpp.so libyaml-cpp.so.0.5
 cd /root/test-definitions/auto-test/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3/test3
 g++ -g -o test test.cpp -I ../include/ ../libyaml-cpp.so
+print_info $? compile-cpp
 ./test 2>&1 |tee yaml-cpp.log
 TCID="yaml-cpp-test"
 str=`grep -Po "name: Default task" yaml-cpp.log`
@@ -118,3 +122,5 @@ if [ "$str" != "" ];then
 else
     lava-test-case $TCID --result fail
 fi
+rm -rf yaml-cpp-yaml-cpp-0.5.3
+print_info $? remove-pkgs

@@ -19,6 +19,7 @@ case $distro in
         yum install snappy.aarch64 -y
         yum install gcc-c++ -y
         yum install libtool -y
+        print_info $? install-snappy
          ;;
 esac
 cat <<EOF >>./a.cpp
@@ -36,7 +37,9 @@ int main(){
 EOF
 libtool --mode=compile g++ -c a.cpp
 libtool --mode=link g++ -o test a.lo /usr/lib64/libsnappy.so.1
+print_info $? compile-gcc
 ./test >> snappy.log
+print_info $? run-cpp
 TCID="snappy-test"
 str=`grep -Po "error" snappy.log`
 if [ "$str" != "" ] ; then
@@ -45,5 +48,12 @@ else
     lava-test-case $TCID --result pass
 fi
 rm snappy.log
-pkill snappy
+print_info $? end-test
+case $distro in
+    "centos")
+        yum remove snappy.aarhc64 -y
+        yum remove gcc-c++ libtool -y
+        print_info $? remove-pkg
+        ;;
+esac
 

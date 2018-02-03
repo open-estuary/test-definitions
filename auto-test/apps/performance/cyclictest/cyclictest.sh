@@ -38,7 +38,11 @@ detect_abi
 # shellcheck disable=SC2154
 ./bin/"${abi}"/cyclictest -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" \
     -l "${LOOPS}" | tee "${LOGFILE}"
-
+print_info $? priority-test
+print_info $? minimum-delay
+print_info $? biggest-delay
+print_info $? average-delay
+print_info $? recent-delay
 # Parse test log.
 tail -n "${THREADS}" "${LOGFILE}" \
     | sed 's/T:/T: /' \

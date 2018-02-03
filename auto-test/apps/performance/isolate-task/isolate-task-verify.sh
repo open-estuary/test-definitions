@@ -20,9 +20,11 @@ while getopts "c:s:t:" o; do
 done
 
 [ -z "${CPUS}" ] && usage
+print_info $? check-cmdiline
 [ -z "${SKIP_INSTALL}" ] && usage
+print_info $? check-cpu
 [ -z "${GIT_TAG}" ] && usage
-
+print_info $? isolation-cpu
 . ../../../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
@@ -33,11 +35,14 @@ create_out_dir "${OUTPUT}"
 
 if [ "${SKIP_INSTALL}" = "false" ] || [ "${SKIP_INSTALL}" = "False" ]; then
     install_deps "git stress cpuset gzip"
+    print_info $? install-pkgs
     git clone git://git.linaro.org/lng/task-isolation.git
 fi
 
 cd task-isolation
 git checkout tags/"${GIT_TAG}" -b "${GIT_TAG}"
 ./isolate-task.sh -v -c "${CPUS}" sleep "10" 2>&1 | tee "${TEST_LOG}"
-
+print_info $? tracking-isolation
 grep TEST_ISOLATION_CORE_ "${TEST_LOG}" > "${RESULT_FILE}"
+remove_deps "git stress cpuset gzip"
+print_info $? remove-pkgs

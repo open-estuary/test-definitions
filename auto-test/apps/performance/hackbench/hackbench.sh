@@ -51,7 +51,12 @@ for i in $(seq "${ITERATION}"); do
     info_msg "Running iteration [$i/${ITERATION}]"
     # shellcheck disable=SC2154
     ./bin/"${abi}"/hackbench "${OPTS}" 2>&1 | tee -a "${TEST_LOG}"
+
 done
+print_info $? average-test
+print_info $? biggest-test
+print_info $? minimum-test
+print_info $? iteration-1000
 
 # Parse output.
 grep "^Time" "${TEST_LOG}" \
