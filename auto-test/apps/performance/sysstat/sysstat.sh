@@ -31,6 +31,7 @@ install() {
                 echo "sysstat install: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? install-pkgs
             version=$(yum info sysstat | grep "^Version" | awk '{print $3}')
             if [ ${version} = ${VERSION} ];then
                 echo "syssta version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
@@ -38,6 +39,7 @@ install() {
                 echo "syssta version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? sys-version
             sourc=$(yum info sysstat | grep "^From repo" | awk '{print $4}')
             if [ ${sourc} = ${SOURCE} ];then
                 echo "syssta source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
@@ -45,17 +47,24 @@ install() {
                 echo "syssta source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? sys-source
             ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
 sysstat_test() {
     /usr/lib64/sa/sadc  1 10 sa000
+    print_info $? sadc-test
     sar -f sa000 | tee -a ${LOG_FILE}
+    print_info $? sar-cpu
     sar -u  1 5 | tee -a ${LOG_FILE}
+    print_info $? sar-network
     sar -n DEV 2 5 | tee -a ${LOG_FILE}
+    print_info $? sar-io
     iostat -x | tee -a  ${LOG_FILE}
+    print_info $? iostat-test
     mpstat 2 10 | tee -a ${LOG_FILE}
+    print_info $? mpstat-test
 }
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
@@ -63,3 +72,5 @@ cd "${OUTPUT}"
 
 install
 sysstat_test
+remove_deps "sysstat"
+print_info $? remove-sysstat

@@ -20,12 +20,14 @@ case $distro in
 "centos")
      yum install make -y
      wget ftp://ftp.hpl.hp.com/pub/httperf/httperf-0.9.0.tar.gz
+     print_info $? wget-httperf
      tar -zxvf httperf-0.9.0.tar.gz
+     print_info $? tar-httperf
      cd httperf-0.9.0
      ./configure --build=arm-linux
      make
      make install
-     print_info $? install-package
+     print_info $? install-httperf
      ;;
  "ubuntu")
      apt-get install httperf -y

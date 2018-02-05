@@ -115,10 +115,12 @@ install() {
       debian|ubuntu)
         pkgs="binutils gcc make python sed tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
+        print_info $? install-pkgs
         ;;
       fedora|centos)
         pkgs="binutils gcc glibc-static make python sed tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
+        print_info $? install-pkgs
         ;;
     esac
 }
@@ -167,9 +169,12 @@ else
     # Build libhugetlbfs tests
     libhugetlbfs_build_test
 fi
-
+print_info $? build-test
 # Run libhugetlbfs tests
 libhugetlbfs_run_test
-
+print_info $? run-test
 # Unmount libhugetlbfs mount point
 libhugetlbfs_cleanup
+print_info $? clean-test
+remove_deps "${pkgs}"
+print_info $? remove-pkgs

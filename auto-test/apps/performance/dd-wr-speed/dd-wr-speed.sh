@@ -144,10 +144,12 @@ info_msg "Output directory: ${OUTPUT}"
 
 pkgs="e2fsprogs dosfstools"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
-
+print_info $? install-pkgs
 prepare_partition
 info_msg "dd test directory: $(pwd)"
 dd_write
 parse_output "dd-write"
+print_info $? dd-write
 dd_read
 parse_output "dd-read"
+print_info $? dd-read

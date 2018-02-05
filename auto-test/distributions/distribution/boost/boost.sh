@@ -19,7 +19,9 @@ case $distro in
         yum install wget -y
         print_info $? install-package
         wget http://192.168.1.107/boost_1_63_0.tar.gz
+        print_info $? get-boost
         tar -zxvf boost_1_63_0.tar.gz
+        print_info $? tar-boost
         cd boost_1_63_0
         sudo ./bootstrap.sh
         ./b2 install

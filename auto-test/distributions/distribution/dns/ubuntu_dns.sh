@@ -11,6 +11,7 @@ fi
 case $distro in
     "ubuntu")
         apt-get install bind9 -y;
+        print_info $? install-dns
         ;;
 esac
 cat << EOF >> /etc/bind/named.conf.local
@@ -52,17 +53,19 @@ cat << EOF >> /etc/bind/zones/rev.1.168.192.in-addr.arpa
 90 IN PTR mail.tonv.my.
 EOF
 service bind9 restart
+print_info $? start-dns
 board_ip=`ifconfig |grep "inet"|cut -c21-34|head -n 1`
 #sed -i '1i \nameserver 192.168.1.254' /etc/resolv.conf
 sed -i "1i nameserver ${board_ip}" /etc/resolv.conf
 service bind9 restart
-throu=`host www.tonv.my|grep -Po "has address"`
-
+dig host www.tonv.my |grep -Po "has address"
+print_info $? forward-dns
+dig 192.168.1.70 2>&1 | tee -a dig.log
+print_info $? reverse-dns
 #throu = `grep -Po "192.168.1.70" nfs.log`
-TCID="ubuntu_dns test"
-if [ "$throu" != "" ]; then
-    lava-test-case $TCID --result pass
-else
-    lava-test-case $TCID --result fail
-fi
-
+case $distro in
+    "ubuntu")
+        apt-get remove bind9 -y;
+        print_info $? remove-package
+        ;;
+esac
