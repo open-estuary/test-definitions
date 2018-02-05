@@ -11,9 +11,9 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../lib/sh-test-lib
-. ../../utils/sys_info.sh
-. ../../utils/sshpasswd.sh 
+. ../../../../lib/sh-test-lib
+. ../../../../utils/sys_info.sh
+. ../../../../utils/sshpasswd.sh 
 source ./spark.sh 
 source ./scala.sh 
 set -x
