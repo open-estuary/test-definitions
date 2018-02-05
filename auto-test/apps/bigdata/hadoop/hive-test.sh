@@ -7,8 +7,8 @@ basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 export basedir
 
-. ../../utils/sys_info.sh
-. ../../utils/sh-test-lib
+. ../../../../utils/sys_info.sh
+. ../../../../utils/sh-test-lib
 
 . ./hive.sh
 
