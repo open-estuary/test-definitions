@@ -4,9 +4,8 @@ basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 
 echo $basedir
-. ../../utils/sys_info.sh
-. ../../utils/sh-test-lib
-
+. ../../../../utils/sys_info.sh
+. ../../../../utils/sh-test-lib
 
 
 set -x
