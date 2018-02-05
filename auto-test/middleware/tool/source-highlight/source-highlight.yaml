@@ -22,7 +22,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/middleware/source-highlight/
+        - cd ./auto-test/middleware/tool/source-highlight
         - ./source-highlight.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:

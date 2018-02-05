@@ -20,7 +20,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/middleware/toolchain-smoke/
+        - cd ./auto-test/middleware/tool/toolchain-smoke
         - ./toolchain-smoke.sh -s ${SKIP_INSTALL} -t ${STATIC}
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

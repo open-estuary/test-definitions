@@ -21,7 +21,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/middleware/grafana/
+        - cd ./auto-test/middleware/tool/grafana
         - ./grafana.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:
