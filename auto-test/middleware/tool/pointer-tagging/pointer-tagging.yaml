@@ -21,7 +21,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/middleware/pointer-tagging/
+        - cd ./auto-test/middleware/tool/pointer-tagging
         - ./pointer-tagging.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:
