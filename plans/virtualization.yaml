@@ -19,21 +19,24 @@ metadata:
 
 tests:
   automated:
-    - path: auto-test/hhvm/hhvm.yaml
+    - path: auto-test/virtualization/hhvm/hhvm.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/docker/docker.yaml
+    - path: auto-test/virtualization/docker/docker.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/lxc/lxc.yaml
+    - path: auto-test/virtualization/lxc/lxc.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/qemu/qemu.yaml
+    - path: auto-test/virtualization/qemu/qemu.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/pipework/pipework.yaml
+    - path: auto-test/virtualization/pipework/pipework.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
-    - path: auto-test/etcd/etcd.yaml
+    - path: auto-test/virtualization/etcd/etcd.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/virtualization/ovs/ovs.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 900
