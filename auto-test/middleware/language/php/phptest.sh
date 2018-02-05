@@ -33,7 +33,7 @@ case "${distro}" in
 		print_info $? start-php-fpm
 
 		# Configure NGINX for PHP.
-		cp ../../utils/centos-nginx.conf /etc/nginx/conf.d/default.conf
+		cp ../../../../utils/centos-nginx.conf /etc/nginx/conf.d/default.conf
 		print_info $? configure-nginx
 		systemctl stop httpd.service > /dev/null 2>&1 || true
 		;;
@@ -53,7 +53,7 @@ case "${distro}" in
 
         # Configure NGINX for PHP.
         mv -f /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-        cp ../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
+        cp ../../../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
 		print_info $? configure-php
         ;;
     *)
