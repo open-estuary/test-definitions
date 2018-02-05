@@ -15,7 +15,7 @@ metadata:
 
 run:
     steps:
-        - cd auto-test/middleware/blktrace
+        - cd auto-test/middleware/tool/blktrace
         - ./blktrace.sh ;;
         - esac
         - ../../utils/send-to-lava.sh ./output/result.txt
