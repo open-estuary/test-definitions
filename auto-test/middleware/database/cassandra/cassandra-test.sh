@@ -11,8 +11,8 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../lib/sh-test-lib
-. ../../utils/sys_info.sh
+. ../../../../lib/sh-test-lib
+. ../../../../utils/sys_info.sh
 
 source ./cassandra.sh 
 set -x

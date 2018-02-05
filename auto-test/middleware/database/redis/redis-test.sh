@@ -15,8 +15,8 @@ export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../utils/sys_info.sh
-. ../../utils/sh-test-lib
+. ../../../../utils/sys_info.sh
+. ../../../../utils/sh-test-lib
 
 source ./redis.sh 
 
