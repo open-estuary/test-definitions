@@ -4,8 +4,8 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../utils/sh-test-lib
-. ../../utils/sys_info.sh
+. ../../../../utils/sh-test-lib
+. ../../../../utils/sys_info.sh
 
 source ./mongocdriver.sh 
 source ./mongodb.sh 
