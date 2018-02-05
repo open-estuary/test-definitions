@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/middleware/devlibset-4; ./devlibset-4.sh; cd -"
+        - "cd auto-test/middleware/tool/devlibset-4; ./devlibset-4.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

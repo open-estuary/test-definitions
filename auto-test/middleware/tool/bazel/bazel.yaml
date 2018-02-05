@@ -18,7 +18,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/middleware/bazel; ./bazel.sh; cd -"
+        - "cd auto-test/middleware/tool/bazel; ./bazel.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
