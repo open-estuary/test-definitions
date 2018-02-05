@@ -15,7 +15,7 @@ metadata:
 
 run:
     steps:
-        - cd auto-test/middleware/nicstat
+        - cd auto-test/middleware/tool/nicstat
         - ./nicstat.sh ;;
         - esac
         - ../../utils/send-to-lava.sh ./output/result.txt

@@ -11,16 +11,16 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
-version="1.8.1"
+version="0.3"
 from_repo="Estuary"
-package="devtoolset-4-golang"
-
+package="libbcc"
 for P in ${package};do
     echo "$P install"
+
 case $distro in
     "centos" )
          yum install -y $P
-         print_info $? devtoolset-4-golang
+         print_info $? $P
          ;;
  esac
 
@@ -29,16 +29,16 @@ from=$(yum info $P | grep "From repo" | awk '{print $4}')
 if [ "$from" = "$from_repo"  ];then
     echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
 else
-    rmflag=1
-    if [ "$from" != "Estuary"  ];then
-        yum remove -y $P
-        yum install -y $P
-        from=$(yum info $P | grep "From repo" | awk '{print $4}')
-        if [ "$from" = "$from_repo"   ];then
-            echo "$P install  [pass]" | tee -a ${RESULT_FILE}
-        else
-            echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
-        fi
+   rmflag=1
+   if [ "$from" != "Estuary"  ];then
+   yum remove -y $P
+   yum install -y $P
+   from=$(yum info $P | grep "From repo" | awk '{print $4}')
+      if [ "$from" = "$from_repo"   ];then
+          echo "$P install  [pass]" | tee -a ${RESULT_FILE}
+      else
+          echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
+      fi
     fi
 fi
 
