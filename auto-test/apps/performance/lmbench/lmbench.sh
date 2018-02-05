@@ -14,6 +14,7 @@ bandwidth_test() {
           | awk -v test_case="memory-${test}-bandwidth" \
             '{printf("%s pass %s MB/s\n", test_case, $2)}' \
           | tee -a "${RESULT_FILE}"
+          print_info $? ${test_case}
     done
 }
 
@@ -46,3 +47,4 @@ create_out_dir "${OUTPUT}"
 detect_abi
 bandwidth_test
 latency_test
+print_info $? latency-test

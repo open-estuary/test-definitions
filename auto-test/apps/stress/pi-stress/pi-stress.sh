@@ -48,4 +48,5 @@ detect_abi
 trap '' TERM
 # shellcheck disable=SC2154
 ./bin/"${abi}"/pi_stress --duration "${DURATION}" "${MLOCKALL}" "${RR}"
+print_info $? pi-stress
 check_return 'pi-stress'

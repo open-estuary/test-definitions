@@ -19,7 +19,9 @@ case $distro in
         yum install make -y
         yum install unzip -y
         wget http://192.168.1.107/cryptopp-CRYPTOPP_5_6_5.zip
+        print_info $? get-crypto
         unzip cryptopp-CRYPTOPP_5_6_5.zip
+        print_info $? unzip-crypto
         ;;
 esac
 cd cryptopp-CRYPTOPP_5_6_5
@@ -136,6 +138,7 @@ g++ -lcryptopp -lpthread Cryptopp_test.cc -o Cryptopp_test
 export LD_LIBRARY_PATH=/lib:$LD_LIBRARY_PATH
 sudo ldconfig
 ./Cryptopp_test >> crytest.log
+print_info $? compile-cpp
 str=`grep -Po "Encrypted Text" crytest.log`
 TCID="crypto-policies-test"
 if [ "$str" != "" ];then
@@ -143,4 +146,9 @@ if [ "$str" != "" ];then
 else
     lava-test-case $TCID --result fail
 fi
-
+case $distro in
+     "centos")
+         yum remove gcc gcc-c++ make -y
+         print_info $? remove-package
+         ;;
+esac

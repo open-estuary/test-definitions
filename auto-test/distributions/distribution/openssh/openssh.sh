@@ -61,13 +61,12 @@ expect "sftp>"
 send "quit\r"
 expect eof
 EOF
-print_info $? get-put-test
 if [ $(find . -maxdepth 1 -name "$FTP_GET_LOG")x != ""x ]; then
     lava-test-case sftp-download --result pass
 else
     lava-test-case sftp-download --result fail
 fi
-
+print_info $? download-test
 cd -
 
 cd ~
@@ -78,6 +77,7 @@ else
     lava-test-case sftp-upload --result fail
 fi
 
+print_info $? upload-test
 rm -rf tmp
 case $distro in
     "ubuntu")

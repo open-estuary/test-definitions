@@ -29,6 +29,7 @@ detect_abi
 # shellcheck disable=SC2154
 ./bin/"${abi}"/rt-migrate-test -l "${LOOPS}" | tee "${LOGFILE}"
 
+print_info $? rt-test-100
 # Parse test log.
 task_num=$(grep "Task" "${LOGFILE}" | tail -1 | awk '{print $2}')
 for t in $(seq 0 "${task_num}"); do
