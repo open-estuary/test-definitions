@@ -22,7 +22,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/middleware/lttng-modules/
+        - cd ./auto-test/middleware/tool/lttng-modules
         - ./lttng-modules.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:
