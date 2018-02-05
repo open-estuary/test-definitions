@@ -98,6 +98,7 @@ stress_ng()
         check_return stress-ng-"$i"
         count=$(( count + 1 ))
     done
+    print_info $? stress-ng
 }
 
 stress_oom()
@@ -138,6 +139,7 @@ stress_oom()
         echo "Failed to active oom-killer."
         report_fail "stress-oom-test"
     fi
+    print_info $? stress-oom
 }
 
 stress_network()
@@ -216,6 +218,7 @@ stress_network()
     done
 
     kill "$stress_ng_hdd"
+    print_info $? stress-network
 }
 
 ## Setup environment and run tests.

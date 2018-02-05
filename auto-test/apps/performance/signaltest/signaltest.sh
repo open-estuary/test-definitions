@@ -41,3 +41,6 @@ tail -n 1 "${LOGFILE}" \
            {printf("avg-latency pass %s us\n", $(NF-2))};
            {printf("max-latency pass %s us\n", $NF)};'  \
     | tee -a "${RESULT_FILE}"
+print_info $? RT-min
+print_info $? RT-avg
+print_info $? RT-max

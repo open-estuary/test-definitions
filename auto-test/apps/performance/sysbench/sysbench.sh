@@ -48,6 +48,7 @@ install_sysbench() {
         ./configure --without-mysql
     fi
     make install
+    print_info $? install-sysbench
     cd ../
 }
 remove_sysbench() {
@@ -71,6 +72,7 @@ else
     case "${dist}" in
         debian|ubuntu)
             install_deps "git build-essential automake libtool"
+            print_info $? install-pkgs
             if echo "${TESTS}" | grep "oltp"; then
                 install_deps "libmysqlclient-dev mysql-server"
                 systemctl start mysql
@@ -90,6 +92,7 @@ else
                 echo "sysbench version is $v: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? sysbench-version
             repo=yum info sysbench | grep "^From repo" | awk '{print $4}'
             if [ $repo = "Estuary"];then
                 echo "sysbench source is ${repo}: [PASS]" | tee -a "${RESULT_FILE}"
@@ -97,6 +100,7 @@ else
                 echo "sysbench source is ${repo}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? sysbench-repo
             ;;
         opensuse)
             install_deps "git gcc make automake"
@@ -159,18 +163,22 @@ for tc in ${TESTS}; do
             for i in ${processor_id}; do
                 taskset -c "$i" sysbench --num-threads=1 --test=cpu run | tee "${logfile}"
                 general_parser "$i"
+                print_info $? per-cpu
             done
             ;;
         cpu|threads|mutex)
             sysbench --num-threads="${NUM_THREADS}" --test="${tc}" run | tee "${logfile}"
             general_parser
+            print_info $? cpu-test
+            print_info $? threads-test
+            print_info $? mutex-test
             ;;
         memory)
             for j in ['8k','16k']; do
                 for i in ['rnd','seq']; do
                     sysbench --num-threads="${NUM_THREADS}" --test=memory --memory-block-size=$j --memory-total-size=100G --memory-access-mode=$i run | tee "${logfile}"
                     general_parser "$i"
-                
+                    print_info $? $j-$i
                     ms=$(grep "Operations" "${logfile}" | awk '{print substr($4,2)}')
                     add_metric "${tc}-ops" "pass" "${ms}" "ops"
 
@@ -192,6 +200,7 @@ for tc in ${TESTS}; do
                 # --file-extra-flags=direct is needed when file size is smaller then RAM.
                 sysbench --num-threads="${NUM_THREADS}" --test=fileio --file-extra-flags=direct --file-total-size=2G --file-test-mode="${mode}" run | tee "${logfile}"
                 sysbench --num-threads="${NUM_THREADS}" --test=fileio --file-total-size=2G --file-test-mode="${mode}" cleanup
+                print_info $? $mode
                 general_parser
 
                 ms=$(grep "transferred" "${logfile}" | awk '{print substr($NF, 2,(length($NF)-8))}')
@@ -234,5 +243,4 @@ for tc in ${TESTS}; do
     esac
 done
 remove_sysbench
-
-
+print_info $? remove-bench

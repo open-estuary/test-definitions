@@ -47,6 +47,7 @@ print_info $? dstat-c-01
 #查看系统的磁盘的读写数据大小
 dstat -d 3 10 2>&1 | tee -a dstat.log
 
+print_info $? dstat-d
 #查看系统网络状态
 dstat -n 3 10 2>&1 | tee -a dstat.log
 print_info $? dstat-n

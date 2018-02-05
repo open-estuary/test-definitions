@@ -33,13 +33,14 @@ if [ -n "${PARTITION}" ]; then
         cd "${mount_point}"
     fi
 fi
+print_info $? mount-directory
 mkdir ./bench
 
 # Run blogbench test.
 detect_abi
 # shellcheck disable=SC2154
 ./bin/"${abi}"/blogbench -i "${ITERATION}" -d ./bench 2>&1 | tee "${LOG_FILE}"
-
+print_info $? test-blogbench
 # Parse test result.
 for i in writes reads; do
     grep "Final score for $i" "${LOG_FILE}" \
@@ -48,3 +49,4 @@ for i in writes reads; do
 done
 
 rm -rf ./bench
+print_info $? delete-blogbench

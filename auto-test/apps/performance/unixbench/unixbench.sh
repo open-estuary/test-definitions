@@ -51,6 +51,15 @@ log_parser() {
 # Run a single copy.
 ./Run -c "1" | tee "${OUTPUT}/unixbench-single.txt"
 log_parser "single" "${OUTPUT}/unixbench-single.txt"
+print_info $? dhrystom-test
+print_info $? execl-test
+print_info $? file-copy
+print_info $? whetstone-test
+print_info $? pipe-throughput
+print_info $? pipe-based
+print_info $? process-creation
+print_info $? shell-scripts
+print_info $? system-call
 
 # Run the number of CPUs copies.
 if [ "$(nproc)" -gt 1 ]; then

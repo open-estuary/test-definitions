@@ -12,7 +12,7 @@ install_pcre() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      centos) 
+      centos)
             install_deps "pcre gcc-c++" "${SKIP_INSTALL}"
             if test $? -eq 0;then
                 echo "pcre install: [PASS]" | tee -a "${RESULT_FILE}"
@@ -20,6 +20,7 @@ install_pcre() {
                 echo "pcre install: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? install-pcre
             version=$(yum info pcre | grep "^Version" | awk '{print $3}')
             if [ ${version} = ${VERSION} ];then
                 echo "pcre version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
@@ -27,13 +28,15 @@ install_pcre() {
                 echo "pcre version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? pcre-version
             sourc=$(yum info pcre | grep "^From repo" | awk '{print $4}')
             if [ ${sourc} = ${SOURCE} ];then
                 echo "pcre source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "pcre source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
-            fi
+             fi
+             print_info $? pcre-source
             ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
@@ -45,31 +48,30 @@ if test $? -eq 0;then
 else
     echo "pcre build: [FAIL]" | tee -a "${RESULT_FILE}"
 fi
+print_info $? compilation-cpp
 ./pcre | tee -a "${LOG_FILE}"
- cat ${LOG_FILE} | grep "PCRE compilation pass" 
- if [ $? -eq 0 ];then 
-    echo "正则表达式编译: [PASS]" | tee -a ${RESULT_FILE}
-else
-    echo "正则表达式编译: [FIAL]" | tee -a ${RESULT_FILE}
-fi
+print_info $? run-cpp
+ cat ${LOG_FILE} | grep "PCRE compilation pass"
 
+ if [ $? -eq 0 ];then
+    echo "regular-compilation: [PASS]" | tee -a ${RESULT_FILE}
+else
+    echo "regular-compilation: [FIAL]" | tee -a ${RESULT_FILE}
+fi
+print_info $? regular-compilation
 #if [ cat ${LOG_FILE} | grep "OK, has matched" ];then
- cat ${LOG_FILE} | grep "OK, has matched" 
+ cat ${LOG_FILE} | grep "OK, has matched"
  if [ $? -eq 0 ];then
-    echo "正则表达式匹配: [PASS]" | tee -a ${RESULT_FILE}
+    echo "regular-matches: [PASS]" | tee -a ${RESULT_FILE}
 else
-    echo "正则表达式匹配: [FIAL]" | tee -a ${RESULT_FILE}
+    echo "regular-matches: [FIAL]" | tee -a ${RESULT_FILE}
 fi
- cat ${LOG_FILE} | grep "free ok" 
+print_info $? regular-matches
+ cat ${LOG_FILE} | grep "free ok"
  if [ $? -eq 0 ];then
-    echo "正则表达式释放: [PASS]" | tee -a ${RESULT_FILE}
+    echo "regular-release: [PASS]" | tee -a ${RESULT_FILE}
 else
-    echo "正则表达式释放: [FIAL]" | tee -a ${RESULT_FILE}
+    echo "regular-release: [FIAL]" | tee -a ${RESULT_FILE}
 fi
-remove_deps "pcre gcc-c++"
-if test $? -eq 0;then
-    echo "pcre remove: [PASS]" | tee -a ${RESULT_FILE}
-else
-    echo "pcre remove: [FIAL]" | tee -a ${RESULT_FILE}
-fi
+print_info $? regular-release
 

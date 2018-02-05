@@ -13,7 +13,7 @@ install_systemtap() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      centos) 
+      centos)
             DEPENDES="gcc elfutils kernel-devel kernel-debuginfo kernel-debug-debuginfo"
             install_deps "${PACKAGE} ${DEPENDS}" "${SKIP_INSTALL}"
             if test $? -eq 0;then
@@ -22,6 +22,7 @@ install_systemtap() {
                 echo "${PACKAGE} install: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? install-deps
             version=$(yum info ${PACKAGE} | grep "^Version" | awk '{print $3}')
             if [ ${version} = ${VERSION} ];then
                 echo "${PACKAGE} version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
@@ -29,6 +30,7 @@ install_systemtap() {
                 echo "${PACKAGE} version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? system-version
             sourc=$(yum info ${PACKAGE} | grep "^From repo" | awk '{print $4}')
             if [ ${sourc} = ${SOURCE} ];then
                 echo "${PACKAGE} source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
@@ -36,6 +38,7 @@ install_systemtap() {
                 echo "${PACKAGE} source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
                 exit 1
             fi
+            print_info $? system-source
             ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
@@ -54,5 +57,6 @@ else
     echo "${PACKAGE} remove: [FAIL]" | tee -a "${RESULT_FILE}"
     exit 1
 fi
+print_info $? remove-pkgs
 
 

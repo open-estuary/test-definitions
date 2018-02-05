@@ -87,5 +87,6 @@ case $distro in
      yum remove gcc -y
      yum remove make -y
      yum remove bzip2 -y
+     print_info $? remove-package
      ;;
 esac
