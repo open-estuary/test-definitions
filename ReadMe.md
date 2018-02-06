@@ -2,34 +2,57 @@
 
 ## 目录规划
 
-测试工程的目录结构，在大致按照linaro的结构层次上，需要在auto-test和manual-test下面根据各case的属性再添加一级目录。
+测试工程的目录结构，大致按照linaro的结构层次，需要在auto-test和manual-test下面根据各case的属性再添加一级或者二级目录。
 ```
 test-definitions
-    ├── auto-test
-    │   ├── kernel
-    │   ├── virtualization
-    │   ├── distributions
-    │   ├── bootloaders
-    │   ├── peripheral
-    │   ├── apps
-    │   ├── hardwareboards
-    │   └── middleware
-    ├── lib
-    ├── list
-    ├── manual-test
-    │   ├── kernel
-    │   ├── virtualization
-    │   ├── distributions
-    │   ├── bootloaders
-    │   ├── peripheral
-    │   ├── apps
-    │   ├── hardwareboards
-    │   └── middleware
-    ├── ReadMe.md
-    ├── owner
-    ├── toolset
-    ├── utils
-    └── plans
+├── auto-test
+│   ├── apps
+│   │   ├── bigdata
+│   │   ├── performance
+│   │   ├── server
+│   │   └── stress
+│   ├── bootloaders
+│   ├── distributions
+│   │   └── distribution
+│   ├── hardwareboards
+│   ├── kernel
+│   ├── middleware
+│   │   ├── database
+│   │   ├── language
+│   │   └── tool
+│   ├── peripheral
+│   └── virtualization
+├── lib
+├── list
+├── manual-test
+│   ├── apps
+│   │   ├── e-commerce
+│   │   ├── performance
+│   │   ├── server
+│   │   ├── stress
+│   │   └── web
+│   ├── bootloaders
+│   ├── distributions
+│   │   ├── build
+│   │   ├── deploy
+│   │   └── distribution
+│   ├── hardwareboards
+│   │   └── hns
+│   ├── kernel
+│   ├── middleware
+│   │   ├── language
+│   │   └── tool
+│   ├── peripheral
+│   │   ├── 82599
+│   │   ├── memory
+│   │   ├── raid
+│   │   └── ssd
+│   └── virtualization
+├── owner
+├── plans
+├── ReadMe.md
+├── toolset
+└── utils
 ```
 ## 归类依据
 
