@@ -22,7 +22,7 @@ params:
        
 run:
     steps:
-        - "cd ./auto-test/kernel/kernel-package; ./package.sh; cd -"
+        - "cd ./auto-test/kernel/kernel-package; ./kernel-package.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
