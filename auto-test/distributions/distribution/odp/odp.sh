@@ -1,49 +1,55 @@
-#!/bin/bash
-. ../../../../lib/sh-test-lib
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-LOG_FILE="${OUTPUT}/log.txt"
-SKIP_INSTALL="no"
-url="git://git.linaro.org/lng/odp.git"
-PACKAGE="git build-essential automake autoconf libtool libssl-dev libcunit1-dev"
-! check_root && error_msg "This script must be run as root"
-create_out_dir "${OUTPUT}"
-install_odp() {
-    dist_name
-    # shellcheck disable=SC2154
-    case "${dist}" in
-      centos | debian) 
-            install_deps "${PACKAGE}" "${SKIP_INSTALL}"
-            if test $? -eq 0;then
-                echo "${PACKAGE} install: [PASS]" | tee -a "${RESULT_FILE}"
-            else
-                echo "${PACKAGE} install: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
-            fi
-            git clone ${url}
-            if test $? -eq 0;then
-                echo "odp  download: [PASS]" | tee -a "${RESULT_FILE}"
-            else
-                echo "odp download: [FAIL]" | tee -a "${RESULT_FILE}"
-            fi
-            cd odp
-            ./bootstrap
-            autoreconf -i
-            ./configure --enable-test-vald --with-testdir=/usr/lib/odp/ptest/test
-            make install
-            ./usr/lib/odp/ptest/test/run-test >> "${RESULT_FILE}"
-            ;;
-      unknown) 
-            warn_msg "Unsupported distro: package install skipped" 
-            exit 1
-            ;;
-    esac
-}
-install_odp
-remove_deps "${PACKAGE}"
-if test $? -eq 0;then
-    echo "${PACKAGE} remove: [PASS]" | tee -a "${RESULT_FILE}"
-else
-    echo "${PACKAGE} remove: [FAIL]" | tee -a "${RESULT_FILE}"
+# Copyright (C) 2017-11-08, Linaro Limited.
+# Author: mahongxin <hongxin_228@163.com>
+# Test user idcd -  bandwidth and latencyqperf is a tool for testing
+
+#!/bin/sh
+set -x
+
+cd ../../../../utils
+
+ . ./sys_info.sh
+
+cd -
+
+if [ `whoami` != 'root' ] ; then
+    echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+case $distro in
+"centos")
+     yum install CUnit-devel.aarch64 -y
+     yum install libatomic.aarch64 -y
+     print_info $? install-pkgs
+     wget http://htsat.vicp.cc:804/centos_odp.tar.gz
+     tar xf centos_odp.tar.gz
+     ./centos_redhat_fedora/run-test.sh > odp.log
+
+     ;;
+ "ubuntu")
+     apt-get install libcunit1-dev -y
+     print_info $? install-pkgs
+     wget http://htsat.vicp.cc:804/debian_odp.tar.gz
+     tar xf debian_odp.tar.gz
+     ./debian_odp/run-test.sh > odp.log
+     ;;
+esac
+
+grep "_test" odp.log > 1.log
+grep "test_in_ip" odp.log >> 1.log
+awk '{print $2,$3}' 1.log > 2.log
+sed 's/\...//g' 2.log > 3.log
+
+while read line
+do
+    str1=`echo $line |awk -F ' ' '{print $1}'`
+    str2=`echo $line |awk -F ' ' '{print $2}'`
+    if [ "$str2" == "passed" ];then
+        str2=pass
+    else
+        str2=fail
+   fi
+ lava-test-case $str1 --result $str2
+done < 3.log
+
+
+
