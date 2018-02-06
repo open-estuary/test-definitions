@@ -23,4 +23,4 @@ Introduction : The developer and tester of each module
 |  | ssd | tiantao | fangyuanzheng |
 |  | 82599 | tiantao | fangyuanzheng |
 |  | memory | tiantao | fangyuanzheng |
-| virtualization | virtual | liuxinliang | liucaili |
+| virtualization | virtual | tiantao | liucaili |
