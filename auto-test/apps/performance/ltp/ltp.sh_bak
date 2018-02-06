@@ -69,8 +69,7 @@ install_ltp() {
     # This branch is based on the 20170516 release, plus backported fixes.
     wget -O ltp-erp-17.08.tar.gz https://api.github.com/repos/linaro/ltp/tarball/erp-17.08
     tar --strip-components=1 -zxf ltp-erp-17.08.tar.gz
-    sed -i "41ilava-test-case ar --result pass" /opt/ltp/testcases/ar01
-    sed -i "44ilava-test-case ar --result fail" /opt/ltp/testcases/ar01
+
     make autotools
     ./configure
     make -j8 all
