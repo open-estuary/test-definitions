@@ -14,7 +14,7 @@ metadata:
     devices:
         - d05
         - d03
-    level: 1
+    level: 5
 run:
     steps:
         - "cd auto-test/apps/performance/iostat; ./iostat.sh; cd - "
