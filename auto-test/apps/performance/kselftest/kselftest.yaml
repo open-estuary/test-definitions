@@ -13,6 +13,7 @@ metadata:
         - performance
     devices:
         - all
+    level: 5
 
 params:
     # Specify Linux kernel self test pre-build tarball name from below location

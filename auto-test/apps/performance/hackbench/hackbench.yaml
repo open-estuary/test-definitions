@@ -12,6 +12,7 @@ metadata:
     devices:
         - d05
         - d03
+    level: 5
 
 params:
     # Number of cycles helloworld is called (for loop repetitions)
