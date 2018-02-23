@@ -16,11 +16,12 @@ Introduction : The developer and tester of each module
 |  | deploy | linwenkai | liucaili |
 | hardwareboards | hns | tiantao | fangyuanzheng |
 | kernel | linux | tiantao | fangyuanzheng |
+|  | memory | tiantao | fangyuanzheng |
 | middleware | tool | wangyu | fangyuanzheng |
 |  | database | dingwei | tanliqing |
 |  | language | liuxinliang | liucaili |
 | peripheral | raid | tiantao | fangyuanzheng |
 |  | ssd | tiantao | fangyuanzheng |
 |  | 82599 | tiantao | fangyuanzheng |
-|  | memory | tiantao | fangyuanzheng |
+|  | sas | tiantao | fangyuanzheng |
 | virtualization | virtual | tiantao | liucaili |
