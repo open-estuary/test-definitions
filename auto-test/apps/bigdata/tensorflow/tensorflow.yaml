@@ -8,6 +8,7 @@ metadata:
         - liu_caili@hoperun.com
     scope:
         - function
+        - tensorflow
     os:
         - centos
         - ubuntu
