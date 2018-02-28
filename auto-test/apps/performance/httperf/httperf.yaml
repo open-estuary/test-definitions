@@ -1,15 +1,13 @@
 
 metadata:
-    name: "ftp_basic_testing"
+    name: "httperf-testing"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "the ftp server is the computer that provides file storage and access services on the internet"
+    description: "httperf is a simple HTTP performance testing tool"
     maintainer:
         - hongxin_228@163.com
     scope:
-        - distribution
+        - performance
     os:
-        - ubuntu
-        - opensuse
         - centos
     devices:
         - d05
@@ -17,9 +15,9 @@ metadata:
     level: 1
 run:
     steps:
-        - "cd auto-test/distributions/distribution/ftp; ./ftp.sh; cd -"
+        - "cd auto-test/apps/performance/httperf; ./httperf.sh; cd - "
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
    FAIL: fail
-   PASS: pass d01
+   PASS: pass

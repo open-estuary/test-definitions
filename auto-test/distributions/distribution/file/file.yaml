@@ -1,25 +1,25 @@
 
 metadata:
-    name: "ftp_basic_testing"
+    name: "file"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "the ftp server is the computer that provides file storage and access services on the internet"
+    description: "Basic operations on files"
     maintainer:
         - hongxin_228@163.com
     scope:
-        - distribution
+        -distribution
     os:
-        - ubuntu
-        - opensuse
         - centos
+        - ubuntu
     devices:
         - d05
         - d03
     level: 1
 run:
     steps:
-        - "cd auto-test/distributions/distribution/ftp; ./ftp.sh; cd -"
+        - "cd auto-test/distributions/distribution/file; ./file.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
    FAIL: fail
-   PASS: pass d01
+   PASS: pass
+
