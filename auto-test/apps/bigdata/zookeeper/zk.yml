@@ -6,7 +6,8 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - bigdata_test
+        - bigdata
+        - zookeeper
     os:
         - centos
     devices:
