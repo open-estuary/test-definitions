@@ -20,7 +20,7 @@ metadata:
 
 run:
     steps:
-        - cd ./auto-test/apps/performance/stream/
+        - cd auto-test/apps/performance/stream/
         - ./stream-uniprocessor.sh
         - cd -
 parse:
