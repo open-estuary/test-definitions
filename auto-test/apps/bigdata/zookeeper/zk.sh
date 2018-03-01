@@ -14,6 +14,7 @@ function zk_install_standalone(){
     yum install -y ansible
     yum insatll -y python2-pip 
     yum install -y nmap-ncat
+    yum install -y gcc 
 
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
     ret=$?
