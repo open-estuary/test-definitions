@@ -30,7 +30,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/apps/performance/kselftest/
+        - cd auto-test/apps/performance/kselftest/
         - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}" -L "${SKIPLIST}" -S "${SKIPFILE}"
 
 parse:
