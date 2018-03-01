@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC1091
 . ../../../../lib/sh-test-lib
-
+. ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 RESULT_LOG="${OUTPUT}/result_log.txt"
