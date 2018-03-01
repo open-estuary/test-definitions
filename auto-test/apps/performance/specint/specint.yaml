@@ -25,7 +25,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/apps/performance/specint/
+        - cd auto-test/apps/performance/specint/
         - ./specint.sh -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 parse:

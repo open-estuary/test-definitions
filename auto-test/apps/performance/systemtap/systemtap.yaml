@@ -21,7 +21,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/apps/performance/systemtap/
+        - cd auto-test/apps/performance/systemtap/
         - ./systemtap.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:
