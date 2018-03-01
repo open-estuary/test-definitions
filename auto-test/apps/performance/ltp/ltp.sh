@@ -2,6 +2,7 @@
 
 # shellcheck disable=SC1091
 . ../../../../lib/sh-test-lib
+. ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 # Absolute path to this script. /home/user/bin/foo.sh
