@@ -18,7 +18,7 @@ case $distro in
         yum install gcc-c++ -y
         yum install wget -y
         print_info $? install-package
-        wget http://192.168.1.107/boost_1_63_0.tar.gz
+        wget http://htsat.vicp.cc:804/boost_1_63_0.tar.gz
         print_info $? get-boost
         tar -zxvf boost_1_63_0.tar.gz
         print_info $? tar-boost
