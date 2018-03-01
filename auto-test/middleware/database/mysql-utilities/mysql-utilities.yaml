@@ -8,6 +8,7 @@ metadata:
         - liu_caili@hoperun.com
     scope:
         - database
+        - mysql 
     os:
         - centos
     devices:
