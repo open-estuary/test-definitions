@@ -24,14 +24,14 @@ case $distro in
 esac
 DNSMASQ_CONF=/etc/dnsmasq.conf
 cp /etc/dnsmasq.conf /etc/dnsmasq.conf_bak
-sed -i 's/#resolv-file=/resolv-file=\/etc\/resolv.conf/g'$DNSMASQ_CONF
+sed -i 's/#resolv-file=/resolv-file=\/etc\/resolv.dnsmasq.conf/g' $DNSMASQ_CONF
 sed -i 's/#strict-order/strict-order/g' $DNSMASQ_CONF
 sed -i 's/#addn-hosts=\/etc\/banner_add_hosts/addn-hosts=\/etc\/dnsmasq.hosts/g' $DNSMASQ_CONF
 sed -i 's/#listen-address=/listen-address=127.0.0.1/g' $DNSMASQ_CONF
 echo 'nameserver 127.0.0.1' > /etc/resolv.conf
 touch /etc/resolv.dnsmasq.conf
 echo 'nameserver 119.29.29.29' > /etc/resolv.dnsmasq.conf
-touch /etc/hosts /etc/dnsmasq.hosts
+cp /etc/hosts /etc/dnsmasq.hosts
 echo 'addn-hosts=/etc/dnsmasq.hosts' >> /etc/dnsmasq.conf
 service dnsmasq start
 print_info $? start-dnsmasq

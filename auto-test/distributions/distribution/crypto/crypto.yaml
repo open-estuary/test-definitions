@@ -17,7 +17,7 @@ metadata:
 
 run:
     steps:
-        - "cd test-definitions/auto-test/distributions/distribution/cryto; ./cryto.sh; cd -"
+        - "cd auto-test/distributions/distribution/crypto; ./crypto.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

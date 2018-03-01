@@ -1,5 +1,6 @@
 #!/bin/bash
 . ../../../../lib/sh-test-lib
+. ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/sysstat.txt"

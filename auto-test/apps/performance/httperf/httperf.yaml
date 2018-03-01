@@ -1,24 +1,21 @@
+
 metadata:
-    name: "iperf"
+    name: "httperf-testing"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "iperf is a tool for active measurements of the maximum
-                  achievable bandwidth on IP networks."
+    description: "httperf is a simple HTTP performance testing tool"
     maintainer:
         - hongxin_228@163.com
-    os:
-        - ubuntu
-        - opensuse
-        - centos
     scope:
         - performance
+    os:
+        - centos
     devices:
-        - d03
         - d05
-    level: 5
+        - d03
+    level: 1
 run:
     steps:
-        - "cd auto-test/apps/performance/iperf; ./iperf.sh; cd -"
-
+        - "cd auto-test/apps/performance/httperf; ./httperf.sh; cd - "
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

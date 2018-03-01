@@ -26,7 +26,7 @@ print_info $? check-cpu
 [ -z "${GIT_TAG}" ] && usage
 print_info $? isolation-cpu
 . ../../../../lib/sh-test-lib
-
+. ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 TEST_LOG="${OUTPUT}/isolation-test-output.txt"

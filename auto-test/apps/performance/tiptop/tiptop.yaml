@@ -21,7 +21,7 @@ params:
 
 run:
     steps:
-        - cd ./auto-test/apps/performance/tiptop/
+        - cd auto-test/apps/performance/tiptop/
         - ./tiptop.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:

@@ -7,7 +7,7 @@
 #   描    述：
 #
 #================================================================*/
-
+. ../../../../utils/sys_info.sh
 function install_ycsb(){
 
     yum install -y ycsb java-1.8.0-openjdk
