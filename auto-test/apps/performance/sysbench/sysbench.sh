@@ -10,7 +10,7 @@
 set -x
 # shellcheck disable=SC1091
 . ../../../../lib/sh-test-lib
-
+. ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
