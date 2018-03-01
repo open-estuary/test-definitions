@@ -1,0 +1,25 @@
+
+metadata:
+    name: "dnsmasq"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Dnsmasq is tool for configuring DNS servers and DHCP servers"
+    maintainer:
+        - hongxin_228@163.com
+    scope:
+        -test
+    os:
+        - centos
+        - ubuntu
+    devices:
+        - d05
+        - d03
+    level: 1
+run:
+    steps:
+        - "cd auto-test/distributions/distribution/dnsmasq; ./dnsmasq.sh; cd -"
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+

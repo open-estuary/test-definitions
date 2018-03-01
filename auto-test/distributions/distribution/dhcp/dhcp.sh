@@ -40,13 +40,3 @@ if [ "$str" != "" ];then
 else
     lava-test-case $TCID --result fail
 fi
-case $distro in
-    "ubuntu")
-        apt-get remove dhclient -y
-        print_info $? remove-package
-        ;;
-    "centos")
-        yum remove dhclient -y
-        print_info $? remove-package
-        ;;
-esac

@@ -1,9 +1,8 @@
 #!/bin/sh -e
 
 set -x
-cd ../../../../utils
-   . ./sh-test-lib
-   . ./sys_info.sh
+. ../../../../utils/sys_info.sh
+. ../../../../lib/sh-test-lib
 cd -
 ARRAY_SIZE="200"
 # Run Test.

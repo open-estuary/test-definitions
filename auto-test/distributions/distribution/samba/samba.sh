@@ -39,6 +39,7 @@ case $distro in
          systemctl start nmb.service smb.service
          print_info $? start_smb
          systemctl stop nmb.service smb.service
+         print_info $? stop_smb
          ;;
 esac
 

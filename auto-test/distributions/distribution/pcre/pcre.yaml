@@ -25,7 +25,7 @@ params:
 
 run:
     steps:
-        - cd test-definitions/auto-test/distributions/distribution/pcre/
+        - cd auto-test/distributions/distribution/pcre/
         - ./pcre.sh -s "${SKIP_INSTALL}" 
         - cd -
 parse:

@@ -21,7 +21,7 @@ params:
 
 run:
     steps:
-        - cd test-definitions/auto-test/distributions/distribution/odp/
+        - cd auto-test/distributions/distribution/odp/
         - ./odp.sh -s "${SKIP_INSTALL}"
         - cd -
 parse:
