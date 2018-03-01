@@ -1,5 +1,5 @@
 #!/bin/sh -e
-
+. ../../../../utils/sys_info.sh
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
 RESULT_FILE="${OUTPUT}/result.txt"
