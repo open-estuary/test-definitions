@@ -20,12 +20,12 @@ function alisql_install(){
     
     yum install -y AliSQL-server
     if [ $? -eq 0 ];then
-        lava-test-case "AliSQL-server install" --result pass
+        lava-test-case "AliSQL-server_install" --result pass
     else
         alisql_uninstall
         yum install -y AliSQL-server
         if [ $? -ne 0 ];then
-            lava-test-case "AliSQL-server install" --result fail
+            lava-test-case "AliSQL-server_install" --result fail
             exit 1
         fi
     fi
@@ -38,7 +38,7 @@ function alisql_install(){
     else
         false
     fi 
-    print_info $? "alisql version is right"
+    print_info $? "alisql_version_is_right"
 
 }
 
@@ -84,7 +84,7 @@ function alisql_stop_custom(){
     else
         true
     fi 
-    print_info $? "alisql stop server by command"
+    print_info $? "alisql_stop_serve_ by_command"
 
     rm -f ~/.my.cnf
 }
