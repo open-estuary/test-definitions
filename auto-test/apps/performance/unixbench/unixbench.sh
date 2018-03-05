@@ -8,7 +8,16 @@
 . ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
-
+case $distro in
+    "centos")
+        yum install git -y
+        print_info $? install-git
+        ;;
+    "ubuntu")
+        apt-get install git -y
+        print_info $? install-git
+        ;;
+esac
 while getopts 's:h' opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
