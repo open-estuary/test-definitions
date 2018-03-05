@@ -13,8 +13,8 @@ export basedir
 . ./hive.sh
 
 
-hive_start_hadoop 
-hive_install 
+#hive_start_hadoop 
+#hive_install 
 hive_init
 
 hive_base_client_command
