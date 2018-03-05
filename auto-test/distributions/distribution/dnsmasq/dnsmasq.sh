@@ -50,3 +50,4 @@ case $distro in
         print_info $? remove-dnsmasq
         ;;
 esac
+sed -i 's/nameserver 127.0.0.1/nameserver 114.114.114.114/g' /etc/resolv.conf

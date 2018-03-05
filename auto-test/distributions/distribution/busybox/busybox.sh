@@ -77,11 +77,6 @@ print_info $? busybox-free
 $commond df
 print_info $? busybox-df
 
-count=`ps -aux | grep busybox | wc -l`
-if [ $count -gt 0 ]; then
-    kill -9 $(pidof busybox)
-    print_info $? kill-busybox
-fi
 case $distro in
     "centos")
      yum remove gcc -y
