@@ -10,9 +10,10 @@ metadata:
         - fedora
         - centos
     scope:
-        - performance
+        - test
     devices:
-        - all
+        - d05
+        - d03
     level: 5
 
 params:
