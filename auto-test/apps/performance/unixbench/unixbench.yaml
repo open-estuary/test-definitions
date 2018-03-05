@@ -8,18 +8,12 @@ metadata:
     os:
         - debian
         - ubuntu
-        - fedora
         - centos
     scope:
         - performance
     environment:
         - lava-test-shell
     devices:
-        - hi6220-hikey
-        - apq8016-sbc
-        - mustang
-        - moonshot
-        - thunderX
         - d03
         - d05
     level: 5
@@ -30,7 +24,6 @@ run:
     steps:
         - cd auto-test/apps/performance/unixbench/
         - ./unixbench.sh -s "${SKIP_INSTALL}"
-        - ../../utils/send-to-lava.sh ./output/result.txt
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
