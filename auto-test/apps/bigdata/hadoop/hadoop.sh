@@ -15,6 +15,13 @@ function install_jdk() {
 
 function install_hadoop() {
     ### install hadoop
+    if test ! -d /var/bigdata/hadoop
+    then
+        mkdir -p /var/bigdata/hadoop
+    fi 
+    pushd  .
+    cd /var/bigdata/hadoop/
+
     if [  -d hadoop-2.7.4 ];then
 		rm -rf hadoop-2.7.4
 	fi
@@ -36,7 +43,7 @@ function install_hadoop() {
 	echo "export HADOOP_HOME=`pwd`" >> ~/.bashrc
 	echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' >> ~/.bashrc
 	source ~/.bashrc
-	
+	popd 
 	if [ -n $HADOOP_HOME ];then
 		lava-test-case "hadoop_set_HADOOP_HOME" --result pass
 	else
