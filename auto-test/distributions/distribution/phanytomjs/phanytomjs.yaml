@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - server
+        - distribution
     os:
         - centos
         - ubuntu
@@ -16,7 +16,7 @@ metadata:
     level: 1
 run:
     steps:
-        - "cd auto-test/apps/performance/phantomjs; ./phantomjs.sh; cd - "
+        - "cd auto-test/distributions/distribution/phanytomjs; ./phanytomjs.sh; cd - "
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

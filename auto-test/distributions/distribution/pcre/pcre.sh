@@ -27,7 +27,7 @@ install_pcre() {
                 echo "pcre version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "pcre version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
+
             fi
             print_info $? pcre-version
             sourc=$(yum info pcre | grep "^From repo" | awk '{print $4}')
@@ -35,7 +35,7 @@ install_pcre() {
                 echo "pcre source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "pcre source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
+
              fi
              print_info $? pcre-source
             ;;
@@ -43,7 +43,7 @@ install_pcre() {
     esac
 }
 install_pcre
-g++ -o pcre test_pcre.cpp -lpcre 
+g++ -o pcre test_pcre.cpp -lpcre
 if test $? -eq 0;then
     echo "pcre build: [PASS]" | tee -a "${RESULT_FILE}"
 else
@@ -75,4 +75,9 @@ else
     echo "regular-release: [FIAL]" | tee -a ${RESULT_FILE}
 fi
 print_info $? regular-release
-
+case $distro in
+    "centos")
+        apt-get remove pcre gcc-c++
+        print_info $? remove-pcre
+        ;;
+esac

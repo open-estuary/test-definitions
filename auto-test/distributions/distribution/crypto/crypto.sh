@@ -18,7 +18,7 @@ case $distro in
         yum install gcc-c++ -y
         yum install make -y
         yum install unzip -y
-        wget http://192.168.1.107/cryptopp-CRYPTOPP_5_6_5.zip
+        wget http://htsat.vicp.cc:804/cryptopp-CRYPTOPP_5_6_5.zip
         print_info $? get-crypto
         unzip cryptopp-CRYPTOPP_5_6_5.zip
         print_info $? unzip-crypto
