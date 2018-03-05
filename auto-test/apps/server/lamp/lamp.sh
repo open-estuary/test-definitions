@@ -2,10 +2,9 @@
 
 set -x
 
-cd ../../../../utils
-    . ./sys_info.sh
-    . ./sh-test-lib
-cd -
+. ../../../../utils/sys_info.sh
+. ../../../../lib/sh-test-lib
+
 
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
