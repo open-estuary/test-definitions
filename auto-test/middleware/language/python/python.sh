@@ -9,6 +9,7 @@ cd -
 
 version=`python -V`
 if [ $version > 2 && $version < 3 ];then
+	print_info 0 install-python
 	print_info 0 python-version
 else
 	pkgs="python expect"
@@ -47,24 +48,30 @@ print_info $? python-script-type2
 
 # 测试if
 ./if.py | tee out.log
-if [ $? || `cat out.log | grep 'error'` ];then
-	print_info 1 python-if
-else
+cat out.log | grep 'error'
+if [ $? ];then
 	print_info 0 python-if
+else
+	print_info 1 python-if
+fi
 
 # 测试while循环
 ./while.py | tee out.log
-if [ $? || `cat out.log | grep 'error'` ];then
-	print_info 1 python-while
-else
+cat out.log | grep 'error'
+if [ $? ];then
 	print_info 0 python-while
+else
+	print_info 1 python-while
+fi
 
 # 测试for循环
 ./for.py | tee out.log
-if [ $? || `cat out.log | grep 'error'` ];then
-	print_info 1 python-for
-else
+cat out.log | grep 'error'
+if [ $? ];then
 	print_info 0 python-for
+else
+	print_info 1 python-for
+fi
 
 # 测试pass语句块
 ./pass.py
@@ -101,7 +108,7 @@ print_info $? python-module
 # 测试python输入输出
 EXPECT=$(which expect)
 $EXPECT << EOF
-set timeout 100
+set timeout 10
 spawn ./io.py
 expect "请输入："
 send "hello\r"
@@ -112,8 +119,10 @@ EOF
 print_info $? python-io
 
 # 测试文件读写
+touch foo.txt
 ./file.py
 print_info $? python-file
+rm -f foo.txt
 
 # 测试异常报错
 ./exception.py
@@ -138,30 +147,42 @@ print_info $? python-re
 ./pyserver.py &
 print_info $? python-socket-server
 
-./client.py | grep 'welcome'
+./pyclient.py | grep 'welcome'
 print_info $? python-socket-client
 
-count=`ps -aux | grep pyserver | wc -l`
-if [ $count -gt 0 ];then
-    kill -9 $(pidof pyserver)
-	print_info $? kill-pyserver
-fi
+#count=`ps -aux | grep pyserver | wc -l`
+#if [ $count -gt 0 ];then
+#    kill -9 $(pidof pyserver)
+#	print_info $? kill-pyserver
+#fi
+NAME=pyserver
+#echo $NAME
+ID=`ps -ef | grep "$NAME" | grep -v "$0" | grep -v "grep" | awk '{print $2}'`
+#echo $ID 
+for id in $ID
+do
+    kill -9 $id
+    echo "killed $id"
+done
 
 # 测试多线程编程
 ./thread.py
 print_info $? python-thread
 
 # 测试python解析xml
-./xml.py
+./xml-test.py
 print_info $? python-xml
 
 # 测试python解析json
-./json.py
+./json-test.py
 print_info $? python-json
 
 cd ..
 
 pkgs="python expect"
 remove_deps "${pkgs}"
-print_info $? remove-python
-
+if [ $? ];then
+	print_info 0 remove-python
+else
+	print_info 1 remove-python
+fi
