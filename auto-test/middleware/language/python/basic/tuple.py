@@ -17,8 +17,8 @@ print tup3;
 tup = ('physics', 'chemistry', 1997, 2000);
 print tup;
 del tup;
-print "After deleting tup : "
-print tup;
+print "Deleted tup "
+#print tup;
 
 #无关闭分隔符
 print 'abc', -4.24e93, 18+6.6j, 'xyz';
