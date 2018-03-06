@@ -43,7 +43,8 @@ function install_hadoop() {
 	echo "export HADOOP_HOME=`pwd`" >> ~/.bashrc
 	echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' >> ~/.bashrc
 	source ~/.bashrc
-	popd 
+    cd ..
+    popd 
 	if [ -n $HADOOP_HOME ];then
 		lava-test-case "hadoop_set_HADOOP_HOME" --result pass
 	else

@@ -31,6 +31,7 @@ function zk_install_standalone(){
 function zk_start(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t start 
+    jps | grep QuorumPeerMain
     ret=$?
     print_info $ret "zookeeper_start"
     if [ $ret -ne 0 ];then
@@ -44,6 +45,7 @@ function zk_start(){
 function zk_stop(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t stop 
+    jps | grep QuorumPeerMain  
     ret=$?
     print_info $ret "zookeeper_stop"
     if [ $ret -ne 0 ];then
@@ -61,6 +63,7 @@ function zk_install_c_client(){
     fi 
     pushd .
         cd $ZK_HOME
+        export ZK_HOME=`pwd`
         cd ./src/c
         ./configure && \
         make && \
