@@ -10,7 +10,7 @@ install_deps postgresql
 install_deps postgresql-server
 
 
-lava_path=${pwd}/lava*/bin 
+lava_path=`pwd`/lava*/bin 
 
 
 if [ `which pg_ctl`  ];then
