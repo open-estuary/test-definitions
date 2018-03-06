@@ -9,6 +9,10 @@ cd $basedir
 install_deps postgresql
 install_deps postgresql-server
 
+
+lava_path=${pwd}/lava*/bin 
+
+
 if [ `which pg_ctl`  ];then
     lava-test-case "postgresql_server_install" --result pass
     echo "install ok --------------------"
@@ -26,6 +30,7 @@ fi
 su -l  postgres <<-EOF
       
     set -x
+    export PATH=$PATH:${lava_path}
     #if $(`ps -ef |grep "/bin/postgres -D data" -c` -eq 2);then
     ps -ef |grep "/bin/postgres -D data" | grep -v grep
     if [ $? = 0 ];then

@@ -38,7 +38,7 @@ function hive_install_innter(){
 
 function hive_edit_config(){
     CP=`which cp --skip-alias`
-
+    pwd 
     $CP -f  ./hive-site.xml $HIVE_HOME/conf/hive-site.xml
     	
 	res=`diff  $HIVE_HOME/conf/hive-default.xml.template $HIVE_HOME/conf/hive-site.xml | grep "/tmp/hive" -c`
@@ -144,8 +144,8 @@ function hive_start_hadoop(){
  
 
 function hive_init() {
-    schematool -initSchema -dbType derby  
-    if [ $? ];then
+    schematool -initSchema -dbType derby | grep failed 
+    if [ ! $? ];then
         echo "init hive ok"
         lava-test-case "hive_init_metastore" --result pass
     else

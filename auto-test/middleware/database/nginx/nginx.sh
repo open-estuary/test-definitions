@@ -61,12 +61,28 @@ function install_geoip_mod(){
 
 }
 
+function download_nginx_geo_data(){
+
+
+    wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz -c -O /etc/nginx/GeoIP.dat.gz 
+    gunzip -f /etc/nginx/GeoIP.dat.gz 
+
+    wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -c -O /etc/nginx/GeoLiteCity.dat.gz 
+    gunzip -f /etc/nginx/GeoLiteCity.dat.gz 
+
+}
+
+
 function modify_nginx_conf(){
     
     cp=`which cp --skip-alias`
     $cp -f  nginx.conf /etc/nginx/ && 
     $cp -f default.conf /etc/nginx/conf.d/default.conf 
     print_info $? "modify_nginx_conf_load_geoip_mod"
+   
+
+    
+    
     systemctl restart nginx 
     print_info $? "restart_nginx_load_geoip_mod"
 
@@ -81,9 +97,18 @@ function get_geoip_info(){
 
 function test_geoip_mod(){
 
+# 这里可以进一步使用自己的geoip数据，这样局域网也可以测试一下
     install_geoip_mod
+    download_nginx_geo_data
     modify_nginx_conf
     get_geoip_info
+}
+
+function install_nginx_image_filter_mod(){
+
+    yum install -y nginx-module-image-filter
+    print_info $? "install_nginx_image_filter_mod"
+
 }
 
 
