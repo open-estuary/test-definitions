@@ -27,7 +27,7 @@ params:
 
 run:
     steps:
-        - "cd auto-test/apps/performance/dsdbench/; ./sysbench.sh; cd -"
+        - "cd auto-test/apps/performance/dsdbench/; ./dsdbench.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

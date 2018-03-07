@@ -3,7 +3,7 @@
 set -x
 . ../../../../utils/sys_info.sh
 . ../../../../lib/sh-test-lib
-cd -
+
 ARRAY_SIZE="200"
 # Run Test.
 #detect_abi

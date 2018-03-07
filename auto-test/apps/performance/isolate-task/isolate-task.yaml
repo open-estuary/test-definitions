@@ -27,8 +27,7 @@ params:
 run:
     steps:
       - cd auto-test/apps/performance/isolate-task/
-      - ./isolate-task-verify.sh  -c "${ISOL_CORES}" -s "${SKIP_INSTALL}" -t "${GIT_TAG}"
-      - ../../utils/send-to-lava.sh ./output/result.txt
+      - ./isolate-task.sh  -c "${ISOL_CORES}" -s "${SKIP_INSTALL}" -t "${GIT_TAG}"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
