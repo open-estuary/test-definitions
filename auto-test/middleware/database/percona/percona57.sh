@@ -29,7 +29,7 @@ function percona57_install(){
 
     export LANG="en_US.UTF-8"
     local version1=`yum info Percona-Server-server-57 | grep  Version | cut -d : -f 2 | tr -d "[:blank:]"`
-    local repo=`yum info Percona-Server-server-57 | grep "From repo" | cut -d : -f 2 `
+    local repo=`yum info Percona-Server-server-57 | grep "From repo" | cut -d : -f 2 | tr -d "[:blank:]"`
     if [ x"$version1" = x"5.7.17" -a x"$repo" = x"Estuary" ];then
         true
     else
@@ -43,8 +43,15 @@ function percona57_install(){
 function percona57_start(){
 
     export passwd="123"
-    
-    systemctl stop mysqld.service
+    rm -rf /var/lib/mysql  
+    timeout 1m systemctl start mysql
+    if [ $? -ne 0 ];then
+        print_info 1 "percona57_start_error"
+        exit 1
+    else
+        print_info 0 "percona57_start_ok"
+    fi 
+    systemctl stop mysql 
     # 安装的时候，会给我们初始化好默认的数据库，使用systemctl直接启动服务即可
 #    rm -rf /var/lib/mysql/*
 

@@ -20,6 +20,8 @@ source ./mysql.sh
 set -x
 
 export PS4='+{$0:$LINENO:${FUNCNAME[0]}} '
+#cleanup_all_database 
+
 percona57_install
 percona57_start
 
@@ -42,4 +44,4 @@ percona57_replication
 percona57_custom_stop 
 
 #percona57_remove
-
+cleanup_all_database
