@@ -18,7 +18,6 @@ run:
     steps:
         - cd auto-test/distributions/distribution/disk-partitioning/
         - ./disk-partitioning.sh -d "${DEVICE}" -l "${DISKLABEL}" -f "${FILESYSTEM}" -s "${SKIP_INSTALL}"
-        - ../../utils/send-to-lava.sh ./output/result.txt
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
