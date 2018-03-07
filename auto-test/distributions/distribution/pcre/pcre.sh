@@ -77,7 +77,7 @@ fi
 print_info $? regular-release
 case $distro in
     "centos")
-        apt-get remove pcre gcc-c++
+        yum remove pcre gcc-c++
         print_info $? remove-pcre
         ;;
 esac

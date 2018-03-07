@@ -17,7 +17,7 @@ if [ `whoami` != 'root' ] ; then
 fi
 case $distro in
 "centos")
-     yum install phantomjs.aarch64 -y
+     yum install phantomjs -y
      print_info $? install-phantomjs
      ;;
  "ubuntu")
