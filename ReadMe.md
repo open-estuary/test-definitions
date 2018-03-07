@@ -44,7 +44,7 @@ test-definitions
 │   │   └── tool
 │   ├── peripheral
 │   │   ├── 82599
-│   │   ├── memory
+│   │   ├── sas
 │   │   ├── raid
 │   │   └── ssd
 │   └── virtualization
