@@ -10,26 +10,30 @@
 
 function install_findbugs(){
 
-    yum install -y findbugs java-1.8.0-openjdk
-    print_info $? "install fingbugs"
+    yum install -y findbugs java-1.8.0-openjdk java-1.8.0-openjdk-devel
+    print_info $? install_fingbugs
 
     export LANG=en_US.UTF8
     yum info findbugs > tmp.info 
     local version=`grep Version tmp.info | cut -d : -f 2`
     local repo=`grep "From repo" tmp.info | cut -d : -f 2`
-    if [ x"$version" = x"2.0.3" -a x"$repo" = x"Estuary" ];then
-        true
+    if [ x"$version" = x" 2.0.3" ];then
+		print_info 0 fingbugs_version
     else
-        false
+		print_info 1 fingbugs_version
     fi 
-    print_info $? "fingbugs version is right"
 
+    if [ x"$repo" = x" Estuary" ];then
+		print_info 0 fingbugs_repo
+    else
+		print_info 1 fingbugs_repo
+    fi 
 }
 
 function uninstall_findbugs(){
     
     yum remove -y findbugs 
-    print_info $? "unintall findbugs"
+    print_info $? unintall_findbugs
 
 }
 
@@ -50,7 +54,7 @@ eof
     javac HelloWorld.java 
 
     findbugs -textui HelloWorld.class 
-    print_info $? "findbugs command exec"
+    print_info $? findbugs_exec
     
 }
 
