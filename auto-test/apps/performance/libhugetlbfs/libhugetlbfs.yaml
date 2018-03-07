@@ -15,7 +15,6 @@ metadata:
         - debian
         - ubuntu
         - centos
-        - fedora
     scope:
         - performance
     devices:
@@ -31,7 +30,6 @@ run:
     steps:
         - cd auto-test/apps/performance/libhugetlbfs/
         - ./libhugetlbfs.sh -b "${WORD_SIZE}" -s "${SKIP_INSTALL}" -v "${VERSION}"
-        - ../../utils/send-to-lava.sh ./output/result.txt
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
