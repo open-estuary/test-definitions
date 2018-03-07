@@ -112,9 +112,12 @@ systemctl restart samba
 systemctl restart nmb.service smb.service
 SMB_GET_LOG=smb_get_test.log
 SMB_PUT_LOG=smb_put_test.log
+chmod 777 $SMB_PUT_LOG
+chmod 777 $SMB_GET_LOG
 cd share
+echo 'For samba get testing' > $SMB_GET_LOG
+cd /root/test-definitions/auto-test/distributions/distribution/samba
 echo 'For samba put testing' > $SMB_PUT_LOG
-echo 'For samba get testing' > ~/$SMB_GET_LOG
 
 EXPECT=$(which expect)
 $EXPECT << EOF
