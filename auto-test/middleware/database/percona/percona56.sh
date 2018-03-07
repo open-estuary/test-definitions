@@ -9,15 +9,6 @@
 #================================================================*/
 
 
-function percona_uninstall(){
-    
-    yum remove -y AliSQL*
-    yum remove -y mariadb*
-    yum remove -y mysql*
-    yum remove -y Percona*
-    print_info $? "percona_uninstall"
-    exit 
-}
 
 function percona_install(){
     
@@ -36,8 +27,8 @@ function percona_install(){
     export LANG="en_US.UTF-8"
 
     yum info Percona-Server-server-56 > tmpinfo
-    version1=`cat tmpinfo | grep Version |  cut -d : -f2`
-    repo=`cat tmpinfo | grep "From repo" | cut -d : -f 2`
+    version1=`cat tmpinfo | grep Version |  cut -d : -f2 | tr -d "[:blank:]"`
+    repo=`cat tmpinfo | grep "From repo" | cut -d : -f 2 | tr -d "[:blank:]"`
     if [ x"$version1" == x"5.6.35" -a x"$repo" == x"Estuary"  ];then
         true
     else

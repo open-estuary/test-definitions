@@ -32,6 +32,33 @@ function close_firewall_seLinux(){
 
 }
 
+function cleanup_mysql() {
+
+    # mysql alisql percona 
+    database="$1"
+    packages=`rpm -qa | grep -i "$database"`
+    for package in $packages 
+    do 
+        yum remove -y $package 
+    done 
+
+
+}
+
+
+function cleanup_all_database(){
+    
+    # 清理mysql
+    for db in mysql alisql percona mariadb 
+    do 
+        cleanup_mysql $db
+    done 
+
+    rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld 
+    userdel -r mysql 
+
+}
+
 
 function mysql_client(){
 
@@ -72,8 +99,9 @@ function mysql_client(){
 function mysql_load_data(){
     
     if [ ! -d test_db ];then
-        git clone https://github.com/datacharmer/test_db.git 
-    fi
+       timeout 2m git clone https://github.com/datacharmer/test_db.git 
+    fi 
+    print_info $? "download_test_data_timeout"
     mysql -e "drop database if exists employees"
     
     mysql < ./test_db/employees.sql
@@ -473,7 +501,7 @@ function mysql_drop(){
 
     #drop databases
     mysql -e "drop database mytest"
-    mysql -e "show databaases" | grep mytest
+    mysql -e "show databases" | grep mytest
     if [ $? -eq 0 ];then
         false
     else
@@ -944,4 +972,6 @@ eof
 
 
 }
+
+
 
