@@ -6,10 +6,13 @@ cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -
+source ../percona/mysql.sh 
 
 yum erase -y mariadb-libs
 yum remove -y mariadb-libs
 yum update -y
+
+cleanup_all_database 
 
 pkgs="mysql57-community-common mysql57-community-server 
 	mysql57-community-client mysql57-community-devel expect"
@@ -25,7 +28,7 @@ print_info $? start-mysqld
 systemctl status mysqld | grep running
 print_info $? status-mysqld
 
-cd ../../utils/mysql
+cd ../../../../utils/mysql
 
 ./nonelogin.sh
 if [ $? -eq 0 ]; then

@@ -6,10 +6,12 @@ cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -
-
+source ../percona/mysql.sh 
 yum erase -y mariadb-libs
 yum remove -y mariadb-libs
 yum update -y
+
+cleanup_all_database
 
 pkgs="mysql-community-common mysql-community-server 
 	mysql-community-client mysql-community-devel expect"
