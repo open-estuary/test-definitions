@@ -3,19 +3,24 @@
 #qperf is a tool for testing bandwidth and latency
 # Author: mahongxin <hongxin_228@163.com>
 
-set -x
 
 cd ../../../../utils
     . ./sys_info.sh
 cd -
 
+set -x
 # Test user id
 if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+
+
+source ../percona/mysql.sh 
+
 case $distro in
     "centos")
+        cleanup_all_database
         yum install java-1.8.0-openjdk.aarch64 -y
         yum install mysql-community-server.aarch64 -y
         yum install expect -y
@@ -30,7 +35,7 @@ systemctl status mysqld.service |grep "active (running)"
 print_info $? mysql-status
 
 #修改密码
-mysqladmin -uroot -p password "123456"
+mysqladmin -uroot  password "123456"
 print_info $? set-passwd
 
 #登录mysql并创建3个库
@@ -110,12 +115,13 @@ expect eof
 EOF
 grep "Welcome to the MySQL monitor" mycat.log
 print_info $? mysql-mycat
-count=grep "Query OK" mycat.log|wc -l
+count=`grep "Query OK" mycat.log|wc -l`
 if [ "$count" -eq  4 ]; then
-print_info $? creat-table
-print_info $? insert-table
-print_info $? explain-create
-print_info $? explain-insert
+    print_info $? creat-table
+    print_info $? insert-table
+    print_info $? explain-create
+    print_info $? explain-insert
+fi 
 count1=`ps -aux| grep mysql|wc -l`
 if [ $count1 -gt 0 ]; then
     kill -9 $(pidof mysql)
