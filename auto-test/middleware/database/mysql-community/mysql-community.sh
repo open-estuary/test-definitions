@@ -32,7 +32,7 @@ print_info $? start-mysqld
 systemctl status mysqld | grep running
 print_info $? status-mysqld
 
-cd ../../utils/mysql
+cd ../../../../utils/mysql
 
 ./nonelogin.sh
 if [ $? -eq 0 ]; then
