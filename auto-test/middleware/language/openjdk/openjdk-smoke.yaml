@@ -18,6 +18,7 @@ metadata:
         - mustang
         - d02
         - d03
+        - d05
         - overdrive
 
 params:
@@ -30,3 +31,9 @@ run:
         - cd ./auto-test/middleware/language/openjdk/
         - ./openjdk-smoke.sh -v "${VERSION}" -s "${SKIP_INSTALL}"
         - cd -
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
