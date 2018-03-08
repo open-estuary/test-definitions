@@ -7,6 +7,7 @@ metadata:
         - tanliqing2010@163.com
     scope:
         - database
+        - cassandra
     os:
         - centos
     devices:

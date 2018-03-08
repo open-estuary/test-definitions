@@ -7,6 +7,7 @@ metadata:
         - tanliqing2010@163.com
     scope:
         - bigdata
+        - zookeeper
     os:
         - centos
     devices:
