@@ -4,7 +4,7 @@ usb_hotplug.md - usb_hotplug 测试USB热插拔和不同型号usb是否能识别
 Hardware platform: D05 D03  
 Software Platform: CentOS Ubuntu Debian 
 Author: Chen Shuangsheng <chenshuangsheng@huawei.com>  
-Date: 2017-15-02 10:38:05  
+Date: 2017-11-02 10:38:05  
 Categories: Estuary Documents  
 Remark:
 ---
