@@ -17,6 +17,7 @@ case $distro in
         yum install gcc -y
         yum install gcc-c++ -y
         yum install git -y
+        yum install make -y
         git clone https://github.com/google/googletest.git
         print_info $? install-gtest
         ;;
@@ -107,7 +108,7 @@ else
 fi
 case $distro in
     "centos")
-        yum remove gcc gcc-c++ git -y
+        yum remove gcc gcc-c++ git make  -y
         print_info $? remove-pkgs
         ;;
 esac

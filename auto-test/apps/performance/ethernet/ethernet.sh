@@ -39,13 +39,7 @@ ROUTE_ADDR=$(ip route list  | grep default | awk '{print $3}' | head -1)
 print_info $? eht0-ip
 # Run the test
 ping -c 5 ${ROUTE_ADDR} 2>&1 | tee ether.log
-str="0% packet loss"
-TCID1="ethernet-ping-route"
-if [ "$str" != "" ] ; then
-    lava-test-case $TCID1 --result fail
-else
-    lava-test-case $TCID1 --result pass
-fi
+print_info $? ping-route
 case $distro in
     "centos")
         yum remove net-tools.aarch64 -y
