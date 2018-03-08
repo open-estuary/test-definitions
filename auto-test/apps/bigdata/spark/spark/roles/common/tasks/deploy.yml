@@ -8,7 +8,6 @@
   tags: 
     - env 
     - jdk 
-
 - name: create ~/bigdata/spark directory
   file:
     dest: ~/bigdata/spark/
@@ -103,6 +102,7 @@
   template: src={{ item.name }} dest=/var/bigdata/spark/conf/  mode={{ item.mode }}
   with_items:
     - { name: 'spark-env.sh' , mode: '0700' }
+  ignore_errors: yes
   tags: spark
 
 

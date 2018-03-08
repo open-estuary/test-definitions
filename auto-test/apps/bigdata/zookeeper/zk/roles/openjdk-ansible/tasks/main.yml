@@ -15,8 +15,8 @@
         name: '{{ item }}'
         state: present
       with_items:
-        - java-1.8.0-openjdk
-        - java-1.8.0-openjdk-devel
+        - 'java-1.8.0-openjdk'
+        - 'java-1.8.0-openjdk-devel'
       when:  ansible_os_family == "RedHat" 
 
     - name: get jdk home 
