@@ -120,7 +120,7 @@ brctl_config()
 
 set -x
 
-cd ../../../utils
+cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -

@@ -1,8 +1,8 @@
 
 metadata:
-    name: etcd
+    name: pipework
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "A highly-available key value store for shared configuration"
+    description: "Software-Defined Networking for Linux Containers"
     maintainer:
         - liu_caili@hoperun.com
     scope:
@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/virtualization/etcd; ./etcd.sh; cd -"
+        - "cd auto-test/virtualization/virtualization/pipework; ./pipework.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
