@@ -17,7 +17,7 @@ source ./alisql.sh
 source ./../percona/mysql.sh 
 set -x
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
-
+cleanup_all_database
 alisql_install
 alisql_start_custom
 mysql_client
@@ -34,4 +34,5 @@ mysql_transaction
 mysql_innodb
 
 alisql_stop_custom 
+cleanup_all_database
 

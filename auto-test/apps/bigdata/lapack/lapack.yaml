@@ -11,6 +11,7 @@ metadata:
         - opensuse 
     scope:
         - functional
+        - lapack
     devices:
         - d05
         - d03
