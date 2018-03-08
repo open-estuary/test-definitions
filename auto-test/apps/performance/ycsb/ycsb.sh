@@ -7,7 +7,6 @@
 #   描    述：
 #
 #================================================================*/
-. ../../../../utils/sys_info.sh
 function install_ycsb(){
 
     yum install -y ycsb java-1.8.0-openjdk
@@ -51,7 +50,7 @@ function uninstall_ycsb(){
     sed -i /'YCSB_HOME'/d ~/.bashrc 
 
 }
-
+. ../../../../utils/sys_info.sh
 install_ycsb
 ycsb_env
 
