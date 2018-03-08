@@ -1,8 +1,8 @@
 
 metadata:
-    name: docker
+    name: lxc
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Automates deployment of containerized applications"
+    description: "Linux Resource Containers"
     maintainer:
         - liu_caili@hoperun.com
     scope:
@@ -10,6 +10,7 @@ metadata:
     os:
         - ubuntu
         - centos
+        - opensuse
     devices:
         - d03
         - d05
@@ -17,7 +18,8 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/virtualization/docker; ./docker.sh; cd -"
+        - "cd ./auto-test/virtualization/virtualization/lxc; ./lxc.sh; cd -"
+
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
