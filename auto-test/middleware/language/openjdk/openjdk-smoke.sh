@@ -50,6 +50,7 @@ else
             ;;
     esac
 fi
+print_info $? OpenJDK-Install
 
 # Set the specific version as default in case more than one jdk installed.
 for link in java javac; do
@@ -86,3 +87,28 @@ else
     false
 fi
 print_info $?  OpenJDK-ExecuteHelloWorld 
+
+if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
+    info_msg "JDK package removing skipped"
+else
+    dist_name
+    # shellcheck disable=SC2154
+    case "${dist}" in
+        debian|ubuntu)
+            dist_info
+            # shellcheck disable=SC2154
+            if [ "${Codename}" = "jessie" ] && [ "${VERSION}" -ge "8" ]; then
+                remove_deps "-t jessie-backports openjdk-${VERSION}-jdk"
+            else
+                remove_deps "openjdk-${VERSION}-jdk"
+            fi
+            ;;
+        centos|fedora)
+            remove_deps "java-1.${VERSION}.0-openjdk-devel"
+            ;;
+        *)
+            error_msg "Unsupported distribution"
+            ;;
+    esac
+fi
+print_info $?  OpenJDK-Remove
