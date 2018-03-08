@@ -56,12 +56,6 @@ print_info $? iostat-x
 iostat -c 1 3 2>&1 | tee iostat-c.log
 pirnt_info $? iostat-c
 
-count=`ps -aux | grep iostat | wc -l`
-if [ $count -gt 0 ]; then
-    kill -9 $(pidof iostat)
-     print_info $? kill-iostat
-fi
-
 case $distro in
     "ubuntu|debian")
      apt-get remove systat -y

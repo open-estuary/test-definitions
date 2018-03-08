@@ -68,12 +68,6 @@ print_info $? dstat-socket
 dstat -r 3 10 2>&1 | tee -a dstat.log
 print_info $? dstat-r
 
-count=`ps -aux | grep dstat | wc -l`
-if [ $count -gt 0 ]; then
-    kill -9 $(pidof dstat)
-     print_info $? kill-dstat
-fi
-
 case $distro in
     "ubuntu|debian")
      apt-get remove dstat -y
