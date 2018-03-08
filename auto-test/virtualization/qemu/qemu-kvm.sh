@@ -42,6 +42,7 @@ case "${distro}" in
 		install_deps "${pkgs}"
 	;;
 	centos|fedora)
+		yum remove yum-plugin-priorities.noarch -y
 		pkgs="kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel"
 		install_deps "${pkgs}"
 	;;
