@@ -9,6 +9,7 @@ metadata:
         - performance
     os:
         - ubuntu
+        - centos
     devices:
         - d05
         - d03
