@@ -28,7 +28,7 @@ function install_leveldb(){
 function install_plyvel(){
 
     yum install -y python2-pip 
-    pip install_plyvel
+    pip install plyvel
     python -c "import plyvel"
     if [ $? -ne 0 ];then
         print_info 1 "install_plyvel"
