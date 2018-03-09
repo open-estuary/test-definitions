@@ -12,6 +12,7 @@ metadata:
     devices:
         - hi6220-hikey
         - apq8016-sbc
+    level: 5
 
 params:
     # Default user is linaro

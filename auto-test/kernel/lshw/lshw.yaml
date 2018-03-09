@@ -10,11 +10,10 @@ metadata:
         - centos
     scope:
         - linux
-    environment:
-        - lava-test-shell
     devices:
         - d03
         - d05
+    level: 5
 
 params:
     # Test if lshw able to report the classes pre-defined in ${CLASSES}.
