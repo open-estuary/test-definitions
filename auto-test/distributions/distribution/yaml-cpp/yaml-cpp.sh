@@ -23,6 +23,7 @@ case $distro in
          print_info $? tar-yaml-cpp
          yum install cmake -y
          yum install boost -y
+         yum install gcc-c++ -y
          cd yaml-cpp-yaml-cpp-0.5.3
          cmake -DBUILD_SHARED_LIBS=ON
          make
@@ -104,14 +105,14 @@ subscribers:
     short_desc:  "Navigation controller"
 publisher:       "output/cmd_vel"
 EOF
-sed -i '$a\/usr/local/lib' /etc/ld.so.conf
+sed -i '$a\/usr/lib' /etc/ld.so.conf
 cd /etc
 ldconfig
-cd /root/test-definitions/auto-test/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3
+cd /root/test-definitions/auto-test/distributions/distribution/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3
 cp libyaml-cpp.so /usr/lib/
 cd /usr/lib
 ln -s libyaml-cpp.so libyaml-cpp.so.0.5
-cd /root/test-definitions/auto-test/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3/test3
+cd /root/test-definitions/auto-test/distributions/distribution/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3/test3
 g++ -g -o test test.cpp -I ../include/ ../libyaml-cpp.so
 print_info $? compile-cpp
 ./test 2>&1 |tee yaml-cpp.log

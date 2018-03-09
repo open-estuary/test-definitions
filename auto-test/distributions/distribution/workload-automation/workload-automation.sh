@@ -86,7 +86,8 @@ sed -i 's/^PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 sed -i 's/^# *PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 grep "PermitRootLogin yes" /etc/ssh/sshd_config
 echo "root:linaro123" | chpasswd
-/etc/init.d/ssh restart && sleep 3
+#/etc/init.d/ssh restart && sleep 3
+service sshd restart && sleep 3
 print_info $? restart-ssh
 # Ensure that csv is enabled in result processors.
 if ! awk '/result_processors = [[]/,/[]]/' ./config.py | grep -q 'csv'; then
