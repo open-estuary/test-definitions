@@ -56,14 +56,18 @@ case "${distro}" in
         # x86_64 nginx package can be installed from epel repo. However, epel
         # project doesn't support ARM arch yet. RPB repo should provide nginx.
         [ "$(uname -m)" = "x86_64" ] && install_deps "epel-release"
-        pkgs="nginx mariadb-server mariadb php php-mysql php-fpm curl"
+        yum remove -y `rpm -qa | grep -i mysql`
+        yum remove -y `rpm -qa | grep -i alisql`
+        yum remove -y `rpm -qa | grep -i percona`
+        yum remove -y `rpm -qa | grep -i mariadb`
+        pkgs="nginx mysql-community-server php php-mysql php-fpm curl"
         install_deps "${pkgs}"
         print_info $? install-pkgs
         # Stop apache server in case it is installed and running.
         systemctl stop httpd.service > /dev/null 2>&1 || true
 
         systemctl restart nginx
-        systemctl restart mariadb
+        systemctl restart mysql
 
         # Configure PHP.
         cp /etc/php.ini /etc/php.ini.bak
