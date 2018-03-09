@@ -55,11 +55,15 @@ set -x
         systemctl restart mysql
         ;;
       centos|fedora)
-        pkgs="httpd mariadb-server mariadb php php-mysql"
+        yum remove -y `rpm -qa | grep -i mysql`
+        yum remove -y `rpm -qa | grep -i alisql`
+        yum remove -y `rpm -qa | grep -i percona`
+        yum remove -y `rpm -qa | grep -i mariadb`
+        pkgs="httpd mysql-community-server php php-mysql"
         install_deps "curl ${pkgs}"
         print_info $? install-pkgs
         systemctl start httpd.service
-        systemctl start mariadb
+        systemctl start mysql
         ;;
       *)
         error_msg "Unsupported distribution!"
