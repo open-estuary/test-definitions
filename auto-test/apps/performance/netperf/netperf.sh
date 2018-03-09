@@ -24,7 +24,7 @@ case $distro in
         # ./configure --build=aarch64-unknown-linux-gnu
         # make
         # make install
-        yum install netperf.aarch64 -y
+        yum install netperf -y
         print_info $? install-netperf
          ;;
     "ubuntu")
