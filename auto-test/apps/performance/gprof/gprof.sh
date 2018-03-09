@@ -34,7 +34,7 @@ print_info $? run-a.out
 gprof a.out gmon.out > report.txt
 print_info $? run-gprof
 
-case $distro into
+case $distro in
     "ubuntu")
         apt-get remove gcc -y
         print_info $? remove-gcc

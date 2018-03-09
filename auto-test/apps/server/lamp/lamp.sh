@@ -6,9 +6,9 @@ set -x
 . ../../../../lib/sh-test-lib
 
 
-#OUTPUT="$(pwd)/output"
-#RESULT_FILE="${OUTPUT}/result.txt"
-#export RESULT_FILE
+OUTPUT="$(pwd)/output"
+RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 
 
 #usage() {
@@ -24,8 +24,8 @@ set -x
 #done
 
 #! check_root && error_msg "This script must be run as root"
-#[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-#mkdir -p "${OUTPUT}"
+[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
+mkdir -p "${OUTPUT}"
 
 # Install lamp and use systemctl for service management. Tested on Ubuntu 16.04,
 # Debian 8, CentOS 7 and Fedora 24. systemctl should available on newer releases
@@ -34,10 +34,8 @@ set -x
 #    warn_msg "LAMP package installation skipped"
 #else
     # Stop nginx server in case it is installed and running.
-#distro=`cat /etc/redhat-release | cut -b 1-6`
     systemctl stop nginx > /dev/null 2>&1 || true
 
-#    dist_name
     # shellcheck disable=SC2154
     case "${distro}" in
       debian|ubuntu)
@@ -45,8 +43,8 @@ set -x
             pkgs="apache2 mysql-server php5-mysql php5-common libapache2-mod-php5"
         elif [ "${distro}" = "ubuntu" ]; then
             echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
-			 echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
-			pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
+            echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
+           pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
         fi
         install_deps "curl ${pkgs}"
         print_info $? install-pkgs
@@ -55,11 +53,15 @@ set -x
         systemctl restart mysql
         ;;
       centos|fedora)
-        pkgs="httpd mariadb-server mariadb php php-mysql"
+        yum remove -y `rpm -qa | grep -i mysql`
+        yum remove -y `rpm -qa | grep -i alisql`
+        yum remove -y `rpm -qa | grep -i percona`
+        yum remove -y `rpm -qa | grep -i mariadb`
+        pkgs="httpd mysql-community-server php php-mysql"
         install_deps "curl ${pkgs}"
         print_info $? install-pkgs
         systemctl start httpd.service
-        systemctl start mariadb
+        systemctl start mysql
         ;;
       *)
         error_msg "Unsupported distribution!"
