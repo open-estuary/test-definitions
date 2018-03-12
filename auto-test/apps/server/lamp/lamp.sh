@@ -57,6 +57,7 @@ mkdir -p "${OUTPUT}"
         yum remove -y `rpm -qa | grep -i alisql`
         yum remove -y `rpm -qa | grep -i percona`
         yum remove -y `rpm -qa | grep -i mariadb`
+        yum install curl -y
         pkgs="httpd mysql-community-server php php-mysql"
         install_deps "curl ${pkgs}"
         print_info $? install-pkgs
@@ -120,6 +121,8 @@ print_info $? php-delete-record
 # Delete myDB for the next run.
 mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
 print_info $? delete-database
+rpm -e --nodeps curl
+print_info $? remove-curl
 remove_deps "${pkgs}"
 print_info $? remove-package
 

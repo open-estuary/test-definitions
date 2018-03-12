@@ -12,7 +12,7 @@ metadata:
     devices:
         - d05
         - d03
-    level: 5
+    level: 1
 run:
     steps:
         - "cd auto-test/apps/performance/ltp-realtime; ./ltp-realtime.sh; cd - "
