@@ -24,7 +24,7 @@ metadata:
         - thunderX
         - d03
         - d05
-    level: 5
+    level: 1
 
 params:
     LOOPS: 10000
