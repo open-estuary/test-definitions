@@ -14,7 +14,7 @@ metadata:
     devices:
         - d03
         - d05
-    level: 5
+    level: 1
 run:
     steps:
         - "cd auto-test/apps/performance/iperf; ./iperf.sh; cd -"
