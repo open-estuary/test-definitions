@@ -25,7 +25,7 @@ metadata:
         - thunderX
         - d03
         - d05
-    level: 5
+    level: 1
 params:
     # Priority of highest prio thread.
     PRIORITY: "99"
