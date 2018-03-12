@@ -60,8 +60,9 @@ case "${distro}" in
         yum remove -y `rpm -qa | grep -i alisql`
         yum remove -y `rpm -qa | grep -i percona`
         yum remove -y `rpm -qa | grep -i mariadb`
-        pkgs="nginx mysql-community-server php php-mysql php-fpm curl"
-        install_deps "${pkgs}"
+        yum install curl -y
+        pkgs="nginx mysql-community-server php php-mysql php-fpm"
+        install_deps "curl ${pkgs}"
         print_info $? install-pkgs
         # Stop apache server in case it is installed and running.
         systemctl stop httpd.service > /dev/null 2>&1 || true
@@ -170,5 +171,6 @@ case "${distro}" in
         rm -f /etc/nginx/default.d/default.conf
         ;;
 esac
+rpm -e --nodeps curl
 remove_deps "${pkgs}"
 print_info $? remove-package
