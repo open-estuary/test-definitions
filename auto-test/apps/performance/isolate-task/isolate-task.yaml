@@ -19,7 +19,7 @@ metadata:
         - performance
     environment:
         - lava-test-shell
-    level: 5
+    level: 1
 params:
     ISOL_CORES:   "2,3"
     SKIP_INSTALL: "False"
