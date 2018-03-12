@@ -37,7 +37,6 @@ test-definitions
 │   │   ├── deploy
 │   │   └── distribution
 │   ├── hardwareboards
-│   │   └── hns
 │   ├── kernel
 │   ├── middleware
 │   │   ├── language
@@ -46,7 +45,9 @@ test-definitions
 │   │   ├── 82599
 │   │   ├── sas
 │   │   ├── raid
-│   │   └── ssd
+│   │   ├── ssd
+│   │   ├── misc
+│   │   └── hns
 │   └── virtualization
 ├── owner
 ├── plans

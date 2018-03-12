@@ -11,18 +11,18 @@ Remark:
 
 # Dependency
 ```
-  1.服务器1台且能正常启动系统
+  1. 服务器1台且能正常启动系统
 ```
 
 # Test Procedure
 ```bash
-  1.单板下电
-  2.内存插入主从CPU的ABCDEFGH槽位
-  3.单板上电
+  1. 单板下电
+  2. 内存插入主从CPU的ABCDEFGH槽位
+  3. 单板上电
 ```
 
 # Expected Result
 ```bash
-  1.设备能正常启动进入BIOS
-  2.启动日志无异常报错信息
+  1. 设备能正常启动进入BIOS
+  2. 启动日志无异常报错信息
 ```
