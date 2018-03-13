@@ -1,6 +1,6 @@
 
 metadata:
-    name: ubuntu-dsdbench
+    name: dsdbench
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "dsdbench"
     maintainer:
@@ -9,6 +9,7 @@ metadata:
         - performance
     os:
         - ubuntu
+        - centos
     devices:
         - d05
         - d03
