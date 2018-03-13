@@ -7,7 +7,7 @@ cd ../../../../utils
 . ./sh-test-lib
 cd -
 
-pkgs="docker expect "
+pkgs="docker expect net-tools"
 install_deps "${pkgs}"
 print_info $? install-package
 
@@ -17,6 +17,8 @@ print_info $? install-pipework
 
 pipework -h | grep Syntax
 print_info $? pipework-help
+
+systemctl start docker
 
 docker pull centos
 print_info $? docker-pull-centos
@@ -100,6 +102,8 @@ print_info $? retest-pipework-ip
 
 cat ./out.log | grep '0% packet loss'
 print_info $? test-container-network
+
+systemctl stop docker
 
 yum remove -y pipework
 print_info $? remove-pipework
