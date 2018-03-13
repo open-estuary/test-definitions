@@ -23,17 +23,14 @@ case "${distro}" in
 		error_msg "Unsupported distribution!"
 esac
 
-etcd &
-print_info $? start-single-etcd
+systemctl start etcd
+print_info $? start-etcd
 
 etcdctl set hello world
 print_info $? create-key-value
 
 etcdctl get hello | grep "world"
 print_info $? search-key-value
-
-kill -9 $(pidof etcd)
-print_info $? stop-single-etcd
 
 echo $local_ip
 etcd --name infra0 --initial-advertise-peer-urls http://$local_ip:2380 \
@@ -70,6 +67,9 @@ print_info $? check-cluster-health
 
 kill -9 $(pidof etcd)
 print_info $? stop-cluster-etcd
+
+systemctl stop etcd
+print_info $? stop-etcd
 
 yum remove -y etcd
 print_info $? remove-etcd
