@@ -47,5 +47,6 @@ create_out_dir "${OUTPUT}"
 
 detect_abi
 bandwidth_test
+print_info $? bandwidth_test
 latency_test
 print_info $? latency-test

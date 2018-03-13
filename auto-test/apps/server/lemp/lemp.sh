@@ -85,7 +85,7 @@ case "${distro}" in
         systemctl restart php-fpm
 
         # Configure NGINX for PHP.
-        cp ../../utils/centos-nginx.conf /etc/nginx/default.d/default.conf
+        cp ../../../../utils/centos-nginx.conf /etc/nginx/conf.d/default.conf
         systemctl restart nginx
         ;;
     *)
