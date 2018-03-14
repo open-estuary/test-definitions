@@ -11,7 +11,7 @@ set -x
 
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
-３export RESULT_FILE
+#export RESULT_FILE
 #TEST_LIST="test-nginx-server mysql-show-databases test-phpinfo
 #           php-connect-db php-create-db php-create-table php-add-record
 #           php-select-record php-delete-record"
@@ -44,7 +44,7 @@ case "${distro}" in
 
         # Configure PHP.
         cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
-        sed -i "s/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
+        sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
         systemctl restart php7.0-fpm
 
         # Configure NGINX for PHP.
@@ -73,8 +73,15 @@ case "${distro}" in
         # Configure PHP.
         cp /etc/php.ini /etc/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php.ini
-
-        sed -i "s/doc_root =/doc_root=\/usr\/share\/nginx\/html/" /etc/php.ini
+        sed -i "s/listen.allowed_clients = 127.0.0.1/listen = \/run\/php-fpm\/php-fpm.sock/" /etc/php-fpm.d/www.conf
+        sed -i "s/;listen.owner = nobody/listen.owner = nginx/" /etc/php-fpm.d/www.conf
+        sed -i "s/;listen.group = nobody/listen.group = nginx/" /etc/php-fpm.d/www.conf
+        sed -i "s/user = apache/user = nginx/" /etc/php-fpm.d/www.conf
+        sed -i "s/group = apache/group = nginx/" /etc/php-fpm.d/www.conf
+        # This creates the needed php-fpm.sock file
+        systemctl restart php-fpm
+        chmod 666 /run/php-fpm/php-fpm.sock
+        chown nginx:nginx /run/php-fpm/php-fpm.sock
         systemctl restart php-fpm
 
         # Configure NGINX for PHP.
@@ -149,7 +156,7 @@ print_info $? php-delete-record
 # Cleanup.
 # Delete myDB for the next run.
 mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
-print_info $? delete-myDB
+print_info $? delete-mysql
 # Restore from backups.
 #rm -rf /usr/share/nginx/html
 #mv /usr/share/nginx/html.bak /usr/share/nginx/html
