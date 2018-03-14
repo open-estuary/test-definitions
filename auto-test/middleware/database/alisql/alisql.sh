@@ -10,10 +10,10 @@
 
 function alisql_uninstall(){
 
-    yum remove -y mariadb*
-    yum remove -y mysql*
-    yum remove -y percona*
-    yum remove -y AliSQL*
+    yum remove -y `rpm -qa | grep -i mariadb`
+    yum remove -y `rpm -qa | grep -i mysql`
+    yum remove -y `rpm -qa | grep -i percona`
+    yum remove -y `rpm -qa | grep -i alisql`
 }
 
 function alisql_install(){
