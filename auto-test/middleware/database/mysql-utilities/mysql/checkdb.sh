@@ -1,6 +1,27 @@
 #!/bin/bash
 #insert some data into case table
 
+
+dbname=$1
+tbname=$2
+
+
+mysql -uroot -proot -e "show databases" | grep $dbname 
+
+if test ! $? ;then
+    return 1
+fi 
+
+mysql -uroot -proot -e "use $dbname;select * from t1" | grep $tbname 
+
+
+
+
+
+
+
+if false ;then
+
 set dbname [lindex $argv 0]
 set info [lindex $argv 1]
 
@@ -22,4 +43,4 @@ expect "$info"
 send "exit\r"
 expect eof
 EOF
-
+fi 
