@@ -63,16 +63,40 @@ case $distro in
         ;;
 esac
 
+
+
+red='\e[0;41m' # 红色  
+RED='\e[1;31m'
+green='\e[0;32m' # 绿色  
+GREEN='\e[1;32m'
+yellow='\e[5;43m' # 黄色  
+YELLOW='\e[1;33m'
+blue='\e[0;34m' # 蓝色  
+BLUE='\e[1;34m'
+purple='\e[0;35m' # 紫色  
+PURPLE='\e[1;35m'
+cyan='\e[4;36m' # 蓝绿色  
+CYAN='\e[1;36m'
+WHITE='\e[1;37m' # 白色
+ 
+NC='\e[0m' # 没有颜色
+
 print_info()
 {
+
     if [ $1 -ne 0 ]; then
         result='fail'
+        cor=$red 
     else
         result='pass'
+        cor=$GREEN
     fi
 
     test_name=$2
-    echo "the result of $test_name is $result"
+
+    
+
+    echo -e "${cor}the result of $test_name is $result${NC}"
     lava-test-case "$test_name" --result $result
 }
 
