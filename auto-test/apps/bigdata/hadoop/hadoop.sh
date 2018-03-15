@@ -19,8 +19,11 @@ function install_hadoop() {
     then
         mkdir -p /var/bigdata/hadoop
     fi 
-    pushd  .
-    cd /var/bigdata/hadoop/
+    
+    
+    pushd   /var/bigdata/hadoop/
+
+
 
     if [  -d hadoop-2.7.4 ];then
 		rm -rf hadoop-2.7.4
@@ -31,8 +34,11 @@ function install_hadoop() {
     fi
     tar -zxf hadoop-2.7.4.tar.gz
  
-	cd hadoop-2.7.4
-	sed -i "s/export JAVA_HOME=.*/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk/g" etc/hadoop/hadoop-env.sh
+	
+    pushd hadoop-2.7.4
+	
+    
+    sed -i "s/export JAVA_HOME=.*/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk/g" etc/hadoop/hadoop-env.sh
 	print_info $? "hadoop_edit_config_add_JAVA_HOME_env"
 	
 	grep HADOOP_HOME ~/.bashrc 
@@ -43,8 +49,12 @@ function install_hadoop() {
 	echo "export HADOOP_HOME=`pwd`" >> ~/.bashrc
 	echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' >> ~/.bashrc
 	source ~/.bashrc
-    cd ..
+    
+    
     popd 
+    popd 
+
+
 	if [ -n $HADOOP_HOME ];then
 		lava-test-case "hadoop_set_HADOOP_HOME" --result pass
 	else
@@ -69,7 +79,7 @@ function hadoop_standalone() {
 function hadoop_config_base() {
 
  #1\ edit config file
-    cd $HADOOP_HOME
+    pushd $HADOOP_HOME
     cp etc/hadoop/core-site.xml{,.bak}
     cat <<EOF >etc/hadoop/core-site.xml
 <configuration>
@@ -98,14 +108,20 @@ EOF
 EOF
     print_info $? "hadoop_single_node_edit_replication_argment"
 
+    popd 
 
 }
 function hadoop_namenode_format() {
-	cd $HADOOP_HOME
+	pushd  $HADOOP_HOME
 	rm -rf /tmp/hadoop-root
     bin/hdfs namenode -format
     print_info $? "hadoop_single_node_format_namenode"
+    
+    popd 
+
 }
+
+
 function hadoop_ssh_nopasswd() {
 	#2\ ssh without password
     if [ -d ~/.ssh ];then
@@ -117,12 +133,14 @@ function hadoop_ssh_nopasswd() {
     chmod 0600 ~/.ssh/authorized_keys
 	echo  "StrictHostKeyChecking=no" >> ~/.ssh/config
 	print_info $? "hadoop_single_node_ssh_without_password"
+
+    
 }
 
 function hadoop_single_node() {
 	#1\ edit config file 
 
-	cd $HADOOP_HOME
+	pushd  $HADOOP_HOME
 
 	# 4 start namenode 
 	sbin/start-dfs.sh
@@ -179,10 +197,12 @@ function hadoop_single_node() {
 		false
 	fi
 	print_info $?  "hadoop_stop_hdfs"
+
+    popd 
 }
 
 function hadoop_config_yarn() {
-	cd $HADOOP_HOME
+	pushd  $HADOOP_HOME
     if [ !  -f  etc/hadoop/mapred-site.xml ];then
         cp  etc/hadoop/mapred-site.xml.template etc/hadoop/mapred-site.xml
     fi
@@ -205,10 +225,12 @@ EOF
 </configuration>
 EOF
     print_info $? "hadoop_edit_enable_shuffle_para"	
+
+    popd 
 }
 
 function hadoop_single_with_yarn() {
-	cd $HADOOP_HOME
+	pushd  $HADOOP_HOME
 	print_info $? "hadoop_edit_enable_shuffle_para"
 	sbin/start-dfs.sh
 	sbin/start-yarn.sh
@@ -373,13 +395,13 @@ jps
     else    
         lava-tese-case "hadoop_start_resourcemanager" --result fail
     fi
+    popd 
 jps	
 }
 
 function hadoop_stop_all(){
 
-    pushd .
-    cd $HADOOP_HOME
+    pushd  $HADOOP_HOME
 	sbin/stop-yarn.sh
 	print_info $? "hadoop_single_node_stop_yarn"
 
