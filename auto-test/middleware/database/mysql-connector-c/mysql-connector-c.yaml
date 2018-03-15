@@ -1,6 +1,6 @@
 
 metadata:
-    name: mysql-connector-c++
+    name: mysql-connector-c
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "MySQL Connector/C++ is a MySQL database connector for C++."
     maintainer:
