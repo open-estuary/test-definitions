@@ -46,8 +46,7 @@ expect eof
 EOF
 print_info $? create-database
 
-find . -name "test.py"
-if [ $?  -ne 0 ];then
+if !  test  -f "test.py" ;then
 	echo "Error: Have not found test.py!!"
 	exit 1
 fi
