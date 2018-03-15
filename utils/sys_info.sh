@@ -63,8 +63,8 @@ case $distro in
         ;;
 esac
 
-print_info()
-{
+
+
 red='\e[0;41m' # 红色  
 RED='\e[1;31m'
 green='\e[0;32m' # 绿色  
@@ -81,12 +81,15 @@ WHITE='\e[1;37m' # 白色
  
 NC='\e[0m' # 没有颜色
 
+print_info()
+{
+
     if [ $1 -ne 0 ]; then
         result='fail'
         cor=$red 
     else
         result='pass'
-        cor=$green 
+        cor=$GREEN
     fi
 
     test_name=$2
