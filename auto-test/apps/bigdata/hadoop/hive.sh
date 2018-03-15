@@ -8,8 +8,7 @@ function hive_install_innter(){
     then
         mkdir -p /var/bigdata/hive/
     fi 
-    pushd .
-    cd /var/bigdata/hive 
+    pushd  /var/bigdata/hive 
 	if test -f apache-hive-2.1.1-bin.tar.gz ;
     then
 		if [ -d apache-hive-2.1.1-bin ];then
@@ -202,7 +201,7 @@ function hive_inner_table() {
         hive -e "select count(*) from u_data;"
         print_info $? "hive base select count(*)"
 
-        cp $/hive-add-file.sql .
+        cp ${basedir}/hive-add-file.sql .
         print_info $? "hive_create_sql_file"
 
         cp ${basedir}/weekday_mapper.py .
