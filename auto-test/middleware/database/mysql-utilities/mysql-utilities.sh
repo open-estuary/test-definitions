@@ -48,7 +48,7 @@ mysqldbcopy --source=root:root@localhost --destination=root:root@localhost db1:d
 cat out.log | grep 'done'
 print_info $? utility-copy-db
 
-./checkdb.sh db1_copy db1
+timeout 10s ./checkdb.sh db1_copy db1
 print_info $? check-copy-db
 
 mysqldbexport --server=root:root@localhost db1 --output-file=data
@@ -76,7 +76,7 @@ mysqldiff --server1=root:root@localhost --server2=root:root@localhost db1:db2 | 
 cat out.log | grep 'Compare failed'
 print_info $? diff-different-db
 
-mysqlserverclone --server=root:root@localhost --new-data=/tmp/data/ \
+timeout 5m mysqlserverclone --server=root:root@localhost --new-data=/tmp/data/ \
 	--new-port=3310 --new-id=3310 --root-password=3310 --user=mysql -vvv | tee out.log
 cat out.log | grep 'done'
 print_info $? clone-server-3310
