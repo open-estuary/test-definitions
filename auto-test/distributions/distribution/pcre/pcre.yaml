@@ -7,10 +7,7 @@ metadata:
     os:
         - debian
         - ubuntu
-        - fedora
         - centos
-        - openembedded
-        - opensuse
     scope:
         - distribution
     environment:
@@ -18,7 +15,7 @@ metadata:
     devices:
         - d03
         - d05
-
+    level: 1
 params:
     # Test if lshw able to report the classes pre-defined in ${CLASSES}.
     SKIP_INSTALL: "false"
@@ -26,7 +23,7 @@ params:
 run:
     steps:
         - cd auto-test/distributions/distribution/pcre/
-        - ./pcre.sh -s "${SKIP_INSTALL}" 
+        - ./pcre.sh -s "${SKIP_INSTALL}"
         - cd -
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
