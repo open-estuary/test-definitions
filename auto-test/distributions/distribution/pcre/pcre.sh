@@ -46,38 +46,38 @@ install_pcre
 g++ -o pcre test_pcre.cpp -lpcre
 if test $? -eq 0;then
     echo "pcre build: [PASS]" | tee -a "${RESULT_FILE}"
+    print_info $? compilation-cpp
 else
     echo "pcre build: [FAIL]" | tee -a "${RESULT_FILE}"
 fi
-print_info $? compilation-cpp
 ./pcre | tee -a "${LOG_FILE}"
 print_info $? run-cpp
  cat ${LOG_FILE} | grep "PCRE compilation pass"
 
  if [ $? -eq 0 ];then
     echo "regular-compilation: [PASS]" | tee -a ${RESULT_FILE}
+    print_info $? regular-comilation
 else
     echo "regular-compilation: [FIAL]" | tee -a ${RESULT_FILE}
 fi
-print_info $? regular-compilation
 #if [ cat ${LOG_FILE} | grep "OK, has matched" ];then
  cat ${LOG_FILE} | grep "OK, has matched"
  if [ $? -eq 0 ];then
     echo "regular-matches: [PASS]" | tee -a ${RESULT_FILE}
+    print_info $? regular-matches
 else
     echo "regular-matches: [FIAL]" | tee -a ${RESULT_FILE}
 fi
-print_info $? regular-matches
  cat ${LOG_FILE} | grep "free ok"
  if [ $? -eq 0 ];then
     echo "regular-release: [PASS]" | tee -a ${RESULT_FILE}
+    print_info $? regular-release
 else
     echo "regular-release: [FIAL]" | tee -a ${RESULT_FILE}
 fi
-print_info $? regular-release
 case $distro in
     "centos")
-        yum remove pcre gcc-c++
+        yum remove  gcc-c++ -y
         print_info $? remove-pcre
         ;;
 esac

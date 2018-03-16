@@ -63,6 +63,9 @@ case "${distro}" in
         yum install curl -y
         pkgs="nginx mysql-community-server php php-mysql php-fpm"
         install_deps "curl ${pkgs}"
+        #yum install nginx -y
+        #yum install nginx mysql-community -y
+        #yum install php php-mysql php-fpm -y
         print_info $? install-pkgs
         # Stop apache server in case it is installed and running.
         systemctl stop httpd.service > /dev/null 2>&1 || true

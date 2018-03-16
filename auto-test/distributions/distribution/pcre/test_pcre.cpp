@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include "pcre.h"
+#include <pcre.h>
 #include <iostream>
 #include <string>
 using namespace std;
