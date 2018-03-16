@@ -43,10 +43,13 @@ install_ltp() {
     # shellcheck disable=SC2164
     cd /opt/ltp
     # shellcheck disable=SC2140
-    wget https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
+   # wget https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
+    wget http://htsat.vicp.cc:804/ltp-full-20170516.tar.xz
+    print_info $? wget-ltp
     tar --strip-components=1 -Jxf ltp-full-"${LTP_VERSION}".tar.xz
     ./configure --with-realtime-testsuite
     make -C testcases/realtime/
+    print_info $? compile-ltp
 }
 
 # Run LTP realtime test suite
@@ -54,7 +57,9 @@ run_ltp_realtime() {
     # shellcheck disable=SC2164
     cd "${LTP_PATH}"
     for TEST in ${LTP_REALTIME_TESTS}; do
-        pipe0_status "./testscripts/test_realtime.sh -t func/${TEST}"  "tee -a ${TMP_FILE}"
+        ./testscripts/test_realtime.sh -t func/${TEST}
+        "tee -a ${TMP_FILE}"
+        print_info $? ${TEST}
     done
     # shellcheck disable=SC2002
     cat "${TMP_FILE}" | "${SCRIPTPATH}"/ltp-realtime.py 2>&1 | tee -a "${RESULT_FILE}"
@@ -76,10 +81,12 @@ else
       debian|ubuntu)
         pkgs="xz-utils flex bison build-essential wget curl net-tools"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
+        print_info $? instll-pkg
         ;;
       centos|fedora)
         pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
+        print_info $? install-pkg
         ;;
       *)
         warn_msg "Unsupported distribution: package install skipped"
