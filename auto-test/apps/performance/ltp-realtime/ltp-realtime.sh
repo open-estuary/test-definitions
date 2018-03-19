@@ -58,11 +58,11 @@ run_ltp_realtime() {
     cd "${LTP_PATH}"
     for TEST in ${LTP_REALTIME_TESTS}; do
         ./testscripts/test_realtime.sh -t func/${TEST}
-        "tee -a ${TMP_FILE}"
+       # "tee -a ${TMP_FILE}"
         print_info $? ${TEST}
     done
     # shellcheck disable=SC2002
-    cat "${TMP_FILE}" | "${SCRIPTPATH}"/ltp-realtime.py 2>&1 | tee -a "${RESULT_FILE}"
+   # cat "${TMP_FILE}" | "${SCRIPTPATH}"/ltp-realtime.py 2>&1 | tee -a "${RESULT_FILE}"
 }
 
 # Test run.
