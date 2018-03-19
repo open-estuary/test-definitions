@@ -19,7 +19,7 @@ case $distro in
     "centos")
          wget http://htsat.vicp.cc:804/yaml-cpp-yaml-cpp-0.5.3.tar.gz
          print_info $? wget-yaml-cpp
-         tar -zxvf yaml-cpp-yaml-cpp-0.5.3.tar.gz
+         tar -zxf yaml-cpp-yaml-cpp-0.5.3.tar.gz
          print_info $? tar-yaml-cpp
          yum install cmake -y
          yum install boost -y
