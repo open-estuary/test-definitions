@@ -11,10 +11,8 @@ metadata:
         - centos
         - ubuntu
     devices:
-        - juno
-        - arndale
-        - x86
         - D05
+        - D03
     scope:
         - performance
     environment:

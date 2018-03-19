@@ -30,9 +30,10 @@ create_disklabel() {
     echo
     echo "Creating ${DEVICE} disklabel: ${DISKLABEL}"
     umount "${DEVICE}*" > /dev/null 2>&1
-    print_info $? format-disk
+    #print_info $? format-disk
     # If mklabel fails, skip the following tests.
-    skip_list="create-partition format-partition mount-partition umount-partition"
+    #skip_list="create-partition format-partition mount-partition umount-partition"
+    skip_list=""
     parted -s "${DEVICE}" mklabel "${DISKLABEL}"
     exit_on_fail "create-disklabel" "${skip_list}"
     print_info $? creat-disklable
@@ -93,3 +94,4 @@ create_disklabel
 create_partition
 format_partition
 disk_mount
+remove_deps "${pkgs}"
