@@ -10,7 +10,7 @@
 
 function spark_download(){
     
-    yum install -y wget 
+    yum install -y wget ansible
     if [ ! -d ~/bigdata/spark ];then
         mkdir -p ~/bigdata/spark
     fi 
