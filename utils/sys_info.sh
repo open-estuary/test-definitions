@@ -138,11 +138,26 @@ Check_Repo()
 	fi
 }
 
+
+# 用法：source本文件，执行本方法，就可以正常使用打印debug调试信息
+# 1、如果系统中有lava-test-case命令，那么就不会打印信息，反之就会有打印调试信息
+# 2、如果设置了DEBUG环境变量，那么就一定会打印调试信息
 function outDebugInfo(){
-    which lava-test-case > /dev/null 2>&1
-    if test $? -ne 0;then 
+
+    false 
+    if test $DEBUG;then
+        true
+    else
+        which lava-test-case > /dev/null 2>&1
+        if test $? -ne 0;then 
+            true 
+        fi 
+    fi 
+
+    if test $? -eq 0;then
         set -x 
         export PS4='+{$LINENO:${FUNCNAME[0]}} '
+
     fi 
 }
 
