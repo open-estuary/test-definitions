@@ -1,12 +1,13 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -
 source ../percona/mysql.sh 
+outDebugInfo
 yum erase -y mariadb-libs
 yum remove -y mariadb-libs
 yum update -y

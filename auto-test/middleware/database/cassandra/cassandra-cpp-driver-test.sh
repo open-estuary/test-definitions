@@ -16,9 +16,10 @@ cd $basedir
 
 source ./cassandra-cpp-driver.sh 
 source ./cassandra.sh 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
+outDebugInfo
 ccdriver_install
 ccdriver_server_isRunning 
 ccdriver_sample_exec

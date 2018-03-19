@@ -8,7 +8,8 @@ cd ../../../../utils
     . ./sys_info.sh
 cd -
 
-set -x
+#set -x
+outDebugInfo
 # Test user id
 if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2

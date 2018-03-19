@@ -15,8 +15,9 @@ cd $basedir
 
 source ./alisql.sh 
 source ./../percona/mysql.sh 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
+outDebugInfo
 cleanup_all_database
 alisql_install
 alisql_start_custom
