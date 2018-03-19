@@ -13,9 +13,10 @@ basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 . ../../../../lib/sh-test-lib
 . ../../../../utils/sys_info.sh
-set -x
+#set -x
 
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
+outDebugInfo
 
 source ../redis/redis.sh 
 source ./twemproxy.sh

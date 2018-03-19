@@ -17,8 +17,9 @@ cd $basedir
 . ../../../../utils/sys_info.sh
 
 source ./nginx.sh 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
+outDebugInfo
 
 nginx_install
 nginx_start 

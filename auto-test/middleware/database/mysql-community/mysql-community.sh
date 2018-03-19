@@ -11,7 +11,8 @@ cd ../../../../utils
 cd -
 
 source ../percona/mysql.sh 
-set -x
+#set -x
+outDebugInfo
 yum erase -y mariadb-libs
 yum remove -y mariadb-libs
 yum update -y

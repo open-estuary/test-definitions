@@ -15,8 +15,9 @@ cd $basedir
 . ../../../../utils/sys_info.sh
 
 source ./cassandra.sh 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
+outDebugInfo
 
 cassandra20_install
 cassandra20_edit_config
