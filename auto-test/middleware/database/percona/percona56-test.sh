@@ -17,9 +17,10 @@ cd $basedir
 source ./percona56.sh 
 source ./mysql.sh 
 
-set -x
+#set -x
 
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
+outDebugInfo
 
 cleanup_all_database 
 percona_install

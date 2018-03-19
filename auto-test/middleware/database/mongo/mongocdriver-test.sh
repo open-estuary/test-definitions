@@ -10,6 +10,7 @@ cd $basedir
 source ./mongocdriver.sh 
 source ./mongodb.sh 
 
+outDebugInfo
 
 isServerRunning 
 install_c_driver
