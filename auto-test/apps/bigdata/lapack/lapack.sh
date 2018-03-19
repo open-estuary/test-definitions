@@ -22,6 +22,7 @@ while getopts "s:h" o; do
   esac
 done
 
+outDebugInfo
 parse_output() {
     # Parse each type of results
     egrep "passed" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"

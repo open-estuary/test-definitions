@@ -3,7 +3,8 @@
 #
 
 - name: judge JAVA_HOME exists
-  shell: echo $JAVA_HOME
+  #  shell: echo $JAVA_HOME
+  shell: which jps
   register: java_home 
 
 - debug: msg={{ java_home }}
@@ -36,7 +37,8 @@
           source ~/.bashrc
       when: isExist.rc != 0
 
-  when: not  java_home.stdout.find("java")
+  #  when: not  java_home.stdout.find("java")
+  when: java_home.rc == 0
   
 
 

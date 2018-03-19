@@ -15,9 +15,10 @@ cd $basedir
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sshpasswd.sh 
 source ./zk.sh 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
+outDebugInfo
 ssh_no_passwd
 
 zk_install_standalone
