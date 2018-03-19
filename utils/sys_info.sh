@@ -137,3 +137,13 @@ Check_Repo()
 		return 1
 	fi
 }
+
+function outDebugInfo(){
+    which lava-test-case > /dev/null 2>&1
+    if test $? -ne 0;then 
+        set -x 
+        export PS4='+{$LINENO:${FUNCNAME[0]}} '
+    fi 
+}
+
+
