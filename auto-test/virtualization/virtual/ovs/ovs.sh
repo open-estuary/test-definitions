@@ -29,19 +29,20 @@ case "${distro}" in
 		error_msg "Unsupported distribution!"
 esac
 
-ovsdb-server -v --remote=punix:/usr/local/var/run/openvswitch/db.sock \
-	--remote=db:Open_vSwitch,Open_vSwitch,manager_options \
-	--private-key=db:Open_vSwitch,SSL,private_key \
-	--certificate=db:Open_vSwitch,SSL,certificate \
-	--bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --pidfile --detach
+#ovsdb-server -v --remote=punix:/usr/local/var/run/openvswitch/db.sock \
+#	--remote=db:Open_vSwitch,Open_vSwitch,manager_options \
+#	--private-key=db:Open_vSwitch,SSL,private_key \
+#	--certificate=db:Open_vSwitch,SSL,certificate \
+#	--bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --pidfile --detach
+systemctl start openvswitch
 ps -ef | grep ovsdb-server
 print_info $? start-ovsdb-server
 
 ovs-vsctl --no-wait init
 print_info $? init-ovs-db
 
-ovs-vswitchd --pidfile --detach
-ps –ef |grep ovs
+#ovs-vswitchd --pidfile --detach
+ps -ef |grep ovs
 print_info $? start-ovs-vswitchd
 
 ovs-vsctl --version
