@@ -1,9 +1,10 @@
 #!/bin/sh
-set -x
+#set -x
 cd ../../../../utils
    . ./sys_info.sh
    . ./sh-test-lib
 cd -
+outDebugInfo
 
 #. ../../lib/sh-test-lib
 #OUTPUT="$(pwd)/output"

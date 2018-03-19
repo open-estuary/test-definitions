@@ -10,8 +10,9 @@ cd $basedir
 
 source ./mongodb.sh 
 
-set -x
-export PS4='+$LINENO:$FUNCTION[0] '
+#set -x
+#export PS4='+$LINENO:$FUNCTION[0] '
+outDebugInfo
 install_mongodb
 mongodb_start
 

@@ -1,12 +1,13 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -
 
+outDebugInfo
 version=`python -V`
 if [ $version > 2 && $version < 3 ];then
 	print_info 0 python-version

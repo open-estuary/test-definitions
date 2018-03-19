@@ -16,10 +16,11 @@ cd $basedir
 
 source ./scala.sh 
 
-set -x
+#set -x
 
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
+outDebugInfo
 scala_install 
 scala_env_path 
 scala_test_if
