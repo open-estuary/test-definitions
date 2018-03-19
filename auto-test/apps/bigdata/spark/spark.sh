@@ -119,7 +119,8 @@ function spark_start_cluster(){
 
     ansible-playbook -i ./spark/hosts ./spark/site.yml -t start_cluster
 
-    jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
+#    jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
+    jps_cnt=`jps | grep -Ec "Worker|Master"`
     if [ $jps_cnt = 2 ];then
         true
     else
