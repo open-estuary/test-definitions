@@ -20,6 +20,7 @@ metadata:
         - d03
         - d05
         - overdrive
+    level: 1
 
 params:
     # Specify JDK vesion.
