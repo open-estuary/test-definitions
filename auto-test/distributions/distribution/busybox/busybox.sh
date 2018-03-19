@@ -21,7 +21,7 @@ case $distro in
         yum install wget -y
         wget https://busybox.net/downloads/busybox-1.27.2.tar.bz2
         print_info $? download-busybox
-        tar -jxvf busybox-1.27.2.tar.bz2
+        tar -jxf busybox-1.27.2.tar.bz2
         print_info $? tar-busybox
 
         cd busybox-1.27.2/
