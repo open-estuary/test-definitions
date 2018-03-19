@@ -8,7 +8,6 @@ metadata:
         - ravineet.singh@linaro.org
         - shuangshengchen@qq.com
     os:
-        - centos
         - ubuntu
     devices:
         - D05
