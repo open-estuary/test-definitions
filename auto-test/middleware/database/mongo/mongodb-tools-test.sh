@@ -8,7 +8,8 @@ cd $basedir
 source ./mongodb-tools.sh 
 source ./mongodb.sh 
 
-set -x
+#set -x
+outDebugInfo
 
 isServerRunning
 install_mongo-tools

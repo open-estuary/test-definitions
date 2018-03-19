@@ -7,8 +7,9 @@ cd $basedir
 dist=`dist_name`
 echo $dist
 
-set -x 
-export PS4='+{$LINENO:${FUNCTION[0]}} '
+#set -x 
+#export PS4='+{$LINENO:${FUNCTION[0]}} '
+outDebugInfo
 
 
 
