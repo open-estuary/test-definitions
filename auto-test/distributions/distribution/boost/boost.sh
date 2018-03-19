@@ -20,7 +20,7 @@ case $distro in
         print_info $? install-package
         wget http://htsat.vicp.cc:804/boost_1_63_0.tar.gz
         print_info $? get-boost
-        tar -zxvf boost_1_63_0.tar.gz
+        tar -zxf boost_1_63_0.tar.gz
         print_info $? tar-boost
         cd boost_1_63_0
         sudo ./bootstrap.sh
