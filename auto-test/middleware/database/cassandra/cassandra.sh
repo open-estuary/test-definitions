@@ -58,15 +58,28 @@ function cassandra20_start_by_service(){
 
         
     systemctl start cassandra 
-    print_info $? "cassandra20_start"
+    print_info $? "cassandra20_start_by_service"
 
-    jps | grep CassandraDaemon 
-    if [ $? -eq 0 ];then
+    jps | grep CassandraDaemon  | grep -v grep 
+    local ret=$?
+    if [ $ret -eq 0 ];then
         true
     else
         false
     fi
     print_info $? "lookout_cassandra20_daemon_java_process"
+
+
+    if test $ret -ne 0;then
+        cassandra #直接使用命令去启动
+
+        jps | grep CassandraDaemon | grep -v grep 
+        test $? -eq 0 && true || false 
+        print_info $? "cassandra20_start_by_command"
+
+        
+    fi 
+
 
 }
 
@@ -74,12 +87,18 @@ function cassandra20_stop_by_service(){
     
     systemctl stop cassandra 
     jps | grep CassandraDaemon 
-    if [ $? -ne 0 ];then
-        true
-    else
-        false
-    fi
+    local ret=$?
+    test $ret -eq 0 && true || false 
     print_info $? "cassandra20_stop_by_service"
+
+    if test $ret -ne 0;then
+        kill -9 `jps | grep -i CassandraDaemon | awk {'print $1'}`
+        jps | grep CassandraDaemon
+        test $? -ne 0 && true || false 
+        print_info $? "cassandra20_stop_by_command"
+    fi 
+
+
 
 }
 
