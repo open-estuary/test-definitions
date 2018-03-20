@@ -45,7 +45,8 @@ function zk_start(){
 function zk_stop(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t stop 
-    jps | grep QuorumPeerMain  | grep -v grep 
+    jps | grep QuorumPeerMain
+    test $? -ne 0  && true || false 
     ret=$?
     print_info $ret "zookeeper_stop"
     if [ $ret -ne 0 ];then
@@ -87,18 +88,18 @@ function zk_base_operoter(){
     print_info $? "zookeeper_status_ok"
     
     local testData="this is test data"
-    $ZK_HOME/bin/zkCli.sh create /test $testData | grep -v INFO
-    $ZK_HOME/bin/zkCli.sh get /test  | grep -v INFO | grep $testData 
+    $ZK_HOME/bin/zkCli.sh create /test "$testData" | grep -v INFO
+    $ZK_HOME/bin/zkCli.sh get /test  | grep -v INFO | grep "$testData"
     print_info $? "zookeeper_create_znode"
 
     $ZK_HOME/bin/zkCli.sh set /test $testData | grep -v INFO 
     print_info $? "zookeeper_set_znode_data" 
 
-    $ZK_HOME/bin/zkCli.sh get /test | grep $testData  | grep -v INFO 
+    $ZK_HOME/bin/zkCli.sh get /test | grep "$testData"  | grep -v INFO 
     print_info $? "zookeeper_get_znode_data"
     
-    ret=`$ZK_HOME/bin/zkCli.sh ls / | egrep -c "test|zookeeper" | grep -v INFO` 
-    if [ $ret -eq 2 ];then
+    ret=`$ZK_HOME/bin/zkCli.sh ls / | grep -c "test" | grep -v INFO` 
+    if [ $ret -eq 1 ];then
         true
     else
         false

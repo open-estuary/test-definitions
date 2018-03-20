@@ -3,15 +3,17 @@
 #
 
 - name: judge JAVA_HOME exists
-  #  shell: echo $JAVA_HOME
-  shell: which jps && which java 
+  shell: 'which jps && which java'
   register: java_home 
+  ignore_errors: yes
+  tags: install 
 
 - debug: msg={{ java_home }}
+  tags: install 
 
-- include_file: install.yml 
+- include: install.yml 
   when: java_home.rc != 0
-  
+  tags: install  
 
 
 
