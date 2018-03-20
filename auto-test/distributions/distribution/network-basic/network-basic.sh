@@ -2,7 +2,7 @@
 #Author mahongxin <hongxin_228@163.com>
 set -x
 . ../../../../utils/sys_info.sh
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 cd -
 # shellcheck disable=SC1091
 #. ../../lib/sh-test-lib
