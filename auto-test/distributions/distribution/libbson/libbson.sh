@@ -1,5 +1,5 @@
 #!/bin/bash
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/libbson.txt"
