@@ -81,6 +81,7 @@ info_msg "Output directory: ${OUTPUT}"
 # Install usbutils package
 pkgs="usbutils"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
+print_info $? install
 
 list_all_usb_devices
 examine_all_usb_devices
