@@ -20,7 +20,7 @@ for P in ${package};do
 case $distro in
     "centos" )
          yum install -y $P
-         print_info $? $P
+         print_info $? libasan3
          ;;
  esac
 
