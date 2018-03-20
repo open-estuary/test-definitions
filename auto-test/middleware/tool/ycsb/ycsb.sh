@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 #=================================================================
 #   文件名称：ycsb-test.sh
@@ -7,6 +7,16 @@
 #   描    述：
 #
 #================================================================*/
+set -x
+cd ../../../../utils
+             ./sys_info.sh
+             ./sh-test.lib
+cd -
+
+if [ `whoami` != 'root'  ] ; then
+        echo "You must be the superuser to run this script" >&2
+        exit 1
+fi
 
 function install_ycsb(){
 
