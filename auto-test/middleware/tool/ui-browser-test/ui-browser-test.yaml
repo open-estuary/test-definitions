@@ -12,19 +12,11 @@ metadata:
     devices:
         - hi6220-hikey
         - apq8016-sbc
-    level: 5
+    level: 1
 
-params:
-    # Default user is linaro
-    TESTUSER: "linaro"
-    # Install deps packages
-    SKIP_INSTALL: "False"
 run:
     steps:
-        - cd ./automated/middleware/tool/ui-browser-test
-        - ./ui-browser-test.sh -u "${TESTUSER}" -s "${SKIP_INSTALL}"
-        - ../../utils/send-to-lava.sh ./output/ui-browser-test-results.txt
-parse:
+        - "cd automated/middleware/tool/ui-browser-test; ./ui-browser-test.sh; cd -"
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
         FAIL: fail
