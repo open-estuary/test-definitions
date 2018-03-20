@@ -1,7 +1,7 @@
 #!/bin/sh -e
 set -x
 . ../../../../utils/sys_info.sh
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1

@@ -6,12 +6,12 @@
 set -x
 
 . ../../../../utils/sys_info.sh
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 
 
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
-３export RESULT_FILE
+#export RESULT_FILE
 #TEST_LIST="test-nginx-server mysql-show-databases test-phpinfo
 #           php-connect-db php-create-db php-create-table php-add-record
 #           php-select-record php-delete-record"
@@ -61,11 +61,11 @@ case "${distro}" in
         yum remove -y `rpm -qa | grep -i percona`
         yum remove -y `rpm -qa | grep -i mariadb`
         yum install curl -y
-        pkgs="nginx mysql-community-server php php-mysql php-fpm"
-        install_deps "curl ${pkgs}"
+       # pkgs="nginx mysql-community-server php php-mysql php-fpm"
+        #install_deps "curl ${pkgs}"
         #yum install nginx -y
-        #yum install nginx mysql-community -y
-        #yum install php php-mysql php-fpm -y
+        yum install nginx mysql-community-server -y
+        yum install php php-mysql php-fpm -y
         print_info $? install-pkgs
         # Stop apache server in case it is installed and running.
         systemctl stop httpd.service > /dev/null 2>&1 || true
