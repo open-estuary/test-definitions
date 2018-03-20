@@ -6,7 +6,7 @@
 set -x
 
 . ../../../../utils/sys_info.sh
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 
 
 #OUTPUT="$(pwd)/output"
