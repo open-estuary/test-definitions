@@ -11,7 +11,7 @@ set -x
 
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
-３export RESULT_FILE
+#export RESULT_FILE
 #TEST_LIST="test-nginx-server mysql-show-databases test-phpinfo
 #           php-connect-db php-create-db php-create-table php-add-record
 #           php-select-record php-delete-record"
