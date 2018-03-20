@@ -27,7 +27,7 @@ case $distro in
 # Check the package version && source
 from=$(yum info $P | grep "From repo" | awk '{print $4}')
 if [ "$from" = "$from_repo"  ];then
-    echo "$P source is $from : [pass]" | tee -a ${RESULT_FILE}
+    print_info 0 repo_check
 else
    rmflag=1
    if [ "$from" != "Estuary"  ];then
@@ -35,18 +35,18 @@ else
    yum install -y $P
    from=$(yum info $P | grep "From repo" | awk '{print $4}')
       if [ "$from" = "$from_repo"   ];then
-          echo "$P install  [pass]" | tee -a ${RESULT_FILE}
+            print_info 0 repo_check
       else
-          echo "$P source is $from : [failed]" | tee -a ${RESULT_FILE}
+            print_info 1 repo_check
       fi
     fi
 fi
 
 vers=$(yum info $P | grep "Version" | awk '{print $3}')
 if [ "$vers" = "$version"   ];then
-    echo "$P version is $vers : [pass]" | tee -a ${RESULT_FILE}
+     print_info 0 version
 else
-    echo "$P version is $vers : [failed]" | tee -a ${RESULT_FILE}
+    print_info 1 version
 fi
 done
 

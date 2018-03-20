@@ -16,23 +16,23 @@ install_source-highlight() {
       centos) 
             install_deps "${PACKAGE}" "${SKIP_INSTALL}"
             if test $? -eq 0;then
-                echo "${PACKAGE} install: [PASS]" | tee -a "${RESULT_FILE}"
+                 print_info 0 install
             else
-                echo "${PACKAGE} install: [FAIL]" | tee -a "${RESULT_FILE}"
+                print_info 1 install
                 exit 1
             fi
             version=$(yum info ${PACKAGE} | grep "^Version" | awk '{print $3}')
             if [ ${version} = ${VERSION} ];then
-                echo "${PACKAGE} version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
+                 print_info 0 version
             else
-                echo "${PACKAGE} version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
+                 print_info 1 version
                 exit 1
             fi
             sourc=$(yum info ${PACKAGE} | grep "^From repo" | awk '{print $4}')
             if [ ${sourc} = ${SOURCE} ];then
-                echo "${PACKAGE} source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
+                  print_info 0 repo_check
             else
-                echo "${PACKAGE} source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
+                 print_info 1 repo_check
                 exit 1
             fi
             ;;
@@ -42,9 +42,9 @@ install_source-highlight() {
 install_source-highlight
 remove_deps "${PACKAGE}"
 if test $? -eq 0;then
-    echo "${PACKAGE} remove: [PASS]" | tee -a "${RESULT_FILE}"
+     print_info 0 remove
 else
-    echo "${PACKAGE} remove: [FAIL]" | tee -a "${RESULT_FILE}"
+    print_info 1 remove
     exit 1
 fi
 

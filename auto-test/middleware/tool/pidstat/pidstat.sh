@@ -10,6 +10,18 @@ if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+
+package="sysstat"
+
+for P in ${package};do
+    echo "$P install"
+case $distro in
+    "centos" )
+        yum install -y $P
+        print_info $? sysstat
+        ;;
+ esac
+
 # run pidstat
 pidstat
 print_info $? all-cpu
@@ -31,5 +43,9 @@ pidstat -d 1 2
 print_info $? IO
 
 # check pid usage 
-pidstat -p 1 1 
+pidstat -p 1 1 10
 print_info $? pid
+
+# remove package
+yum remove -y $P
+print_info $? sysstat
