@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 . ../../../../utils/sys_info.sh
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 TMP_FILE="${OUTPUT}/tmp.txt"
