@@ -1,0 +1,35 @@
+---
+# tasks file for openjdk-ansible
+#
+
+
+    - name: install openjdk 
+      yum:
+        name: '{{ item }}'
+        state: present
+      with_items:
+        - 'java-1.8.0-openjdk'
+        - 'java-1.8.0-openjdk-devel'
+      when:  ansible_os_family == "RedHat" 
+
+    - name: get jdk home 
+      shell: dirname `readlink -f \`which java\``
+      register: java_path
+
+    - debug: msg={{ java_path  }}
+ 
+    - name: JAVA_HOME is in PATH?
+      shell: grep JAVA_HOME ~/.bashrc
+      register: isExist
+
+    - name: set jdk home
+      shell:  path=`dirname \`dirname {{ java_path.stdout }}\`` ; \
+          echo "export JAVA_HOME=$path" >> ~/.bashrc; \
+          echo 'export PATH=$PATH:$JAVA_HOME/bin' >> ~/.bashrc ;
+          source ~/.bashrc
+      when: isExist.rc != 0
+
+  
+
+
+
