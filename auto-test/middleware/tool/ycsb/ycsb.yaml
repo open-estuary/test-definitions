@@ -6,13 +6,13 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - performance
+        - tool
     os:
         - centos
     devices:
         - d03
         - d05
-    level: 5
+    level: 1
 
 
 run:

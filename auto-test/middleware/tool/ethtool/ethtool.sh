@@ -25,7 +25,7 @@ case $distro in
          ;;
     "centos" )
          yum install -y $P
-         print_info $? $P
+         print_info $? ethtool
          ;;
  esac
 
@@ -85,7 +85,7 @@ print_info $? speed-1000
 ethtool -s eth0 speed 10 duplex half
 print_info $? duplex-half
 
-ethtool -s eth0 speed 10 deplex full
+ethtool -s eth0 speed 10 duplex full
 print_info $? duplex-full
 
 ethtool -s eth0 speed 1000 duplex full
