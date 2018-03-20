@@ -14,17 +14,16 @@ case "${dist}" in
         apt-get install linux-source-estuary
         status=$?
         if [ $status -eq 0 ];then
-            echo "linux-source-estuary install : PASS" | tee -a "${RESULT_FILE}"
+            print_info 0 install
         else
-            echo "linux-source-estuary install : FAILED" | tee -a "${RESULT_FILE}"
+            print_info 1 install
         fi
-        
         apt-get install -y linux-headers-${headers}
         status=$?
         if [ $status -eq 0 ];then
-            echo "linux-headers install : PASS" | tee -a "${RESULT_FILE}"
+            print_info 0 install
         else
-            echo "linux-headers install : FAILED" | tee -a "${RESULT_FILE}"
+            print_info 1 install
         fi
         apt-get install -y make
         apt-get install -y gcc
@@ -33,17 +32,17 @@ case "${dist}" in
         yum install -y kernel-headers-${headers}
         status=$?
         if [ $status -eq 0 ];then
-            echo "kernel-headers-${headers} install : PASS" | tee -a "${RESULT_FILE}"
+            print_info 0 install
         else
-            echo "kernel-heasers-${headers} install : FAILED" | tee -a "${RESULT_FILE}"
+            print_info 1 install
         fi
         #yumdownloader --source kernel 
         yum install -y kernel-devel
         status=$?
         if [ $status -eq 0 ];then
-            echo "kernel-aarch64-${headers} download : PASS" | tee -a "${RESULT_FILE}"
+            print_info 0 install
         else
-            echo "kernel-aarch64-${headers} download : FAILED" | tee -a "${RESULT_FILE}"
+            print_info 0 install
         fi
         #cd /root/rpmbuild/SOURCE
         #tar xvJf linux-4.12.0* -C /usr/src/kernels/
@@ -58,26 +57,26 @@ esac
 make all
 status=$?
 if [ $status -eq 0 ];then
-    echo "make source file PASS" | tee -a "${RESULT_FILE}"
+    print_info 0 make_all
 else
-    echo "make source FAILED" | tee -a "${RESULT_FILE}"
+    print_info 1 make_all
 fi
 insmod hello.ko 
 dmesg | tail -2 | tee -a "${LOG}"
 cat "${LOG}" | grep Hello
 status=$?
 if [ $status -eq 0 ];then
-    echo "insmod KO PASS" | tee -a "${RESULT_FILE}"
+    print_info 0 insmod
 else
-    echo "insmod KO FAILED" | tee -a "${RESULT_FILE}"
+    print_info 1 insmod
 fi
 rmmod hello.ko
 dmesg | tail -2 | tee -a "${LOG}"
 cat "${LOG}" | grep Goodbye
 status=$?
 if [ $status -eq 0 ];then
-    echo "rmmod PASS" | tee -a "${RESULT_FILE}"
+    print_info 0 rmmod
 else
-    echo "rmmod FAILED" | tee -a "${RESULT_FILE}"
+    print_info 1 rmmod
 fi
 make clean | tee -a "${LOG}"

@@ -12,11 +12,11 @@ if [ `whoami` != 'root' ] ; then
 fi
 
 # run slabtop
-slabtop
+slabtop -o
 print_info $? slabtop
 
 # adjust delay time
-slabtop --delay=5
+slabtop --delay=5 -o
 print_info $? delay
 
 # output one time
