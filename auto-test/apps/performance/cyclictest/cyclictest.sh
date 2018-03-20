@@ -4,7 +4,7 @@
 # the timer actually runs.
 
 # shellcheck disable=SC1091
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/cyclictest.txt"
