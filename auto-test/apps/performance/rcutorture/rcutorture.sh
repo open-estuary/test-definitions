@@ -22,7 +22,7 @@ while getopts ':s:t:' opt; do
 done
 
 # shellcheck disable=SC1090
-. "${TEST_DIR}/../../../../lib/sh-test-lib"
+. "${TEST_DIR}/../../../../utils/sh-test-lib"
 
 ! check_root && error_msg "Please run this script as root."
 install_deps "gzip" "${SKIP_INSTALL}"

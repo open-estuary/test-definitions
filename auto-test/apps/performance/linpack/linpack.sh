@@ -2,7 +2,7 @@
 
 set -x
 . ../../../../utils/sys_info.sh
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 
 ARRAY_SIZE="200"
 # Run Test.
