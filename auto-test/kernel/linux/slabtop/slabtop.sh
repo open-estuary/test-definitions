@@ -1,9 +1,9 @@
 
 #!/bin/sh -e
 set -x
-cd ../../../utils
-    .     ./sys_info.sh
-          ./sh-test-lib
+cd ../../../../utils
+    .        ./sys_info.sh
+             ./sh-test-lib
 cd -
 
 if [ `whoami` != 'root' ] ; then
