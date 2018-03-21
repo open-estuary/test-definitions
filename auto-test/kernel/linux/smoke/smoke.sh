@@ -1,7 +1,9 @@
 #!/bin/sh
 
 # shellcheck disable=SC1091
-. ../../../lib/sh-test-lib
+. ../../../../utils
+            ./sh-test-lib
+            ./sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
@@ -43,32 +45,86 @@ create_out_dir "${OUTPUT}"
 
 install
 run "pwd" 
+print_info $? pwd
+
 run "lsb_release -a"
+print_info $? lsb_release
+
 run "uname -a"
+print_info $? uname
+
 run "ip a"
+print_info $? ip a
+
 run "lscpu"
+print_info $? lscpu
+
 run "vmstat"
+print_info $? vmstat
+
 run "lsblk"
+print_info $? lsblk
+
 run "dmesg"
+print_info $? dmesg
+
 run "lspci -vv"
+print_info $? lspci
+
 run "dmidecode"
+print_info $? dmidecode
+
 run "lsusb"
+print_info $? lsusb
+
 run "lsmod"
+print_info $? lsmod
+
 run "numactl --hardware"
-run "cat /proc/cpuinfo "
-run "cat /proc/meminfo "
+print_info $? numactl
+
+run "cat /proc/cpuinfo"
+print_info $? cpuinfo
+
+run "cat /proc/meminfo"
+print_info $? meminfo
+
 run "ps -el"
+print_info $? ps
+
 run "cat /proc/interrupts"
+print_info $? interrupts
+
 run "echo $PATH"
+print_info $? PATH
+
 run "cat /proc/cmdline"
+print_info $? cmdline
+
 run "cat /proc/devices"
+print_info $? devices
+
 run "cat /proc/filesystems"
+print_info $? filesystems
+
 run "echo $env"
-run "date"
-#run "date -s "2016-10-10 12:00"; hwclock -w; hwclock -r"
+print_info $? env
+
+run "timedatectl"
+print_info $? timedatectl
+
 run "free"
+print_info $? free
+
 run "numastat"
+print_info $? numastat
+
 run "iostat"
+print_info $? iostat
+
 run "lshw"
+print_info $? lshw
+
 run "lsof"
-run "ls -l /sys/class/i2c-dev/*/device/firmware_node | grep HISI"
+print_info $? lsof
+

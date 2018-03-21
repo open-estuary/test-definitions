@@ -1,6 +1,8 @@
 #!/bin/bash
 
-. ../../../lib/sh-test-lib
+. ../../../../utils
+            ./sh-test-lib
+            ./sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG="${OUTPUT}/log.txt"
@@ -17,17 +19,17 @@ case "${dist}" in
         sudo apt-get -y build-dep ${kernel_name} | tee "${LOG}"
         status=$?
         if test $status -eq 0;then
-            echo "内核编译依赖安装: [PASS]" | tee -a ${RESULT_FILE}
+            print_info 0 install
         else
-            echo "内核编译依赖安装: [FIAL]" | tee -a ${RESULT_FILE}
+            print_info 1 install
         fi
         sudo apt-get source -b ${kernel_name} | tee "${LOG}"
         status=$?
         if test $status -eq 0
         then
-            echo "deb package build [PASS]" | tee -a ${RESULT_FILE}
+            print_info 0 source
         else
-            echo "deb package build [FAIL]" | tee -a ${RESULT_FILE}
+            print_info 1 source
         fi
         ;;
     debian)
@@ -37,32 +39,39 @@ case "${dist}" in
         status=$?
         if test $status -eq 0
         then
-            echo "deb package build [PASS]" | tee -a ${RESULT_FILE}
+            print_info 0 install
         else
-            echo "deb package [FAIL]" | tee -a ${RESULT_FILE}
+            print_info 1 install
         fi
         ;;
     centos) 
         yum install yum-utils
+        print_info $? yum-utils
+
         yum build-dep -y kernel
+        
         yum install -y pesign
+        print_info $? pesign
+
         yum install rpm-build
+        print_info $? rpm-build
+
         yumdownloader --source kernel
         status=$?
         if test $status -eq 0
         then
-            echo "source rpm download: [PASS]" | tee -a "${RESULT_FILE}"
+            print_info 0 install
         else
-            echo "source rpm download: [FAIL]" | tee -a "${RESULT_FILE}"
+            print_info 0install
         fi
         kernel_name=$(ls | grep "kernel-aarch64-")
         rpmbuild --rebuild  ${kernel_name} | tee  "${LOG}"
         status=$?
         if test $status -eq 0
         then
-            echo "rpmbuild [PASS]" | tee -a "${RESULT_FILE}"
+            print_info 0 rpmbuild
         else
-            echo "rmpbuild [FAIL]" | tee -a "${RESULT_FILE}"
+            print_info 1 rpmbuild
         fi
         ;;
 esac

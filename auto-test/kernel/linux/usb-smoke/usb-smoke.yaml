@@ -12,13 +12,11 @@ metadata:
     devices:
         - d03
         - d05
-    level: 5
+    level: 1
 
 run:
     steps:
-        - cd auto-test/kernel/usb-smoke
-        - ./usb-smoke.sh -s "${SKIP_INSTALL}"
-        - ../../utils/send-to-lava.sh ./output/result.txt
+        - "cd auto-test/kernel/linux/usb-smoke; ./usb-smoke.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

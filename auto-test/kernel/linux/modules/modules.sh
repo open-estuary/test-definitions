@@ -1,6 +1,8 @@
 #!/bin/bash
 
-. ../../../lib/sh-test-lib
+. ../../../../utils
+            ./sh-test-lib
+            ./sys_info.sh
 OUTPUT="$(pwd)/output"
 LOG="${OUTPUT}/log"
 RESULT_FILE="${OUTPUT}/result"
@@ -11,7 +13,7 @@ dist_name
 headers="$(uname -r)"
 case "${dist}" in
     debian | ubuntu)
-        apt-get install linux-source-estuary
+        apt-get install -y linux-source-estuary
         status=$?
         if [ $status -eq 0 ];then
             print_info 0 install
@@ -26,7 +28,10 @@ case "${dist}" in
             print_info 1 install
         fi
         apt-get install -y make
+        print_info $? make
+
         apt-get install -y gcc
+        print_info $? gcc
         ;;
     centos)
         yum install -y kernel-headers-${headers}
@@ -36,8 +41,6 @@ case "${dist}" in
         else
             print_info 1 install
         fi
-        #yumdownloader --source kernel 
-        yum install -y kernel-devel
         status=$?
         if [ $status -eq 0 ];then
             print_info 0 install
