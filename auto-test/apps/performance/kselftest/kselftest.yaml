@@ -10,11 +10,11 @@ metadata:
         - fedora
         - centos
     scope:
-        - performance
+        - test
     devices:
         - d05
         - d03
-    level: 5
+    level: 1
 
 params:
     # Specify Linux kernel self test pre-build tarball name from below location
