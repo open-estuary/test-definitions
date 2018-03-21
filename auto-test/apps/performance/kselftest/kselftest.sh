@@ -89,7 +89,7 @@ else
     # shellcheck disable=SC2164
     cd kselftest
     mv run_kselftest.sh run_kselftest.sh_bak
-    cp ../run_kselftest.sh .
+    cp ../../run_kselftest.sh ./
 fi
 
 if [ -n "${SKIPLIST}" ]; then
