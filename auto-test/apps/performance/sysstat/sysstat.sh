@@ -38,7 +38,7 @@ install() {
                 echo "syssta version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "syssta version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
+                #exit 1
             fi
             print_info $? sys-version
             sourc=$(yum info sysstat | grep "^From repo" | awk '{print $4}')
@@ -46,7 +46,7 @@ install() {
                 echo "syssta source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "syssta source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
+                #exit 1
             fi
             print_info $? sys-source
             ;;
