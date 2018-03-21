@@ -7,7 +7,7 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOGFILE="${OUTPUT}/kselftest.txt"
-TESTPROG="kselftest_armhf.tar.gz"
+TESTPROG="kselftest_aarch64.tar.gz"
 KSELFTEST_PATH="/usr/bin/kselftests"
 
 SCRIPT="$(readlink -f "${0}")"
@@ -18,6 +18,7 @@ SKIPLIST=""
 
 if [ "$(uname -m)" = "aarch64" ]
 then
+    echo kskkfkk
     TESTPROG="kselftest_aarch64.tar.gz"
 fi
 
@@ -84,11 +85,11 @@ if [ -d "${KSELFTEST_PATH}" ]; then
 else
     # Download and extract kselftest tarball.
     wget http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}" -O kselftest.tar.gz
-    tar xf "kselftest.tar.gz"
+    tar zxf "kselftest.tar.gz"
     # shellcheck disable=SC2164
-    cd "kselftest"
+    cd kselftest
     mv run_kselftest.sh run_kselftest.sh_bak
-    cp ../run_kselftest.sh ./
+    cp ../run_kselftest.sh .
 fi
 
 if [ -n "${SKIPLIST}" ]; then
