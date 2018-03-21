@@ -16,7 +16,7 @@ metadata:
         - ubuntu
         - centos
     scope:
-        - performance
+        - test
     devices:
         - d05
         - d03
@@ -24,7 +24,7 @@ metadata:
 params:
     WORD_SIZE: "64"
     SKIP_INSTALL: "False"
-    VERSION: "2.20"
+    VERSION: "2.21"
 
 run:
     steps:
