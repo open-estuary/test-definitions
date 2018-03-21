@@ -13,18 +13,11 @@ metadata:
     devices:
         - d03
         - d05
-    level: 5
-
-params:
-    # Test if lshw able to report the classes pre-defined in ${CLASSES}.
-    CLASSES: "system bus processor memory network"
-    SKIP_INSTALL: "false"
+    level: 1
 
 run:
     steps:
-        - cd ./auto-test/kernel/lshw/
-        - ./lshw.sh -s "${SKIP_INSTALL}" -c "${CLASSES}"
-        - ../../utils/send-to-lava.sh ./output/result.txt
+        - "cd auto-test/kernel/linux/lshw; ./lshw.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
