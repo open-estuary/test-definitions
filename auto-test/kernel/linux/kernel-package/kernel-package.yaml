@@ -13,16 +13,11 @@ metadata:
         - debian
     devices:
         - d05
-    level: 5
-params:
-    # Number of cycles helloworld is called (for loop repetitions)
-    REPEAT: 1
-
-
+    level: 1
        
 run:
     steps:
-        - "cd ./auto-test/kernel/kernel-package; ./kernel-package.sh; cd -"
+        - "cd auto-test/kernel/linux/kernel-package; ./kernel-package.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

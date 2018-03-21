@@ -14,19 +14,10 @@ metadata:
     devices:
         - d03
         - d05
-    level: 5
-
-params:
-    # Specify longterm/stable Kernel version that availabe on:
-    # https://www.kernel.org/
-    VERSION: "4.4.34"
-    SKIP_INSTALL: "false"
-
+    level: 1
 run:
     steps:
-        - cd ./automated/kernel/kernel-compilation/
-        - ./kernel-compilation.sh -v "${VERSION}" -s "${SKIP_INSTALL}"
-        - ../../utils/send-to-lava.sh ./output/result.txt
+        - "cd auto-test/kernel/linux/kernel-compilation; ./kernel-compilation.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
