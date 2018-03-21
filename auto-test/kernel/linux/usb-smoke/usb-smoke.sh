@@ -1,8 +1,9 @@
 #!/bin/sh
 # USB smoke test cases
-. ../../../../utils
-            ./sh-test-lib
-            ./sys_info.sh
+cd ../../../../utils
+    .        ./sys_info.sh
+             ./sh-test-lib
+cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
