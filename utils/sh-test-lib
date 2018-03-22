@@ -25,6 +25,9 @@
 LANG=C
 export LANG
 
+
+
+
 error_msg() {
     local msg="$1"
     test -z "$msg" && msg="Unknown error"
@@ -225,6 +228,20 @@ dist_name() {
     esac
 }
 
+# 临时执行
+case $dist in 
+    centos)
+        sed -i "s/5.1/5.0/g"  /etc/yum.repos.d/estuary.repo 
+        yum clean all 
+        ;;
+    ubuntu)
+        sed -i "s/5.1/5.0/g" /etc/apt/sources.list.d/estuary.list 
+        apt-get update 
+        ;;
+    *)
+        ;;
+esac
+    
 install_deps() {
     pkgs="$1"
     [ -z "${pkgs}" ] && error_msg "Usage: install_deps pkgs"

@@ -24,9 +24,13 @@ cassandra20_edit_config
 cassandra20_start_by_service
 
 cassandra20_sql_ddl
+cassandra_keyspace_op
+cassandra_table_op
+cassandra_CURD_op 
+cassandra_collection_op
 
 cassandra20_stop_by_service
 
-#cassandra20_uninstall
+cassandra20_uninstall
 
 
