@@ -15,10 +15,12 @@ fi
 
 case $distro in
     "centos")
-        yum install gcc -y
-        yum install make -y
-        yum install bzip2 -y
-        yum install wget -y
+        #yum install gcc -y
+        #yum install make -y
+        #yum install bzip2 -y
+        #yum install wget -y
+        pkgs="gcc make bzip2 wget"
+        install_deps "${pkgs}"
         wget https://busybox.net/downloads/busybox-1.27.2.tar.bz2
         print_info $? download-busybox
         tar -jxf busybox-1.27.2.tar.bz2
@@ -79,9 +81,10 @@ print_info $? busybox-df
 
 case $distro in
     "centos")
-     yum remove gcc -y
-     yum remove make -y
-     yum remove bzip2 -y
+     #yum remove gcc -y
+     #yum remove make -y
+     #yum remove bzip2 -y
+     remove_deps "${pkgs}"
      print_info $? remove-package
      ;;
 esac

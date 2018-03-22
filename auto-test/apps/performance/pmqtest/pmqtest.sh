@@ -4,6 +4,7 @@
 # pmqtest start pairs of threads and measure the latency of interprocess
 # communication with POSIX messages queues.
 . ../../../../utils/sys_info.sh
+. ../../../../utils/sh-test-lib
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
 LOGFILE="${OUTPUT}/pmqtest.log"

@@ -3,6 +3,7 @@
 set -x
 cd ../../../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
 
 #Test user id
