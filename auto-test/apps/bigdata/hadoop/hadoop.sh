@@ -6,7 +6,7 @@ function install_jdk() {
     yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
     sed -i "/JAVA_HOME/d" ~/.bashrc
     echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk" >> ~/.bashrc
-    echo "export PATH=$PATH:$JAVA_HOME/bin" >> ~/.bashrc
+    echo 'export PATH=$PATH:$JAVA_HOME/bin' >> ~/.bashrc
 	
     jps > /dev/null
     print_info $? "hadoop_java_install" 
@@ -14,7 +14,12 @@ function install_jdk() {
 }
 
 function install_hadoop() {
-    ### install hadoop
+    ### install hadoop 
+
+
+    local version='2.7.5'
+
+
     if test ! -d /var/bigdata/hadoop
     then
         mkdir -p /var/bigdata/hadoop
@@ -25,17 +30,22 @@ function install_hadoop() {
 
 
 
-    if [  -d hadoop-2.7.4 ];then
-		rm -rf hadoop-2.7.4
+    if [  -d hadoop-$version ];then
+		rm -rf hadoop-$version 
 	fi
 
-	if [ ! -f hadoop-2.7.4.tar.gz ];then
-        wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz 
+	if [ ! -f hadoop-${version}.tar.gz ];then
+        wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz 
+        if test $? -ne 0;then
+            echo 
+            echo "download hadoop source error,please check url or network !!!"
+            echo 
+            exit 1
+        fi 
     fi
-    tar -zxf hadoop-2.7.4.tar.gz
+    tar -zxf hadoop-${version}.tar.gz
  
-	
-    pushd hadoop-2.7.4
+    pushd hadoop-${version}
 	
     
     sed -i "s/export JAVA_HOME=.*/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk/g" etc/hadoop/hadoop-env.sh
@@ -48,7 +58,7 @@ function install_hadoop() {
 	export HADOOP_HOME=`pwd`
 	echo "export HADOOP_HOME=`pwd`" >> ~/.bashrc
 	echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' >> ~/.bashrc
-	source ~/.bashrc
+	source ~/.bashrc > /dev/null 2>&1 
     
     
     popd 
@@ -68,7 +78,7 @@ function hadoop_standalone() {
 	rm -rf input output
 	mkdir input
   	cp etc/hadoop/*.xml input
-  	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar grep input output 'dfs[a-z.]+' > /dev/null 2>&1
+  	bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-${version}.jar grep input output 'dfs[a-z.]+' > /dev/null 2>&1
   	if [ -f output/_SUCCESS ];then
 		lava-test-case "hadoop_standalone_test" --result pass
 	else

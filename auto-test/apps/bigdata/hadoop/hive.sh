@@ -30,7 +30,7 @@ function hive_install_innter(){
 	echo "export HIVE_HOME=$hivedir" >> ~/.bashrc &&
 	echo 'export PATH=$PATH:$HIVE_HOME/bin' >> ~/.bashrc 
 	print_info $? "hive_config_system_envriment_parament"
-	source ~/.bashrc 	
+	source ~/.bashrc > /dev/null 2>&1
 	print_info $? "hive_install"
     popd 
 }
