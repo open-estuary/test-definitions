@@ -2,6 +2,7 @@
 set -x
 cd ../../../../utils
     . ./sys_info.sh
+    . ./sh-test-lib
 cd -
 SERVER="127.0.0.1"
 TIME="10"

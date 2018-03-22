@@ -4,6 +4,7 @@
 set -x
 cd ../../../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
 #Test user id
 if [ `whoami` != 'root' ]; then
@@ -15,6 +16,8 @@ case $distro in
     "centos")
         yum install bind -y
         yum install bind-utils -y
+        pkgs="bind bind-utils"
+        install_deps "${pkgs}"
         print_info $? install-package
         ;;
 esac
@@ -81,7 +84,8 @@ else
 fi
 case $distro in
     "centos")
-        yum remove bind bind-utils -y
+        #yum remove bind bind-utils -y
+        remove_deps "${pkgs}"
         print_info $? remove-package
         ;;
 esac

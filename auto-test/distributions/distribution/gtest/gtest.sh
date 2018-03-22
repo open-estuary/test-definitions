@@ -4,6 +4,7 @@
 set -x
 cd ../../../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
 
 #Test user id
@@ -14,10 +15,12 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-        yum install gcc -y
-        yum install gcc-c++ -y
-        yum install git -y
-        yum install make -y
+        #yum install gcc -y
+        #yum install gcc-c++ -y
+        #yum install git -y
+        #yum install make -y
+        pkgs="gcc gcc-c++ git make"
+        install_deps "${pkgs}"
         git clone https://github.com/google/googletest.git
         print_info $? install-gtest
         ;;
@@ -108,7 +111,8 @@ else
 fi
 case $distro in
     "centos")
-        yum remove gcc gcc-c++ git make  -y
+        #yum remove gcc gcc-c++ git make  -y
+        remove_deps "${pkgs}"
         print_info $? remove-pkgs
         ;;
 esac
