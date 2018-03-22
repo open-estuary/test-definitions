@@ -27,7 +27,7 @@ case "${dist}" in
             status=$?
             if test ${status} -eq 0;then
                 print_info 0 $p_install
-                from=$(apt show $p | grep "^Source" | awk '{print $2}')
+                from=$(apt show $p | grep "Source" | awk '{print $2}')
                 if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
                 print_info 0 repo_check
                 else
@@ -45,7 +45,7 @@ case "${dist}" in
                    # fi
                 fi
 
-                vs=$(apt show $p | grep "^Version" | awk '{print $2}')
+                vs=$(apt show $p | grep "Version" | awk '{print $2}')
                 if [ "$vs" = "$version1" -o "$vs" = "$version2" -o "$vs" = "$version3" ];then
                     print_info 0 version
                 else
@@ -80,16 +80,16 @@ case "${dist}" in
             if test $status -eq 0
             then
                  print_info 0 install
-                from=$(yum info $p | grep "^From repo" | awk '{print $4}')
+                from=$(yum info $p | grep "From repo" | awk '{print $4}')
                 if [ "$from" = "$from_repo" ];then
                    print_info 0 repo_check
                 else
                     #已经安装，但是安装源不是estuary的情况需要卸载重新安装
                     rmflag=1
-                    if [ "$from" != "anaconda" ];then
+                    if [ "$from" != "Estuary" ];then
                         yum remove -y $p
                         yum install -y $p
-                        from=$(yum info $p | grep "^From repo" | awk '{print $4}')
+                        from=$(yum info $p | grep "From repo" | awk '{print $4}')
                         if [ "$from" = "$from_repo" ];then
                              print_info 0 repo_check
                         else
@@ -98,14 +98,14 @@ case "${dist}" in
                     fi
                 fi
 
-                vs=$(yum info $p | grep "^Version" | awk '{print $3}')
+                vs=$(yum info $p | grep "Version" | awk '{print $3}')
                 if [ "$vs" = "$version" ];then
                       print_info 0 version
                 else
                       print_info 1 version
                 fi
 
-                rs=$(yum info $p | grep "^Release" | awk '{print $3}')
+                rs=$(yum info $p | grep "Release" | awk '{print $3}')
                 if [ "$rs" = "$release" ];then
                      print_info 0 release
                 else
@@ -143,8 +143,8 @@ case "${dist}" in
             rmflag=0
             if test $status -eq 0
             then
-                echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
-                from=$(apt show $p | grep "^Source" | awk '{print $2}')
+                print_info 0 install
+                from=$(apt show $p | grep "Source" | awk '{print $2}')
                 if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
                 print_info 0 repo_check
                 else
@@ -153,7 +153,7 @@ case "${dist}" in
                     echo "$p already installed,source is: $from " | tee -a ${RESULT_FILE}
                 fi
 
-                vs=$(apt show $p | grep "^Version" | awk '{print $2}')
+                vs=$(apt show $p | grep "Version" | awk '{print $2}')
                 if [ "$vs" = "$version1" -o "$vs" = "$version2" ];then
                     print_info 0 install
                 else
