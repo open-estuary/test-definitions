@@ -5,6 +5,7 @@
 set -x
 cd ../../../../utils
   . ./sys_info.sh
+  . ./sh-test-lib
 cd -
 #Test user_id
 if [ `whoami` != 'root' ]; then

@@ -4,12 +4,15 @@ set -x
 
 cd ../../../../utils
     . ./sys_info.sh
+    . ./sh-test-lib
 cd -
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "ubuntu")
-        apt-get install openssh-server  -y
-        apt-get install expect -y
+        #apt-get install openssh-server  -y
+        #apt-get install expect -y
+        pkgs="openssh-server expect"
+        install_deps "${pkgs}"
         print_info $? install-package
         ;;
     "centos")

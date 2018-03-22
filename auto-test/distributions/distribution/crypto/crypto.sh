@@ -4,6 +4,7 @@
 set -x
 cd ../../../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
 
 #Test user id
@@ -14,10 +15,12 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-        yum install gcc -y
-        yum install gcc-c++ -y
-        yum install make -y
-        yum install unzip -y
+        #yum install gcc -y
+        #yum install gcc-c++ -y
+        #yum install make -y
+        #yum install unzip -y
+        pkgs="gcc gcc-c++ make unzip"
+        install_deps "${pkgs}"
         wget http://htsat.vicp.cc:804/cryptopp-CRYPTOPP_5_6_5.zip
         print_info $? get-crypto
         unzip cryptopp-CRYPTOPP_5_6_5.zip
@@ -148,7 +151,8 @@ else
 fi
 case $distro in
      "centos")
-         yum remove gcc gcc-c++ make -y
+         #yum remove gcc gcc-c++ make -y
+         remove_deps "${pkgs}"
          print_info $? remove-package
          ;;
 esac
