@@ -4,6 +4,7 @@ set -x
 
 cd ../../../../utils
     . ./sys_info.sh
+    . ./sh-test-lib
 cd -
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in

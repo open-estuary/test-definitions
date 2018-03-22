@@ -4,6 +4,7 @@
 set -x
 cd ../../../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
 
 #Test user id
@@ -11,12 +12,13 @@ if [ `whoami` != 'root' ]; then
     echo "You must be the superuser to run this script" >$2
     exit 1
 fi
-#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-        yum install gcc -y
-        yum install gcc-c++ -y
-        yum install wget -y
+        #yum install gcc -y
+        #yum install gcc-c++ -y
+        #yum install wget -y
+        pkgs="gcc gcc-c++ wget"
+        install_deps "${pkgs}"
         print_info $? install-package
         wget http://htsat.vicp.cc:804/boost_1_63_0.tar.gz
         print_info $? get-boost
@@ -55,5 +57,6 @@ if [ "$str" != "" ]; then
 else
     lava-test-case $TCID --result fail
 fi
-yum remove gcc gcc-c++ -y
-print_info $? remove-gcc
+#yum remove gcc gcc-c++ -y
+remove_deps "${pkgs}"
+print_info $? remove-pkgs
