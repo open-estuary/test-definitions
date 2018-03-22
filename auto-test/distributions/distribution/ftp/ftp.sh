@@ -41,24 +41,25 @@ set -x
 
 cd ../../../../utils
     . ./sys_info.sh
+    . ./sh-test-lib
 cd -
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "ubuntu")
-        apt-get install vsftpd -y
-        apt-get install expect -y
+        #apt-get install vsftpd -y
+        #apt-get install expect -y
+        pkgs="vsftpd expect"
+        install_deps "${pkgs}"
         print_info $? install-package
         ;;
     "centos")
-        yum install vsftpd -y
-        yum install vsftpd.aarch64 -y
-        yum install expect -y
-        yum install ftp -y
+        #yum install vsftpd -y
+        #yum install vsftpd.aarch64 -y
+        #yum install expect -y
+        #yum install ftp -y
+        pkgs="vsftpd expect ftp vsftpd.aarch64"
+        install_deps "${pkgs}"
         print_info $? install-package
-        ;;
-    "opensuse")
-        zypper install -y ftp
-        zypper install -y expect
         ;;
 esac
 
@@ -175,11 +176,13 @@ fi
 rm -rf tmp
 case $distro in
     "ubuntu")
-        apt-get remove vsftpd expect -y
+        #apt-get remove vsftpd expect -y
+        remove_deps "${pkgs}"
         print_info $? remove-package
         ;;
     "centos")
-        yum remove vsftpd expect -y
+        #yum remove vsftpd expect -y
+        remove_deps "${pkgs}"
         print_info $? remove-package
         ;;
 esac
