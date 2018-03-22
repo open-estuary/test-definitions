@@ -13,10 +13,10 @@ go version
 
 case "${distro}" in
 	centos|fedora)
-		sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
-		sudo chmod +r /etc/yum.repos.d/estuary.repo
-		sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
-		yum clean dbcache
+		#sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
+		#sudo chmod +r /etc/yum.repos.d/estuary.repo
+		#sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
+		#yum clean dbcache
 		print_info $? setup-estuary-repository
 		
 		pkgs="go-bindata"
