@@ -4,6 +4,7 @@
 set -x
 cd ../../../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
 
 #Test user id
@@ -14,11 +15,15 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-        yum install dhclient.aarch64 -y
+        #yum install dhclient.aarch64 -y
+        pkgs="dhclient"
+        install_deps "${pkgs}"
         print_info $? install-package
         ;;
     "ubuntu")
-        apt-get install dhclient -y
+        #apt-get install dhclient -y
+        pkgs="dhclient"
+        install_deps "${pkgs}"
         print_info $? install-package
         ;;
 

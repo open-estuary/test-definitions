@@ -3,6 +3,7 @@
 set -x
 cd ../../../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
 
 #Test user id
@@ -12,13 +13,17 @@ if [ `whoami` != 'root' ]; then
 fi
 case $distro in
     "centos")
-        yum install dnsmasq -y
-        yum install bind-utils -y
+        #yum install dnsmasq -y
+        #yum install bind-utils -y
+        pkgs="dnsmasq bind-utils"
+        install_deps "${pkgs}"
         print_info $? install-pip
         ;;
     "ubuntu")
-        apt-get install dnsmasq -y
-        apt-get install bind9 -y
+        #apt-get install dnsmasq -y
+        #apt-get install bind9 -y
+        pkgs="dnsmasq bind9"
+        install_deps "${pkgs}"
         print_info $? install-dnsmasq
         ;;
 esac
@@ -40,13 +45,15 @@ print_info $? dig-wwwfree
 
 case $distro in
     "centos")
-        yum remove dnsmasq -y
-        yum remove bind-utils -y
+        #yum remove dnsmasq -y
+        #yum remove bind-utils -y
+        remove_deps "${pkgs}"
         print_info $? remove-pip
         ;;
     "ubuntu")
-        apt-get remove dnsmasq -y
-        apt-get remove bind9 -y
+        #apt-get remove dnsmasq -y
+        #apt-get remove bind9 -y
+        remove_deps "${pkgs}"
         print_info $? remove-dnsmasq
         ;;
 esac
