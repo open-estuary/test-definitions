@@ -17,6 +17,7 @@ if [ `whoami` != 'root' ] ; then
 fi
 case $distro in
 "centos")
+     yum install wget -y
      yum install CUnit-devel.aarch64 -y
      yum install libatomic.aarch64 -y
      print_info $? install-pkgs
