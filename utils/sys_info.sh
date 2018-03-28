@@ -65,11 +65,11 @@ esac
 
 # 临时执行
 case $distro in 
-    centos)
+    "centos")
         sed -i "s/5.1/5.0/g"  /etc/yum.repos.d/estuary.repo 
         yum clean all 
         ;;
-    ubuntu)
+    "ubuntu" | "debian" )
         sed -i "s/5.1/5.0/g" /etc/apt/sources.list.d/estuary.list 
         apt-get update 
         ;;
