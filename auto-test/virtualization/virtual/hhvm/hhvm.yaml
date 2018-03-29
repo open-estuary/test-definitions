@@ -8,7 +8,6 @@ metadata:
     scope:
         - virtualization
     os:
-        - ubuntu
         - centos
     devices:
         - d03
