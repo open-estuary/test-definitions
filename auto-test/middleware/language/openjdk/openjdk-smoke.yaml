@@ -6,7 +6,6 @@ metadata:
         - tanliqing2010@163.com 
     os:
         - debian
-        - ubuntu
         - centos
         - fedora
     scope:
