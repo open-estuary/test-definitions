@@ -84,11 +84,11 @@ print_info $? modification-wrapper.conf
 cd /usr/local/mycat/bin
 ./mycat start
 print_info $? start-mycat
-#TCID="mycat-start"
+TCID="mycat-start"
 #查看mycat是否正常启动
 ps -ef |grep mycat 2>&1 | tee mycat.log
 str=`grep -Po "/usr/local/mycat/bin" mycat.log`
-if [ "$str" != "" ] ; then
+if [ x"$str" != x"" ] ; then
     lava-test-case $TCID --pass
 else
     lava_test_case $TCID  --fail
