@@ -74,6 +74,7 @@ function zk_install_c_client(){
         
     popd 
     if [ $ret -eq 0 ];then
+       yum install -y python-devel 
        pip install zkpython
        ret=$?
        print_info $ret "zookeeper_install_zkpython"
@@ -104,7 +105,7 @@ function zk_base_operoter(){
     else
         false
     fi
-    print_info $? "zookeeper_ls_znode"
+#    print_info $? "zookeeper_ls_znode"
 
     $ZK_HOME/bin/zkCli.sh stat /test 2>&1 | grep -v INFO  | grep "not exist"
     if test $? -eq 0;then
