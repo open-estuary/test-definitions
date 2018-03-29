@@ -21,12 +21,22 @@ function spark_download(){
     pushd . 
     cd ~/bigdata/spark
         if [ ! -f spark-${SPARKVERSION}-bin-hadoop2.7.tgz ];then
-            wget -c http://mirror.bit.edu.cn/apache/spark/spark-${SPARKVERSION}/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+            wget -c http://192.168.1.107/test-definitions/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+            ret=$?
+            if [ $ret -ne 0 ];then 
+                wget -c http://mirror.bit.edu.cn/apache/spark/spark-${SPARKVERSION}/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+                ret=$?
+            fi 
         fi 
 #        tar -zxf spark-$SPARKVERSION-bin-hadoop2.7.tgz
 
         if [ ! -f scala-2.12.4.tgz  ];then
-            wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
+            wget -c http://192.168.1.107/test-definitions/scala-2.12.4.tgz
+            ret=$?
+            if [ $ret -ne 0 ];then
+                wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
+                ret=$?
+            fi
         fi 
         if test -f spark-${SPARKVERSION}-bin-hadoop2.7.tgz
         then
@@ -35,6 +45,12 @@ function spark_download(){
             false
         fi
         print_info $? "download_spark_bin_file"
+        test -f scala-2.12.4.tgz && true || false
+        if [ $? -ne 0 ];then
+            echo
+            echo "download_scala_package_fail,please check network or url"
+            echo 
+        fi 
     popd 
 }
 
