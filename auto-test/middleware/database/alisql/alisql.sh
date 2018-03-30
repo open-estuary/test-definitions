@@ -18,7 +18,7 @@ function alisql_uninstall(){
 
 function alisql_install(){
     
-    yum install -y AliSQL-server
+    yum install -y AliSQL-server unzip
     if [ $? -eq 0 ];then
         lava-test-case "AliSQL-server_install" --result pass
     else
