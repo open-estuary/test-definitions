@@ -129,6 +129,7 @@ echo `pwd`
         echo "---------------"
         exit 1
     fi 
+    source ~/.bashrc 
 }
 
 function spark_start_cluster(){
@@ -207,7 +208,6 @@ function spark_RDD_test(){
     filter
     first
     flatMap
-    flatMapValue
     fold
     foldByKey
     getNumPartitions
@@ -227,7 +227,7 @@ function spark_RDD_test(){
     sortBy
     take
     zip
-    boardcast'''
+    '''
     for word in $list 
     do 
         grep "${word}_test_ok" out.tmp

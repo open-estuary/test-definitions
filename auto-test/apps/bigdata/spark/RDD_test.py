@@ -92,9 +92,9 @@ def flatMap(sc):
     if (len(ret) == 6):
         print("flatMap_test_ok")
 
+def f(x) : return x
 def flatMapValue(sc):
     rdd = sc.parallelize( [ ("a" , ["x" , "y" , "x"]) , ("b" , ["p" , "r"]) ] )
-    def f(x) : return x
     ret = rdd.flatMapValues(f).collect()
     if (len(ret) == 6):
         print("flatMapValue_test_ok")
@@ -250,6 +250,8 @@ if __name__ == '__main__':
     conf = SparkConf().setAppName("rdd_test_parallelize").setMaster("local")
     sc = SparkContext(conf=conf)
     aggregate(sc)
+    glom(sc)
+    coalesce(sc)
     cartesian(sc)
     cogroup(sc)
     collectAsMap(sc)

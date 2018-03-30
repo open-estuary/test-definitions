@@ -27,7 +27,6 @@ scala_test_if
 scala_test_for 
 scala_test_string
 scala_test_collection
-
 spark_download
 #spark_login_no_passwd
 ssh_no_passwd
@@ -37,6 +36,6 @@ spark_start_cluster
 
 spark_SparkContext_test
 spark_RDD_test 
-spark_sql_test
+#spark_sql_test
 
-#spark_stop_cluster
+spark_stop_cluster
