@@ -99,12 +99,20 @@ function mysql_client(){
 function mysql_load_data(){
     
     if [ ! -d test_db ];then
-       timeout 2m git clone https://github.com/datacharmer/test_db.git 
+        timeout 2m wget -c http://192.168.1.107/test-definitions/test_db.zip 
+
+        if [ $? -ne 0 ];then 
+            timeout 2m git clone https://github.com/datacharmer/test_db.git 
+        else
+            unzip -f test_db.zip 
+        fi
     fi 
     print_info $? "download_test_data_timeout"
     mysql -e "drop database if exists employees"
     
-    mysql < ./test_db/employees.sql
+    pushd test_db-master >/dev/null 2>&1 
+        mysql < employees.sql
+    popd 
     print_info $? "mysql${version}_import_database"
 }
 

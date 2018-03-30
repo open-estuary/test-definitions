@@ -17,7 +17,7 @@ function install_hadoop() {
     ### install hadoop 
 
 
-    local version='2.7.5'
+    local version='2.7.4'
 
 
     if test ! -d /var/bigdata/hadoop
@@ -35,7 +35,10 @@ function install_hadoop() {
 	fi
 
 	if [ ! -f hadoop-${version}.tar.gz ];then
-        wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz 
+        timeout 1m wget -c http://192.168.1.107/test-definitions/hadoop-${version}.tar.gz 
+        if [ $? -ne 0 ];then 
+            wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz 
+        fi
         if test $? -ne 0;then
             echo 
             echo "download hadoop source error,please check url or network !!!"
@@ -47,7 +50,6 @@ function install_hadoop() {
  
     pushd hadoop-${version}
 	
-    
     sed -i "s/export JAVA_HOME=.*/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk/g" etc/hadoop/hadoop-env.sh
 	print_info $? "hadoop_edit_config_add_JAVA_HOME_env"
 	
