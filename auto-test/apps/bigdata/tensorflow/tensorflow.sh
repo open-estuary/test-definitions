@@ -89,7 +89,7 @@ python ./load_model.py
 print_info $? tf-load-model
 
 cd /usr/share/tensorflow
-pip remove tensorflow -y
+pip uninstall tensorflow -y
 print_info $? pip-remove-whl
 
 pkgs="python-pip python-devel"
