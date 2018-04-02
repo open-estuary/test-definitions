@@ -5,15 +5,13 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     os:
-        - ubuntu
-        - debian
         - centos
     scope:
-        - distribution
+        - test1
     devices:
         - d03
         - d05
-    level: 1
+    level: 5
 
 params:
     # Test if lshw able to report the classes pre-defined in ${CLASSES}.
