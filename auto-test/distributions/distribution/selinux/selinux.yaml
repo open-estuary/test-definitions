@@ -1,22 +1,21 @@
 
 metadata:
-    name: samba_basic_testing
+    name: "selinux"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "samba basic testing"
+    description: "Basic operations on files"
     maintainer:
         - hongxin_228@163.com
     scope:
-        - distribution
+        -distribution
     os:
         - centos
     devices:
-        - d03
         - d05
+        - d03
     level: 1
 run:
     steps:
-        - "cd auto-test/distributions/distribution/samba; ./samba.sh; cd -"
-
+        - "cd auto-test/distributions/distribution/selinux; ./selinux.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
