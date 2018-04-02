@@ -109,4 +109,4 @@ memcached_stop_by_service
 memcached_start_by_service
 memcached_stop_by_command 
 
-#memcached_uninstall
+memcached_uninstall

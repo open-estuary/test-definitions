@@ -459,7 +459,7 @@ function redis_save_test(){
 
     res=`redis-cli set save isSave`
     res2=`redis-cli save`
-    if [ $res2 == "OK"  ];then
+    if [ x"$res2" == x"OK"  ];then
         true
     else
         false
@@ -475,9 +475,8 @@ function redis_save_test(){
     cp ${path}/dump.rdb /redis/db/7777/
     redis_start  7777
 
-
     res4=`redis-cli -p 7777 GET save`
-    if [ $res4 == "isSave"  ];then
+    if [ x"$res4" == x"isSave"  ];then
         true
     else
         false
