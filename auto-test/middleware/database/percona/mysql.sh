@@ -103,17 +103,18 @@ function mysql_load_data(){
 
         if [ $? -ne 0 ];then 
             timeout 2m git clone https://github.com/datacharmer/test_db.git 
-        else
-            unzip -f test_db.zip 
         fi
-    fi 
+    fi
+
+    test -f test_db.zip
     print_info $? "download_test_data_timeout"
     mysql -e "drop database if exists employees"
-    
+
+    unzip -o test_db.zip 
     pushd test_db-master >/dev/null 2>&1 
         mysql < employees.sql
+        print_info $? "mysql${version}_import_database"
     popd 
-    print_info $? "mysql${version}_import_database"
 }
 
 function mysql_create(){
