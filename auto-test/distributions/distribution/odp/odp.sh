@@ -46,10 +46,11 @@ do
     str2=`echo $line |awk -F ' ' '{print $2}'`
     if [ "$str2" == "passed" ];then
         str2=pass
+    lava-test-case $str1 --result $str2
     else
         str2=fail
    fi
- lava-test-case $str1 --result $str2
+#lava-test-case $str1 --result $str2
 done < 3.log
 
 
