@@ -7,7 +7,7 @@ RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/log.txt"
 SKIP_INSTALL="no"
 VERSION="3.1.8"
-SOURCE="Estuary"
+SOURCE="base"
 PACKAGE="source-highlight"
 ! check_root && error_msg "This script must be run as root"
 create_out_dir "${OUTPUT}"
@@ -23,14 +23,14 @@ install_source-highlight() {
                 print_info 1 install
                 exit 1
             fi
-            version=$(yum info ${PACKAGE} | grep "^Version" | awk '{print $3}')
+            version=$(yum info ${PACKAGE} | grep "Version" | awk '{print $3}')
             if [ ${version} = ${VERSION} ];then
                  print_info 0 version
             else
                  print_info 1 version
                 exit 1
             fi
-            sourc=$(yum info ${PACKAGE} | grep "^From repo" | awk '{print $4}')
+            sourc=$(yum info ${PACKAGE} | grep "From repo" | awk '{print $4}')
             if [ ${sourc} = ${SOURCE} ];then
                   print_info 0 repo_check
             else
