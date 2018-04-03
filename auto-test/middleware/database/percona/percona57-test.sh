@@ -44,5 +44,5 @@ percona57_stop
 percona57_replication
 percona57_custom_stop 
 
-#percona57_remove
+percona57_remove
 cleanup_all_database

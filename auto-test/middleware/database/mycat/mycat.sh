@@ -61,9 +61,13 @@ print_info $? login-mysql
 grep "Query OK" out.log
 print_info $? create-db
 #添加mycat组
-groupadd mycat
+groupadd -f  mycat
 print_info $? groupadd-mycat
 #添加mycat用户
+id mycat 
+if [ $? -eq 0 ];then
+    userdel mycat 
+fi 
 adduser -r -g mycat mycat
 print_info $? adduser-mycat
 #把mycat包放在/usr/local路径下面
@@ -83,18 +87,14 @@ print_info $? modification-wrapper.conf
 #启动mycat
 cd /usr/local/mycat/bin
 ./mycat start
-print_info $? start-mycat
-TCID="mycat-start"
-#查看mycat是否正常启动
-ps -ef |grep mycat 2>&1 | tee mycat.log
-str=`grep -Po "/usr/local/mycat/bin" mycat.log`
-if [ x"$str" != x"" ] ; then
-    lava-test-case $TCID --pass
-else
-    lava_test_case $TCID  --fail
-fi
 
-print_info $? mycat-status
+ps -ef | grep mycat | grep -v grep 
+print_info $? start-mycat
+
+
+./mycat status | grep "is running"
+print_info $? "mycat_status_ok"
+
 #通过mysql连接mycat
 EXPECT=$(which expect)
 $EXPECT << EOF | tee -a mycat.log
@@ -123,15 +123,13 @@ if [ "$count" -eq  4 ]; then
     print_info $? explain-create
     print_info $? explain-insert
 fi 
-count1=`ps -aux| grep mysql|wc -l`
-if [ $count1 -gt 0 ]; then
-    kill -9 $(pidof mysql)
-fi
-count2=`ps -aux|grep mycat|wc -l`
-if [ $count2 -gt 0 ]; then
-    kill -9 $(pidof mycat)
-    print_info $? kill-mycat
-fi
+
+systemctl stop mysql 
+./mycat stop 
+print_info $? "mycat_stop"
+
+
+cd - 
 yum remove expect -y
 yum remove java-1.8.0-openjdk.aarch64 -y
 yum remove mycat -y
