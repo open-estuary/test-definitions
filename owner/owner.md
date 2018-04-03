@@ -6,24 +6,24 @@ Introduction : The developer and tester of each module
 | :-: | :-: | :-: | :-: |
 | apps | performance | wangyu | mahongxin |
 |  | server | wangyu | mahongxin |
-|  | stress | wangyu | mahongxin |
-|  | website | peiqiang | fangyuanzheng |
-|  | e-commerce | zhouxingchen | fangyuanzheng |
+|  | stress | wangyu | wangsisi |
+|  | website | peiqiang | suzhou |
+|  | e-commerce | zhouxingchen | suzhou |
 |  | bigdata | dingwei | tanliqing |
-| bootloaders | uefi | huangming | tanliqing |
-| distributions | distribution | linwenkai | mahongxin |
-|  | build | linwenkai | liucaili |
-|  | deploy | linwenkai | liucaili |
+| bootloaders | uefi | huangming | suzhou |
+| distributions | distribution | linwenkai | rensiyi |
+|  | build | linwenkai | rensiyi |
+|  | deploy | linwenkai | rensiyi |
 | hardwareboards |  |  |  |
 | kernel | linux | tiantao | fangyuanzheng |
 |  | memory | tiantao | fangyuanzheng |
-| middleware | tool | wangyu | fangyuanzheng |
+| middleware | tool | wangyu | wangsisi |
 |  | database | dingwei | tanliqing |
 |  | language | wangyu | liucaili |
-| peripheral | raid | tiantao | fangyuanzheng |
-|  | ssd | tiantao | fangyuanzheng |
-|  | 82599 | tiantao | fangyuanzheng |
-|  | sas | tiantao | fangyuanzheng |
-|  | misc | tiantao | fangyuanzheng |
-|  | hns | tiantao | fangyuanzheng |
+| peripheral | raid | tiantao | liuzhiqiang |
+|  | ssd | tiantao | liuzhiqiang |
+|  | 82599 | tiantao | liuzhiqiang |
+|  | sas | tiantao | liuzhiqiang |
+|  | misc | tiantao | liuzhiqiang |
+|  | hns | tiantao | liuzhiqiang |
 | virtualization | virtual | tiantao | liucaili |
