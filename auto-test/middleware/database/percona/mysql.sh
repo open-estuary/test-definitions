@@ -99,7 +99,7 @@ function mysql_client(){
 function mysql_load_data(){
     
     if [ ! -d test_db ];then
-        timeout 2m wget -c http://192.168.1.107/test-definitions/test_db.zip 
+        timeout 2m wget -c http://htsat.vicp.cc:804/test-definitions/test_db.zip 
 
         if [ $? -ne 0 ];then 
             timeout 2m git clone https://github.com/datacharmer/test_db.git 
