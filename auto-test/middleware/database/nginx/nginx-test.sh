@@ -29,4 +29,4 @@ test_geoip_mod
 
 nginx_stop 
 
-#nginx_remove
+nginx_remove

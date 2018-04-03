@@ -14,7 +14,7 @@ function nginx_install(){
     yum install -y nginx 
     print_info $? "install_nginx"
 
-    local ver=`yum info nginx | grep Version | cut -d : -f 2`
+    local ver=`yum info nginx | grep Version | cut -d : -f 2 | tr -d [:blank:]`
     if [ x"$ver" == x"1.13.3" ];then
         true
     else
@@ -27,6 +27,13 @@ function nginx_remove(){
 
     systemctl stop nginx 
     yum remove -y nginx 
+    print_info $? "remove_nginx_ok"
+
+    systemctl stop php-fpm
+    yum remove nginx-module-geoip 
+    print_info $? "remove_geoip_module_ok"
+
+
 }
 
 
@@ -79,13 +86,10 @@ function modify_nginx_conf(){
     $cp -f  nginx.conf /etc/nginx/ && 
     $cp -f default.conf /etc/nginx/conf.d/default.conf 
     print_info $? "modify_nginx_conf_load_geoip_mod"
-   
-
-    
-    
+       
     systemctl restart nginx 
     print_info $? "restart_nginx_load_geoip_mod"
-
+    mkdir -p /var/www 
     $cp -f index.php test.php /var/www 
 }
 
