@@ -31,6 +31,7 @@ function zk_install_standalone(){
 function zk_start(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t start 
+    sleep 3
     jps | grep QuorumPeerMain
     ret=$?
     print_info $ret "zookeeper_start"
@@ -45,6 +46,7 @@ function zk_start(){
 function zk_stop(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t stop 
+    sleep 3
     jps | grep QuorumPeerMain
     test $? -ne 0  && true || false 
     ret=$?
@@ -54,6 +56,7 @@ function zk_stop(){
         echo "zookeeper stop error"
         echo
     fi 
+    rm -rf /var/bigdata/zookeeper
 
 }
 
@@ -84,7 +87,8 @@ function zk_install_c_client(){
 
 
 function zk_base_operoter(){
-    
+   jps
+
     $ZK_HOME/bin/zkServer.sh status | grep standalone
     print_info $? "zookeeper_status_ok"
     

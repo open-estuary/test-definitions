@@ -21,6 +21,7 @@ outDebugInfo
 cleanup_all_database
 alisql_install
 alisql_start_custom
+version=alisql 
 mysql_client
 mysql_create
 mysql_alter

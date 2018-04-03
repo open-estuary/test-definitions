@@ -44,7 +44,7 @@ function memcached_start_by_service(){
     else
         false
     fi
-    print_info $? "memcached_start by systemd"
+    print_info $? "memcached_start_by_systemd"
 }
 
 

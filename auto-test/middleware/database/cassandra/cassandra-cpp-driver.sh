@@ -37,11 +37,8 @@ function ccdriver_server_isRunning(){
     if [ $? -ne 0 ];then 
         echo "authenticator: AllowAllAuthenticator" >> /etc/cassandra/default.conf/cassandra.yaml 
     fi 
-
-    systemctl start_cassandra 
-
-    pgrep -U cassandra && true || false 
-    print_info $? "start_cassandra" 
+    
+    cassandra20_start_by_service
 }
 
 
