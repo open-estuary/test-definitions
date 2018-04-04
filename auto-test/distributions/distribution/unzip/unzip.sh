@@ -11,6 +11,13 @@ if [ `whoami` != 'root' ]; then
     echo " You must be the superuser to run this script" >&2
     exit 1
 fi
+case $distro in
+    "centos")
+        yum install wget -y
+        yum install unzip -y
+        yum install zip -y
+        ;;
+esac
 wget http://htsat.vicp.cc:804/netperf-2.7.0.tar.gz
 
 tar -zxvf netperf-2.7.0.tar.gz

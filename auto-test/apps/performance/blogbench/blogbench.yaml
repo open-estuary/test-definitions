@@ -18,7 +18,7 @@ metadata:
 run:
     steps:
         - cd auto-test/apps/performance/blogbench
-        - ./blogbench.sh -i "${ITERATION}" -p "${PARTITION}"
+        - ./blogbench.sh
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

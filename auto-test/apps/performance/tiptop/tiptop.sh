@@ -28,7 +28,6 @@ install_tiptop() {
                 echo "${PACKAGE} version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "${PACKAGE} version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
             fi
             print_info $? tiptop-version
             sourc=$(yum info ${PACKAGE} | grep "^From repo" | awk '{print $4}')
@@ -36,7 +35,6 @@ install_tiptop() {
                 echo "${PACKAGE} source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "${PACKAGE} source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
             fi
             print_info $? tiptop-source
             ;;
