@@ -74,8 +74,7 @@ else
     lava-test-case $TCID2 --result fail
 fi
 rm qperf-client.log
-pkill qperf
-print_info $? kill-qperf
+print_info $? rm-log
 case $distro in
     "ubuntu")
         apt-get remove gcc make -y

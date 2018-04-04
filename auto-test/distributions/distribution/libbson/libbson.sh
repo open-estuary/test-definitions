@@ -32,7 +32,7 @@ case "${dist}" in
     centos) 
             version="1.6.2"
             SOURCE="Estuary"
-            pkgs="libbson libbson-devel"
+            pkgs="gcc libbson libbson-devel"
             install_deps "${pkgs}" "${SKIP_INSTALL}"
             print_info $? install-libbson-devel
             print_info $? install-libbson
