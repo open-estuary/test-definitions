@@ -101,8 +101,6 @@ print_info $? stop-mysqld
 yum remove -y mysql-connector-python mysql-connector-python-cext mysql-connector-python-debuginfo
 print_info $? remove-mysql-connector-python
 
-yum remove -y python
-print_info $? remove-python
 
 yum remove -y mysql-community-server mysql-community-common mysql-community-client mysql-community-devel
 print_info $? remove-mysql-community

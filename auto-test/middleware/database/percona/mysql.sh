@@ -984,10 +984,11 @@ eof
     if [ $? -eq 0 ];then 
         sed -i s?".*log_bin.*"?"log_bin=mysql-bin"? /etc/my.cnf 
     else
-        cat >> /etc/my.cnf <<eof
+        cat >> /etc/my.cnf<<eof
 [mysqld]
 log_bin=mysql-bin
-eof 
+eof
+    fi
 
     systemctl restart mysqld.service
     sleep 3
@@ -1000,6 +1001,4 @@ eof
     print_info $? "mysql${version}_view_bin_log_file"
 
 }
-
-
 
