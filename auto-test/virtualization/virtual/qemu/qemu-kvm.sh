@@ -69,7 +69,8 @@ print_info $? qemu-system-aarch64-help
 chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
 
 # start qemu 
-${CUR_PATH}/qemu-load-kvm.sh $IMAGE $ROOTFS
+# add distro as parameter  20180408 liucaili
+${CUR_PATH}/qemu-load-kvm.sh $IMAGE $ROOTFS $distro
 if [ $? -ne 0 ]; then
     echo 'qemu system load fail'
     lava-test-case qemu-system-load --result fail
