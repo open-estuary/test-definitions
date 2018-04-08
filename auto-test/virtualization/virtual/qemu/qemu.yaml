@@ -9,7 +9,7 @@ metadata:
         - virtualization
     os:
         - centos
-        - opensuse
+        - ubuntu
     devices:
         - d03
         - d05
