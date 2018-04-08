@@ -19,7 +19,7 @@ case $distro in
         #yum install gcc-c++ -y
         #yum install make -y
         #yum install unzip -y
-        pkgs="gcc gcc-c++ make unzip"
+        pkgs="gcc gcc-c++ make unzip wget"
         install_deps "${pkgs}"
         wget http://htsat.vicp.cc:804/cryptopp-CRYPTOPP_5_6_5.zip
         print_info $? get-crypto

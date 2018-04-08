@@ -57,7 +57,7 @@ print_info $? start-iperf-server
 stdbuf -o0 iperf3 -c "${SERVER}" -t "${TIME}" -P "${THREADS}" 2>&1 \
     | tee iperf.log
 print_info $? start-iperf-client
-TCID="iperf test"
+TCID="iperf"
 # Parse logfile.
 if [ "${THREADS}" -eq 1 ]; then
     egrep "(sender|receiver)" iperf.log \
