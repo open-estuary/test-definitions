@@ -85,7 +85,7 @@ case $distro in
         print_info $? remove-openssl
         ;;
     "centos")
-        yum remove opensssl -y
+        yum remove openssl -y
         print_info $? remove-openssl
         ;;
 esac

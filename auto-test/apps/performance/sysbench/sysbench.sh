@@ -90,7 +90,6 @@ else
                 echo "sysbench version is $v: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "sysbench version is $v: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
             fi
             print_info $? sysbench-version
             repo=yum info sysbench | grep "^From repo" | awk '{print $4}'
@@ -98,7 +97,6 @@ else
                 echo "sysbench source is ${repo}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "sysbench source is ${repo}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
             fi
             print_info $? sysbench-repo
             ;;
@@ -169,9 +167,9 @@ for tc in ${TESTS}; do
         cpu|threads|mutex)
             sysbench --num-threads="${NUM_THREADS}" --test="${tc}" run | tee "${logfile}"
             general_parser
-            print_info $? cpu-test
-            print_info $? threads-test
-            print_info $? mutex-test
+            print_info $? ${tc}
+            #print_info $? threads-test
+            #print_info $? mutex-test
             ;;
         memory)
             for j in ['8k','16k']; do
