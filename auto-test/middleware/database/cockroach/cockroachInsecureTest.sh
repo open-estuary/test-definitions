@@ -1,6 +1,6 @@
 #! /bin/bash 
 
-#set -x
+set -x
 basedir=$(cd `dirname $0` ;pwd)
 cd $basedir 
 . ../../../../lib/sh-test-lib 
@@ -16,7 +16,7 @@ else
     lava-test-case "cockroach_install" --result fail 
 fi
 
-version=`cockroach_version | grep "Build Tag:" | awk '{print $3}'`
+version=`cockroach version | grep "Build Tag:" | awk '{print $3}'|tr -d [:blank:]`
 if [ x"$version" = x"v1.0.3"  ];then
     lava-test-case "cockroach_version" --result pass 
 	echo "version ok"
@@ -58,7 +58,8 @@ echo
 
 nodestatus1=`cockroach node ls --insecure` 
 nodestatus2=`cockroach node status --insecure`
-if `echo $nodestatus1 | grep "3 rows"` && `echo $nodestatus2 | grep "3 rows"`;then
+echo $nodestatus1 | grep "3 rows" && echo $nodestatus2 | grep '3 rows'
+if test $? -eq 0;then
     lava-test-case "cockroach_status " --result pass
 	echo "cockroach_status ok ------------------------" 
 else

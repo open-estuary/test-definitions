@@ -80,6 +80,7 @@ except mysql.connector.Error as e:
 sql_drop_table="drop table student"
 try:
    cursor.execute(sql_drop_table)
+   print('success drop test table')
 except mysql.connector.Error as e:
    print('drop table fails!{}'.format(e))  
 

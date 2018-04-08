@@ -27,7 +27,7 @@ function close_firewall_seLinux(){
     fi
     print_info $? "closed_seLinux"
 
-    systemctl stop_firewalld.service
+    systemctl stop firewalld.service
     print_info $? "stop_firewall"
 
 }
@@ -86,7 +86,7 @@ function mysql_client(){
     mysql -umysql -p123 -e "select user()"
     print_info $? "mysql${version}_login_non_root_user_by_socket"
 
-    ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
+    ip=`ip -f inet -o addr | grep -v "127.0.0.1" |  awk '{print $4}' | cut -f1 -d '/'`
     mysql -h $ip -umysql -p123 -e "select user()"
     print_info $? "mysql${version}_login_non_root_user_by_tcp"
     mysql -e "drop user 'mysql'@'%'"
@@ -99,21 +99,22 @@ function mysql_client(){
 function mysql_load_data(){
     
     if [ ! -d test_db ];then
-        timeout 2m wget -c http://192.168.1.107/test-definitions/test_db.zip 
+        timeout 2m wget -c http://htsat.vicp.cc:804/test-definitions/test_db.zip 
 
         if [ $? -ne 0 ];then 
             timeout 2m git clone https://github.com/datacharmer/test_db.git 
-        else
-            unzip -f test_db.zip 
         fi
-    fi 
+    fi
+
+    test -f test_db.zip
     print_info $? "download_test_data_timeout"
     mysql -e "drop database if exists employees"
-    
+
+    unzip -o test_db.zip 
     pushd test_db-master >/dev/null 2>&1 
         mysql < employees.sql
+        print_info $? "mysql${version}_import_database"
     popd 
-    print_info $? "mysql${version}_import_database"
 }
 
 function mysql_create(){
@@ -268,8 +269,9 @@ function mysql_alter(){
     print_info $? "mysql${version}_look_event_status"
 
     # 5.7.11
-    mysql -e "alter instance rotate innodb master key"
-    print_info $? "mysql${version}_alter_instance_only_in_5.7.11_effictive"
+
+    #mysql -e "alter instance rotate innodb master key"
+    #print_info $? "mysql${version}_alter_instance_only_in_5.7.11_effictive"
 
 
     mysql -e "alter server myservername options (user 'newremote')"
@@ -553,13 +555,23 @@ function mysql_select(){
     print_info $? "mysql${version}_limit_clause"
 
     # 7 into outfile
+    grep secure_file_priv /etc/my.cnf 
+    if [ $? -eq 0 ];then
+        sed -i ?"*secure_file_priv*"?"secure_file_priv=/tmp"? /etc/my.cnf
+    else
+        cat >> /etc/mysql <<eof
+[mysqld]
+secure_file_priv=/tmp 
+eof
+    fi 
+    systemctl restart mysql 
     intopath=`mysql -e "show variables like '%secure_file_priv%'\G" | grep -i value | cut -d : -f 2`
     echo $intopath | grep -i null
     if [ $? -ne 0 ];then
-        pushd .
-        cd $intopath
+        
+        pushd  $intopath
         rm -f tmp.dump 
-        mysql -e "select * from employees.employees limit 10 into outfile 'tmp.dump'"
+        mysql -e "select * from employees.employees limit 10 into outfile '/tmp/tmp.dump'"
         print_info $? "mysql${version}_into_outfile_clause"
         popd 
     fi
@@ -809,7 +821,7 @@ function mysql_transaction(){
     kill -9 $pid1
 
     grep -i error a.log  
-    if [ $? -eq 0 ];then
+    if [ $? -eq 1 ];then
         true
     else
         false
@@ -958,14 +970,23 @@ function mysql_log(){
     mysql -e "show variables like 'log_bin'" | grep OFF 
     print_info $? "mysql${version}_bin_log_default_off"
 
-    sed -i s?".*log_bin.*"?"log_bin=myql-bin"? /etc/percona-server.conf.d/mysqld.cnf 
-    grep server-id /etc/percona-server.conf.d/mysqld.cnf 
+    grep server-id /etc/my.cnf 
     if [ $? -eq 0 ];then
-        sed -i s/".*server-id.*"/"server-id=3306"/ /etc/percona-server.conf.d/mysqld.cnf 
+        sed -i s/".*server-id.*"/"server-id=3306"/ /etc/my.cnf 
     else
-    cat >>/etc/percona-server.conf.d/mysqld.cnf <<eof
+    cat >>/etc/my.cnf <<eof
 [mysqld]
 server-id=3306
+eof
+    fi 
+
+    grep log_bin /etc/my.cnf 
+    if [ $? -eq 0 ];then 
+        sed -i s?".*log_bin.*"?"log_bin=mysql-bin"? /etc/my.cnf 
+    else
+        cat >> /etc/my.cnf<<eof
+[mysqld]
+log_bin=mysql-bin
 eof
     fi
 
@@ -975,11 +996,9 @@ eof
     print_info $? "mysql${version}_set_bin_log_on "
     mysql -e "show binary logs" | grep mysql-bin 
     print_info $? "mysql${version}_show_binary_logs"
-    mysqlbinlog /var/lib/mysql/mysql-bin.000001 | grep "create table testdb.tb (id int)"
+
+    mysqlbinlog /var/lib/mysql/mysql-bin.000001 | grep "BINLOG"
     print_info $? "mysql${version}_view_bin_log_file"
 
-
 }
-
-
 
