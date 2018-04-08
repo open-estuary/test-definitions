@@ -38,7 +38,7 @@ print_info $? acquiring-ip
 ping -c 5 ${ROUTE_ADDR} 2>&1 |tee dhcp.log
 
 str=`grep -Po "64 bytes" dhcp.log`
-TCID="dhcp test"
+TCID="dhcp"
 
 if [ "$str" != "" ];then
     lava-test-case $TCID --result pass
