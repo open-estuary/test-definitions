@@ -56,54 +56,29 @@ function cassandra20_edit_config(){
 
 function cassandra20_start_by_service(){
 
-        
-    systemctl start cassandra 
-    print_info $? "cassandra20_start_by_service"
-
-    jps | grep CassandraDaemon  
-    local ret=$?
-    if [ $ret -eq 0 ];then
-        true
-    else
-        false
-    fi
-    print_info $? "lookout_cassandra20_daemon_java_process"
-
-
-    if test $ret -ne 0;then
         cassandra #直接使用命令去启动
-
+        sleep 3
         jps | grep CassandraDaemon | grep -v grep 
-        test $? -eq 0 && true || false 
+        ret=$?
+        test $ret -eq 0 && true || false 
         print_info $? "cassandra20_start_by_command"
-
-        
-    fi 
-
-
+        if [ $ret -ne 0 ];then
+            echo 
+            echo "cassandra can not start success"
+            echo
+            exit 1
+        fi         
 }
 
 function cassandra20_stop_by_service(){
     
-    systemctl stop cassandra 
-    jps | grep CassandraDaemon 
-    local ret=$?
-    test $ret -ne 0 && true || false 
-    print_info $? "cassandra20_stop_by_service"
-
-    if test $ret -eq 0;then
         kill -9 `jps | grep -i CassandraDaemon | awk {'print $1'}`
         jps | grep CassandraDaemon
         test $? -ne 0 && true || false 
         print_info $? "cassandra20_stop_by_command"
-    fi 
-
-
-
 }
 
 function cassandra_keyspace_op(){
-
 
     cqlsh -e "select keyspace_name from system.schema_keyspaces" | grep tutorialspoint 
     if [ $? -eq 0 ];then
@@ -163,9 +138,7 @@ function cassandra_table_op(){
 
     cqlsh -e "use tutorialspoint ; ALTER TABLE emp  ADD emp_email text"
     
-    cqlsh -e "use tutorialspoint ; select * from emp" | grep emp_email 
     print_info $? "cassandra_alter_add_colume"
-
     cqlsh -e "use tutorialspoint ; ALTER TABLE emp DROP emp_email"
 
     cqlsh -e "use tutorialspoint ; select * from emp" | grep emp_email 

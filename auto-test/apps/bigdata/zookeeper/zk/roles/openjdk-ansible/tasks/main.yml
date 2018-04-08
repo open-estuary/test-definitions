@@ -2,17 +2,8 @@
 # tasks file for openjdk-ansible
 #
 
-- name: judge JAVA_HOME exists
-  shell: 'which jps && which java'
-  register: java_home 
-  ignore_errors: yes
-  tags: install 
-
-- debug: msg={{ java_home }}
-  tags: install 
 
 - include: install.yml 
-  when: java_home.rc != 0
   tags: install  
 
 
