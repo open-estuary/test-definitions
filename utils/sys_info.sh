@@ -174,4 +174,62 @@ function outDebugInfo(){
     fi 
 }
 
+## 返回值为 0 :安装到成功
+#           1 :安装失败
+#           2 :无关
+function yumInstall(){
+    
+    if [ $distro == "centos" ];then
+        i=0
+        for package in "$@"
+        do 
+            yum install -y $package 
+            if [ $? -eq 0 ];then
+                let "i++"
+            fi 
+        done 
+        test $i == $# && true || false 
+    else 
+        return 2
+    fi
+
+}
+
+function yumRemove(){
+
+    if [ $distro == "centos" ];then
+        i=0
+        for package in "$@"
+        do 
+            yum remove -y $package
+            if [ $? -eq 0 ];then
+                let "i++"
+            fi 
+        done 
+        test $i == $# && true || false 
+    else
+        return 2
+    fi 
+}
+
+
+
+function aptInstall(){
+    if [ $distro == "ubuntu" ];then
+        i=0
+        for package in "$@"
+        do 
+            apt install -y $package 
+            if [ $? -eq 0 ];then 
+                let "i++"
+            fi 
+        done 
+
+        test $i == $# && true || false 
+    else 
+        return 2
+    fi 
+    
+     
+}
 

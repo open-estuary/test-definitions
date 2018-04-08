@@ -30,7 +30,7 @@ mysql_client
 mysql_create
 mysql_alter
 mysql_drop
-mysql_load_data 
+mysql_load_data
 mysql_select
 mysql_insert
 

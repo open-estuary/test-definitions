@@ -33,7 +33,7 @@ function redis_start_cluster(){
             let ret=$ret+1
         fi 
     done
-    if [ $ret -eq 0 ];then
+    if [ $ret -eq 3 ];then
         true 
     else
         false
@@ -52,6 +52,7 @@ function twemproxy_start(){
     
     systemctl start twemproxy.service
     print_info $? "twemproxy_start"
+    sleep 2
 
 }
 
@@ -60,7 +61,7 @@ function twemproxy_test(){
     redis-cli -p 22121 set testkey "testvalue"
     print_info $? "twemproxy_test_set"
     ret=`redis-cli -p 22121 get testkey`
-    if [ x$ret == x"testvalue"];then
+    if [ x$ret == x"testvalue" ];then
         true
     else
         false
