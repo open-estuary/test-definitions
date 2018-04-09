@@ -118,7 +118,7 @@ download_file()
     url_address=$1
     let i=0
     while (( $i < 5 )); do
-        wget $url_address
+        wget -q $url_address
         if [ $? -eq 0 ]; then
             break;
         fi
@@ -155,7 +155,7 @@ Check_Repo()
 # 用法：source本文件，执行本方法，就可以正常使用打印debug调试信息
 # 1、如果系统中有lava-test-case命令，那么就不会打印信息，反之就会有打印调试信息
 # 2、如果设置了DEBUG环境变量，那么就一定会打印调试信息
-function outDebugInfo(){
+outDebugInfo(){
 
     false 
     if test $DEBUG;then
@@ -177,7 +177,7 @@ function outDebugInfo(){
 ## 返回值为 0 :安装到成功
 #           1 :安装失败
 #           2 :无关
-function yumInstall(){
+yumInstall(){
     
     if [ $distro == "centos" ];then
         i=0
@@ -195,7 +195,7 @@ function yumInstall(){
 
 }
 
-function yumRemove(){
+yumRemove(){
 
     if [ $distro == "centos" ];then
         i=0
@@ -214,7 +214,7 @@ function yumRemove(){
 
 
 
-function aptInstall(){
+aptInstall(){
     if [ $distro == "ubuntu" ];then
         i=0
         for package in "$@"
