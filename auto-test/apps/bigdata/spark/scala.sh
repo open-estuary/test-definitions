@@ -25,7 +25,13 @@ function scala_install(){
         fi 
     
         if [ ! -f scala-2.12.4.tgz ];then
-            wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz 
+            wget -c http://htsat.vicp.cc:804/test-definitions/scala-2.12.4.tgz 
+            ret=$?
+            if [ $ret -ne 0 ];then 
+                wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz 
+                ret=$?
+            fi 
+            test $ret -eq 0 && true || false 
             print_info $? "download_scala_bin"
         fi 
         tar -zxf scala-2.12.4.tgz
