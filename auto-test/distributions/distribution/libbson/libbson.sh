@@ -76,7 +76,7 @@ command="./hello_bson | grep  'bson'"
 skip_list="execute_binary"
 run_test_case "${command}" "${skip_list}"
 print_info $? run-bson
-remove_pkg "${pkgs}"
+remove_deps "${pkgs}"
 print_info $? remove-bson
 rm -rf pkg-config-0.29.2
 print_info $? remove-pkg
