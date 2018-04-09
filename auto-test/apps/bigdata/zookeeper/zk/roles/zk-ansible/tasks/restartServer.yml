@@ -7,3 +7,4 @@
     force: yes 
   notify:
       restart zk 
+  tags: restart 

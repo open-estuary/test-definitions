@@ -109,6 +109,8 @@ function mysql_load_data(){
     test -f test_db.zip
     print_info $? "download_test_data_timeout"
     mysql -e "drop database if exists employees"
+    
+   install_deps  unzip 
 
     unzip -o test_db.zip 
     pushd test_db-master >/dev/null 2>&1 
