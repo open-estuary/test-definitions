@@ -36,7 +36,7 @@ function install_hadoop() {
 
 	if [ ! -f hadoop-${version}.tar.gz ];then
         #timeout 1m wget -c http://192.168.1.107/test-definitions/hadoop-${version}.tar.gz 
-        timeout 1m  wget -c http://htsat.vicp.cc:804/test-definitions/hadoop-${version}.tar.gz
+        wget -c http://htsat.vicp.cc:804/test-definitions/hadoop-${version}.tar.gz
         if [ $? -ne 0 ];then 
             wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz 
         fi

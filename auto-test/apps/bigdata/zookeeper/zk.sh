@@ -77,7 +77,7 @@ function zk_install_c_client(){
         
     popd 
     if [ $ret -eq 0 ];then
-       yum install -y python-devel 
+       yum install -y python-devel python-pip 
        pip install zkpython
        ret=$?
        print_info $ret "zookeeper_install_zkpython"
