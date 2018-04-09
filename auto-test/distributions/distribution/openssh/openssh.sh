@@ -82,11 +82,11 @@ fi
 rm -rf tmp
 case $distro in
     "ubuntu")
-        apt-get remove expect openssh-server -y
+        apt-get remove expect -y
         print_info $? remove-package
         ;;
     "centos")
-        yum remove expect openssh-server -y
+        yum remove expect -y
         print_info $? remove-package
         ;;
 esac
