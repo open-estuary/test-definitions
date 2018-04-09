@@ -29,7 +29,6 @@ install_systemtap() {
                 echo "${PACKAGE} version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "${PACKAGE} version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
             fi
             print_info $? system-version
             sourc=$(yum info ${PACKAGE} | grep "^From repo" | awk '{print $4}')
@@ -37,7 +36,6 @@ install_systemtap() {
                 echo "${PACKAGE} source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
             else
                 echo "${PACKAGE} source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
             fi
             print_info $? system-source
             ;;

@@ -5,11 +5,9 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     os:
-        - ubuntu
-        - debian
         - centos
     scope:
-        - distribution
+        - distributions
     devices:
         - d03
         - d05

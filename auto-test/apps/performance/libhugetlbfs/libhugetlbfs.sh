@@ -97,7 +97,8 @@ libhugetlbfs_build_test() {
 
     # En lieu of an actual libhugetlbfs release, fetch a tarball from a github
     # commit and write a version file explicitly.
-    wget -O libhugetlbfs-"${VERSION}".tar.gz https://github.com/libhugetlbfs/libhugetlbfs/tarball/"${VERSION}"
+   # wget -O libhugetlbfs-"${VERSION}".tar.gz https://github.com/libhugetlbfs/libhugetlbfs/tarball/"${VERSION}"
+    wget http://htsat.vicp.cc:804/libhugetlbfs-2.20.tar.gz
     mkdir libhugetlbfs-"${VERSION}"
     tar -xvf libhugetlbfs-"${VERSION}".tar.gz --strip=1 -C libhugetlbfs-"${VERSION}"
     # shellcheck disable=SC2164

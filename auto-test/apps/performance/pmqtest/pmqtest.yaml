@@ -9,19 +9,11 @@ metadata:
         - chase.qi@linaro.org
         - shuangshengchen@qq.com
     os:
-        - debian
         - ubuntu
         - centos
-        - fedora
-        - openembedded
     scope:
         - performance
     devices:
-        - hi6220-hikey
-        - apq8016-sbc
-        - mustang
-        - moonshot
-        - thunderX
         - d03
         - d05
     level: 1
@@ -33,7 +25,6 @@ run:
     steps:
         - cd auto-test/apps/performance/pmqtest/
         - ./pmqtest.sh -l "${LOOPS}"
-        - ../../utils/send-to-lava.sh ./output/result.txt
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
