@@ -20,10 +20,10 @@ function twemproxy_install(){
 
 function redis_start_cluster(){
 
-    if [ -z $1  ];then
+    if [ -z "$1"  ];then
         list="6379 6389 6399"
     else 
-        list=$1
+        list="$1"
     fi
     ret=0
     for port in $list
