@@ -9,8 +9,6 @@ metadata:
         - distribution
     os:
         - centos
-        - ubuntu
-        - opensuse
     devices:
         - d03
         - d05

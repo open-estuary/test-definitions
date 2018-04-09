@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC1091
 . ../../../../utils/sh-test-lib
-
+. ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 RESULT_LOG="${OUTPUT}/result_log.txt"
@@ -66,12 +66,13 @@ install() {
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        pkgs="binutils gcc make python sed tar wget gfortran"
+        pkgs="binutils gcc make python sed tar wget gfortran "
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       fedora|centos)
-        pkgs="binutils gcc glibc-static make python sed tar wget gfortran gcc-gfortran"
-        install_deps "${pkgs}" "${SKIP_INSTALL}"
+ #       pkgs="binutils gcc glibc-static make python sed tar wget gfortran gcc-gfortran lapack"
+        install_deps lapack 
+        print_info $? "install_lapack"
         ;;
     esac
 }
@@ -87,9 +88,8 @@ info_msg "Output directory: ${OUTPUT}"
 
 # Install packages
 install
-
 # Build lapack tests
-lapack_build_test
+#lapack_build_test
 
 # Parse and print lapack tests results
-parse_output
+#parse_output

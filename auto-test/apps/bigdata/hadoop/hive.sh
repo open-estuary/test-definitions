@@ -15,12 +15,19 @@ function hive_install_innter(){
 			rm -rf apache-hive-2.1.1-bin
 		fi
 	else
-		wget -c -q  http://mirrors.shuosc.org/apache/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz
-		if [ $? ];then
-			lava-test-case "hive_download_bin_file" --result pass
-		else
-			lava-test-case "hive_download_bin_file" --result fail
-			exit 1
+        wget -q -c http://htsat.vicp.cc:804/test-definitions/apache-hive-2.1.1-bin.tar.gz
+        ret=$?
+        if [ $ret -ne 0 ];then
+            wget -c -q  http://mirrors.shuosc.org/apache/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz
+            ret=$?
+        fi
+        test $ret -eq 0 && true || false
+        print_info $? "download_hive_package"
+		if [ $ret -ne 0 ];then
+			echo --------------------------------------------
+            echo "download hive error ,pls check network or url"
+            echo --------------------------------------------
+            exit 1
 		fi
 	fi
 	tar  -zxf apache-hive-2.1.1-bin.tar.gz

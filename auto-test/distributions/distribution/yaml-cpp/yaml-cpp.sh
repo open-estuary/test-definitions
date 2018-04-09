@@ -18,6 +18,7 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
+         yum install wget -y
          wget http://htsat.vicp.cc:804/yaml-cpp-yaml-cpp-0.5.3.tar.gz
          print_info $? wget-yaml-cpp
          tar -zxf yaml-cpp-yaml-cpp-0.5.3.tar.gz
@@ -25,6 +26,7 @@ case $distro in
          yum install cmake -y
          yum install boost -y
          yum install gcc-c++ -y
+         yum install make -y
          cd yaml-cpp-yaml-cpp-0.5.3
          cmake -DBUILD_SHARED_LIBS=ON
          make
