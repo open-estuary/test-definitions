@@ -9,6 +9,7 @@ metadata:
         - virtualization
     os:
         - centos
+        - ubuntu
     devices:
         - d03
         - d05
