@@ -118,7 +118,7 @@ download_file()
     url_address=$1
     let i=0
     while (( $i < 5 )); do
-        wget $url_address
+        wget -q $url_address
         if [ $? -eq 0 ]; then
             break;
         fi
