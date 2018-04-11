@@ -4,7 +4,7 @@
 basedir=$(cd `dirname $0`; pwd)
 cd $basedir
 
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 outDebugInfo
 
 install_deps postgresql
