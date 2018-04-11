@@ -39,6 +39,13 @@ function percona_install(){
     export version=` tr -d [:space:] "percona-$version1-$repo"`
 }
 
+function percona_uninstall(){
+    percona_stop 
+    yum remove -y `rpm -qa | grep -i percona`
+    print_info $? "uninstall_percona"
+}
+
+
 function percona_modify_system_args(){
 
     echo 
