@@ -54,7 +54,7 @@ function cleanup_all_database(){
         cleanup_mysql $db
     done 
 
-    rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld 
+    rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld /mysql /percona 
     userdel -r mysql 
 
 }
@@ -99,7 +99,7 @@ function mysql_client(){
 function mysql_load_data(){
     
     if [ ! -d test_db ];then
-        timeout 2m wget -c http://htsat.vicp.cc:804/test-definitions/test_db.zip 
+         wget -c -q  http://htsat.vicp.cc:804/test-definitions/test_db.zip 
 
         if [ $? -ne 0 ];then 
             timeout 2m git clone https://github.com/datacharmer/test_db.git 
@@ -112,8 +112,11 @@ function mysql_load_data(){
     
    install_deps  unzip 
 
-    unzip -o test_db.zip 
-    pushd test_db-master >/dev/null 2>&1 
+    if test -d test_db-master ;then
+        rm -rf test_db-master 
+    fi 
+    unzip -o test_db.zip
+    pushd test_db-master
         mysql < employees.sql
         print_info $? "mysql${version}_import_database"
     popd 
