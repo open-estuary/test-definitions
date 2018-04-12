@@ -115,6 +115,7 @@ function mysql_load_data(){
          wget -c -q  http://htsat.vicp.cc:804/test-definitions/test_db.zip 
 
         if [ $? -ne 0 ];then 
+            install_deps git 
             git clone https://github.com/datacharmer/test_db.git 
         fi
     fi
