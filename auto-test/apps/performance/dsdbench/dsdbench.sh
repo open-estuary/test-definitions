@@ -63,6 +63,7 @@ if [ "${TEST_SUITE}" = "BENCHMARKS" ]; then
     # Run benchmarks.
     DOCKER_GRAPHDRIVER=overlay2 go test -run=NONE -v -bench . \
         | tee "${LOG_FILE}"
+    print_info $? dock-bench
 
     # Parse log file.
     egrep "^Benchmark.*op$" "${LOG_FILE}" \
@@ -72,19 +73,20 @@ elif [ "${TEST_SUITE}" = "TESTS" ]; then
     # Run tests.
     DOCKER_GRAPHDRIVER=overlay2 go test -v . \
         | tee "${LOG_FILE}"
-
+    print_info $? docker-test
     # Parse log file.
     for result in PASS FAIL SKIP; do
         grep "\-\-\- ${result}" "${LOG_FILE}" \
             | awk -v result="${result}" '{printf("%s %s\n", $3,result)}' \
             | tee -a "${RESULT_FILE}"
     done
-    print_info $? docker-bench
-    print_info $? docker-test
 fi
 case $distro in
     "centos")
         yum remove git golang device-mapper-devel -y
-        print_info $? remove-pkgs
+        print_info $? remove-pkg
         ;;
+    "ubuntu")
+        apt-get remove git golang device-mapper-devel -y
+        print_info $? remove-pkg
 esac
