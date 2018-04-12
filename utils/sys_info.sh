@@ -233,3 +233,21 @@ aptInstall(){
      
 }
 
+install_deps_ex(){
+    case $distro in 
+        "centos")
+            if [ ! -z $1 ];then 
+                yum install -y $1
+            fi 
+            ;;
+        "ubuntu")
+            if [ ! -z $2 ];then
+                apt install -y $2 
+            fi 
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+
