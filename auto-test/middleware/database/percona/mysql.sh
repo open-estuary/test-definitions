@@ -36,12 +36,25 @@ function cleanup_mysql() {
 
     # mysql alisql percona 
     database="$1"
-    packages=`rpm -qa | grep -i "$database"`
-    for package in $packages 
-    do 
-        yum remove -y $package 
-    done 
-
+    case $distro in 
+        "centos")
+            packages=`rpm -qa | grep -i "$database"`
+            for package in $packages 
+            do 
+                yum remove -y $package 
+            done 
+            ;;
+        "ubuntu")
+            packages=`apt list --installed | grep -i "$database"`
+            for package in $packages
+            do 
+                apt remove -y $package 
+            done 
+            ;;
+        *)
+            false 
+            ;;
+    esac 
 
 }
 
@@ -102,7 +115,7 @@ function mysql_load_data(){
          wget -c -q  http://htsat.vicp.cc:804/test-definitions/test_db.zip 
 
         if [ $? -ne 0 ];then 
-            timeout 2m git clone https://github.com/datacharmer/test_db.git 
+            git clone https://github.com/datacharmer/test_db.git 
         fi
     fi
 
