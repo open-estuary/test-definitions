@@ -9,6 +9,7 @@ dist_name
 case "${dist}" in
     centos)
         install_deps "automake numactl gcc* libgfortran *cmp cmp*"
+        print_info $? install-pkg
         ;;
 esac
 ! check_root && error_msg "You need to be root to run this script."

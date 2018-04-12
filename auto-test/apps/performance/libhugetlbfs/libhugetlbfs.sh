@@ -13,8 +13,8 @@ TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 CWD=""
 
 WORD_SIZE="64"
-VERSION="02df38e93e25e07f4d54edae94fb4ec90b7a2824"
-
+#VERSION="02df38e93e25e07f4d54edae94fb4ec90b7a2824"
+VERSION="2.20"
 usage() {
     echo "Usage: $0 [-b <4|64>] [-s <true>] [-v <libhugetlbfs-version>]" 1>&2
     exit 1
