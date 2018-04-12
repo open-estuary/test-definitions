@@ -3,7 +3,7 @@
 set -x
 basedir=$(cd `dirname $0` ;pwd)
 cd $basedir 
-. ../../../../lib/sh-test-lib 
+. ../../../../utils//sh-test-lib 
 outDebugInfo
 
 

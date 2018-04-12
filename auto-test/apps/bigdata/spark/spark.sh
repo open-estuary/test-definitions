@@ -10,7 +10,9 @@
 
 function spark_download(){
     
-    yum install -y wget ansible
+    yum install -y wget ansible 
+    yum install -y java-1.8.0-openjdk-devel  java-1.8.0-openjdk 
+    
     if [ ! -d ~/bigdata/spark ];then
         mkdir -p ~/bigdata/spark
     fi 
@@ -21,20 +23,20 @@ function spark_download(){
     pushd . 
     cd ~/bigdata/spark
         if [ ! -f spark-${SPARKVERSION}-bin-hadoop2.7.tgz ];then
-            wget -c http://htsat.vicp.cc:804/test-definitions/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+            wget -c -q  http://htsat.vicp.cc:804/test-definitions/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
             ret=$?
             if [ $ret -ne 0 ];then 
-                wget -c http://mirror.bit.edu.cn/apache/spark/spark-${SPARKVERSION}/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+                wget -c -q  http://mirror.bit.edu.cn/apache/spark/spark-${SPARKVERSION}/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
                 ret=$?
             fi 
         fi 
 #        tar -zxf spark-$SPARKVERSION-bin-hadoop2.7.tgz
 
         if [ ! -f scala-2.12.4.tgz  ];then
-            wget -c http://htsat.vicp.cc:804/test-definitions/scala-2.12.4.tgz
+            wget -c -q http://htsat.vicp.cc:804/test-definitions/scala-2.12.4.tgz
             ret=$?
             if [ $ret -ne 0 ];then
-                wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
+                wget -c -q  https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
                 ret=$?
             fi
         fi 
