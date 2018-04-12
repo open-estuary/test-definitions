@@ -29,7 +29,7 @@ function redis_start_cluster(){
     for port in $list
     do
         redis_start $port
-        if [ $? -ne 0 ];then
+        if [ $? -eq 0 ];then
             let ret=$ret+1
         fi 
     done
