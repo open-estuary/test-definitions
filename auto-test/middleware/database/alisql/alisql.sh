@@ -10,36 +10,55 @@
 
 function alisql_uninstall(){
 
-    yum remove -y `rpm -qa | grep -i mariadb`
-    yum remove -y `rpm -qa | grep -i mysql`
-    yum remove -y `rpm -qa | grep -i percona`
-    yum remove -y `rpm -qa | grep -i alisql`
+    case $distro in 
+        "centos")
+
+            yum remove -y `rpm -qa | grep -i mariadb`
+            yum remove -y `rpm -qa | grep -i mysql`
+            yum remove -y `rpm -qa | grep -i percona`
+            yum remove -y `rpm -qa | grep -i alisql`
+            ;;
+        "ubuntu")
+            apt remove -y `apt list --installed | grep -E "mariadb|mysql|percona|alisql"`
+            ;;
+    esac
+
 }
 
 function alisql_install(){
     
-    yum install -y AliSQL-server unzip
+    install_deps unzip
+    install_deps_ex AliSQL-server alisql-server 
+
     if [ $? -eq 0 ];then
         lava-test-case "AliSQL-server_install" --result pass
     else
         alisql_uninstall
-        yum install -y AliSQL-server
+        install_deps_ex AliSQL-server alisql-server 
         if [ $? -ne 0 ];then
             lava-test-case "AliSQL-server_install" --result fail
             exit 1
         fi
     fi
     export LANG=en_US.UTF8
-    yum info AliSQL-server > tmp.info
-    local version=`grep Version tmp.info | cut -d : -f 2 | tr -d [:blank:]`
-    local repo=`grep "From repo" tmp.info | cut -d : -f 2 | tr -d [:blank:]`
-    if [ x"$version" = x"5.6.32" -a x"$repo" = x"Estuary" ];then
-        true
-    else
-        false
-    fi 
-    print_info $? "alisql_version_is_right"
-
+    
+    case $distro in 
+        "centos")
+            yum info AliSQL-server > tmp.info
+            local version=`grep Version tmp.info | cut -d : -f 2 | tr -d [:blank:]`
+            local repo=`grep "From repo" tmp.info | cut -d : -f 2 | tr -d [:blank:]`
+            if [ x"$version" = x"5.6.32" -a x"$repo" = x"Estuary" ];then
+                true
+            else
+                false
+            fi 
+            print_info $? "alisql_version_is_right"
+            ;;
+        "ubuntu")
+            apt show alisql-server 
+            ;;
+    esac
+    
 }
 
 function alisql_start_custom(){
