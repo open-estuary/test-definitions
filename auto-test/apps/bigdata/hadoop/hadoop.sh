@@ -17,7 +17,7 @@ function install_hadoop() {
     ### install hadoop 
 
 
-    local version='2.7.4'
+    version='2.7.4'
 
 
     if test ! -d /var/bigdata/hadoop

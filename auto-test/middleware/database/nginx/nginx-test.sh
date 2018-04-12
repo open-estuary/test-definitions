@@ -13,7 +13,7 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 
 source ./nginx.sh 
