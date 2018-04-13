@@ -3,7 +3,7 @@
 # shellcheck disable=SC1091
 cd ../../../../utils
     .        ./sys_info.sh
-             ./sh-test-lib
+    .        ./sh-test-lib
 cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -31,7 +31,7 @@ done
 create_out_dir "${OUTPUT}"
 
 install_deps "lshw" "${SKIP_INSTALL}"
-
+print_info $? install-pkg
 # If lshw fails to run, skip the following tests and exit.
 skip_list=$(echo "${CLASSES}" | awk '{for (i=1; i<=NF; i++) printf("lshw-%s ",$i)}')
 lshw > "${OUTPUT}/lshw.txt"
@@ -47,13 +47,16 @@ for class in ${CLASSES}; do
     if ! echo "${detected_classes}" | grep -q "${class}"; then
         warn_msg "lshw failed to detect ${class} class!"
         report_fail "lshw-${class}"
+        print_info $? lshw-${class}
     else
         # lshw may exit with zero and report nothing, so check the size of
         # logfile as well.
         if lshw -class "${class}" > "${logfile}" || ! test -s "${logfile}"; then
             report_pass "lshw-${class}"
+            print_info $? lshw-${class}
         else
             report_fail "lshw-${class}"
+            
         fi
         cat "${logfile}"
     fi

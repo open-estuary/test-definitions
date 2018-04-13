@@ -2,7 +2,7 @@
 
 cd ../../../../utils
     .        ./sys_info.sh
-             ./sh-test-lib
+    .         ./sh-test-lib
 cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
