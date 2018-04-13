@@ -3,7 +3,7 @@
 # shellcheck disable=SC1091
 cd ../../../../utils
     .        ./sys_info.sh
-             ./sh-test-lib
+    .        ./sh-test-lib
 cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -28,10 +28,12 @@ done
 
 ! check_root && error_msg "Please run this script as root."
 install_deps "git build-essential linux-libc-dev" "${SKIP_INSTALL}"
+print_info $? install-pkg
 create_out_dir "${OUTPUT}"
 
 rm -rf pm-qa
 git clone https://git.linaro.org/power/pm-qa.git
+print_info $? git-pm-qa
 cd pm-qa
 git checkout -b "${RELEASE}" "${RELEASE}"
 make -C utils
@@ -39,6 +41,7 @@ make -C utils
 for test in ${TESTS}; do
     logfile="${OUTPUT}/${test}.log"
     make -C "${test}" check 2>&1 | tee  "${logfile}"
+    print_info $? ${test}
     grep -E "^[a-z0-9_]+: (pass|fail|skip)" "${logfile}" \
         | sed 's/://g' \
         | tee -a "${RESULT_FILE}"
