@@ -12,7 +12,7 @@ if [ `whoami` != 'root' ] ; then
 fi
 
 version="4.8"
-from_repo="Estuary"
+from_repo="base"
 package="ethtool"
 
 for P in ${package};do
@@ -35,7 +35,7 @@ if [ "$from" = "$from_repo"  ];then
       print_info 0 repo_check
 else
      rmflag=1
-      if [ "$from" != "Estuary"  ];then
+      if [ "$from" != "base"  ];then
            yum remove -y $P
             yum install -y $P
              from=$(yum info $P | grep "From repo" | awk '{print $4}')
