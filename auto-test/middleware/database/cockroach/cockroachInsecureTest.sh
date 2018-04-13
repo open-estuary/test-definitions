@@ -100,9 +100,8 @@ else
 fi
 
 #ps -ef | grep cockroach | grep -v grep | awk '{print $2}'| xargs kill -9
-
 cockroach start --insecure --store=node2 --host=localhost --port=26258 --http-port=8081 --join=localhost:26257 --background
-
+sleep 3
 if [ `ps -ef |grep "cockroach start" | grep -v grep | wc -l` -eq 3 ];then
     lava-test-case "cockroach_restart" --result pass
 else
