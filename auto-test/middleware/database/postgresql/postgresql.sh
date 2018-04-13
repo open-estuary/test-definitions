@@ -82,13 +82,9 @@ su -l  postgres <<-EOF
     else
         lava-test-case "postgresql_connect_by_tcp" --result fail
     fi
-    
-    id dbuser
-    if [ \$? -eq 0 ];then
-	userdel -r dbuser
-    fi       
+   
+    # here is create database user 
     createuser --superuser  dbuser
-    id dbuser
     if [ \$? -eq 0 ];then
         lava-test-case "postgresql_create_user_by_shell" --result pass
     else
