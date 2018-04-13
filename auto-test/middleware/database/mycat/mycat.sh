@@ -115,7 +115,7 @@ send "exit;\n"
 expect eof
 EOF
 grep "Welcome to the MySQL monitor" mycat.log
-print_info $? mysql-mycat
+#print_info $? mysql-mycat
 count=`grep "Query OK" mycat.log|wc -l`
 if [ "$count" -eq  4 ]; then
     print_info $? creat-table

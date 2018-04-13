@@ -36,6 +36,9 @@ sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
 log-error=/var/log/mysqld1.log
 pid-file=/var/run/mysqld/mysqld1.pid
 
+
+secure_file_priv=/tmp
+
 [mysqladmin]
 
 socket=/var/lib/mysql/mysql.sock
