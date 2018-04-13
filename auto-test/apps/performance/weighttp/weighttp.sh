@@ -18,6 +18,7 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
+         yum install gcc -y
          wget http://htsat.vicp.cc:804/libev-3.7.tar.gz
          print_info $? get-libev
          tar -zxvf libev-3.7.tar.gz
