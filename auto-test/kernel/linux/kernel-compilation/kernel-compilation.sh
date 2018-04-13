@@ -3,7 +3,7 @@
 # shellcheck disable=SC1091
 cd ../../../../utils
     .        ./sys_info.sh
-             ./sh-test-lib
+    .        ./sh-test-lib
 cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -34,7 +34,7 @@ esac
 # install_deps supports the above distributions.
 # It will skip package installation on other distributions by default.
 install_deps "${pkgs}" "${SKIP_INSTALL}"
-
+print_info $? install-pkg
 create_out_dir "${OUTPUT}"
 cd "${OUTPUT}"
 
@@ -42,6 +42,7 @@ cd "${OUTPUT}"
 major_version=$(echo "${VERSION}" | awk -F'.' '{print $1}')
 wget "https://cdn.kernel.org/pub/linux/kernel/v${major_version}.x/linux-${VERSION}.tar.xz"
 tar xf "linux-${VERSION}.tar.xz"
+print_info $? download-kernel-tarball
 cd "linux-${VERSION}"
 
 # Compile Kernel with defconfig.
@@ -63,9 +64,11 @@ measurement="$(grep "^real" "${LOGFILE}" | awk '{print $2}')"
 if egrep "arch/.*/boot/Image" "${LOGFILE}"; then
     report_pass "kernel-compilation"
     add_metric "kernel-compilation-time" "pass" "${measurement}" "seconds"
+    print_info $? kernel-pass
 else
     report_fail "kernel-compilation"
     add_metric "kernel-compilation-time" "fail" "${measurement}" "seconds"
+    print_info $? kernel-fail
 fi
 
 # Cleanup.

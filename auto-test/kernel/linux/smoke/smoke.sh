@@ -3,7 +3,7 @@
 # shellcheck disable=SC1091
 cd ../../../../utils
     .        ./sys_info.sh
-             ./sh-test-lib
+    .        ./sh-test-lib
 cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -25,8 +25,12 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}";;
-      fedora|centos) install_deps "redhat-lsb-core numactl usbutils" "${SKIP_INSTALL}";;
+      debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}"
+      print_info $? install-pkg
+      ;;
+      fedora|centos) install_deps "lshw lsof pcp-import-iostat2pcp redhat-lsb-core numactl usbutils" "${SKIP_INSTALL}"
+      print_info $? install-pkg
+;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }

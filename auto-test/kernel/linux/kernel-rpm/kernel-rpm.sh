@@ -2,7 +2,7 @@
 
 cd ../../../../utils
     .        ./sys_info.sh
-             ./sh-test-lib
+    .        ./sh-test-lib
 cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -46,15 +46,15 @@ case "${dist}" in
         fi
         ;;
     centos) 
-        yum install yum-utils
+        yum install yum-utils -y
         print_info $? yum-utils
 
-        yum build-dep -y kernel
+        yum build-dep -y kernel 
         
         yum install -y pesign
         print_info $? pesign
 
-        yum install rpm-build
+        yum install rpm-build -y
         print_info $? rpm-build
 
         yumdownloader --source kernel
@@ -63,7 +63,7 @@ case "${dist}" in
         then
             print_info 0 install
         else
-            print_info 0install
+            print_info 0 install
         fi
         kernel_name=$(ls | grep "kernel-aarch64-")
         rpmbuild --rebuild  ${kernel_name} | tee  "${LOG}"
