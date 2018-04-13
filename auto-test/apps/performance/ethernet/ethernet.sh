@@ -18,6 +18,10 @@ case $distro in
         yum install net-tools.aarch64 -y
         print_info $? install-pkgs
         ;;
+    "ubuntu")
+        apt-get install net-tools -y
+        print_info $? install-pkgs
+        ;;
 esac
 
 # Default ethernet interface
@@ -44,6 +48,9 @@ print_info $? ping-route
 case $distro in
     "centos")
         yum remove net-tools.aarch64 -y
-        print_info $? remove net-tools
+        print_info $? remove-pkg
         ;;
+    "ubuntu")
+        apt-get install net-tools -y
+        print_info $? remove-pkg
 esac
