@@ -574,26 +574,26 @@ function mysql_select(){
     print_info $? "mysql${version}_limit_clause"
 
     # 7 into outfile
-    grep secure_file_priv /etc/my.cnf 
-    if [ $? -eq 0 ];then
-        sed -i ?"*secure_file_priv*"?"secure_file_priv=/tmp"? /etc/my.cnf
-    else
-        cat >> /etc/mysql <<eof
-[mysqld]
-secure_file_priv=/tmp 
-eof
-    fi 
-    systemctl restart mysql 
-    intopath=`mysql -e "show variables like '%secure_file_priv%'\G" | grep -i value | cut -d : -f 2`
-    echo $intopath | grep -i null
-    if [ $? -ne 0 ];then
-        
-        pushd  $intopath
-        rm -f tmp.dump 
-        mysql -e "select * from employees.employees limit 10 into outfile '/tmp/tmp.dump'"
-        print_info $? "mysql${version}_into_outfile_clause"
-        popd 
-    fi
+#    grep secure_file_priv /etc/my.cnf 
+#    if [ $? -eq 0 ];then
+#        sed -i ?"*secure_file_priv*"?"secure_file_priv=/tmp"? /etc/my.cnf
+#    else
+#        cat >> /etc/mysql <<eof
+#[mysqld]
+#secure_file_priv=/tmp 
+#eof
+#    fi 
+#    systemctl restart mysql 
+#    intopath=`mysql -e "show variables like '%secure_file_priv%'\G" | grep -i value | cut -d : -f 2`
+#    echo $intopath | grep -i null
+#    if [ $? -ne 0 ];then
+#        
+#        pushd  $intopath
+#        rm -f tmp.dump 
+#        mysql -e "select * from employees.employees limit 10 into outfile '/tmp/tmp.dump'"
+#        print_info $? "mysql${version}_into_outfile_clause"
+#        popd 
+#    fi
    
 
     # 多表查询问题
