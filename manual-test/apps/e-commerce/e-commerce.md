@@ -127,7 +127,10 @@ search|8002|192.168.1.233：8983|192.168.1.190：22114|192.168.1.254：7013
     1.建立数据库，如cart数据库： create database `e-commerce-order`;
     2.查看创建结果： show databases;
     3.使用库：use e-commerce-order;
-    4.导入表：source 表格绝对路径
+    4.建立表:CREATE TABLE r_ec_sku(nSKUID varchar(8),nSPUID varchar(8) NOT NULL,nPrice varchar(10) NOT NULL,nInventory VARCHAR(50),sSize VARCHAR(100),PRIMARY KEY (nSKUID))ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    CREATE TABLE r_ec_userinfo(sFirstName varchar(8),sLoginName varchar(20) NOT NULL,sPayPassword varchar(20) NOT NULL,nUserID VARCHAR(20),sLoginPassword VARCHAR(20),sLastName varchar(20),PRIMARY KEY (sFirstName))ENGINE=InnoDB DEFAULT CHARSET=utf8;
+     CREATE TABLE r_ec_userdeliveryaddress(nAddressID varchar(8),sAddress varchar(100) NOT NULL,nUserID VARCHAR(20),sPhoneNo VARCHAR(20),PRIMARY KEY (nAddressID))ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
     5.查看表：show tables;
     6.插入数据：
     插入商品数据：insert into r_ec_sku (nSKUID,nSPUID,nPrice,nInventory,sSize) values('1','1','7632','3000','i7 6700K七代7700K/GTX1060独显游戏diy电脑组装兼容台式主机整机');
@@ -147,7 +150,8 @@ search|8002|192.168.1.233：8983|192.168.1.190：22114|192.168.1.254：7013
     1.建立数据库，如cart数据库： create database `e-commerce-cart`;
     2.查看创建结果： show databases;
     3.使用库：use e-commerce-cart;
-    4.导入表格：source /root/cart.sql
+    4.创建表：CREATE TABLE r_ec_sku(nSKUID varchar(8),nSPUID varchar(8) NOT NULL,nPrice varchar(10) NOT NULL,nInventory VARCHAR(50),sSize VARCHAR(100),PRIMARY KEY (nSKUID))ENGINE=InnoDB DEFAULT CHARSET=utf8;
+     CREATE TABLE r_ec_userinfo(sFirstName varchar(8),sLoginName varchar(20) NOT NULL,sPayPassword varchar(20) NOT NULL,nUserID VARCHAR(20),sLoginPassword VARCHAR(20),sLastName varchar(20),PRIMARY KEY (sFirstName))ENGINE=InnoDB DEFAULT CHARSET=utf8;
     5.查看表格：show tables;
     6.插入数据：
         插入商品数据：
