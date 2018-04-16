@@ -28,7 +28,7 @@ install() {
       debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}"
       print_info $? install-pkg
       ;;
-      fedora|centos) install_deps "lshw lsof pcp-import-iostat2pcp redhat-lsb-core numactl usbutils" "${SKIP_INSTALL}"
+      fedora|centos) install_deps "lshw lsof pcp-import-iostat2pcp redhat-lsb-core numactl pciutils usbutils" "${SKIP_INSTALL}"
       print_info $? install-pkg
 ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
