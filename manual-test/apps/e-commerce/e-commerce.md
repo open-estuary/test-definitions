@@ -127,8 +127,8 @@ search|8002|192.168.1.233：8983|192.168.1.190：22114|192.168.1.254：7013
     1.建立数据库，如cart数据库： create database `e-commerce-order`;
     2.查看创建结果： show databases;
     3.使用库：use e-commerce-order;
-    4.导入表格：source 表格绝对路径
-    5.查看表格：show tables;
+    4.导入表：source 表格绝对路径
+    5.查看表：show tables;
     6.插入数据：
     插入商品数据：insert into r_ec_sku (nSKUID,nSPUID,nPrice,nInventory,sSize) values('1','1','7632','3000','i7 6700K七代7700K/GTX1060独显游戏diy电脑组装兼容台式主机整机');
                 insert into r_ec_sku (nSKUID,nSPUID,nPrice,nInventory,sSize) values('2','1','8743','3000','i7 6700K七代7700K/GTX1060独显游戏diy电脑组装兼容台式主机整机');
