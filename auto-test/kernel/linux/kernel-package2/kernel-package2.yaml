@@ -1,6 +1,6 @@
 
 metadata:
-    name: kernel-package 
+    name: kernel-package2
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "不同发行版内核包的安装和卸载"
     maintainer:
@@ -17,7 +17,7 @@ metadata:
        
 run:
     steps:
-        - "cd auto-test/kernel/linux/kernel-package; ./kernel-package.sh; cd -"
+        - "cd auto-test/kernel/linux/kernel-package2; ./kernel-package2.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

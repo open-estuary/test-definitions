@@ -71,7 +71,7 @@ case "${dist}" in
         version="4.12.0"
         release="estuary.3"
         from_repo="Estuary"
-        package_list="kernel  kernel-devel kernel-headers kernel-tools kernel-tools-libs kernel-tools-libs-devel perf python-perf  kernel-debug kernel-debug-debuginfo kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
+        package_list="kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
             echo "$p install"
             yum install -y $p
