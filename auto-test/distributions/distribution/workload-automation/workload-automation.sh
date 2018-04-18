@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh
 # shellcheck disable=SC1090
 set -x
 cd ../../../../utils
@@ -102,9 +102,9 @@ awk -F',' 'NR>1 {gsub(/[ _]/,"-",$4); printf("%s-itr%s_%s pass %s %s\n",$1,$3,$4
     | sed 's/\r//g' \
     | tee -a "${RESULT_FILE}"
 
-count=`ps -aux |grep ssh |wc -l`
+count=`ps -aux |grep sshd |wc -l`
 if [ $count -gt 0 ]; then
-    kill -9 ${pidof ssh}
+    kill -9 ${pidof sshd}
     print_info $? kill-ssh
 fi
 

@@ -36,7 +36,7 @@ case $distro in
     "centos")
      commond="./busybox"
      ;;
-    "debian")
+    "ubuntu")
      commond="busybox"
      ;;
 esac
@@ -80,7 +80,7 @@ $commond df
 print_info $? busybox-df
 
 case $distro in
-    "centos")
+    "centos"|"ubuntu")
      #yum remove gcc -y
      #yum remove make -y
      #yum remove bzip2 -y

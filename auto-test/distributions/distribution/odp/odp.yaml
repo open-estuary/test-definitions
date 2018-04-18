@@ -6,6 +6,7 @@ metadata:
         - hongxin_228@163.com
     os:
         - centos
+        - ubuntu
     scope:
         - distributions
     devices:
