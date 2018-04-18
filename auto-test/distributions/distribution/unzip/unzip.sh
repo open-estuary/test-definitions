@@ -12,10 +12,13 @@ if [ `whoami` != 'root' ]; then
     exit 1
 fi
 case $distro in
-    "centos")
+    "centos"|"ubuntu")
         yum install wget -y
         yum install unzip -y
         yum install zip -y
+        pkg="wget unzip zip"
+        install_deps "${pkg}"
+        print_info $? install-pkg
         ;;
 esac
 wget http://htsat.vicp.cc:804/netperf-2.7.0.tar.gz

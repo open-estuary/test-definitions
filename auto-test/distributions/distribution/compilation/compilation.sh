@@ -12,8 +12,10 @@ if [ `whoami` != 'root' ]; then
     exit 1
 fi
 case $distro in
-    "centos")
-        yum install gcc -y
+    "centos"|"ubuntu")
+        #yum install gcc -y
+        pkgs="gcc"
+        install_deps "{pkgs}"
         print_info $? install-package
         ;;
 esac
@@ -31,8 +33,9 @@ print_info $? compilation-file
 ./a.out
 print_info $? run-file
 case $distro in
-    "centos")
-        yum remove gcc -y
+    "centos"|"ubuntu")
+        remove_deps "${pkgs}"
+        #yum remove gcc -y
         print_info $? remove-package
         ;;
 esac
