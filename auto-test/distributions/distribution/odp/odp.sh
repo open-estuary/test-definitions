@@ -28,6 +28,7 @@ case $distro in
      ;;
  "ubuntu")
      apt-get install libcunit1-dev -y
+     apt-get install wget -y
      print_info $? install-pkgs
      wget http://htsat.vicp.cc:804/debian_odp.tar.gz
      tar xf debian_odp.tar.gz
