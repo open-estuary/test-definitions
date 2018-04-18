@@ -1,25 +1,27 @@
+
 metadata:
-    format: Lava-Test Test Definition 1.0
-    name: smoke
-    description: "Run basic smoke tests."
+    name: kernel-package 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "不同发行版内核包的安装和卸载"
     maintainer:
         - shuangshengchen@qq.com
-        - chase.qi@linaro.org
         - fyuanz_2010@163.com
-    os:
-        - centos
     scope:
         - linux
+    os:
+        - centos
+        - debian
     devices:
-        - d03
         - d05
     level: 1
-
+       
 run:
     steps:
-        - "cd auto-test/kernel/linux/smoke; ./smoke.sh; cd -"
+        - "cd auto-test/kernel/linux/kernel-package1; ./kernel-package1.sh; cd -"
+
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
         FAIL: fail
         PASS: pass
+
