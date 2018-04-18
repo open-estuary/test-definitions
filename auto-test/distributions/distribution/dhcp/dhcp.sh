@@ -14,19 +14,12 @@ if [ `whoami` != 'root' ]; then
 fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
-    "centos")
+    "centos"|"ubuntu")
         #yum install dhclient.aarch64 -y
         pkgs="dhclient"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
-    "ubuntu")
-        #apt-get install dhclient -y
-        pkgs="dhclient"
-        install_deps "${pkgs}"
-        print_info $? install-package
-        ;;
-
 esac
 ROUTE_ADDR=$(ip route list |grep default |awk '{print $3}' |head -1)
 dhclient -v -r eth0
