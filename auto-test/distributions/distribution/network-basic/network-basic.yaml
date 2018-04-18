@@ -9,6 +9,7 @@ metadata:
         - distribution
     os:
         - centos
+        -ubuntu
     devices:
         - d05
         - d03
