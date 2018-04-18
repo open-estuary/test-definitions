@@ -16,7 +16,7 @@ metadata:
        
 run:
     steps:
-        - "cd auto-test/linux/kernel/kernel-rpm; ./rpm.sh; cd -"
+        - "cd auto-test/linux/kernel/kernel-rpm; ./kernel-rpm.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
