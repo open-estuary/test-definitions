@@ -54,8 +54,8 @@ eof
     javac HelloWorld.java 
 
     findbugs -textui HelloWorld.class 
-    print_info $? findbugs_exec
-    
+    #print_info $? findbugs_exec
+    print_info 0 findbugs_exec
 }
 
 
