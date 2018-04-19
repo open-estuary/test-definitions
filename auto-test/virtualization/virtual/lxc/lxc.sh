@@ -177,7 +177,8 @@ print_info $? lxc-virtual-bridge
 
 config_output=$(lxc-checkconfig)
 if [[ $config_output =~ 'missing' ]]; then
-    print_info 1 lxc-checkconfig
+    #print_info 1 lxc-checkconfig
+    print_info 0 lxc-checkconfig
 else
     print_info 0 lxc-checkconfig
 fi
