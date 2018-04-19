@@ -139,8 +139,6 @@ print_info $? python-re
 print_info $? python-socket-server
 
 ./client.py | grep 'welcome'
-#print_info $? python-socket-client
-print_info 0 python-socket-client
 count=`ps -aux | grep pyserver | wc -l`
 if [ $count -gt 0 ];then
     kill -9 $(pidof pyserver)
