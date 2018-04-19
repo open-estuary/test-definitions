@@ -14,7 +14,7 @@ if [ `whoami` != 'root' ]; then
 fi
 
 case $distro in
-    "centos")
+    "centos"|"ubuntu")
         #yum install gcc -y
         #yum install make -y
         #yum install bzip2 -y
