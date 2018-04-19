@@ -11,14 +11,15 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 
 source ./cassandra-cpp-driver.sh 
 source ./cassandra.sh 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
+outDebugInfo
 ccdriver_install
 ccdriver_server_isRunning 
 ccdriver_sample_exec

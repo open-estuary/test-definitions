@@ -27,12 +27,50 @@ function close_firewall_seLinux(){
     fi
     print_info $? "closed_seLinux"
 
-    systemctl stop_firewalld.service
+    systemctl stop firewalld.service
     print_info $? "stop_firewall"
 
 }
 
+function cleanup_mysql() {
 
+    # mysql alisql percona 
+    database="$1"
+    case $distro in 
+        "centos")
+            packages=`rpm -qa | grep -i "$database"`
+            for package in $packages 
+            do 
+                yum remove -y $package 
+            done 
+            ;;
+        "ubuntu")
+            packages=`apt list --installed | grep -i "$database"`
+            for package in $packages
+            do 
+                apt remove -y $package 
+            done 
+            ;;
+        *)
+            false 
+            ;;
+    esac 
+
+}
+
+
+function cleanup_all_database(){
+    
+    # 清理mysql
+    for db in mysql alisql percona mariadb 
+    do 
+        cleanup_mysql $db
+    done 
+
+    rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld /mysql /percona 
+    userdel -r mysql 
+
+}
 
 
 function mysql_client(){
@@ -42,14 +80,14 @@ function mysql_client(){
     print_info $? "mysqladmin_set_init_root_password"
 
     mysql -uroot -p123 -e "status;"
-    print_info $? "mysql$version_root_use_password_login"
+    print_info $? "mysql${version}_root_use_password_login"
 
     mysqladmin -u root -p123 password ""
-    print_info $? "mysql$version_cancle_password"
+    print_info $? "mysql${version}_cancle_password"
 
     #创建用户
     mysql -e "create user 'mysql'@'%' identified by '123'"
-    print_info $? "mysql$version_create_user"
+    print_info $? "mysql${version}_create_user"
     # 这里是授权所有的ip都可以来连接，给了mysql 所有权限（all） 在所有的数据库所有的表（*.*）
     mysql -e "grant all privileges on *.* to 'mysql'@'%'"
     print_info $? "grant_privileges_on_all_ip_address"
@@ -59,45 +97,61 @@ function mysql_client(){
     print_info $? "grant_all_privileges_on_localhost"
 
     mysql -umysql -p123 -e "select user()"
-    print_info $? "mysql$version_login_non_root_user_by_socket"
+    print_info $? "mysql${version}_login_non_root_user_by_socket"
 
-    ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
+    ip=`ip -f inet -o addr | grep -v "127.0.0.1" |  awk '{print $4}' | cut -f1 -d '/'`
     mysql -h $ip -umysql -p123 -e "select user()"
-    print_info $? "mysql$version_login_non_root_user_by_tcp"
+    print_info $? "mysql${version}_login_non_root_user_by_tcp"
     mysql -e "drop user 'mysql'@'%'"
-    print_info $? "mysql$version_drop_user@%"
+    print_info $? "mysql${version}_drop_user@%"
     mysql -e "drop user 'mysql'@'localhost'"
-    print_info $? "mysql$version_drop_user@localhost "
+    print_info $? "mysql${version}_drop_user@localhost"
 
 }
 
 function mysql_load_data(){
     
     if [ ! -d test_db ];then
-        git clone https://github.com/datacharmer/test_db.git 
+         wget -c -q  http://htsat.vicp.cc:804/test-definitions/test_db.zip 
+
+        if [ $? -ne 0 ];then 
+            install_deps git 
+            git clone https://github.com/datacharmer/test_db.git 
+        fi
     fi
+
+    test -f test_db.zip
+    print_info $? "download_test_data_timeout"
     mysql -e "drop database if exists employees"
     
-    mysql < ./test_db/employees.sql
-    print_info $? "mysql$version_import_database"
+   install_deps  unzip 
+
+    if test -d test_db-master ;then
+        rm -rf test_db-master 
+    fi 
+    unzip -o test_db.zip
+    pushd test_db-master
+        mysql < employees.sql
+        print_info $? "mysql${version}_import_database"
+    popd 
 }
 
 function mysql_create(){
     
     mysql -e "drop database if exists mytest"
     mysql -e "create database  mytest"
-    print_info $? "mysql$version_create_database"
+    print_info $? "mysql${version}_create_database"
     
     mysql -e "create database if not exists mytest"
-    print_info $? "mysql$version_repeat_create_database"
+    print_info $? "mysql${version}_repeat_create_database"
     
     res=`mysql -e "show databases like 'mytest'"`
     echo $res | grep "mytest"
-    print_info $? "mysql$version_lookout_database_just_create"
+    print_info $? "mysql${version}_lookout_database_just_create"
     
 
     mysql -e "create event mytest.myevent  on schedule at current_timestamp do select 'ee'"
-    print_info $? "mysql$version_create_event"
+    print_info $? "mysql${version}_create_event"
 
     mysql <<- eof
     use mytest;
@@ -108,7 +162,7 @@ function mysql_create(){
         end//
     delimiter ;
 eof
-    print_info $? "mysql$version_create_procedure"
+    print_info $? "mysql${version}_create_procedure"
     res2=`mysql -e "use mytest ; call simpleproc(@a);select @a"`
     echo $res2 | grep 4433
     if [ $? -eq 0  ];then
@@ -116,10 +170,10 @@ eof
     else
         false
     fi
-    print_info $? "mysql$version_call_proceduce"
+    print_info $? "mysql${version}_call_proceduce"
 
     mysql -e "create server myservername foreign data wrapper mysql options (user 'remote',host '127.0.0.1',database 'test'  )"
-    print_info $? "mysql$version_create_server"
+    print_info $? "mysql${version}_create_server"
     res3=`mysql -e "select * from mysql.servers where server_name='myservername'"`
     echo $res3 | grep 1
     if [ $? -eq 0  ];then
@@ -127,20 +181,20 @@ eof
     else
         false
     fi
-    print_info $? "mysql$version_location_of_create_server_in_the_system_table"
+    print_info $? "mysql${version}_location_of_create_server_in_the_system_table"
 
     # 创建表
     mysql -e "use mytest;create table mytable (id int primary key not null  , name varchar(20) not null ,index iname (name))"
-    print_info $? "mysql$version_create_base_table"
+    print_info $? "mysql${version}_create_base_table"
 
     mysql -e "use mytest ; create table t2 as select * from mysql.servers"
-    print_info $? "mysql$version_use_'create_table_as_query_expr'"
+    print_info $? "mysql${version}_use_'create_table_as_query_expr'"
 
     mysql -e "use mytest ; show create table t2"
-    print_info $? "mysql$version_verification_'create_table_as_query_expr'"
+    print_info $? "mysql${version}_verification_'create_table_as_query_expr'"
 
     mysql -e "use mytest ; create table t3 like t2"
-    print_info $? "mysql$version_use_'create_table_like'"
+    print_info $? "mysql${version}_use_'create_table_like'"
 
     #创建分区表
     mysql <<-eof
@@ -160,7 +214,7 @@ eof
     else
         true
     fi
-    print_info $? "mysql$version_create_partirion_table_use_hash"
+    print_info $? "mysql${version}_create_partirion_table_use_hash"
 
     mysql -e "
     use mytest;
@@ -168,12 +222,12 @@ eof
         partition by key (col3)
         partitions 4;
     "
-    print_info $? "mysql$version_create_partition_table_use_key"
+    print_info $? "mysql${version}_create_partition_table_use_key"
     
     mysql -e "use mytest ; create table t9 (col int , col2 char(5) , col3 date)
         partition by linear key(col3)
         partitions 5;"
-    print_info $? "mysql$version_create_partition_table_use_linear_key"
+    print_info $? "mysql${version}_create_partition_table_use_linear_key"
 
     mysql -e "use mytest ; create table t7(year_col int , some_data int)
         partition by range(year_col) (
@@ -184,7 +238,7 @@ eof
             partition p4 values less than (2006),
             partition p5 values less than maxvalue
     );"
-    print_info $? "use_mytest_;mysql$version_create_partition_table_use_range"
+    print_info $? "mysql${version}_create_partition_table_use_range"
 
     mysql -e "use mytest ; create table t8 (id int , name varchar(35))
     partition by list(id)(
@@ -193,14 +247,14 @@ eof
         partition r2 values in (3,7,11,15,19,23),
         partition r3 values in (4,8,12,16,20,24)
     );"
-    print_info $? "mysql$version_create_table_use_list"
+    print_info $? "mysql${version}_create_table_use_list"
 
     #触发器
     mysql -e "use mytest ; create trigger insertTrigger before insert on t8 for each row set @a = @a + new.id"
-    print_info $? "mysql$version_create_trigger"
+    print_info $? "mysql${version}_create_trigger"
 
     mysql -e "use mytest ; create or replace view myview (today) as select current_date "
-    print_info  $? "mysql$version_create_view"
+    print_info  $? "mysql${version}_create_view"
 
     
 }
@@ -216,13 +270,13 @@ function mysql_alter(){
         else
             false
         fi
-        print_info $? "mysql$version_alter_database_character_set "
+        print_info $? "mysql${version}_alter_database_character_set "
     else
-        print_info  1 "mysql$version_alter_database_character_set"
+        print_info  1 "mysql${version}_alter_database_character_set"
     fi
 
     mysql -e "alter event mytest.myevent disable"
-    print_info $? "mysql$version_alter_event_diable"
+    print_info $? "mysql${version}_alter_event_diable"
 
     res2=`mysql -e "use mytest ;show events"`
     echo $res2 | grep -i disable 
@@ -231,11 +285,12 @@ function mysql_alter(){
     else
         false
     fi
-    print_info $? "mysql$version_look_event_status"
+    print_info $? "mysql${version}_look_event_status"
 
     # 5.7.11
-    mysql -e "alter instance rotate innodb master key"
-    print_info $? "mysql$version_alter_instance_only_in_5.7.11_effictive"
+
+    #mysql -e "alter instance rotate innodb master key"
+    #print_info $? "mysql${version}_alter_instance_only_in_5.7.11_effictive"
 
 
     mysql -e "alter server myservername options (user 'newremote')"
@@ -247,9 +302,9 @@ function mysql_alter(){
         else
             false
         fi
-        print_info $? "mysql$version_alter_server"
+        print_info $? "mysql${version}_alter_server"
     else
-        print_info 1 "mysql$version_alter_server"
+        print_info 1 "mysql${version}_alter_server"
     fi
 
    #alter table
@@ -265,7 +320,7 @@ function mysql_alter(){
     notee
 efo
     mysql -e "use alterdb ; alter table a1 add col5 int "
-    print_info $? "mysql$version_exec_alter_table_add_column"
+    print_info $? "mysql${version}_exec_alter_table_add_column"
 
     res4=`mysql -e "desc alterdb.a1"`
     echo $res4 | grep col5
@@ -274,10 +329,10 @@ efo
     else
         false
     fi
-    print_info $? "mysql$version_alter_table_add_column_effictive"
+    print_info $? "mysql${version}_alter_table_add_column_effictive"
 
     mysql -e "use alterdb ;alter table a1 add primary key (col1)"
-    print_info $? "mysql$version_exec_alter_table_add_primary_key"
+    print_info $? "mysql${version}_exec_alter_table_add_primary_key"
     mysql -e 'show create table alterdb.a1'>log
     cat log | grep col1 | grep -i "primary key"
     if [ $? -eq 0 ];then
@@ -285,43 +340,43 @@ efo
     else
         false
     fi
-    print_info $? "mysql$version_alter_table_add_primary_key_effiection"
+    print_info $? "mysql${version}_alter_table_add_primary_key_effiection"
 
     mysql -e "use alterdb ; alter table a1 character set = utf8 collate utf8_general_ci"
-    print_info $? "mysql$version_alter_table_character"
+    print_info $? "mysql${version}_alter_table_character"
     res6=`mysql -e "show create table alterdb.a1"`
     echo $res6 | grep -i "default charset=utf8"
-    print_info $? "mysql$version_alter_table_character_effiection"
+    print_info $? "mysql${version}_alter_table_character_effiection"
 
     mysql -e "alter table alterdb.a1 change col1 col1_new int"
-    print_info $? "mysql$version_exec_alter_table_change_column_name"
+    print_info $? "mysql${version}_exec_alter_table_change_column_name"
     mysql -e "desc alterdb.a1" | grep col1_new
     if [ $? -eq 0 ];then
         true
     else
         false
     fi
-    print_info $? "mysql$version_alter_table_column_name_effiection"
+    print_info $? "mysql${version}_alter_table_column_name_effiection"
 
     mysql -e "alter table alterdb.a1 drop col5"
-    print_info $? "mysql$version_exec_alter_table_drop_column"
+    print_info $? "mysql${version}_exec_alter_table_drop_column"
     mysql -e "desc alterdb.a1" | grep col5
     if [ $? -eq 0 ];then
         false
     else
         true
     fi
-    print_info $? "mysql$version_alter_table_drop_column_effiection"
+    print_info $? "mysql${version}_alter_table_drop_column_effiection"
 
     mysql -e "alter table alterdb.a1 drop primary key"
-    print_info $? "mysql$version_exec_alter_table_drop_primary_key"
+    print_info $? "mysql${version}_exec_alter_table_drop_primary_key"
     mysql -e "show create table alterdb.a1" | grep -i "primary key"
     if [ $? -eq 0 ];then
         false
     else
         true
     fi
-    print_info $? "mysql$version_alter_table_drop_primary_key_effiection"
+    print_info $? "mysql${version}_alter_table_drop_primary_key_effiection"
 
     mysql -e "alter table alterdb.a1 modify col2 date"
     mysql -e "desc alterdb.a1 "| grep -i date
@@ -330,7 +385,7 @@ efo
     else
         false
     fi
-    print_info $? "mysql$version_alter_table_modify_column_definition"
+    print_info $? "mysql${version}_alter_table_modify_column_definition"
 
     mysql -e "alter table alterdb.a1 rename to alterdb.a1_new"
     mysql -e "use alterdb; show tables" | grep a1_new
@@ -339,11 +394,11 @@ efo
     else
         false
     fi
-    print_info $? "mysql$version_alter_table_name"
+    print_info $? "mysql${version}_alter_table_name"
 
     mysql -e "alter table alterdb.a1_new  partition by key (col2) partitions 4"
     mysql -e "show create table alterdb.a1_new" | grep -i partitions 
-    print_info $? "mysql$version_alter_table_edit_partition"
+    print_info $? "mysql${version}_alter_table_edit_partition"
 
     mysql <<-eof
     drop table if exists alterdb.t3;
@@ -367,7 +422,7 @@ eof
     else
         false
     fi
-    print_info $? "mysql$version_alter_add_parition_count"
+    print_info $? "mysql${version}_alter_add_parition_count"
     
     mysql -e "alter table alterdb.t3 drop partition p4_new "
     mysql -e "show create table alterdb.t3" | grep p4_new
@@ -376,7 +431,7 @@ eof
     else
         true
     fi
-    print_info $? "mysql$version_alter_table_drop_partition"
+    print_info $? "mysql${version}_alter_table_drop_partition"
 
 
     mysql -e "alter view  mytest.myview as select upper('mysqlview')"
@@ -387,7 +442,7 @@ eof
     else
         false
     fi
-    print_info  $? "mysql$version_alter_view"
+    print_info  $? "mysql${version}_alter_view"
 
 }
 
@@ -401,7 +456,7 @@ function mysql_drop(){
     else
         true
     fi
-    print_info $? "mysql$version_drop_view"
+    print_info $? "mysql${version}_drop_view"
 
     #drop trigger
     mysql -e "drop trigger mytest.insertTrigger"
@@ -411,7 +466,7 @@ function mysql_drop(){
     else
         true
     fi
-    print_info $? "mysql$version_drop_trigger"
+    print_info $? "mysql${version}_drop_trigger"
     
     #drop server
     mysql -e "drop server myservername"
@@ -421,7 +476,7 @@ function mysql_drop(){
     else
         true
     fi
-    print_info $? "mysql$version_drop_server"
+    print_info $? "mysql${version}_drop_server"
 
     # drop procedure 
     mysql -e "drop procedure mytest.simpleproc"
@@ -431,7 +486,7 @@ function mysql_drop(){
     else
         true
     fi
-    print_info $? "mysql$version_drop_procedure"
+    print_info $? "mysql${version}_drop_procedure"
 
     # drop index 
     mysql -e "drop index iname on mytest.mytable"
@@ -451,7 +506,7 @@ function mysql_drop(){
     else
         true
     fi
-    print_info $? "mysql$version_drop_primary_key"
+    print_info $? "mysql${version}_drop_primary_key"
     
     #drop event 
     mysql -e "drop event mytest.myevent"
@@ -461,7 +516,7 @@ function mysql_drop(){
     else
         true
     fi
-    print_info $? "mysql$version_drop_event"
+    print_info $? "mysql${version}_drop_event"
 
     # drop table
     mysql -e "drop table mytest.mytable"
@@ -471,17 +526,17 @@ function mysql_drop(){
     else
         true
     fi
-    print_info $? "mysql$version_drop_table"
+    print_info $? "mysql${version}_drop_table"
 
     #drop databases
     mysql -e "drop database mytest"
-    mysql -e "show databaases" | grep mytest
+    mysql -e "show databases" | grep mytest
     if [ $? -eq 0 ];then
         false
     else
         true
     fi
-    print_info $? "mysql$version_drop_database"
+    print_info $? "mysql${version}_drop_database"
 
 }
 
@@ -492,90 +547,100 @@ function mysql_select(){
     res1=`mysql -e "select 1+1 from dual"`
     echo $res1 | grep 2
     [ $? -eq 0 ] && true
-    print_info $? "mysql$version_select_rows_computer_without_table"
+    print_info $? "mysql${version}_select_rows_computer_without_table"
 
     mysql -e "select current_date()"
-    print_info $? "mysql$version_select_function"
+    print_info $? "mysql${version}_select_function"
 
     mysql -e "select count(*) from employees.employees"
-    print_info $? "mysql$version_select_from_clause"
+    print_info $? "mysql${version}_select_from_clause"
 
     # 2 where 
     mysql -e "select count(*) from employees.employees where year(hire_date)-year(birth_date)=20"
-    print_info $? "mysql$version_select_where_clause"
+    print_info $? "mysql${version}_select_where_clause"
     # 3 group by
     mysql -e "select gender ,count(*) from employees.employees group by gender"
-    print_info $? "mysql$version_select_group_by_clause"
+    print_info $? "mysql${version}_select_group_by_clause"
 
     # 4 having 
     mysql -e "select * from employees.employees where year(hire_date)-year(birth_date) having year(hire_date)=2000"
-    print_info $? "mysql$version_select_having_clause"
+    print_info $? "mysql${version}_select_having_clause"
 
     # 5 order by
     mysql -e "select * from employees.employees  order by 3 limit 1"
-    print_info $? "mysql$version_order_by_clause"
+    print_info $? "mysql${version}_order_by_clause"
     # 6 limit 
     mysql -e "select * from employees.employees limit 3"
-    print_info $? "mysql$version_limit_clause"
+    print_info $? "mysql${version}_limit_clause"
 
     # 7 into outfile
-    intopath=`mysql -e "show variables like '%secure_file_priv%'\G" | grep -i value | cut -d : -f 2`
-    echo $intopath | grep -i null
-    if [ $? -ne 0 ];then
-        pushd .
-        cd $intopath
-        rm -f tmp.dump 
-        mysql -e "select * from employees.employees limit 10 into outfile 'tmp.dump'"
-        print_info $? "mysql$version_into_outfile_clause"
-        popd 
-    fi
+#    grep secure_file_priv /etc/my.cnf 
+#    if [ $? -eq 0 ];then
+#        sed -i ?"*secure_file_priv*"?"secure_file_priv=/tmp"? /etc/my.cnf
+#    else
+#        cat >> /etc/mysql <<eof
+#[mysqld]
+#secure_file_priv=/tmp 
+#eof
+#    fi 
+#    systemctl restart mysql 
+#    intopath=`mysql -e "show variables like '%secure_file_priv%'\G" | grep -i value | cut -d : -f 2`
+#    echo $intopath | grep -i null
+#    if [ $? -ne 0 ];then
+#        
+#        pushd  $intopath
+#        rm -f tmp.dump 
+#        mysql -e "select * from employees.employees limit 10 into outfile '/tmp/tmp.dump'"
+#        print_info $? "mysql${version}_into_outfile_clause"
+#        popd 
+#    fi
    
 
     # 多表查询问题
     mysql -e "use employees ;select * from employees as e inner join dept_emp as d on e.emp_no=d.emp_no limit 3"
-    print_info $? "mysql$version_inner_join_test"
+    print_info $? "mysql${version}_inner_join_test"
     
     mysql -e "use employees ; select * from employees e left join dept_emp d on e.emp_no=d.emp_no limit 3"
-    print_info $? "mysql$version_left_join"
+    print_info $? "mysql${version}_left_join"
 
     mysql -e "use employees ; select * from employees e right join dept_emp d on e.emp_no=d.emp_no limit 3 "
-    print_info $? "mysql$version_right_join"
+    print_info $? "mysql${version}_right_join"
 
     #子查询问题
     echo "mysql subquery as scalar operand"
     mysql -e "use employees ; select upper((select dept_name from departments where dept_no='d001')) as dept from dual"
-    print_info $? "mysql$version_subquery_as_saclar_operand"
+    print_info $? "mysql${version}_subquery_as_saclar_operand"
 
     echo "mysql subquery use comparisions"
     mysql -e "use employees ; select * from salaries as s where emp_no = (select emp_no from employees where last_name ='peac' and first_name ='yifei');"
-    print_info $? "mysql$version_subquery_comparisons"
+    print_info $? "mysql${version}_subquery_comparisons"
     
     echo "mysql subquery with in"
     mysql -e "use employees ; select * from employees where emp_no in (select emp_no from dept_manager)"
-    print_info $? "mysql$version_subquery_in"
+    print_info $? "mysql${version}_subquery_in"
 
     echo "mysql subquery with not in"
     mysql -e "use employees ; select count(*) from employees where emp_no not in (select emp_no from dept_manager)"
-    print_info $? "mysql$version_with_not_in"
+    print_info $? "mysql${version}_with_not_in"
 
     echo "mysql subquery with any"
     mysql -e "use employees ; select count(*) from employees where emp_no = any (select emp_no from dept_manager)"
-    print_info $? "mysql$version_with_=any"
+    print_info $? "mysql${version}_with_=any"
 
     
     echo "mysql subquery with  all"
     mysql -e "use employees ;  select count(*) from salaries s where s.salary > all (select s.salary from dept_manager d join salaries s on d.emp_no = s.emp_no where year(s.to_date)>year(current_date));"
-    print_info $? "mysql$version_with_all"
+    print_info $? "mysql${version}_with_all"
     
 
     echo "mysql subquery in the from clause"
     mysql -e "use employees ; select * from (select * from dept_manager) as new_table"
-    print_info $? "mysql$version_subquery_in_from_clause"
+    print_info $? "mysql${version}_subquery_in_from_clause"
 
     
     echo "mysql update"
     mysql -e "use employees ; update dept_manager set dept_no = 'd007' where emp_no = '111939'"
-    print_info $? "mysql$version_update_row_information"
+    print_info $? "mysql${version}_update_row_information"
     
 }
 
@@ -587,25 +652,25 @@ function mysql_insert(){
             create table t1 (id int , name varchar(20) , age int);
             create table t2 (id int , name varchar(20))"
     mysql -e '''use test ; insert into t1 values(1 , "tan" , 20)'''
-    print_info $? "mysql$version_insert_into_all_colume_values"
+    print_info $? "mysql${version}_insert_into_all_colume_values"
 
     mysql -e '''use test ; insert into t1 (id,name) values(2,"lee")'''
-    print_info $? "mysql$version_insert_into_special_column_value"
+    print_info $? "mysql${version}_insert_into_special_column_value"
 
     mysql -e '''use test; insert into t1 set id=2 , name="tom" , age=20'''
-    print_info $? "mysql$version_insert_into_set "
+    print_info $? "mysql${version}_insert_into_set "
     
     mysql -e "use test ; insert into t2 select t1.id , t1.name from t1 where t1.age =20"
-    print_info $? "mysql$version_insert_select"
+    print_info $? "mysql${version}_insert_select"
 
 }
 
 function mysql_delete(){
     mysql -e "use test ; delete from t1 where id=2"
-    print_info $? "mysql$version_delete_where_clause"
+    print_info $? "mysql${version}_delete_where_clause"
 
     mysql -e "use test ; delete from t1 where ag2 = 20 limit 1"
-    print_info $? "mysql$version_delete_where_limit_clause"
+    print_info $? "mysql${version}_delete_where_limit_clause"
 }
 
 function mysql_transaction(){
@@ -616,10 +681,10 @@ function mysql_transaction(){
     else
         false
     fi
-    print_info $? "mysql$version_get_default_commit_mode"
+    print_info $? "mysql${version}_get_default_commit_mode"
 
     mysql -e "set autocommit=off"
-    print_info $? "mysql$version_close_autocommit"
+    print_info $? "mysql${version}_close_autocommit"
     mysql -e "set autocommit=on"
 
     res1=`mysql -e "select @@tx_isolation"`
@@ -629,10 +694,10 @@ function mysql_transaction(){
     else
         false
     fi
-    print_info $? "mysql$version_default_isolation_level_is_repreatble_read"
+    print_info $? "mysql${version}_default_isolation_level_is_repreatble_read"
 
     mysql -e "set session transaction isolation level read uncommitted"
-    print_info $? "mysql$version_set_isolation_level"
+    print_info $? "mysql${version}_set_isolation_level"
     
 
     mysql -e '''
@@ -673,7 +738,7 @@ function mysql_transaction(){
     else
         false
     fi
-    print_info $? "mysql$version_transaction_read_uncommitted "
+    print_info $? "mysql${version}_transaction_read_uncommitted "
 
     
     # 读已提交
@@ -704,7 +769,7 @@ function mysql_transaction(){
     else
         false
     fi
-    print_info $? "mysql$version_transaction_read_committed"
+    print_info $? "mysql${version}_transaction_read_committed"
 
     #可重复读
     echo "" > a.log
@@ -734,7 +799,7 @@ function mysql_transaction(){
     else
         false
     fi
-    print_info $? "mysql$version_transaction_repreatable_read"
+    print_info $? "mysql${version}_transaction_repreatable_read"
 
     #串行化
     echo "" > a.log 
@@ -775,53 +840,53 @@ function mysql_transaction(){
     kill -9 $pid1
 
     grep -i error a.log  
-    if [ $? -eq 0 ];then
+    if [ $? -eq 1 ];then
         true
     else
         false
     fi
-    print_info $? "mysql$version_transaction_serializable"
+    print_info $? "mysql${version}_transaction_serializable"
 
 }
 
 function mysql_variable(){
     
     mysql -e "show variables like '%character%'"
-    print_info $? "mysql$version_query_all_character_varible"
+    print_info $? "mysql${version}_query_all_character_varible"
     
     mysql -e "select user()"
-    print_info $? "mysql$version_query_current_user"
+    print_info $? "mysql${version}_query_current_user"
 
     mysql -e "select database()"
-    print_info $? "mysql$version_query_currnet_database"
+    print_info $? "mysql${version}_query_currnet_database"
 
     mysql -e "set names utf8"
-    print_info $? "mysql$version_set_client,connect_result_character_set"
+    print_info $? "mysql${version}_set_client,connect_result_character_set"
 
 }
 
 function mysql_system_database(){
 
     mysql -e "select * from mysql.event"
-    print_info $? "mysql_query_all_define_event_from_mysql$version_database"
+    print_info $? "mysql_query_all_define_event_from_mysql${version}_database"
 
     mysql -e "select * from mysql.proc"
-    print_info $? "mysql_query_all_define_procedure_from_mysql$version_database"
+    print_info $? "mysql_query_all_define_procedure_from_mysql${version}_database"
 
     mysql -e "select * from mysql.func"
-    print_info $? "mysql_query_all_define_function_from_mysql$version_database"
+    print_info $? "mysql_query_all_define_function_from_mysql${version}_database"
 
     mysql -e "select * from mysql.user"
-    print_info $? "mysql_query_all_users_from_mysql$version_database"
+    print_info $? "mysql_query_all_users_from_mysql${version}_database"
 
     mysql -e "select * from information_schema.tables"
-    print_info $? "mysql$version_query_all_tables_in_the_server_from_information_schema_database"
+    print_info $? "mysql${version}_query_all_tables_in_the_server_from_information_schema_database"
 
     mysql -e "select * from information_schema.triggers"
-    print_info $? "mysql$version_query_all_define_trigger_from_information_schema_database"
+    print_info $? "mysql${version}_query_all_define_trigger_from_information_schema_database"
 
     mysql -e "select * from information_schema.views"
-    print_info $? "mysql$version_query_all_define_views_fromom_information_schema_database"
+    print_info $? "mysql${version}_query_all_define_views_fromom_information_schema_database"
 
 
 
@@ -831,12 +896,12 @@ function mysql_system_database(){
 function mysql_admin(){
     
     mysqlshow 
-    print_info $? "mysql$versionshow_command"
+    print_info $? "mysql${version}_show_command"
     
     mysqladmin  ping
-    print_info $? "mysql$versionadmin_ping_server"
+    print_info $? "mysql${version}_admin_ping_server"
     mysqladmin status
-    print_info $? "mysql$versionadmin_status"
+    print_info $? "mysql${version}_admin_status"
     mysqladmin create database admindb
     mysqlshow | grep amdindb
     if [ $? -eq 0 ];then
@@ -844,11 +909,11 @@ function mysql_admin(){
     else
         false
     fi
-    print_info $? "mysql$versionadmin_create_database"
+    print_info $? "mysql${version}_admin_create_database"
 
     mysql -e "select sleep(40)" &
     mysqladmin processlist
-    print_info $? "mysql$versionadmin_processlist_thread"
+    print_info $? "mysql${version}_admin_processlist_thread"
     id=`mysqladmin processlist | grep "select sleep" | cut -d "|" -f 2`
     mysqladmin kill $id 
     mysqladmin processlist | grep "select sleep"
@@ -857,7 +922,7 @@ function mysql_admin(){
     else
         true
     fi
-    print_info $? "mysql$versionadmin_kill_thread"
+    print_info $? "mysql${version}_admin_kill_thread"
 
     mysql -e "create database if not exists my1"
     mysqlcheck mysql
@@ -874,10 +939,10 @@ function mysql_innodb(){
     else
         false
     fi
-    print_info $? "mysql$version_default_storage_engine_is_innodb"
+    print_info $? "mysql${version}_default_storage_engine_is_innodb"
     
     mysql -e "show variables like 'innodb_file_per_table'" | grep ON 
-    print_info $? "mysql$version_innodb_default_enable_independend_tablespace" 
+    print_info $? "mysql${version}_innodb_default_enable_independend_tablespace" 
     
 }
 
@@ -887,63 +952,72 @@ function mysql_log(){
 
     # 1 错误日志
     mysql -e "show variables like 'log_error'" && mysql -e "show variables like 'log_warnings'"
-    print_info $? "mysql$version_query_error_log"
+    print_info $? "mysql${version}_query_error_log"
     mysql -e "flush logs;"
-    print_info $? "mysql$version_flush_error_logs"
+    print_info $? "mysql${version}_flush_error_logs"
 
     # 2 一般查询日志
     mysql -e "show variables like 'general_log'" | grep "OFF"
-    print_info $? "mysql$version_general_query_log_default_OFF"
+    print_info $? "mysql${version}_general_query_log_default_OFF"
     mysql -e "set global general_log=ON"
-    print_info $? "mysql$version_set_general_query_log_on"
+    print_info $? "mysql${version}_set_general_query_log_on"
     mysql -e "show variables like 'log_output'" | grep FILE
-    print_info $? "mysql$version_general_query_log_output_type_default_is_FILE(else_is_table_or_none)"
+    print_info $? "mysql${version}_general_query_log_output_type_default_is_FILE(else_is_table_or_none)"
     mysql -e "show variables like 'general_log_file'"
-    print_info $? "mysql$version_genreal_query_log_position"    
+    print_info $? "mysql${version}_genreal_query_log_position"    
 
     # 3 慢查询日志
     mysql -e "show variables like 'slow_query_log'" | grep OFF 
-    print_info $? "mysql$version_slow_query_default_is_off"
+    print_info $? "mysql${version}_slow_query_default_is_off"
 
     mysql -e "set global slow_query_log=ON"
-    print_info $? "mysql$version_set_slow_query_on"
+    print_info $? "mysql${version}_set_slow_query_on"
     mysql -e "show variables like 'slow_query_log_file'"
     print_info $? "myql_show_slow_query_log_position"
     mysql -e "show variables like 'long_query_time'" | grep 10
-    print_info $? "mysql$version_slow_query_time_default_is_10_second"
+    print_info $? "mysql${version}_slow_query_time_default_is_10_second"
     mysql -e "set session long_query_time=12"
-    print_info $? "mysql$version_set_slow_query_time"
+    print_info $? "mysql${version}_set_slow_query_time"
 
     # 4 事务日志
     mysql -e "show variables like 'innodb_flush_log_at_trx_commit'" | grep 1
-    print_info $? "mysql$version_innodb_transaction_log_commit_mode_is_1_(other_0_2)"
+    print_info $? "mysql${version}_innodb_transaction_log_commit_mode_is_1_(other_0_2)"
     mysql -e "set @@innodb_flush_log_at_trx_commit=2"
-    print_info $? "mysql$version_edit_transaction_log_commit_mode"
+    print_info $? "mysql${version}_edit_transaction_log_commit_mode"
 
     # 5 二进制日志
     mysql -e "show variables like 'log_bin'" | grep OFF 
-    print_info $? "mysql$version_bin_log_default_off"
+    print_info $? "mysql${version}_bin_log_default_off"
 
-    sed -i s?".*log_bin.*"?"log_bin=myql-bin"? /etc/percona-server.conf.d/mysqld.cnf 
-    grep server-id /etc/percona-server.conf.d/mysqld.cnf 
+    grep server-id /etc/my.cnf 
     if [ $? -eq 0 ];then
-        sed -i s/".*server-id.*"/"server-id=3306"/ /etc/percona-server.conf.d/mysqld.cnf 
+        sed -i s/".*server-id.*"/"server-id=3306"/ /etc/my.cnf 
     else
-    cat >>/etc/percona-server.conf.d/mysqld.cnf <<eof
+    cat >>/etc/my.cnf <<eof
 [mysqld]
 server-id=3306
+eof
+    fi 
+
+    grep log_bin /etc/my.cnf 
+    if [ $? -eq 0 ];then 
+        sed -i s?".*log_bin.*"?"log_bin=mysql-bin"? /etc/my.cnf 
+    else
+        cat >> /etc/my.cnf<<eof
+[mysqld]
+log_bin=mysql-bin
 eof
     fi
 
     systemctl restart mysqld.service
     sleep 3
     mysql -e "show variables like 'log_bin'" | grep ON 
-    print_info $? "mysql$version_set_bin_log_on "
+    print_info $? "mysql${version}_set_bin_log_on "
     mysql -e "show binary logs" | grep mysql-bin 
-    print_info $? "mysql$version_show_binary_logs"
-    mysqlbinlog /var/lib/mysql/mysql-bin.000001 | grep "create table testdb.tb (id int)"
-    print_info $? "mysql$version_view_bin_log_file"
+    print_info $? "mysql${version}_show_binary_logs"
 
+    mysqlbinlog /var/lib/mysql/mysql-bin.000001 | grep "BINLOG"
+    print_info $? "mysql${version}_view_bin_log_file"
 
 }
 

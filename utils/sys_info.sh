@@ -14,7 +14,7 @@ elif [ "$(echo $sys_info |grep -E 'cent|CentOS|centos')"x != ""x ]; then
 elif [ "$(echo $sys_info |grep -E 'fed|Fedora|fedora')"x != ""x ]; then
     distro="fedora"
 elif [ "$(echo $sys_info |grep -E 'DEB|Deb|deb')"x != ""x ]; then
-    dsstro="debian"
+    distro="debian"
 elif [ "$(echo $sys_info |grep -E 'OPENSUSE|OpenSuse|opensuse')"x != ""x ]; then
     distro="opensuse"
 else
@@ -63,16 +63,53 @@ case $distro in
         ;;
 esac
 
+# 临时执行
+case $distro in 
+    "centos")
+        sed -i "s/5.1/5.0/g"  /etc/yum.repos.d/estuary.repo 
+        yum clean all 
+        ;;
+    "ubuntu" | "debian" )
+        sed -i "s/5.1/5.0/g" /etc/apt/sources.list.d/estuary.list 
+        apt-get update 
+        ;;
+    *)
+        ;;
+esac
+
+
+red='\e[0;41m' # 红色  
+RED='\e[1;31m'
+green='\e[0;32m' # 绿色  
+GREEN='\e[1;32m'
+yellow='\e[5;43m' # 黄色  
+YELLOW='\e[1;33m'
+blue='\e[0;34m' # 蓝色  
+BLUE='\e[1;34m'
+purple='\e[0;35m' # 紫色  
+PURPLE='\e[1;35m'
+cyan='\e[4;36m' # 蓝绿色  
+CYAN='\e[1;36m'
+WHITE='\e[1;37m' # 白色
+ 
+NC='\e[0m' # 没有颜色
+
 print_info()
 {
+
     if [ $1 -ne 0 ]; then
         result='fail'
+        cor=$red 
     else
         result='pass'
+        cor=$GREEN
     fi
 
     test_name=$2
-    echo "the result of $test_name is $result"
+
+    
+
+    echo -e "${cor}the result of $test_name is $result${NC}"
     lava-test-case "$test_name" --result $result
 }
 
@@ -81,7 +118,7 @@ download_file()
     url_address=$1
     let i=0
     while (( $i < 5 )); do
-        wget $url_address
+        wget -q $url_address
         if [ $? -eq 0 ]; then
             break;
         fi
@@ -113,3 +150,104 @@ Check_Repo()
 		return 1
 	fi
 }
+
+
+# 用法：source本文件，执行本方法，就可以正常使用打印debug调试信息
+# 1、如果系统中有lava-test-case命令，那么就不会打印信息，反之就会有打印调试信息
+# 2、如果设置了DEBUG环境变量，那么就一定会打印调试信息
+outDebugInfo(){
+
+    false 
+    if test $DEBUG;then
+        true
+    else
+        which lava-test-case > /dev/null 2>&1
+        if test $? -ne 0;then 
+            true 
+        fi 
+    fi 
+
+    if test $? -eq 0;then
+        set -x 
+        export PS4='+{$LINENO:${FUNCNAME[0]}} '
+
+    fi 
+}
+
+## 返回值为 0 :安装到成功
+#           1 :安装失败
+#           2 :无关
+yumInstall(){
+    
+    if [ $distro == "centos" ];then
+        i=0
+        for package in "$@"
+        do 
+            yum install -y $package 
+            if [ $? -eq 0 ];then
+                let "i++"
+            fi 
+        done 
+        test $i == $# && true || false 
+    else 
+        return 2
+    fi
+
+}
+
+yumRemove(){
+
+    if [ $distro == "centos" ];then
+        i=0
+        for package in "$@"
+        do 
+            yum remove -y $package
+            if [ $? -eq 0 ];then
+                let "i++"
+            fi 
+        done 
+        test $i == $# && true || false 
+    else
+        return 2
+    fi 
+}
+
+
+
+aptInstall(){
+    if [ $distro == "ubuntu" ];then
+        i=0
+        for package in "$@"
+        do 
+            apt install -y $package 
+            if [ $? -eq 0 ];then 
+                let "i++"
+            fi 
+        done 
+
+        test $i == $# && true || false 
+    else 
+        return 2
+    fi 
+    
+     
+}
+
+install_deps_ex(){
+    case $distro in 
+        "centos")
+            if [ ! -z $1 ];then 
+                yum install -y $1
+            fi 
+            ;;
+        "ubuntu")
+            if [ ! -z $2 ];then
+                apt install -y $2 
+            fi 
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+

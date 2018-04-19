@@ -2,7 +2,9 @@
 set -x
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir 
-. ../../../../lib/sh-test-lib 
+. ../../../../utils/sh-test-lib 
+. ../../../../utils/sys_info.sh 
+outDebugInfo
 
 install_deps cockroach
 
@@ -12,7 +14,7 @@ else
     lava-test-case "cockroach_install" --result fail 
 fi
 
-version=`cockroach_version | grep "Build Tag:" | awk '{print $3}'`
+version=`cockroach version | grep "Build Tag:" | awk '{print $3}'| tr -d [:blank:]`
 if [ x"$version" = x"v1.0.3"  ];then
     lava-test-case "cockroach_version" --result pass 
 else

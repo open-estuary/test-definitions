@@ -7,12 +7,14 @@ metadata:
         - tanliqing2010@163.com
     scope:
         - bigdata
+        - hadoop
     os:
         - centos
     devices:
         - d03
         - d05
 
+    level: 1
 run:
     steps:
         - "cd auto-test/apps/bigdata/hadoop; ./hadoop-test.sh ; cd -"

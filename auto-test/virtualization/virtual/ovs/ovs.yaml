@@ -1,0 +1,27 @@
+
+metadata:
+    name: ovs
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Open vSwitch"
+    maintainer:
+        - liu_caili@hoperun.com
+    scope:
+        - virtualization
+    os:
+        - centos
+        - opensuse
+    devices:
+        - d03
+        - d05
+    level: 5
+
+run:
+    steps:
+        - "cd ./auto-test/virtualization/virtual/ovs; ./ovs.sh; cd -"
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

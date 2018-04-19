@@ -7,7 +7,8 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - function
+        - bigdata
+        - tensorflow
     os:
         - centos
         - ubuntu
