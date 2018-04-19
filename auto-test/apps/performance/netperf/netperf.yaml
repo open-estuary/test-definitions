@@ -8,8 +8,6 @@ metadata:
     scope:
         - performance
     os:
-        - ubuntu
-        - opensuse
         - centos
     devices:
         - d05

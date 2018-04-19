@@ -6,8 +6,6 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     os:
-        - opensuse
-        - ubuntu
         - centos
     scope:
         - performance
