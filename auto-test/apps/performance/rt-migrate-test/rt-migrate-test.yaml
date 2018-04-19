@@ -6,8 +6,6 @@ metadata:
         - chase.qi@linaro.org
         - shuangshengchen@qq.com
     os:
-        - debian
-        - ubuntu
         - centos
     scope:
         - performance

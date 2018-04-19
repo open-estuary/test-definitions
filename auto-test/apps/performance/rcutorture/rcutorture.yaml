@@ -7,23 +7,10 @@ metadata:
         - chase.qi@linaro.org
         - shuangshengchen@qq.com
     os:
-        - ubuntu
-        - debian
         - centos
-        - fedora
-        - openembedded
-        - opensuse
     devices:
         - d03
         - d05
-        - juno
-        - beaglebone-black
-        - hi6220-hikey
-        - apq8016-sbc
-        - mustang
-        - moonshot
-        - thunderX
-
     scope:
         - performance
     level: 1

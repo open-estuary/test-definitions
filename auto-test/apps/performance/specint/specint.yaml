@@ -5,12 +5,7 @@ metadata:
     maintainer:
         - shuangchengchen@qq.com
     os:
-        - debian
-        - ubuntu
-        - fedora
         - centos
-        - openembedded
-        - opensuse
     scope:
         - functional
     environment:
