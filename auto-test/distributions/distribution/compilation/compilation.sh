@@ -15,7 +15,7 @@ case $distro in
     "centos"|"ubuntu")
         #yum install gcc -y
         pkgs="gcc"
-        install_deps "{pkgs}"
+        install_deps "${pkgs}"
         print_info $? install-package
         ;;
 esac
