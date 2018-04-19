@@ -6,8 +6,6 @@ metadata:
     maintainer:
         - shuangshengchen@qq.com
     os:
-        - debian
-        - ubuntu
         - centos
     scope:
         - performance

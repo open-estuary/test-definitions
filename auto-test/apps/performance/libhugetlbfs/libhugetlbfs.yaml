@@ -12,8 +12,6 @@ metadata:
         - naresh.kamboju@linaro.org
         - shuangshengchen@qq.com
     os:
-        - debian
-        - ubuntu
         - centos
     scope:
         - test
