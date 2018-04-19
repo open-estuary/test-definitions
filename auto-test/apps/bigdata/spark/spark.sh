@@ -10,7 +10,9 @@
 
 function spark_download(){
     
-    yum install -y wget 
+    yum install -y wget ansible 
+    yum install -y java-1.8.0-openjdk-devel  java-1.8.0-openjdk 
+    
     if [ ! -d ~/bigdata/spark ];then
         mkdir -p ~/bigdata/spark
     fi 
@@ -20,13 +22,36 @@ function spark_download(){
     fi
     pushd . 
     cd ~/bigdata/spark
-        if [ ! -f spark-$SPARKVERSION-bin-hadoop2.7.tgz ];then
-            wget -c http://mirror.bit.edu.cn/apache/spark/spark-$SPARKVERSION/spark-$SPARKVERSION-bin-hadoop2.7.tgz
+        if [ ! -f spark-${SPARKVERSION}-bin-hadoop2.7.tgz ];then
+            wget -c -q  http://htsat.vicp.cc:804/test-definitions/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+            ret=$?
+            if [ $ret -ne 0 ];then 
+                wget -c -q  http://mirror.bit.edu.cn/apache/spark/spark-${SPARKVERSION}/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+                ret=$?
+            fi 
         fi 
 #        tar -zxf spark-$SPARKVERSION-bin-hadoop2.7.tgz
 
         if [ ! -f scala-2.12.4.tgz  ];then
-            wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
+            wget -c -q http://htsat.vicp.cc:804/test-definitions/scala-2.12.4.tgz
+            ret=$?
+            if [ $ret -ne 0 ];then
+                wget -c -q  https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
+                ret=$?
+            fi
+        fi 
+        if test -f spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+        then
+            true
+        else
+            false
+        fi
+        print_info $? "download_spark_bin_file"
+        test -f scala-2.12.4.tgz && true || false
+        if [ $? -ne 0 ];then
+            echo
+            echo "download_scala_package_fail,please check network or url"
+            echo 
         fi 
     popd 
 }
@@ -106,13 +131,15 @@ echo `pwd`
         echo "---------------"
         exit 1
     fi 
+    source ~/.bashrc 
 }
 
 function spark_start_cluster(){
 
     ansible-playbook -i ./spark/hosts ./spark/site.yml -t start_cluster
 
-    jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
+#    jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
+    jps_cnt=`jps | grep -Ec "Worker|Master"`
     if [ $jps_cnt = 2 ];then
         true
     else
@@ -183,7 +210,6 @@ function spark_RDD_test(){
     filter
     first
     flatMap
-    flatMapValue
     fold
     foldByKey
     getNumPartitions
@@ -203,7 +229,7 @@ function spark_RDD_test(){
     sortBy
     take
     zip
-    boardcast'''
+    '''
     for word in $list 
     do 
         grep "${word}_test_ok" out.tmp

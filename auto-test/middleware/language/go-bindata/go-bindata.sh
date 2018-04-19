@@ -7,20 +7,16 @@ cd ../../../../utils
 . ./sh-test-lib
 cd -
 
+yum install go -y
+print_info $? golang-install
 go version
-if [ $? -ne 0 ];then
-	print_info 1 golang-install
-else
-	yum install go
-	print_info $? golang-install
-fi
 
 case "${distro}" in
 	centos|fedora)
-		sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
-		sudo chmod +r /etc/yum.repos.d/estuary.repo
-		sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
-		yum clean dbcache
+		#sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
+		#sudo chmod +r /etc/yum.repos.d/estuary.repo
+		#sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
+		#yum clean dbcache
 		print_info $? setup-estuary-repository
 		
 		pkgs="go-bindata"
@@ -56,8 +52,10 @@ cat > src/view/index.html <<EOF
 Hello, Welcome to go web programming...
 EOF
 
+cd src
 go-bindata -o=./asset/asset.go -pkg=asset view/...
 print_info $? go-bindata-run
+cd -
 
 ls src/asset/asset.go
 print_info $? generate-binary-go
@@ -85,7 +83,7 @@ go build main
 print_info $? build-release-go
 
 ./main
-diff view/html/index.html src/view/html/index.html
+diff view/index.html src/view/index.html
 print_info $? release-file
 
 cd ..

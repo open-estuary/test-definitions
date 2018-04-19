@@ -1,0 +1,25 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: smoke
+    description: "Run basic smoke tests."
+    maintainer:
+        - shuangshengchen@qq.com
+        - chase.qi@linaro.org
+        - fyuanz_2010@163.com
+    os:
+        - centos
+    scope:
+        - linux
+    devices:
+        - d03
+        - d05
+    level: 1
+
+run:
+    steps:
+        - "cd auto-test/kernel/linux/smoke; ./smoke.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass

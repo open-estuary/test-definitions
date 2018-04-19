@@ -1,7 +1,7 @@
 #! /bin/bash
 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
@@ -13,10 +13,11 @@ export basedir
 . ./hive.sh
 
 
+outDebugInfo
+
 hive_start_hadoop 
 hive_install 
 hive_init
-
 hive_base_client_command
 
 hive_inner_table 

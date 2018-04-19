@@ -10,8 +10,8 @@
 #================================================================
 
 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
@@ -19,6 +19,7 @@ cd $basedir
 . ../../../../utils/sh-test-lib
 
 source ./redis.sh 
+outDebugInfo
 
 install_redis
 redis_start 

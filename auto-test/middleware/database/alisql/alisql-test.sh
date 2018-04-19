@@ -10,16 +10,18 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 
 source ./alisql.sh 
 source ./../percona/mysql.sh 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
-
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
+outDebugInfo
+cleanup_all_database
 alisql_install
 alisql_start_custom
+version=alisql 
 mysql_client
 mysql_create
 mysql_alter
@@ -34,4 +36,5 @@ mysql_transaction
 mysql_innodb
 
 alisql_stop_custom 
+cleanup_all_database
 

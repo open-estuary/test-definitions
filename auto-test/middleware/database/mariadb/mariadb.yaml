@@ -7,12 +7,13 @@ metadata:
         - hongxin_228@163.com
     scope:
         - database
+        - mariadb
     os:
         - centos
     devices:
         - d05
         - d03
-    level: 1
+    level: 5
 run:
     steps:
         - "cd auto-test/middleware/database/mariadb; ./mariadb.sh; cd - "

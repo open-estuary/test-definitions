@@ -8,9 +8,11 @@ echo $basedir
 . ../../../../utils/sh-test-lib
 
 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
 source ./hadoop.sh
+
+outDebugInfo
 
 install_jdk
 install_hadoop

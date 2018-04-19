@@ -6,7 +6,8 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - functional
+        - database
+        - mycat
     os:
         - centos
     devices:

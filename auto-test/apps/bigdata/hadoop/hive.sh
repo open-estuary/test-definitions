@@ -4,32 +4,48 @@
 
 function hive_install_innter(){
 	pwd
-	if [ -f apache-hive-2.1.1-bin.tar.gz ];then
+    if test ! -d /var/bigdata/hive/
+    then
+        mkdir -p /var/bigdata/hive/
+    fi 
+    pushd  /var/bigdata/hive 
+	if test -f apache-hive-2.1.1-bin.tar.gz ;
+    then
 		if [ -d apache-hive-2.1.1-bin ];then
 			rm -rf apache-hive-2.1.1-bin
 		fi
 	else
-		wget -c  http://mirrors.shuosc.org/apache/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz
-		if [ $? ];then
-			lava-test-case "hive_download_bin_file" --result pass
-		else
-			lava-test-case "hive_download_bin_file" --result fail
-			exit 1
+        wget -q -c http://htsat.vicp.cc:804/test-definitions/apache-hive-2.1.1-bin.tar.gz
+        ret=$?
+        if [ $ret -ne 0 ];then
+            wget -c -q  http://mirrors.shuosc.org/apache/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz
+            ret=$?
+        fi
+        test $ret -eq 0 && true || false
+        print_info $? "download_hive_package"
+		if [ $ret -ne 0 ];then
+			echo --------------------------------------------
+            echo "download hive error ,pls check network or url"
+            echo --------------------------------------------
+            exit 1
 		fi
 	fi
 	tar  -zxf apache-hive-2.1.1-bin.tar.gz
-    local hivedir= `pwd`/apache-hive-2.1.1-bin
+    local hivedir=`pwd`/apache-hive-2.1.1-bin
 	sed -i "/HIVE_HOME/d" ~/.bashrc
 	export HIVE_HOME=$hivedir &&
 	echo "export HIVE_HOME=$hivedir" >> ~/.bashrc &&
 	echo 'export PATH=$PATH:$HIVE_HOME/bin' >> ~/.bashrc 
 	print_info $? "hive_config_system_envriment_parament"
-	source ~/.bashrc 	
+	source ~/.bashrc > /dev/null 2>&1
 	print_info $? "hive_install"
+    popd 
 }
 
 function hive_edit_config(){
-	cp -f  ./hive-site.xml $HIVE_HOME/conf/hive-site.xml
+    CP=`which cp --skip-alias`
+    pwd 
+    $CP -f  ./hive-site.xml $HIVE_HOME/conf/hive-site.xml
     	
 	res=`diff  $HIVE_HOME/conf/hive-default.xml.template $HIVE_HOME/conf/hive-site.xml | grep "/tmp/hive" -c`
 	if [ $res -ge 3 ];then
@@ -134,8 +150,8 @@ function hive_start_hadoop(){
  
 
 function hive_init() {
-    schematool -initSchema -dbType derby  
-    if [ $? ];then
+    schematool -initSchema -dbType derby | grep failed 
+    if [ ! $? ];then
         echo "init hive ok"
         lava-test-case "hive_init_metastore" --result pass
     else
@@ -192,7 +208,7 @@ function hive_inner_table() {
         hive -e "select count(*) from u_data;"
         print_info $? "hive base select count(*)"
 
-        cp $/hive-add-file.sql .
+        cp ${basedir}/hive-add-file.sql .
         print_info $? "hive_create_sql_file"
 
         cp ${basedir}/weekday_mapper.py .

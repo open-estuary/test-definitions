@@ -16,9 +16,11 @@ metadata:
         - d05
         - d03
     level: 1
+
 run:
     steps:
         - "cd auto-test/middleware/language/jmeter; ./jmeter.sh; cd - "
+
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:

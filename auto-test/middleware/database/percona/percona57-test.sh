@@ -11,15 +11,18 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 
 source ./percona57.sh 
 source ./mysql.sh 
 
-set -x
+#set -x
 
-export PS4='+{$0:$LINENO:${FUNCNAME[0]}} '
+#export PS4='+{$0:$LINENO:${FUNCNAME[0]}} '
+outDebugInfo
+cleanup_all_database 
+
 percona57_install
 percona57_start
 
@@ -41,5 +44,5 @@ percona57_stop
 percona57_replication
 percona57_custom_stop 
 
-#percona57_remove
-
+percona57_remove
+cleanup_all_database

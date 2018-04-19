@@ -1,6 +1,11 @@
 #!/bin/bash
 #delete database test
 
+
+mysql -uroot -proot -e "drop database $1"
+
+
+if false;then
 set dbname [lindex $argv 0]
 
 EXPECT=$(which expect)
@@ -15,4 +20,4 @@ expect "OK"
 send "exit\r"
 expect eof
 EOF
-
+fi 

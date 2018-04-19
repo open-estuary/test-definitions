@@ -25,6 +25,9 @@
 LANG=C
 export LANG
 
+
+
+
 error_msg() {
     local msg="$1"
     test -z "$msg" && msg="Unknown error"

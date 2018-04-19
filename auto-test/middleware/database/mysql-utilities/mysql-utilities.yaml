@@ -8,12 +8,13 @@ metadata:
         - liu_caili@hoperun.com
     scope:
         - database
+        - mysql 
     os:
         - centos
     devices:
         - d03
         - d05
-    level: 1
+    level: 5
 
 run:
     steps:

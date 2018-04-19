@@ -2,13 +2,14 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 dist=`dist_name`
 echo $dist
 
-set -x 
-export PS4='+{$LINENO:${FUNCTION[0]}} '
+#set -x 
+#export PS4='+{$LINENO:${FUNCTION[0]}} '
+outDebugInfo
 
 
 
@@ -43,7 +44,7 @@ function memcached_start_by_service(){
     else
         false
     fi
-    print_info $? "memcached_start by systemd"
+    print_info $? "memcached_start_by_systemd"
 }
 
 
@@ -108,4 +109,4 @@ memcached_stop_by_service
 memcached_start_by_service
 memcached_stop_by_command 
 
-#memcached_uninstall
+memcached_uninstall

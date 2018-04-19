@@ -7,11 +7,13 @@ metadata:
         - tanliqing2010@163.com
     scope:
         - database
+        - cassandra
     os:
         - centos
     devices:
         - d03
         - d05
+    level: 1
 
 
 run:
