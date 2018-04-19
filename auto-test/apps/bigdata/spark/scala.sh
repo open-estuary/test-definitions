@@ -25,7 +25,13 @@ function scala_install(){
         fi 
     
         if [ ! -f scala-2.12.4.tgz ];then
-            wget -c https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz 
+            wget -c -q  http://htsat.vicp.cc:804/test-definitions/scala-2.12.4.tgz 
+            ret=$?
+            if [ $ret -ne 0 ];then 
+                wget -c -q  https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz 
+                ret=$?
+            fi 
+            test $ret -eq 0 && true || false 
             print_info $? "download_scala_bin"
         fi 
         tar -zxf scala-2.12.4.tgz
@@ -35,6 +41,7 @@ function scala_install(){
         ln -s ~/bigdata/spark/scala-2.12.4/ /var/spark/scala
     popd 
 
+    yum install -y java-1.8.0-openjdk-devel  java-1.8.0-openjdk 
 }
 
 function scala_env_path(){

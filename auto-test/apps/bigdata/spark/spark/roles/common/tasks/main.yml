@@ -1,8 +1,9 @@
 ---
 
 - name: judge SPARK_HOME
-  shell: env|grep SPARK_HOME
+  shell: 'env|grep SPARK_HOME'
   register: ret 
+  ignore_errors: yes
   tags: spark 
 
 - name: include deploy spark 

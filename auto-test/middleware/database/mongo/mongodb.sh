@@ -7,7 +7,7 @@ function install_mongodb() {
     yum install -y mongodb-server
     print_info $? "mongodb_install_mongodb_server"
 
-    mZersion=`mongo -version | grep "shell version" | awk {'print $4'}`
+    version=`mongo -version | grep "shell version" | awk {'print $4'}`
     echo  $version | grep "v3.4.3"
     print_info $? "mongodb_client_version"
 

@@ -10,7 +10,8 @@ metadata:
         - centos
         - opensuse 
     scope:
-        - functional
+        - bigdata
+        - lapack
     devices:
         - d05
         - d03

@@ -13,12 +13,13 @@
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
-. ../../../../lib/sh-test-lib
+. ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 
 source ./nginx.sh 
-set -x
-export PS4='+{$LINENO:${FUNCNAME[0]}} '
+#set -x
+#export PS4='+{$LINENO:${FUNCNAME[0]}} '
+outDebugInfo
 
 nginx_install
 nginx_start 
@@ -28,4 +29,4 @@ test_geoip_mod
 
 nginx_stop 
 
-#nginx_remove
+nginx_remove

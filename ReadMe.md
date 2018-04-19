@@ -37,16 +37,17 @@ test-definitions
 │   │   ├── deploy
 │   │   └── distribution
 │   ├── hardwareboards
-│   │   └── hns
 │   ├── kernel
 │   ├── middleware
 │   │   ├── language
 │   │   └── tool
 │   ├── peripheral
 │   │   ├── 82599
-│   │   ├── memory
+│   │   ├── sas
 │   │   ├── raid
-│   │   └── ssd
+│   │   ├── ssd
+│   │   ├── misc
+│   │   └── hns
 │   └── virtualization
 ├── owner
 ├── plans

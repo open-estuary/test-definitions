@@ -12,30 +12,30 @@ except Exception:
 else:
     ret="pass"
 if(ret == "pass"):
-    os.system("lava-test-case 'leveldb create database' --result pass")
+    os.system("lava-test-case 'leveldb_create_database' --result pass")
 else:
-    os.system("lava-test-case 'leveldb create database' --result fail")
+    os.system("lava-test-case 'leveldb_create_database' --result fail")
 try:
     db.put(b'key' , b'value')
     db.put(b'another-key' , b'another-value')
 except Exception:
-    os.system("lava-test-case 'leveldb set value' --result fail")
+    os.system("lava-test-case 'leveldb_set_value' --result fail")
 else:
-    os.system("lava-test-case 'leveldb set value' --result pass")
+    os.system("lava-test-case 'leveldb_set_value' --result pass")
 
 key=db.get('key')
 if (key == 'value'):
-    os.system("lava-test-case 'leveldb get value' --result pass")
+    os.system("lava-test-case 'leveldb_get_value' --result pass")
 else:
-    os.system("lava-test-case 'leveldb get value' --result fail")
+    os.system("lava-test-case 'leveldb_get_value' --result fail")
 
 db.delete(b'key')
 db.delete(b'another-key')
 key=db.get(b'key',"empty")
 if (key == "empty"):
-    os.system("lava-test-case 'leveldb delete key' --result pass")
+    os.system("lava-test-case 'leveldb_delete_key' --result pass")
 else:
-    os.system("lava-test-case 'leveldb delete key' --result fail")
+    os.system("lava-test-case 'leveldb_delete_key' --result fail")
 
 try:
     wb=db.write_batch()
@@ -43,9 +43,9 @@ try:
         wb.put(bytes(i) , bytes(i) * 1000)
     wb.write()
 except Exception:
-    os.system("lava-test-case 'leveldb write batch op' --result fail")
+    os.system("lava-test-case 'leveldb_write_batch_op' --result fail")
 else:
-    os.system("lava-test-case 'leveldb write batch op' --result pass")
+    os.system("lava-test-case 'leveldb_write_batch_op' --result pass")
 
 db.put(b'key' , b'first-value')
 sn = db.snapshot()
@@ -53,16 +53,16 @@ snkey = sn.get(b'key')
 db.put(b'key' , b'second-value')
 snkey2 = sn.get(b'key')
 if (snkey == snkey2):
-    os.system("lava-test-case 'leveldb snapshot op' --result pass")
+    os.system("lava-test-case 'leveldb_snapshot_op' --result pass")
 else :
-    os.system("lava-test-case 'leveldb snapshot op' --result fail")
+    os.system("lava-test-case 'leveldb_snapshot_op' --result fail")
 
 try :
     sn.close()
 except Exception:
-    os.system("lava-test-case 'leveldb close snapshot op' --result fail")
+    os.system("lava-test-case 'leveldb_close_snapshot_op' --result fail")
 else :
-    os.system("lava-test-case 'leveldb close snapshot op' --result pass")
+    os.system("lava-test-case 'leveldb_close_snapshot_op' --result pass")
 
 db.put(b'key-1', b'value-1')
 db.put(b'key-2', b'value-2')
@@ -77,15 +77,15 @@ try :
         print(value)
         pass
 except Exception:
-    os.system("lava-test-case 'leveldb iteration op' --result fail")
+    os.system("lava-test-case 'leveldb_iteration_op' --result fail")
 else :
-    os.system("lava-test-case 'leveldb iteration op' --result pass")
+    os.system("lava-test-case 'leveldb_iteration_op' --result pass")
 
 db.close()
 if(db.closed):
-    os.system("lava-test-case 'leveldb close database' --result pass")
+    os.system("lava-test-case 'leveldb_close_database' --result pass")
 else :
-    os.system("lava-test-case 'leveldb close database' --result fail")
+    os.system("lava-test-case 'leveldb_close_database' --result fail")
 
 
 

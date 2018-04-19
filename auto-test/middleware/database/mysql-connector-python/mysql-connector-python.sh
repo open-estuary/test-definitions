@@ -1,15 +1,22 @@
 #!/bin/bash
 
-set -x
 
 cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -
 
+source ../percona/mysql.sh
+
+
+#set -x
+outDebugInfo
 yum erase -y mariadb-libs
 yum remove -y mariadb-libs
 yum update -y
+
+
+cleanup_all_database
 
 pkgs="mysql-community-common mysql-community-server 
 	mysql-community-client mysql-community-devel expect"
@@ -40,10 +47,9 @@ expect eof
 EOF
 print_info $? create-database
 
-find . -name "test.py"
-if [ $? ];then
+if !  test  -f "test.py" ;then
 	echo "Error: Have not found test.py!!"
-	exit 0
+	exit 1
 fi
 
 python test.py | tee out.log
@@ -95,8 +101,6 @@ print_info $? stop-mysqld
 yum remove -y mysql-connector-python mysql-connector-python-cext mysql-connector-python-debuginfo
 print_info $? remove-mysql-connector-python
 
-yum remove -y python
-print_info $? remove-python
 
 yum remove -y mysql-community-server mysql-community-common mysql-community-client mysql-community-devel
 print_info $? remove-mysql-community

@@ -14,6 +14,7 @@ function zk_install_standalone(){
     yum install -y ansible
     yum insatll -y python2-pip 
     yum install -y nmap-ncat
+    yum install -y gcc 
 
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
     ret=$?
@@ -30,6 +31,8 @@ function zk_install_standalone(){
 function zk_start(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t start 
+    sleep 3
+    jps | grep QuorumPeerMain
     ret=$?
     print_info $ret "zookeeper_start"
     if [ $ret -ne 0 ];then
@@ -43,6 +46,9 @@ function zk_start(){
 function zk_stop(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t stop 
+    sleep 3
+    jps | grep QuorumPeerMain
+    test $? -ne 0  && true || false 
     ret=$?
     print_info $ret "zookeeper_stop"
     if [ $ret -ne 0 ];then
@@ -50,6 +56,7 @@ function zk_stop(){
         echo "zookeeper stop error"
         echo
     fi 
+    rm -rf /var/bigdata/zookeeper
 
 }
 
@@ -60,6 +67,7 @@ function zk_install_c_client(){
     fi 
     pushd .
         cd $ZK_HOME
+        export ZK_HOME=`pwd`
         cd ./src/c
         ./configure && \
         make && \
@@ -69,6 +77,7 @@ function zk_install_c_client(){
         
     popd 
     if [ $ret -eq 0 ];then
+       yum install -y python-devel python-pip 
        pip install zkpython
        ret=$?
        print_info $ret "zookeeper_install_zkpython"
@@ -78,29 +87,36 @@ function zk_install_c_client(){
 
 
 function zk_base_operoter(){
-    
-    $ZK_HOME/bin/zkSever.sh status | grep standalone
+   jps
+
+    $ZK_HOME/bin/zkServer.sh status | grep standalone
     print_info $? "zookeeper_status_ok"
     
-    $ZK_HOME/bin/zkCli.sh create /test "this is test data" | grep -v INFO
-    $ZK_HOME/bin/zkCli.sh ls | grep -v INFO | grep test 
+    local testData="this is test data"
+    $ZK_HOME/bin/zkCli.sh create /test "$testData" | grep -v INFO
+    $ZK_HOME/bin/zkCli.sh get /test  | grep -v INFO | grep "$testData"
     print_info $? "zookeeper_create_znode"
 
-    $ZK_HOME/bin/zkCli.sh set /test "this is test data" | grep -v INFO 
+    $ZK_HOME/bin/zkCli.sh set /test $testData | grep -v INFO 
     print_info $? "zookeeper_set_znode_data" 
 
-    $ZK_HOME/bin/zkCli.sh get /test | grep "this is test data" | grep -v INFO 
+    $ZK_HOME/bin/zkCli.sh get /test | grep "$testData"  | grep -v INFO 
     print_info $? "zookeeper_get_znode_data"
     
-    ret=$ZK_HOME/bin/zkCli.sh ls / | egrep -c "test|zookeeper" | grep -v INFO 
-    if [ $ret -eq 2 ];then
+    ret=`$ZK_HOME/bin/zkCli.sh ls / | grep -c "test" | grep -v INFO` 
+    if [ $ret -eq 1 ];then
         true
     else
         false
     fi
-    print_info $? "zookeeper_ls_znode"
+#    print_info $? "zookeeper_ls_znode"
 
-    $ZK_HOME/bin/zkCli.sh stat /test  | grep -v INFO 
+    $ZK_HOME/bin/zkCli.sh stat /test 2>&1 | grep -v INFO  | grep "not exist"
+    if test $? -eq 0;then
+        false
+    else
+        true
+    fi 
     print_info $? "zookeeper_stat_znode"
 
     $ZK_HOME/bin/zkCli.sh create /test/a "tmp data" | grep -v INFO 

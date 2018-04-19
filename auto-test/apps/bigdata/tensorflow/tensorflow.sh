@@ -1,12 +1,13 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -
 
+outDebugInfo
 version=`python -V`
 if [ $version > 2 && $version < 3 ];then
 	print_info 0 python-version
@@ -18,14 +19,14 @@ fi
 
 
 pkgs="tensorflow"
+Check_Repo "${pkgs}" "Estuary"
+print_info $? check-repo
 install_deps "${pkgs}"
 print_info $? install-tensorflow
 
 Check_Version "${pkgs}" "1.2.1"
 print_info $? check-tf-version
 
-Check_Repo "${pkgs}" "Estuary"
-print_info $? check-repo
 
 pkgs="python-pip python-devel gcc vim expect"
 install_deps "${pkgs}"
@@ -88,12 +89,9 @@ python ./load_model.py
 print_info $? tf-load-model
 
 cd /usr/share/tensorflow
-pip remove tensorflow -y
+pip uninstall tensorflow -y
 print_info $? pip-remove-whl
 
-pkgs="python-pip python-devel"
-remove_deps "${pkgs}"
-print_info $? remove-pip
 
 remove_deps tensorflow
 print_info $? remove-tensorflow
