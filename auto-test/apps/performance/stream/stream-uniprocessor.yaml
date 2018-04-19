@@ -7,9 +7,6 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     os:
-        - debian
-        - ubuntu
-        - fedora
         - centos
     scope:
         - performance

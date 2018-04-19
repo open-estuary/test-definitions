@@ -5,9 +5,6 @@ metadata:
     maintainer:
         - shuangshengchen@126.com
     os:
-        - debian
-        - ubuntu
-        - fedora
         - centos
     scope:
         - test
