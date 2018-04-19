@@ -8,7 +8,6 @@ metadata:
     scope:
         - performance
     os:
-       - ubuntu
        - centos
     devices:
         - d03
