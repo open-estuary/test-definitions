@@ -1,6 +1,6 @@
 
 metadata:
-    name: alisql
+    name: asql
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "alisql-testing"
     maintainer:
