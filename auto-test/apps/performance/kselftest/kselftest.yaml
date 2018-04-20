@@ -6,8 +6,9 @@ metadata:
         - shuangshengchen@126.com
     os:
         - centos
+        - ubuntu
     scope:
-        - test
+        - performance
     devices:
         - d05
         - d03
