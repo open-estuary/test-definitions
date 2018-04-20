@@ -53,7 +53,7 @@ print_info $? ltrace-c-hello
 
 #输出调用时间开销
 ltrace -T ./hello 2>&1
-print_info $? ltrace-T
+print_info $? ltrace-T-hello
 
 count=`ps -aux | grep ltrace | wc -l`
 if [ $count -gt 0 ]; then
