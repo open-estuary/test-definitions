@@ -9,9 +9,10 @@ metadata:
         - performance
     os:
        - centos
+       - ubuntu
     devices:
         - d03
-        - d05 
+        - d05
     level: 1
 
 run:
