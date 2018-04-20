@@ -1,9 +1,11 @@
 #!/bin/sh -e
 
 # shellcheck disable=SC1091
-. ../../../../utils
-            ./sh-test-lib
-            ./sys_info.sh
+cd ../../../../utils
+.            ./sh-test-lib
+.            ./sys_info.sh
+cd -
+
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
