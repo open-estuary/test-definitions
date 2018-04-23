@@ -19,7 +19,7 @@ case $distro in
         yum install pcp-import-iostat2pcp -y
         print_info $? pcp-import-iostat2pcp
         ;;
-    "ubuntu |debian")
+    "ubuntu")
         apt-get install sysstat -y
         print_info $? sysstat
          ;;
@@ -55,7 +55,7 @@ print_info $? iostat-x
 
 #查看cpu状态
 iostat -c 1 3 2>&1 | tee iostat-c.log
-pirnt_info $? iostat-c
+print_info $? iostat-c
 
 case $distro in
     "ubuntu|debian")

@@ -6,6 +6,7 @@ metadata:
         - shuangshengchen@qq.com
     os:
         - centos
+        - ubuntu
     scope:
         - performance
     environment:
