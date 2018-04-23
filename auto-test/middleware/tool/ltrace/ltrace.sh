@@ -24,7 +24,7 @@ case $distro in
         print_info $? ltrace
          ;;
 esac
-cat <<EOF >> ./hello.c
+cat <<EOF > ./hello.c
 #include <stdio.h>
 int main()
 {
@@ -40,19 +40,19 @@ print_info $? gcc-hello.c
 print_info $? run-hello
 
 #可以看到程序调用了puts()函数
-ltrace ./hello  2>&1 | tee ltrace-hello.log
+ltrace ./hello  2>&1 
 print_info $? ltrace-hello
 
 #把系统调用都打印出来
-ltrace -S ./hello 2>&1 | tee ltrace-s-hello.log
+ltrace -S ./hello 2>&1 
 print_info $? ltrace-S-hello
 
 #耗时
-ltrace -c dd if=/dev/urandom of=/dev/null count=1000 2>&1 | tee ltrace-c-hello.log
+ltrace -c dd if=/dev/urandom of=/dev/null count=1000 2>&1 
 print_info $? ltrace-c-hello
 
 #输出调用时间开销
-ltrace -T ./hello 2>&1 | tee ltrace-T-hello.log
+ltrace -T ./hello 2>&1
 print_info $? ltrace-T-hello
 
 count=`ps -aux | grep ltrace | wc -l`
@@ -69,5 +69,4 @@ print_info $? remove-gcc
 
 apt-get remove build-essential -y
 print_info $? remove-build-essential -y
-
 
