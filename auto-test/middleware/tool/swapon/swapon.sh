@@ -24,7 +24,7 @@ swapon -d
 print_info $? discards
 
 # silently skip devices that do not exist
-swapon -s
+swapon -e
 print_info $? silent
 
 # display summary about used swap devices
