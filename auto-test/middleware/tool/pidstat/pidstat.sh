@@ -21,6 +21,7 @@ case $distro in
         print_info $? sysstat
         ;;
  esac
+done
 
 # run pidstat
 pidstat
