@@ -69,7 +69,7 @@ case "${dist}" in
         ;;
     centos)
         version="4.12.0"
-        release="estuary.3"
+        release="estuary.4"
         from_repo="Estuary"
         package_list="kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
