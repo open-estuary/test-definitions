@@ -1,7 +1,8 @@
 #!/bin/bash
-. ../../../../utils
-            ./sh-test-lib
-            ./sys_info.sh
+cd ../../../../utils
+.            ./sh-test-lib
+.            ./sys_info.sh
+cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/log.txt"
