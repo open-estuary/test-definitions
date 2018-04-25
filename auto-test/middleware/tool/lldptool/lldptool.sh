@@ -3,7 +3,7 @@
 set -x
 cd ../../../../utils
     .        ./sys_info.sh
-             ./sh-test-lib
+    .        ./sh-test-lib
 cd -
 
 if [ `whoami` != 'root' ] ; then
@@ -38,6 +38,10 @@ print_info $? script
 lldptool -t -i eth0
 print_info $? lldptool
 
+#stop process of lldpad -d
+lpid=$(ps -ef|grep lldpad |grep -v "grep"|awk '{print $2}')
+kill -9 $lpid
 # Remove package
 yum remove -y lldpad
 print_info $? remove
+
