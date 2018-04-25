@@ -13,7 +13,7 @@ metadata:
         - debian
     devices:
         - d05
-    level: 1
+    level: 5
        
 run:
     steps:
