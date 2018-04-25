@@ -41,6 +41,8 @@ print_info $? lldptool
 #stop process of lldpad -d
 lpid=$(ps -ef|grep lldpad |grep -v "grep"|awk '{print $2}')
 kill -9 $lpid
+print_info $? kill_lldpad
+
 # Remove package
 yum remove -y lldpad
 print_info $? remove
