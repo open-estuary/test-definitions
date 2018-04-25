@@ -69,7 +69,7 @@ case "${dist}" in
         ;;
     centos)
         version="4.12.0"
-        release="estuary.3"
+        release="estuary.4"
         from_repo="Estuary"
         package_list="kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
@@ -105,12 +105,12 @@ case "${dist}" in
                       print_info 1 version
                 fi
 
-                # rs=$(yum info $p | grep "Release" | awk '{print $3}')
-                # if [ "$rs" = "$release" ];then
-                  #   print_info 0 release
-                # else
-                  #  print_info 1 release
-               # fi
+                rs=$(yum info $p | grep "Release" | awk '{print $3}')
+                if [ "$rs" = "$release" ];then
+                     print_info 0 release
+                else
+                     print_info 1 release
+                fi
                 #对于自带的包不去做卸载处理
                 # if test $rmflag -eq 0
                 # then
