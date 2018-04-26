@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 #=================================================================
 #   文件名称：ycsb-test.sh
@@ -9,8 +9,8 @@
 #================================================================*/
 set -x
 cd ../../../../utils
-             ./sys_info.sh
-             ./sh-test.lib
+.            ./sys_info.sh
+.             ./sh-test-lib
 cd -
 
 if [ `whoami` != 'root'  ] ; then
@@ -27,7 +27,7 @@ function install_ycsb(){
     yum info ycsb > tmp.info 
     local version=`grep Version tmp.info | cut -d : -f 2`
     local repo=`grep "From repo" tmp.info | cut -d : -f 2`
-    if [ x"$version" = "0.12.0" -a x"$repo" = x"Estuary" ];then
+    if [ "x$version" = x" 0.12.0" -a "x$repo" = x" Estuary" ];then
         true
     else
         false
