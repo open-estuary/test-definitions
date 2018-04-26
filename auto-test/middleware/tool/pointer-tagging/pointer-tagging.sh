@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/sh -e
+set -x
 
 # shellcheck disable=SC1091
 cd  ../../../../utils
