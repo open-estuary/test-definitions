@@ -3,8 +3,8 @@ set -x
 
 # shellcheck disable=SC1091
 cd  ../../../../utils
-.            ./sh-test-lib
 .            ./sys_info.sh
+.            ./sh-test-lib
 cd -
 
 OUTPUT="$(pwd)/output"
