@@ -10,7 +10,7 @@ metadata:
         - linux
     os:
         - centos
-        - debian
+        - ubuntu 
     devices:
         - d05
     level: 1
