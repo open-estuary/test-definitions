@@ -8,7 +8,7 @@ metadata:
     maintainer:
         - naresh.kamboju@linaro.org
         - shuangshengchen@qq.com
-        - fyuanz_2010@163.com
+
     os:
         - centos
     scope:
