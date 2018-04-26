@@ -8,11 +8,11 @@ metadata:
     maintainer:
         - naresh.kamboju@linaro.org
         - shuangshengchen@qq.com
-
-    os:
-        - centos
+ 
     scope:
         - tool
+    os:
+        - centos
     devices:
         - d05
     level: 1
