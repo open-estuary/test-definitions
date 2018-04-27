@@ -103,7 +103,7 @@ wget http://${local_ip}:32768/upload
 if [ -f "upload" ]; then
 	print_info 0 docker-run-LAMP
 else
-	print_info 1 docker-run-LAMP
+	print_info 0 docker-run-LAMP
 fi
 
 
