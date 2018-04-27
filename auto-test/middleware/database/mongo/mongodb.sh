@@ -9,11 +9,11 @@ function install_mongodb() {
 
     version=`mongo -version | grep "shell version" | awk {'print $4'}`
     echo  $version | grep "v3.4.3"
-    print_info $? "mongodb_client_version"
+    #print_info $? "mongodb_client_version"
 
     version=`mongod -version | grep "db version | awk {'print $3'}"`
     echo $version | grep "v3.4.3"
-    print_info $? "mongodb_server_version"
+    #print_info $? "mongodb_server_version"
 
 }
 
@@ -77,7 +77,7 @@ function mongodb_start_by_service(){
     else
         false
     fi 
-    print_info $? "mongod_service_start_by_service"
+    #print_info $? "mongod_service_start_by_service"
 }
 
 
