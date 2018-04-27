@@ -1,9 +1,10 @@
-#!/bin/sh -e
+#!/bin/sh 
 
 # shellcheck disable=SC1091
-. ../../../../utils
-            ./sh-test-lib
-            ./sys_info.sh
+cd ../../../../utils
+.            ./sh-test-lib
+.            ./sys_info.sh
+cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
@@ -148,3 +149,5 @@ done
 #Remove fio package
 yum remove -y "${pkgs}"
 print_info $? remove
+
+rm -rf fio-2.1.10.tar.gz
