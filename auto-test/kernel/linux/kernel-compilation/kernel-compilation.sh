@@ -54,6 +54,7 @@ case "${abi}" in
     arm64|armeabi)
         make defconfig
         { time -p make -j"${NPROC}" Image; } 2>&1 | tee "${LOGFILE}"
+        print_info $? compile-kernel
         ;;
     *)
         error_msg "Unsupported architecture!"
@@ -74,3 +75,5 @@ fi
 # Cleanup.
 cd ../
 rm -rf "linux-${VERSION}"*
+print_info $? remove-file
+
