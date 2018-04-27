@@ -17,7 +17,7 @@ install_lttng-modules() {
     # shellcheck disable=SC2154
     case "${dist}" in
       centos) 
-            install_deps "lttng-tool" "${SKIP_INSTALL}"
+            install_deps "lttng-tools" "${SKIP_INSTALL}"
             install_deps "${PACKAGE}" "${SKIP_INSTALL}"
             if test $? -eq 0;then
               print_info 0 install
