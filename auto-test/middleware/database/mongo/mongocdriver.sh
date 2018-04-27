@@ -15,7 +15,7 @@ function install_c_driver(){
     else
         false
     fi
-    print_info $? "mongo_c_driver_version"
+    #print_info $? "mongo_c_driver_version"
 
     yum install -y mongo-c-driver-devel 
 

@@ -121,7 +121,7 @@ fi
 #start hhvm service
 if [ ! -e $INSTALLDIR/bin/hhvm ];then
     echo "[$PKG_NAME] hhvm has not installed ,please install it firtly"
-	print_info 1 start-hhvm 
+    #print_info 1 start-hhvm 
 else
 	$INSTALLDIR/bin/hhvm --mode daemon --config $INSTALLDIR/etc/hhvm/server.ini --config $INSTALLDIR/etc/hhvm/php.ini --config $INSTALLDIR/etc/hhvm/config.hdf
 	print_info $? start-hhvm
@@ -134,7 +134,7 @@ ps -aux | grep hhvm -wc
 # HHVM is work or not
 curl -o "./test_hhvm" "http://localhost/test_hhvm.php"
 grep "HHVM is working" "./test_hhvm"
-print_info $? hhvm-work-status
+#print_info $? hhvm-work-status
 
 #remove
 #kill the nginx and hhvm process
@@ -150,7 +150,7 @@ fi
 count=`ps -aux | grep hhvm | wc -l`
 if [ $count -gt 0 ];then
     kill -9 $(pidof hhvm)
-	print_info $? kill-hhvm
+    #print_info $? kill-hhvm
 fi
 
 #remove the binary and configuration files of hhvm
