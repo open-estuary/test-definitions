@@ -61,13 +61,13 @@ function cassandra20_start_by_service(){
         jps | grep CassandraDaemon | grep -v grep 
         ret=$?
         test $ret -eq 0 && true || false 
-        print_info $? "cassandra20_start_by_command"
+        #print_info $? "cassandra20_start_by_command"
         if [ $ret -ne 0 ];then
-            echo 
+            echo
             echo "cassandra can not start success"
             echo
             exit 1
-        fi         
+        fi
 }
 
 function cassandra20_stop_by_service(){
