@@ -47,7 +47,7 @@ examine_all_usb_devices() {
             for device in $(ls "${USB_BUS}""${bus}"/); do
                 info_msg "USB Bus ${bus}, device ${device}"
                 lsusb -D "${USB_BUS}""${bus}"/"${device}"
-                print_info $? lsusb -D
+                print_info $? exam_$bus_$device 
                 increment_return_status "${STATUS}"
                 STATUS=$?
             done
@@ -66,7 +66,7 @@ examine_all_usb_devices() {
 print_supported_usb_protocols() {
     info_msg "Running print-supported-usb-protocols test..."
     lsusb -v | grep -i bcdusb
-    print_info $? lsusb -v
+    print_info $? protocols 
     check_return "print-supported-usb-protocols"
 }
 
@@ -74,7 +74,7 @@ print_supported_usb_protocols() {
 print_supported_usb_speeds() {
     info_msg "Running print-supported-usb-speeds test..."
     lsusb -t
-    print_info $? lsusb -t
+    print_info $? lsusb support_speed 
     check_return "print-supported-usb-speeds"
 }
 
