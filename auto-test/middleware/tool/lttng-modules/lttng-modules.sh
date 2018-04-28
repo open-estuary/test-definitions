@@ -49,7 +49,7 @@ lttng-modules-test(){
         print_info 0 list
     else
        print_info 1 list
-        exit 1
+#        exit 1
     fi
     lttng create mysession > log
     cat log | grep "Session mysession created"
@@ -57,7 +57,7 @@ lttng-modules-test(){
         print_info 0 create_session
     else
         print_info 1 create_session
-        exit 1
+#        exit 1
     fi
     lttng set-session mysession > log
     cat log | grep "Session set to mysession"
@@ -65,49 +65,49 @@ lttng-modules-test(){
         print_info 0 set_session
     else
         print_info 1 set_session
-        exit 1
+#        exit 1
     fi
     lttng enable-event -a -k
     if test $?-eq 0;then
         print_info 0 enable_event
     else
         print_info 1 enable_event
-        exit 1
+#        exit 1
     fi
     lttng enable-event -a -k --tracepoint
     if test $?-eq 0;then
         print_info 0 event_trace
     else
         print_info 1 event_trace
-        exit 1
+#        exit 1
     fi
     lttng enable-event -a -k --syscall
     if test $?-eq 0;then
         print_info 0 event_syscall
     else
         print_info 1 event_syscall
-        exit 1
+#        exit 1
     fi
     lttng start
     if test $?-eq 0;then
         print_info 0 start
     else
         print_info 1 start
-        exit 1
+#        exit 1
     fi
     lttng stop
     if test $?-eq 0;then
         print_info 0 stop
     else
         print_info 1 stop
-        exit 1
+#        exit 1
     fi
     lttng destroy
     if test $?-eq 0;then
         print_info 0 destroy
     else
         print_info 1 destroy
-        exit 1
+#        exit 1
     fi
 }
 install_lttng-modules
@@ -117,7 +117,7 @@ if test $? -eq 0;then
     print_info 0 remove
 else
     print_info 1 remove
-    exit 1
+#    exit 1
 fi
-
+remove_deps lttng-tools
 
