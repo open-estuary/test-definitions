@@ -24,7 +24,7 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      centos) 
+      centos)
             install_deps "sysstat" "${SKIP_INSTALL}"
             if test $? -eq 0;then
                 echo "sysstat install: [PASS]" | tee -a "${RESULT_FILE}"
@@ -50,12 +50,16 @@ install() {
             fi
             print_info $? sys-source
             ;;
+        "ubuntu")
+            apt-get install sysstat -y
+            print_info $? install-sysstat
+            ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
 sysstat_test() {
-    /usr/lib64/sa/sadc  1 10 sa000
-    print_info $? sadc-test
+    /usr/lib64/sa/sadc  1 10 sa00
+    #print_info $? sadc-test
     sar -f sa000 | tee -a ${LOG_FILE}
     print_info $? sar-cpu
     sar -u  1 5 | tee -a ${LOG_FILE}
