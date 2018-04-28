@@ -28,8 +28,20 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      debian|ubuntu) install_deps "build-essential" "${SKIP_INSTALL}" ;;
-      fedora|centos) install_deps "gcc glibc-static" "${SKIP_INSTALL}" ;;
+      debian|ubuntu) install_deps "build-essential" "${SKIP_INSTALL}"
+        if test $? -eq 0;then
+        print_info 0 install 
+        else
+        print_info 1 install
+	exit 1
+        fi ;;
+      fedora|centos) install_deps "gcc glibc-static" "${SKIP_INSTALL}"
+        if test $? -eq 0;then
+        print_info 0 install
+        else
+        print_info 1 install
+	exit 1
+        fi ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
@@ -48,7 +60,31 @@ fi
 skip_list="execute_binary"
 command="gcc ${FLAGS} -o hello ../hello.c"
 run_test_case "${command}" "gcc${FLAGS}" "${skip_list}"
+  if test $? -eq 0;then
+     print_info 0 gcc 
+  else
+     print_info 1 gcc
+  fi
 
 command="./hello | grep -x 'Hello world'"
 # skip_list is used as test case name to avoid typing mistakes
 run_test_case "${command}" "${skip_list}"
+  if test $? -eq 0;then
+     print_info 0 "avoid typing mistakes"
+  else
+     print_info 1 "avoid typing mistakes"
+  fi
+ case "${dist}" in
+   debian|ubuntu) remove_deps "build-essential" 
+      if test $? -eq 0;then
+      print_info 0 build-essential_remove 
+      else
+      print_info 1 build-essential_install
+      fi ;;
+   fedora|centos) remove_deps "glibc-static" 
+      if test $? -eq 0;then
+      print_info 0 glibc-static_remove
+      else
+      print_info 1 glibc-static_remove
+      fi ;;
+ esac
