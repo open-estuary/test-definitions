@@ -15,28 +15,21 @@ if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
-#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-         yum install wget -y
-         wget http://htsat.vicp.cc:804/yaml-cpp-yaml-cpp-0.5.3.tar.gz
-         print_info $? wget-yaml-cpp
-         tar -zxf yaml-cpp-yaml-cpp-0.5.3.tar.gz
-         print_info $? tar-yaml-cpp
+         yum install yaml-cpp-static -y
+         yum install yaml-cpp -y
          yum install cmake -y
          yum install boost -y
          yum install gcc-c++ -y
          yum install make -y
-         cd yaml-cpp-yaml-cpp-0.5.3
-         cmake -DBUILD_SHARED_LIBS=ON
-         make
-         print_info $? compile-yaml-cpp
+         print_info $? install-yaml-cpp
          ;;
 esac
 mkdir test3
 cd test3
-cp ../include/yaml-cpp/yaml.h ./
-cp -rf ../include/yaml-cpp/ /usr/include/
+cp /usr/include/yaml-cpp/yaml.h ./
+cp -rf /usr/include/yaml-cpp/ /usr/include/
 #把测试文件test.cpp cmd_mux.yaml放到test3文件夹里面
 #cp ../test.cpp ./
 #cp ../cmd_mux.yaml ./
@@ -109,14 +102,14 @@ subscribers:
 publisher:       "output/cmd_vel"
 EOF
 sed -i '$a\/usr/lib' /etc/ld.so.conf
-cd /etc
 ldconfig
-cd /root/test-definitions/auto-test/distributions/distribution/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3
-cp libyaml-cpp.so /usr/lib/
+m=`pwd`
+cp /usr/lib64/libyaml-cpp.so /usr/lib/
 cd /usr/lib
 ln -s libyaml-cpp.so libyaml-cpp.so.0.5
-cd /root/test-definitions/auto-test/distributions/distribution/yaml-cpp/yaml-cpp-yaml-cpp-0.5.3/test3
-g++ -g -o test test.cpp -I ../include/ ../libyaml-cpp.so
+cd ${m}
+#cd ./test3
+g++ -g -o test test.cpp -I /usr/include/ /usr/lib/libyaml-cpp.so
 print_info $? compile-cpp
 ./test 2>&1 |tee yaml-cpp.log
 TCID="yaml-cpp-test"
