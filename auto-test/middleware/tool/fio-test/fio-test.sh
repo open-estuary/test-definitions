@@ -30,15 +30,6 @@ while getopts "p:b:i:s:" o; do
   esac
 done
 
-fio_build_install() {
-    wget http://brick.kernel.dk/snaps/fio-2.1.10.tar.gz
-    tar -xvf fio-2.1.10.tar.gz
-    cd fio-2.1.10
-    ./configure
-    make all
-    make install
-}
-
 install() {
     dist_name
     # shellcheck disable=SC2154
@@ -46,11 +37,12 @@ install() {
       debian | ubuntu )
         pkgs="fio"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
+        print_info $? install 
         ;;
       fedora | centos )
-        pkgs="libaio-devel gcc tar wget"
+        pkgs="libaio-devel gcc tar wget fio"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
-        fio_build_install
+        print_info $? install
         ;;
       opensuse )
         zypper install -y fio
@@ -60,8 +52,8 @@ install() {
         ;;
     esac
 }
-version="2.19"
-from_repo="Estuary"
+version="3.1"
+from_repo="epel"
 package="fio"
 
 for P in ${package};do
@@ -102,7 +94,8 @@ fio_test() {
     info_msg "Running fio ${BLOCK_SIZE} ${rw} test ..."
     fio -name="${rw}" -rw="${rw}" -bs="${BLOCK_SIZE}" -size=1G -runtime=300 \
         -numjobs=1 -ioengine="${IOENGINE}" -direct=1 -group_reporting \
-        -output="${file}"
+        -output="${file}"i
+    print_info $? fio_test_${rw}
     echo
 
     # Parse output.
@@ -149,5 +142,3 @@ done
 #Remove fio package
 yum remove -y "${pkgs}"
 print_info $? remove
-
-rm -rf fio-2.1.10.tar.gz
