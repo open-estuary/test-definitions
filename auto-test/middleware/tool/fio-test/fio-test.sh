@@ -40,7 +40,7 @@ install() {
         print_info $? install 
         ;;
       fedora | centos )
-        pkgs="libaio-devel gcc tar wget fio"
+        pkgs="libaio-devel gcc wget fio"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         print_info $? install
         ;;
@@ -92,9 +92,9 @@ fio_test() {
     # Run fio test.
     echo
     info_msg "Running fio ${BLOCK_SIZE} ${rw} test ..."
-    fio -name="${rw}" -rw="${rw}" -bs="${BLOCK_SIZE}" -size=1G -runtime=300 \
+    fio -name="${rw}" -rw="${rw}" -bs="${BLOCK_SIZE}" -size=1G -runtime=60 \
         -numjobs=1 -ioengine="${IOENGINE}" -direct=1 -group_reporting \
-        -output="${file}"i
+        -output="${file}"
     print_info $? fio_test_${rw}
     echo
 
@@ -102,7 +102,7 @@ fio_test() {
     cat "${file}"
     measurement=$(grep -m 1 "iops=" "${file}" | cut -d= -f4 | cut -d, -f1)
     add_metric "fio-${rw}" "pass" "${measurement}" "iops"
-
+    print_info $? info_fio_test_${rw}
     # Delete files created by fio to avoid out of space.
     rm -rf ./"${rw}"*
 }
@@ -140,5 +140,6 @@ for rw in "read" randread write randwrite rw randrw; do
 done
 
 #Remove fio package
-yum remove -y "${pkgs}"
+remove_deps "${pkgs}"
 print_info $? remove
+
