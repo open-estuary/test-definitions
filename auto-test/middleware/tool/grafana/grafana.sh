@@ -52,6 +52,16 @@ if test $? -eq 0;then
 else
     print_info 1 cfgfile_check
 fi
+
+systemctl daemon-reload
+print_info $? daemon-reload
+#systemctl start grafana-server
+#systemctl status grafana-server|grep -i failed
+#if test $? -eq 0;then
+#   print_info 1 fail 
+#else
+#     print_info 0 succee
+#fi
  
 remove_deps "${PACKAGE}"
 if test $? -eq 0;then
