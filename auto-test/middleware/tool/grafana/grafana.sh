@@ -44,12 +44,20 @@ install_grafana() {
     esac
 }
 install_grafana
+
+# cfgfile check
+find /etc/grafana/grafana.ini 
+if test $? -eq 0;then
+    print_info 0 cfgfile_check
+else
+    print_info 1 cfgfile_check
+fi
+ 
 remove_deps "${PACKAGE}"
 if test $? -eq 0;then
    print_info 0 remove
 else
      print_info 1 remove
-    exit 1
 fi
 
 
