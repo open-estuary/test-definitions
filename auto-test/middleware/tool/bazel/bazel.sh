@@ -142,3 +142,11 @@ print_info $? look-package-runner
 
 bazel build //src/main/java/com/example/cmdline:runner_deploy.jar
 print_info $? build-allpackage-runner
+
+remove_deps "${pkgs}" 
+ if test $? -eq 0;then
+    print_info 0 remove
+ else
+    print_info 1 remove
+ fi 
+
