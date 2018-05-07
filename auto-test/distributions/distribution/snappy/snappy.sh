@@ -17,7 +17,7 @@ if [ `whoami` != 'root' ] ; then
 fi
 case $distro in
     "centos")
-        yum install snappy.aarch64 -y
+        yum install snappy -y
         yum install gcc-c++ -y
         yum install libtool -y
         print_info $? install-snappy
@@ -36,6 +36,7 @@ int main(){
         return 0;
 }
 EOF
+cp snappy.h snappy-stubs-public.h /usr/include
 libtool --mode=compile g++ -c a.cpp
 libtool --mode=link g++ -o test a.lo /usr/lib64/libsnappy.so.1
 print_info $? compile-gcc
@@ -49,6 +50,8 @@ else
     lava-test-case $TCID --result pass
 fi
 rm snappy.log
+rm -f test
+rm -f a.cpp
 print_info $? end-test
 case $distro in
     "centos")
