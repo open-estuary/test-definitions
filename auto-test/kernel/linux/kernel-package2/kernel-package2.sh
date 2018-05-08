@@ -131,7 +131,7 @@ case "${dist}" in
         done
         ;;
     ubuntu)
-        package_list="linux-estuary linux-headers-estuary linux-image-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-4.12.0-502 linux-headers-4.12.0-502-generic linux-image-4.12.0-502-generic linux-image-extra-4.12.0-502-generic linux-libc-dev linux-source-4.12.0 linux-tools-4.12.0-502 linux-tools-4.12.0-502-generic linux-tools-common"
+        package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-4.12.0-502 linux-headers-4.12.0-502-generic linux-image-4.12.0-502-generic linux-image-extra-4.12.0-502-generic linux-libc-dev linux-source-4.12.0 linux-tools-4.12.0-502 linux-tools-4.12.0-502-generic linux-tools-common"
         for p in ${package_list};do
             echo "$p install"
             apt-get install -y $p
@@ -155,9 +155,9 @@ case "${dist}" in
 
                 vs=$(apt show $p | grep "Version" | awk '{print $2}')
                 if [ "$vs" = "$version1" -o "$vs" = "$version2" ];then
-                    print_info 0 install
+                    print_info 0 version_check 
                 else
-                    print_info 1 install
+                    print_info 1 version_check 
                 fi
             fi
             echo "$p remove"
