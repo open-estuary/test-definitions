@@ -14,10 +14,9 @@ Remark:
   cat /etc/os-release
   ```
 
-# 设置网络参数，确保目标单板网络畅通
+# 查看单板IP
 ```
-ubuntu|debian:ifconfig eth0 192.168.1.xxx 192.168.1.1 255.255.255.0
-centos:ip addr eth0 192.168.1.xxx 192.168.1.1 255.255.255.0
+ip addr
 
 ```
 #发行版执行更新命令
@@ -48,7 +47,7 @@ centos:yum install openssh-server
 #发行版启动ssh 服务
 ```
 ubuntu|debian:service ssh start
-centos:systemcl start sshd.service
+centos:systemctl start sshd.service
 ```
 #测试ssh功能
 ```
@@ -76,7 +75,7 @@ userdel xxx
 ```
 #关机功能
 ```
-shutdow
+shutdown -h now
 ```
 #重启功能测试
 ```
