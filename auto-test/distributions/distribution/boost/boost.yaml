@@ -1,5 +1,5 @@
 metadata:
-    name: "boost-test"
+    name: "boost"
     format: "boost-Test-Shell Test Definition 1.0"
     description: "boost is a c++ lib"
     maintainer:
