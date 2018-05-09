@@ -24,8 +24,8 @@ Remark:
     3 重启单板
         - board_reboot id
 # Test
-  1 下载UEFI.fd文件
-     note: 请校验md5值
+  1 把UEFI.fd文件放到107自己用户的家目录下
+     note: 请校验md5值（使用md5sum file来校验md5值）
   2 重启单板，进入UEFI菜单主界面
 ```                             
 D05                                                                            
@@ -86,10 +86,11 @@ D05 >
  
  5 执行升级命令
  	D05 > biosupdate 192.168.1.107 -u $user -p $pw -f UEFI_D05.fd master
- 
+ $user:代表的是自己登录107的用户名 $pwd 代表自己登录107用户的密码
+此命令执行完后会出现选择网口一般是选3,也有例外的情况就看MAC地址结尾是4的
  6  执行重启单板命令
  	D05 > reset
- 
+
  7  参看UEFI版本信息
  	D05 > version
  
