@@ -21,9 +21,9 @@ Remark:
   2. 查看是否加载成功：lsmod |grep pktgen
   3. 查看pktgen的版本等信息：cat /proc/net/pktgen/pgctrl
   4. cpu的亲和绑定
-     #cat /proc/interrupts | grep eth     //查看所有借口对应的中断，你也可以只查看某个接口
-     #echo 1 > /proc/irq/56/smp_iffinity   //查看中断时eth对应9个中断，即56-64，因此都要执行绑定，这表示eth0的中断绑定到CPU1上。
-     #cat /proc/irq/56/smp_iffinity     //查看是否绑定成功，返回01则表示绑定到CPU1成功，同理把eth1的中断绑定到CPU上步骤同上，你可以分开绑定，将eth1的中断绑定到CPU2上。
+     #cat /proc/interrupts | grep eth     //查看所有接口对应的中断，你也可以只查看某个接口
+     #echo 1 > /proc/irq/56/smp_affinity   //查看中断时eth对应9个中断，即56-64，因此都要执行绑定，这表示eth0的中断绑定到CPU1上。
+     #cat /proc/irq/56/smp_affinity     //查看是否绑定成功，返回01则表示绑定到CPU1成功，同理把eth1的中断绑定到CPU上步骤同上，你可以分开绑定，将eth1的中断绑定到CPU2上。
   5. 添加设备：echo "add_device eth3" > /proc/net/pktgen/kpktgend_0
   6. 配置报文：$ echo ""pkt_size 64"" > /proc/net/pktgen/eth3
                $ echo ""count 1000000"" > /proc/net/pktgen/eth3
