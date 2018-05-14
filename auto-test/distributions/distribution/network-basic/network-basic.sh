@@ -9,7 +9,7 @@ cd -
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
 #export RESULT_FILE
-INTERFACE="eth0"
+INTERFACE="enahisic2i0"
 
 #usage() {
 #    echo "Usage: $0 [-s <true|false>] [-i <interface>]" 1>&2

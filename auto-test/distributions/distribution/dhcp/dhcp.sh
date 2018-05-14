@@ -22,11 +22,11 @@ case $distro in
         ;;
 esac
 ROUTE_ADDR=$(ip route list |grep default |awk '{print $3}' |head -1)
-dhclient -v -r eth0
+dhclient -v -r enahisic2i0
 ping -c 5 ${ROUTE_ADDR}
 print_info $? delete-ip
 
-dhclient -v eth0
+dhclient -v enahisic2i0
 print_info $? acquiring-ip
 ping -c 5 ${ROUTE_ADDR} 2>&1 |tee dhcp.log
 
