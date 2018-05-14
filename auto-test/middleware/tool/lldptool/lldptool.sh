@@ -35,7 +35,7 @@ done
 print_info $? script
 
 # check ethernet connection information
-lldptool -t -i eth0
+lldptool -t -i enahisic2i0
 print_info $? lldptool
 
 #stop process of lldpad -d
