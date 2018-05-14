@@ -50,3 +50,11 @@ install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 # Build pointer tagging tests and run tests
 pointer_tagging_build_test
+
+remove_deps "${pkgs}" 
+ if test $? -eq 0;then
+      print_info 0 remove
+ else
+      print_info 1 remove
+ fi ;;
+
