@@ -68,8 +68,9 @@ case "${dist}" in
         done
         ;;
     centos)
-        version="4.12.0"
-        release="estuary.4"
+        sed -i s/5.[0-9]/5.1/g /etc/yum.repos.d/estuary.repo
+        version="4.16.0"
+        release="estuary.6"
         from_repo="Estuary"
         package_list="kernel-devel kernel-headers kernel-tools-libs kernel-tools-libs-devel perf python-perf  kernel-debug kernel-debug-debuginfo"
         for p in ${package_list};do
