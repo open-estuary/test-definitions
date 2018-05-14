@@ -53,7 +53,7 @@ install() {
     esac
 }
 version="3.1"
-from_repo="epel"
+from_repo="base"
 package="fio"
 
 for P in ${package};do
