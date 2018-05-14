@@ -68,7 +68,7 @@ case "${dist}" in
         done
         ;;
     centos)
-        sed -i s/5.*/5.1/g /etc/yum.repos.d/estuary.repo
+        sed -i s/5.[0-9]/5.1/g /etc/yum.repos.d/estuary.repo
         version="4.16.0"
         release="estuary.6"
         from_repo="Estuary"
