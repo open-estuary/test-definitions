@@ -72,8 +72,8 @@ nicstat -u 1 5
 print_info $? udp
 
 # track interface 
-nicstat -i eth0
-print_info $? eth0
+nicstat -i enahisic2i0 
+print_info $? enahisic2i0 
 
 #output in Mbits/sec
 nicstat -M

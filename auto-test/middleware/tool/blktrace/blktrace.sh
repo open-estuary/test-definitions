@@ -56,6 +56,17 @@ print_info $? display
 blktrace -d /dev/sda -w 10 -o trace | blkparse -i -
 print_info $? output
 
+#data analysis of sda
+blkparse -i trace
+print_info $? data_analysis
+
+# save to default file
+blktrace -d /dev/sda -w 5
+print_info $? default_file
+
 # Remove the blktrace package
 yum remove -y "$P"
 print_info $? remove
+
+rm -rf trace.blktrace.*
+rm -rf sdb.blktrace.*
