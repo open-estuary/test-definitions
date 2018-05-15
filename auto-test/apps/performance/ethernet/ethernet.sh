@@ -25,7 +25,7 @@ case $distro in
 esac
 
 # Default ethernet interface
-INTERFACE="eth0"
+INTERFACE="enahisic2i0"
 # Print all network interface status
 ip addr
 # Print given network interface status
@@ -41,7 +41,7 @@ else
 fi
 # Get default Route IP address of a given interface
 ROUTE_ADDR=$(ip route list  | grep default | awk '{print $3}' | head -1)
-print_info $? eht0-ip
+print_info $? enahisic2i0-ip
 # Run the test
 ping -c 5 ${ROUTE_ADDR} 2>&1 | tee ether.log
 print_info $? ping-route
