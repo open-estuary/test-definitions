@@ -66,12 +66,18 @@ esac
 # 临时执行
 case $distro in 
     "centos")
-        sed -i "s/5.1/5.0/g"  /etc/yum.repos.d/estuary.repo 
-        yum clean all 
+        grep 5.0 /etc/yum.repos.d/estuary.repo 
+        if [ $? ]; then
+	     sed -i "s/5.1/5.0/g"  /etc/yum.repos.d/estuary.repo 
+             yum clean all 
+        fi
         ;;
     "ubuntu" | "debian" )
-        sed -i "s/5.1/5.0/g" /etc/apt/sources.list.d/estuary.list 
-        apt-get update 
+        grep 5.0 /etc/apt/sources.list.d/estuary.list 
+        if [ $? ]; then
+             sed -i "s/5.1/5.0/g" /etc/apt/sources.list.d/estuary.list 
+             apt-get update 
+        fi
         ;;
     *)
         ;;
