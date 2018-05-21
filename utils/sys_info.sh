@@ -67,14 +67,14 @@ esac
 case $distro in 
     "centos")
         grep 5.0 /etc/yum.repos.d/estuary.repo 
-        if [ $? ]; then
+        if [ $? -ne 0 ]; then
 	     sed -i "s/5.1/5.0/g"  /etc/yum.repos.d/estuary.repo 
              yum clean all 
         fi
         ;;
     "ubuntu" | "debian" )
         grep 5.0 /etc/apt/sources.list.d/estuary.list 
-        if [ $? ]; then
+        if [ $? -ne 0 ]; then
              sed -i "s/5.1/5.0/g" /etc/apt/sources.list.d/estuary.list 
              apt-get update 
         fi
