@@ -4,4 +4,4 @@
 zk_version: 3.4.11 
 zk_home: /var/bigdata/zookeeper 
 zk_cfg: zoo.cfg 
-zookeeper_package: http://htsat.vicp.cc:804/test-definitions/zookeeper-{{ zk_version }}.tar.gz 
+zookeeper_package: http://192.168.50.122:8083/test_dependents/zookeeper-{{ zk_version }}.tar.gz 

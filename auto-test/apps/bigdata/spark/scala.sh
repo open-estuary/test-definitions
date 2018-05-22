@@ -25,7 +25,7 @@ function scala_install(){
         fi 
     
         if [ ! -f scala-2.12.4.tgz ];then
-            wget -c -q  http://htsat.vicp.cc:804/test-definitions/scala-2.12.4.tgz 
+            wget -c -q  http://192.168.50.122:8083/test_dependents/scala-2.12.4.tgz 
             ret=$?
             if [ $ret -ne 0 ];then 
                 wget -c -q  https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz 
