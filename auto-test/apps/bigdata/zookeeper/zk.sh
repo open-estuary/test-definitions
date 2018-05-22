@@ -12,7 +12,7 @@
 function zk_install_standalone(){
     
     yum install -y ansible
-    yum insatll -y python2-pip 
+    yum install -y python2-pip 
     yum install -y nmap-ncat
     yum install -y gcc 
 
