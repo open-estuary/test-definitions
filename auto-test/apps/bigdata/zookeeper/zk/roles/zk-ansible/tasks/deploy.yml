@@ -29,6 +29,7 @@
     src: ~/zookeeper.tar.gz 
     dest: '{{ zk_home }}'
     creates: '{{ zk_home }}/zookeeper-{{ zk_version }}/conf/zoo.cfg'
+    copy: no
   register: zk 
   tags: install
 

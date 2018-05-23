@@ -21,7 +21,7 @@ case $distro in
         print_info $? install-pkg
         ;;
 esac
-wget http://htsat.vicp.cc:804/netperf-2.7.0.tar.gz
+wget http://120.31.149.194:18083/test_dependents/netperf-2.7.0.tar.gz
 
 tar -zxvf netperf-2.7.0.tar.gz
 print_info $? tar-compressedpackage
@@ -31,7 +31,7 @@ rm -f netperf-2.7.0.tar.gz
 tar -cvzf netperf-2.7.0.tar.gz netperf-2.7.0
 print_info $? tar-packaging
 
-wget http://htsat.vicp.cc:804/cryptopp-CRYPTOPP_5_6_5.zip
+wget http://120.31.149.194:18083/test_dependents/cryptopp-CRYPTOPP_5_6_5.zip
 mv cryptopp-CRYPTOPP_5_6_5.zip cryp.zip
 unzip cryp.zip
 print_info $? unzip-compressedpackage

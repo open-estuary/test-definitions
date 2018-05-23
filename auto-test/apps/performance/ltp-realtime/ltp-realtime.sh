@@ -44,7 +44,7 @@ install_ltp() {
     cd /opt/ltp
     # shellcheck disable=SC2140
    # wget https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
-    wget http://htsat.vicp.cc:804/ltp-full-20170516.tar.xz
+    wget http://120.31.149.194:18083/test_dependents/ltp-full-20170516.tar.xz
     print_info $? wget-ltp
     tar --strip-components=1 -Jxf ltp-full-"${LTP_VERSION}".tar.xz
     ./configure --with-realtime-testsuite

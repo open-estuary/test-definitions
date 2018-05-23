@@ -20,7 +20,7 @@ case $distro in
         pkgs="gcc gcc-c++ wget"
         install_deps "${pkgs}"
         print_info $? install-package
-        wget http://htsat.vicp.cc:804/boost_1_63_0.tar.gz
+        wget http://120.31.149.194:18083/test_dependents/boost_1_63_0.tar.gz
         print_info $? get-boost
         tar -zxf boost_1_63_0.tar.gz
         print_info $? tar-boost

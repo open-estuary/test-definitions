@@ -8,34 +8,29 @@
 #
 #================================================================*/
 
-
-
 function spark_download(){
-	yum update -y    
+    
     yum install -y wget ansible 
     yum install -y java-1.8.0-openjdk-devel  java-1.8.0-openjdk 
     
+    if [ ! -d ~/bigdata/spark ];then
+        mkdir -p ~/bigdata/spark
+    fi 
 
     if [ -z $SPARKVERSION ];then
         SPARKVERSION="2.2.0"
     fi
-
- 	spark=/var/bigdata/spark
-	rm -rf $spark
-	mkdir -p $spark
-    
-    pushd $spark
+    pushd . 
+    cd ~/bigdata/spark
         if [ ! -f spark-${SPARKVERSION}-bin-hadoop2.7.tgz ];then
-	          wget -c -q  http://htsat.vicp.cc:804/test-definitions/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
+            wget -c -q  http://htsat.vicp.cc:804/test-definitions/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
             ret=$?
             if [ $ret -ne 0 ];then 
                 wget -c -q  http://mirror.bit.edu.cn/apache/spark/spark-${SPARKVERSION}/spark-${SPARKVERSION}-bin-hadoop2.7.tgz
                 ret=$?
             fi 
         fi 
-		mkdir spark
-        tar -zxf spark-$SPARKVERSION-bin-hadoop2.7.tgz -C spark
-		export SPARK_HOME=$spark/spark/spark-$SPARKVERSION-bin-hadoop2.7
+#        tar -zxf spark-$SPARKVERSION-bin-hadoop2.7.tgz
 
         if [ ! -f scala-2.12.4.tgz  ];then
             wget -c -q http://htsat.vicp.cc:804/test-definitions/scala-2.12.4.tgz
@@ -58,11 +53,6 @@ function spark_download(){
             echo "download_scala_package_fail,please check network or url"
             echo 
         fi 
-		mkdir scala
-		tar -zxf scala-2.12.4.tgz -C scala
-		export SCALA_HOME=$spark/scala/scala-2.12.4/
-		export PATH=$PATH:$SPARK_HOME/bin/:$SPARK_HOME/sbin:$SCALA_HOME/bin
-		echo $PATH
     popd 
 }
 
@@ -146,8 +136,7 @@ echo `pwd`
 
 function spark_start_cluster(){
 
-#    ansible-playbook -i ./spark/hosts ./spark/site.yml -t start_cluster
-	$SPARK_HOME/sbin/start-all.sh
+    ansible-playbook -i ./spark/hosts ./spark/site.yml -t start_cluster
 
 #    jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
     jps_cnt=`jps | grep -Ec "Worker|Master"`
@@ -163,12 +152,9 @@ function spark_start_cluster(){
 
 function spark_stop_cluster(){
     
-#    ansible-playbook -i ./spark/hosts ./spark/site.yml -t stop_cluster 
-	$SPARK_HOME/sbin/stop-all.sh
-    sleep 3
-    #jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
-	jps_cnt=`jps | grep -Ec "Worker|Master"`
-   	if [ $jps_cnt -eq 0 ];then
+    ansible-playbook -i ./spark/hosts ./spark/site.yml -t stop_cluster 
+    jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
+    if [ $jps_cnt -eq 0 ];then
         true
     else
         false
@@ -285,4 +271,3 @@ function spark_sql_test(){
 
 
 }
-
