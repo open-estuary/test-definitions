@@ -15,7 +15,7 @@ function hive_install_innter(){
 			rm -rf apache-hive-2.1.1-bin
 		fi
 	else
-        wget -q -c http://htsat.vicp.cc:804/test-definitions/apache-hive-2.1.1-bin.tar.gz
+        wget -q -c http://192.168.50.122:8083/test_dependents/apache-hive-2.1.1-bin.tar.gz
         ret=$?
         if [ $ret -ne 0 ];then
             wget -c -q  http://mirrors.shuosc.org/apache/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz

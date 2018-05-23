@@ -1,6 +1,6 @@
 
 
-#!/bin/sh -e
+#!/bin/sh 
 set -x
 cd ../../../../utils
     .        ./sys_info.sh
@@ -70,6 +70,22 @@ print_info $? tcp
 # Statistic ethernet udp flux
 nicstat -u 1 5
 print_info $? udp
+
+# track interface 
+nicstat -i enahisic2i0 
+print_info $? enahisic2i0 
+
+#output in Mbits/sec
+nicstat -M
+print_info $? Mbits/sec
+
+#list interface(s)
+nicstat -l
+print_info $? list_interface
+
+#summary output
+nicstat -s
+print_info $? summary
 
 # Remove package
 yum remove -y $P

@@ -68,8 +68,9 @@ case "${dist}" in
         done
         ;;
     centos)
-        version="4.12.0"
-        release="estuary.4"
+        sed -i s/5.[0-9]/5.1/g /etc/yum.repos.d/estuary.repo
+        version="4.16.0"
+        release="estuary.6"
         from_repo="Estuary"
         package_list="kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
@@ -112,26 +113,26 @@ case "${dist}" in
                      print_info 1 release
                 fi
                 #对于自带的包不去做卸载处理
-                # if test $rmflag -eq 0
-                # then
-                  #  yum remove -y $p
-                   # status=$?
-                    # if test $status -eq 0
-                    # then
-                       # print_info 0 remove
-                    # else
-                      #  print_info 1 remove
-                    # fi
-                # else
-                  #  echo "$p don't remove" | tee -a ${RESULT_FILE}
-                # fi
-            # else
-              #  echo "$p install [FAIL]"  | tee -a ${RESULT_FILE}
-             fi
-         done
+                if test $rmflag -eq 0
+                then
+                    yum remove -y $p
+                    status=$?
+                    if test $status -eq 0
+                    then
+                        print_info 0 remove
+                    else
+                        print_info 1 remove
+                    fi
+                else
+                    echo "$p don't remove" | tee -a ${RESULT_FILE}
+                fi
+            else
+                echo "$p install [FAIL]"  | tee -a ${RESULT_FILE}
+            fi
+        done
         ;;
     ubuntu)
-        package_list="linux-estuary linux-headers-estuary linux-image-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-4.12.0-502 linux-headers-4.12.0-502-generic linux-image-4.12.0-502-generic linux-image-extra-4.12.0-502-generic linux-libc-dev linux-source-4.12.0 linux-tools-4.12.0-502 linux-tools-4.12.0-502-generic linux-tools-common"
+        package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-4.12.0-502 linux-headers-4.12.0-502-generic linux-image-4.12.0-502-generic linux-image-extra-4.12.0-502-generic linux-libc-dev linux-source-4.12.0 linux-tools-4.12.0-502 linux-tools-4.12.0-502-generic linux-tools-common"
         for p in ${package_list};do
             echo "$p install"
             apt-get install -y $p
@@ -155,9 +156,9 @@ case "${dist}" in
 
                 vs=$(apt show $p | grep "Version" | awk '{print $2}')
                 if [ "$vs" = "$version1" -o "$vs" = "$version2" ];then
-                    print_info 0 install
+                    print_info 0 version_check 
                 else
-                    print_info 1 install
+                    print_info 1 version_check 
                 fi
             fi
             echo "$p remove"

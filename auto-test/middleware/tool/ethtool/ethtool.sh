@@ -1,5 +1,5 @@
 
-#!/bin/sh -e
+#!/bin/sh 
 set -x
 cd ../../../../utils
     .        ./sys_info.sh
@@ -56,43 +56,43 @@ fi
 done
 
 # Check ethernet drive
-ethtool -i eth0
+ethtool -i enahisic2i0 
 print_info $? check-drive
 
 # Check ethernet base configuration
-ethtool eth0
+ethtool enahisic2i0  
 print_info $? check-configuration
 
 # Resetting ethernet auto-negotiation
-ethtool -r eth0
+ethtool -r enahisic2i0 
 print_info $? reset-autoneg
 
 # Check ethernet statistic
-ethtool -S eth0
+ethtool -S enahisic2i0
 print_info $? check-statistics
 
 # Set ethernet speed
-ethtool -s eth0 speed 10
+ethtool -s enahisic2i0 speed 10
 print_info $? speed-10
 
-ethtool -s eth0 speed 100
+ethtool -s enahisic2i0 speed 100
 print_info $? speed-100
 
-ethtool -s eth0 speed 1000
+ethtool -s enahisic2i0 speed 1000
 print_info $? speed-1000
 
 # Set ethernet duplex
-ethtool -s eth0 speed 10 duplex half
+ethtool -s enahisic2i0 speed 10 duplex half
 print_info $? duplex-half
 
-ethtool -s eth0 speed 10 duplex full
+ethtool -s enahisic2i0 speed 10 duplex full
 print_info $? duplex-full
 
-ethtool -s eth0 speed 1000 duplex full
+ethtool -s enahisic2i0 speed 1000 duplex full
 print_info $? duplex-full-1000
 
 # Set ethernet autoneg
-ethtool -s eth0 autoneg on
+ethtool -s enahisic2i0 autoneg on
 print_info $? autoneg
 
 # Remove package

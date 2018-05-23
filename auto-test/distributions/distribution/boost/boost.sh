@@ -1,6 +1,7 @@
 #!/bin/sh
 #Boots is a standard library for c++,portable,and available source code
-#Author mahongxin <hongxin_228@163.com>
+#Author mahong <hongxin_228@163.com>
+#----------------test
 set -x
 cd ../../../../utils
 . ./sys_info.sh
