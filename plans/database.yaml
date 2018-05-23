@@ -1,0 +1,85 @@
+metadata:
+  # name key is needed by test-runner
+  name: linux-test-plan-example
+  description: Linux test plan example
+  os: debian
+  devices:
+    - d03
+    - d05
+  maintainer:
+    - tan_liqing@hoperun.com
+  approver:
+    - tan_liqing@hoperun.com
+  owner:
+    - tan_liqing@hoperun.com
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: auto-test/apps/middleware/database/alisql/alisql.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/cassandra/cassandra.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/cockroach/cockroachInsecure.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/cockroach/cockroachSecure.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/leveldb/leveldb.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/memcached/memcached.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mongo/mongodb.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mongo/mongocdriver.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mongo/mongodb-tools.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mycat/mycat.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mysql-community/mysql-community.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mysql-connector-c++/mysql-connector-c++.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mysql-connector-python/mysql-connector-python.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mysql-utilities/mysql-utilities.yaml 
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/mysql57-community/mysql57-community.yaml 
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/nginx-apache/nginx-apache.yaml 
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/nginx/nginx.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/percona/percona56.yaml 
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/percona/percona57.yaml 
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/postgresql/postgresql.yaml 
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/redis/redis.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/middleware/database/twemproxy/twemproxy.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900

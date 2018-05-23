@@ -1,0 +1,28 @@
+
+metadata:
+    name: percona-56-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "percona-56-testing"
+    maintainer:
+        - tanliqing2010@163.com
+    scope:
+        - database
+        - percona 
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+    level: 1
+
+
+run:
+    steps:
+        - "cd auto-test/middleware/database/percona; ./percona56-test.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+

@@ -1,0 +1,37 @@
+metadata:
+  # name key is needed by test-runner
+  name: linux-test-plan-example
+  description: Linux test plan example
+  os: centos
+  devices:
+    - d03
+    - d05
+  maintainer:
+    - tan_liqing@hoperun.com
+  approver:
+    - tan_liqing@hoperun.com
+  owner:
+    - tan_liqing@hoperun.com
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: auto-test/apps/bigdata/hadoop/hadoop.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/bigdata/hadoop/hive.yaml 
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/bigdata/spark/spark.yaml 
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/bigdata/zookeeper/zk.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/bigdata/tensorflow/tensorflow.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/apps/bigdata/lapack/lapack.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900

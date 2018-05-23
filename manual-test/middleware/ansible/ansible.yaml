@@ -1,0 +1,26 @@
+
+metadata:
+    name: ansible-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ansible-testing"
+    maintainer:
+        - tanliqing2010@163.com
+    scope:
+        - bigdata
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+
+
+run:
+    steps:
+        - "cd manual-test/ansible; ./ansible-test.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+

@@ -1,0 +1,42 @@
+metadata:
+  # name key is needed by test-runner
+  name: language
+  description: Some programing languages
+  os:
+    - centos
+    - ubuntu
+  devices:
+    - d03
+    - d05
+  maintainer:
+    - liu_caili@hoperun.com
+  approver:
+    - liu_caili@hoperun.com
+  owner:
+    - liu_caili@hoperun.com
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: auto-test/middleware/language/python/python.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/middleware/language/golang/golang.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/middleware/language/go-bindata/go-bindata.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/middleware/language/openjdk/openjdk-smoke.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/middleware/language/nodejs/nodejs.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/middleware/language/findbugs/findbugs.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/middleware/language/jmeter/jmeter.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900

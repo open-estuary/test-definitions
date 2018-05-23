@@ -1,0 +1,70 @@
+metadata:
+  # name key is needed by test-runner
+  name: linux-test-plan-example
+  description: Linux test plan example
+  os:
+    - ubuntu
+    - centos
+    - debian
+  devices:
+    - d03
+    - d05
+  maintainer:
+    - ma_hongxin@hoperun.com
+  approver:
+    - ma_hongxin@hoperun.com
+  owner:
+    - ma_hongxin@hoperun.com
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: test-definitions/auto-test/openssh/openssh.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/samba/samba.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definition/auto-test/ftp/ftp.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/dns/dns.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/dhcp/dhcp.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/busybox/busybox.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/network-basic/network-basic.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/workload-automation/workload-automation.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/disk-partitioning/disk-partitioning.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/boost/boost.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/crypto/crypto.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/pcre/pcre.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/libbson/libbson.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/gtest/gtest.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/yaml-cpp/yaml-cpp.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: test-definitions/auto-test/snappy/snappy.yaml
+      repository:  https://github.com/open-estuary/test-definitions.git
+      timeout: 900

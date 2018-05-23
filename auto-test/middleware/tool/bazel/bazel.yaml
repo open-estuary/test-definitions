@@ -1,0 +1,28 @@
+
+metadata:
+    name: bazel
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Build software of any size, quickly and reliably, 
+                  just as engineers do at Google."
+    maintainer:
+        - wang_sisi@hoperun.com
+        - yuanz_2010@163.com
+    scope:
+        - tool
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+    level: 1
+
+run:
+    steps:
+        - "cd auto-test/middleware/tool/bazel; ./bazel.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+

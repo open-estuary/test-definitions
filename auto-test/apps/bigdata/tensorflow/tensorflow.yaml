@@ -1,0 +1,28 @@
+
+metadata:
+    name: tensorflow
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "TensorFlow™ is an open source software library for 
+                    numerical computation using data flow graphs."
+    maintainer:
+        - liu_caili@hoperun.com
+    scope:
+        - bigdata
+        - tensorflow
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+    level: 1
+
+run:
+    steps:
+        - "cd auto-test/apps/bigdata/tensorflow; ./tensorflow.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass
+

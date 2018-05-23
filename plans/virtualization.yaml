@@ -1,0 +1,42 @@
+metadata:
+  # name key is needed by test-runner
+  name: virtualization
+  description: test virtualization app
+  os:
+    - ubuntu
+    - centos
+  devices:
+    - d03
+    - d05
+  maintainer:
+    - liu_caili@hoperun.com
+  approver:
+    - liu_caili@hoperun.com
+  owner:
+    - liu_caili@hoperun.com
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: auto-test/virtualization/hhvm/hhvm.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/virtualization/docker/docker.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/virtualization/lxc/lxc.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/virtualization/qemu/qemu.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/virtualization/pipework/pipework.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/virtualization/etcd/etcd.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900
+    - path: auto-test/virtualization/ovs/ovs.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 900

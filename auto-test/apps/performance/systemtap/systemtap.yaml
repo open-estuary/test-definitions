@@ -1,0 +1,31 @@
+metadata:
+    name: systemtap
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "systemtap是内核调试工具,本用例只简单测试基本使用"
+    maintainer:
+        - shuangchengchen@qq.com
+    os:
+        - centos
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - d03
+        - d05
+    level: 1
+
+params:
+    # Test if lshw able to report the classes pre-defined in ${CLASSES}.
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd auto-test/apps/performance/systemtap/
+        - ./systemtap.sh -s "${SKIP_INSTALL}" 
+        - cd -
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass

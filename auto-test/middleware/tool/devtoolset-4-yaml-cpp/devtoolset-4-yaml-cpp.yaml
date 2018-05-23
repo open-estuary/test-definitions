@@ -1,0 +1,25 @@
+
+metadata:
+    name: devtoolset-4-yaml-cpp
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "devtoolset-4-yaml-cpp"
+    maintainer:
+        - fyuanz_2010@163.com
+    scope:
+        - tool
+    os:
+        - centos
+    devices:
+        - d03
+        - d05
+    level: 1
+
+run:
+    steps:
+        - "cd auto-test/middleware/tool/devtoolset-4-yaml-cpp; ./devtoolset-4-yaml-cpp.sh; cd -"
+
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+   PASS: pass

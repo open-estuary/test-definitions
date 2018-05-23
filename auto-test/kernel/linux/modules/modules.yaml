@@ -1,0 +1,24 @@
+metadata:
+    name: modules
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "测试内核模块的编译、加载、卸载过程是否正常"
+    maintainer:
+        - shuangchengchen@qq.com
+        - fyuanz_2010@163.com
+    os:
+        - centos
+    scope:
+        - linux
+    devices:
+        - d03
+        - d05
+    level: 5
+
+run:
+    steps:
+        - "cd auto-test/kernel/linux/modules; ./modules.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
