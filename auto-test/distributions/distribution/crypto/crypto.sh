@@ -21,7 +21,7 @@ case $distro in
         #yum install unzip -y
         pkgs="gcc gcc-c++ make unzip wget"
         install_deps "${pkgs}"
-        wget http://120.31.149.194:18083/test_dependents/cryptopp-CRYPTOPP_5_6_5.zip
+        wget http://192.168.50.122:8083/test_dependents/cryptopp-CRYPTOPP_5_6_5.zip
         print_info $? get-crypto
         unzip cryptopp-CRYPTOPP_5_6_5.zip
         print_info $? unzip-crypto
