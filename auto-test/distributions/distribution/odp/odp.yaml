@@ -8,7 +8,7 @@ metadata:
         - centos
         - ubuntu
     scope:
-        - distributions
+        - distribution
     devices:
         - d03
         - d05
