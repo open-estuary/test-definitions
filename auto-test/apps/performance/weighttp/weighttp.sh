@@ -19,7 +19,7 @@ fi
 case $distro in
     "centos")
          yum install gcc -y
-         wget http://120.31.149.194:18083/test_dependents/libev-3.7.tar.gz
+         wget http://192.168.50.122:8083/test_dependents/libev-3.7.tar.gz
          print_info $? get-libev
          tar -zxvf libev-3.7.tar.gz
          print_info $? tar-libev
@@ -27,7 +27,7 @@ case $distro in
          ./configure --build=arm-linux
          make
          make install
-         wget http://120.31.149.194:18083/test_dependents/weighttp-master.tar.gz
+         wget http://192.168.50.122:8083/test_dependents/weighttp-master.tar.gz
          print_info $? wget-weighttp
          tar -zxvf weighttp-master.tar.gz
          print_info $? tar-weighttp
