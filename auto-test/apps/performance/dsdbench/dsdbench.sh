@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh 
 
 # This test script run docker storage driver benchmarks and tests.
 # Test suite source https://github.com/dmcgowan/dsdbench

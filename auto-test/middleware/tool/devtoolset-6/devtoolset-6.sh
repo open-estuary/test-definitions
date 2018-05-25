@@ -1,5 +1,5 @@
 
-#!/bin/sh -e
+#!/bin/sh 
 set -x
 cd ../../../../utils
     .        ./sys_info.sh

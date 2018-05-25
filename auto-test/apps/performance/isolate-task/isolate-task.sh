@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh 
 
 usage() {
     echo "Usage: $0 <-c cpus> <-s [true|false]>" 1>&2

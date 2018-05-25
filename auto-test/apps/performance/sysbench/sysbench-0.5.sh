@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh 
 
 # SysBench is a modular, cross-platform and multi-threaded benchmark tool.
 # Current features allow to test the following system parameters:

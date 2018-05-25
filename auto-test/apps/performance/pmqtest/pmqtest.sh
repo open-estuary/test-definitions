@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh 
 # shellcheck disable=SC1090
 # shellcheck disable=SC2154
 # pmqtest start pairs of threads and measure the latency of interprocess
