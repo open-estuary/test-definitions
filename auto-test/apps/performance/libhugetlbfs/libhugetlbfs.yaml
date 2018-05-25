@@ -14,7 +14,7 @@ metadata:
     os:
         - centos
     scope:
-        - test
+        - performance
     devices:
         - d05
         - d03
