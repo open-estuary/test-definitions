@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh 
 
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sh-test-lib

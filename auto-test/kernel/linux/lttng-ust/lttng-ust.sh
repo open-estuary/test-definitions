@@ -1,5 +1,5 @@
 
-#!/bin/sh -e
+#!/bin/sh 
 cd ../../../../utils
     .        ./sys_info.sh
     .        ./sh-test-lib

@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh 
 
 # The purpose of UnixBench is to provide a basic indicator of the
 # performance of a Unix-like system

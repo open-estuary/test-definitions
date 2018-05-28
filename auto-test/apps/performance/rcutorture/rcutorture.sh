@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh 
 . ../../../../utils/sys_info.sh
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
