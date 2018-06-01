@@ -78,7 +78,8 @@ pkill iperf3 || true
 print_info $? kill-iperf
 case $distro in
     "ubuntu")
-        apt-get remove iperf* -y
+	#delete 20180601
+        #apt-get remove iperf* -y
         print_info $? remove-package
         ;;
     "centos")
