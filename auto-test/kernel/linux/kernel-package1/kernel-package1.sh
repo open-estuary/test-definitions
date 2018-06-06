@@ -132,15 +132,17 @@ case "${dist}" in
         done
         ;;
     ubuntu)
-        package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-4.12.0-502 linux-headers-4.12.0-502-generic linux-image-4.12.0-502-generic linux-image-extra-4.12.0-502-generic linux-libc-dev linux-source-4.12.0 linux-tools-4.12.0-502 linux-tools-4.12.0-502-generic linux-tools-common"
+        v='4.16.0-504'
+        v1='4.16.0'
+        package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-${v} linux-headers-${v}-generic linux-image-${v}-generic linux-image-extra-${v}-generic linux-libc-dev linux-source-${v1} linux-tools-${v} linux-tools-${v}-generic linux-tools-common"
         for p in ${package_list};do
             echo "$p install"
             apt-get install -y $p
             status=$?
             from_repo1='linux-meta-estuary'
             from_repo2='linux'
-            version1='4.12.0.502.2'
-            version2='4.12.0-502.estuary'
+            version1='4.16.0-504'
+            version2='4.16.0-504.estuary'
             rmflag=0
             if test $status -eq 0
             then
