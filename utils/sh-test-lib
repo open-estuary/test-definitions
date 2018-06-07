@@ -290,7 +290,7 @@ install_deps() {
         fi
     fi
 
-    if [ $? -ge 5]; then
+    if [ $? -ge 5 ]; then
 	    return 1
     fi
 }
