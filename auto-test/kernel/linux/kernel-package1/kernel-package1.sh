@@ -141,7 +141,7 @@ case "${dist}" in
             status=$?
             from_repo1='linux-meta-estuary'
             from_repo2='linux'
-            version1='4.16.0-504'
+            version1='4.16.0.504.2'
             version2='4.16.0-504.estuary'
             rmflag=0
             if test $status -eq 0
