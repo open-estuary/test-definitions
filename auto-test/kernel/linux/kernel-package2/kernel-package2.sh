@@ -132,6 +132,7 @@ case "${dist}" in
         done
         ;;
     ubuntu)
+        sed -i s/5.[0-9]/5.1/g /etc/apt/sources.list.d/estuary.list
         v='4.16.0-504'
         v1='4.16.0'
         package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-${v} linux-headers-${v}-generic linux-image-${v}-generic linux-image-extra-${v}-generic linux-libc-dev linux-source-${v1} linux-tools-${v} linux-tools-${v}-generic linux-tools-common"
