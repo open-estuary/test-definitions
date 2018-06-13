@@ -3,24 +3,18 @@
 . ../../../utils/sys_info.sh
 inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'`
 TCID1="off-autoneg"
-TCID2="10-half"
-TCID3="10-full"
-TCID4="100-half"
-TCID5="100-full"
-TCID6="1000-full"
-TCID7="1000-half"
 echo $inet
 #关闭自协商
-#ethtool -A $inet autoneg off
-#ret=`ethtool -a $inet |grep "Autonegotiate"|awk '{print $2}'`
-#echo $ret
-#if [ "$ret" == "off" ];then
- #   echo pass
-  #  lava-test-case $TCID1 --result pass
-#else
- #   echo fail
-  #  lava-test-case $TCID1 --result fail
-#fi
+ethtool -A $inet autoneg off
+ret=`ethtool -a $inet |grep "Autonegotiate"|awk '{print $2}'`
+echo $ret
+if [ "$ret" == "off" ];then
+    echo pass
+    lava-test-case $TCID1 --result pass
+else
+    echo fail
+    lava-test-case $TCID1 --result fail
+fi
 #echo 22222
 #设置网口为10M 半双工
 num="10 100"
@@ -30,7 +24,6 @@ do
   echo $inet
   ethtool -s $inet speed $i duplex half
   sleep 5
-  #ret4=`ethtool enahisic2i0 |grep "Speed"|sed 's/^[ \t]*//g'`
   ret2=`ethtool $inet |grep "Speed"|sed 's/^[ \t]*//g'`
   ret3=`ethtool $inet |grep "Duplex"|sed 's/^[ \t]*//g'`
   str="Speed: "${i}"Mb/s"
