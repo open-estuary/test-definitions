@@ -1,6 +1,6 @@
 #!/bin/bash
-. ../../../utils/sh-test-lib
-. ../../../utils/sys_info.sh
+. ../../../../utils/sh-test-lib
+. ../../../../utils/sys_info.sh
 inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'`
 TCID1="off-autoneg"
 echo $inet
@@ -10,10 +10,10 @@ ret=`ethtool -a $inet |grep "Autonegotiate"|awk '{print $2}'`
 echo $ret
 if [ "$ret" == "off" ];then
     echo pass
-    lava-test-case $TCID1 --result pass
+    print_info 0 off-autoneg
 else
+    print_info 1 off-autoneg
     echo fail
-    lava-test-case $TCID1 --result fail
 fi
 #echo 22222
 #设置网口为10M 半双工
@@ -32,10 +32,10 @@ do
   echo $str
   if [ "$ret2" == "$str" -a "$ret3" == "Duplex: Half" ];then
        echo pass
-       lava-test-case ${i}half --result pass
+       print_info 0 ${i}half
   else
        echo fail
-       lava-test-case ${i}half --result fail
+       print_info 1 ${i}half
   fi
 done
 #设置网口为10M,100M,1000M 全双工
@@ -49,21 +49,19 @@ for i in $number
    str="Speed: "${i}"Mb/s"
    if [ "$ret2" == "$str" -a "$ret3" == "Duplex: Full" ];then
         echo pass
-        lava-test-case ${i}full --result pass
+        print_info 0 ${i}full
    else
+        print_info 1 ${i}full
         echo fail
-        lava-test-case ${i}full --result fail
    fi
 done
 #设置为1000Mb/s 不支持此模式
 ret2=`ethtool -s $inet speed 1000 duplex half`
 sleep 5
 if [ "$ret2" == "" ];then
-    echo pass
-    lava-test-case $TCID4 --result pass
+    print_info 0 1000half
 else
-    echo fail
-    lava-test-case $TCID4 --result fail
+    print_info 1 1000half
 fi
 
 
