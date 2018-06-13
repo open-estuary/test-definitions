@@ -1,5 +1,5 @@
 metadata:
-    name: "hns"
+    name: "hns-4.1"
     format: "boost-Test-Shell Test Definition 1.0"
     description: "boost is a c++ lib"
     maintainer:
