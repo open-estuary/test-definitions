@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #gtest is Google's Unit test tool
 # Author: mahongxin <hongxin_228@163.com>
 set -x

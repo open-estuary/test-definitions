@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (C) 2017-8-29, Linaro Limited.
 #qperf is a tool for testing bandwidth and latency
 # Author: mahongxin <hongxin_228@163.com>

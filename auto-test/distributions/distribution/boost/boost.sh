@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #Boots is a standard library for c++,portable,and available source code
 #Author mahong <hongxin_228@163.com>
 #----------------test
