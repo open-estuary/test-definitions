@@ -165,14 +165,16 @@ case "${dist}" in
                     print_info 1 version_check 
                 fi
             fi
-            echo "$p remove"
-            apt-get remove -y $p
-            status=$?
-            if test $status -eq 0
-            then
-                print_info 0 remove
-            else
-                print_info 1 remove
+            if [ "$p" != "linux-image-${v}-generic" ];then  
+                echo "$p remove"
+                apt-get remove -y $p
+                status=$?
+                if test $status -eq 0
+                then
+                    print_info 0 remove
+                else
+                    print_info 1 remove
+                fi
             fi
         done
         ;;
