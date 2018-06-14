@@ -27,6 +27,7 @@ pointer_tagging_build_test() {
 
     git clone https://git.linaro.org/qa/pointer-tagging-tests.git
     # shellcheck disable=SC2164
+    sleep 20
     cd pointer-tagging-tests
     make all
     # Run tests
@@ -52,9 +53,9 @@ install_deps "${pkgs}" "${SKIP_INSTALL}"
 pointer_tagging_build_test
 
 remove_deps "${pkgs}" 
- if test $? -eq 0;then
+if test $? -eq 0;then
       print_info 0 remove
- else
+else
       print_info 1 remove
- fi ;;
+fi 
 
