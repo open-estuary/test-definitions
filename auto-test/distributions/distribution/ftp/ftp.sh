@@ -48,7 +48,7 @@ case $distro in
     "ubuntu")
         #apt-get install vsftpd -y
         #apt-get install expect -y
-        pkgs="vsftpd expect"
+        pkgs="vsftpd expect ftp"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
