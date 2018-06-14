@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Busybox smoke tests.
 
 # shellcheck disable=SC1091
