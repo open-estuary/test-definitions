@@ -37,7 +37,7 @@ case $distro in
      commond="./busybox"
      ;;
     "ubuntu")
-     commond="busybox"
+     commond="./busybox"
      ;;
 esac
 
