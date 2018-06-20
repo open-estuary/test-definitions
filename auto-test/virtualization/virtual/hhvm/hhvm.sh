@@ -62,7 +62,8 @@ pushd $INSTALLDIR/packages/$PKG_NAME-$PKG_VER
 
 if [ ! -e ./${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz ];then
     echo "[$PKG_NAME] the tarball is not exist"
-	wget http://htsat.vicp.cc:804/hhvm/${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz
+	#wget http://htsat.vicp.cc:804/hhvm/${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz
+	wget http://192.168.50.122:8083/test_dependents/${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz
 fi
 print_info $? download-hhvm-tarball
 
