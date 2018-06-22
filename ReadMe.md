@@ -2,6 +2,7 @@
 
 ## 目录规划
 
+
 测试工程的目录结构，大致按照linaro的结构层次，需要在auto-test和manual-test下面根据各case的属性再添加一级或者二级目录。
 ```
 test-definitions
