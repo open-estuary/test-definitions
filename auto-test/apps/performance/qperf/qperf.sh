@@ -25,12 +25,13 @@ case $distro in
     "ubuntu")
          apt-get install gcc -y
          apt-get install make -y
-         wget -c http://www.openfabrics.org/downloads/qperf/qperf-0.4.9.tar.gz
-         tar xf qperf-0.4.9.tar.gz
-         cd qperf-0.4.9
-         ./configure
-         make
-         make install
+         apt-get install qperf -y
+         #wget -c http://www.openfabrics.org/downloads/qperf/qperf-0.4.9.tar.gz
+         #tar xf qperf-0.4.9.tar.gz
+         #cd qperf-0.4.9
+         #./configure
+         #make
+         #make install
          print_info $? install-qperf
          ;;
 esac
