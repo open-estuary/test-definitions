@@ -16,7 +16,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/peripheral/hns/hns-10.1; ./hns-10.1.sh; cd -"
+        - "cd auto-test/peripheral/hns/hns-10.1; ./hns.10.1.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
