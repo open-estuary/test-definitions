@@ -3,7 +3,7 @@
 . ../../../utils/sys_info.sh
 
 #GE网口详细统计数据获取容错测试
-inet=`ip link|grep 'e.*3'|awk '{print $2}'|sed 's/://g'`
+inet=`ip link|egrep "enahisic2i3|eth3"|awk '{print $2}'|sed 's/://g'`
 echo $inet
 res1=`ethtool -S $inet|grep "NIC statistics:"`
 if [ "$res1"x == "NIC statistics:"x ];then
