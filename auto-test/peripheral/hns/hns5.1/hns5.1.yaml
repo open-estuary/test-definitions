@@ -1,6 +1,6 @@
 
 metadata:
-    name: hns
+    name: hns5_1
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Check the fault tolerance test of the number of BDs on the network interface"
     maintainer:
