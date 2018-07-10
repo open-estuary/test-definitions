@@ -46,7 +46,8 @@ function ccdriver_server_isRunning(){
 
 function ccdriver_install(){
     
-    yum install cassandra-cpp-driver -y 
+    yum install cassandra-cpp-driver -y
+    yum install gcc -y
     print_info $? "install_cassandra_cpp_driver "
 
     yum install cassandra-cpp-driver-devel -y 
