@@ -22,9 +22,9 @@ ETG=`ethtool -g $inet`
 echo $ETG
 
 if [ '$ETG|grep "No such device"' != "" ]; then
-	lava-test-case "fault tolerance test" --result pass
+	lava-test-case "fault_tolerance_test" --result pass
 else
-	lava-test-case "fault tolerance test" --result fail
+	lava-test-case "fault_tolerance_test" --result fail
 fi
 
 
