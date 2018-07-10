@@ -1,6 +1,12 @@
 #!/bin/bash
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
+case $distro in
+    "ubuntu")
+        apt-get install ethtool -y
+        print_info 0 install-package
+        ;;
+esac
 inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'`
 echo $inet
 ret1=`ethtool $inet|grep "Link detected: yes"|sed 's/^[ \t]*//g'`
