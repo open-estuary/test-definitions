@@ -63,7 +63,29 @@ case $distro in
         ;;
 esac
 
-# 临时执行
+
+# add estuaryftp.repo & replace official repo to HongKong repo
+# 20180711 modify by liucaili
+if [ $distro == "centos" ];then
+	cleantag=0
+	grep 'mirror.xtom.com.hk\/centos' -nR /etc/yum.repos.d/CentOS-Base.repo
+	if [ $? ];then
+		sudo sed -i "s#mirror.centos.org/altarch#mirror.xtom.com.hk/centos-altarch#g" /etc/yum.repos.d/CentOS-Base.repo
+		cleantag=1
+	fi
+	if [ ! -f "/etc/yum.repos.d/estuary.repo" ];then
+		echo "add estuary.repo"
+		sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
+		sudo chmod +r /etc/yum.repos.d/estuary.repo
+		sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
+		cleantag=1
+	fi
+	if [ $cleantag == 1 ];then
+		sudo yum clean dbcache
+	fi
+fi
+
+# replace 5.1 to 5.0 repo
 case $distro in 
     "centos")
         grep 5.0 /etc/yum.repos.d/estuary.repo 
