@@ -6,6 +6,9 @@ case $distro in
         apt-get install ethtool -y
         print_info 0 install-package
         ;;
+     "centos")
+        yum install net-tools -y
+        print_info 0 install-package
 esac
 inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'`
 TCID1="off-autoneg"
