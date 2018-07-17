@@ -81,6 +81,6 @@ tests:
     - path: auto-test/kernel/linux/pm-qa/pm-qa.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 70
-    - path: auto-test/kernel/linux/ modules/modules.yaml
+    - path: auto-test/kernel/linux/modules/modules.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 70
