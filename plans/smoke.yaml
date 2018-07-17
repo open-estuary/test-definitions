@@ -27,7 +27,7 @@ tests:
     - path: auto-test/middleware/tool/bazel/bazel.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 70
-    - path: auto-test/middleware/tool/fio-testfio-test.yaml
+    - path: auto-test/middleware/tool/fio-test/fio-test.yaml
       repository: https://github.com/open-estuary/test-definitions.git
       timeout: 70
     - path: auto-test/middleware/tool/lldptool/lldptool.yaml
