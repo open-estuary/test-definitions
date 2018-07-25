@@ -45,16 +45,17 @@ Remark:
     - 拷贝kolla-ansible/etc/kolla到/etc/kolla/   
         - cp -r kolla-ansible/etc/kolla /etc/kolla/
         
-　　- 配置/etc/kolla/globals.yml如下：
+    - 配置/etc/kolla/globals.yml如下:   
+　　
 　　     kolla_base_distro: "debian"
-　　　　   kolla_install_type: "source"
-　　　　   openstack_release: "rocky-53"
-　　　　   kolla_internal_vip_address: "192.168.1.254"       //该ip为一个未被使用的ip
-　　　　   docker_registry: "registry.docker-cn.com"
-　　　　   docker_namespace: "linaro"
-　　　　   network_interface: "eth0"
-　　　　   neutron_external_interface: "eth1"
-　　　　   enable_fluentd: "no"
+　　　　 kolla_install_type: "source"
+　　　　 openstack_release: "rocky-53"
+　　　　 kolla_internal_vip_address: "192.168.1.254"       //该ip为一个未被使用的ip
+　　　　 docker_registry: "registry.docker-cn.com"
+　　　　 docker_namespace: "linaro"
+　　　　 network_interface: "eth0"
+　　　　 neutron_external_interface: "eth1"
+　　　　 enable_fluentd: "no"
 　　
     - 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
         - cp kolla-ansible/ansible/inventory/* .
