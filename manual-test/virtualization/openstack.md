@@ -69,8 +69,8 @@ Remark:
     - 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
         - cp kolla-ansible/ansible/inventory/* .
 
-    - 生成密码文件，将会为/etc/kolla/passwords.yml的配置项填充随机生成的密码
-　　   - kolla-genpwd
+    - 生成密码文件，为/etc/kolla/passwords.yml的配置项填充随机生成的密码
+        - kolla-genpwd
 　　
     - 将所有组件安装在一个节点：
       - ./kolla-ansible/tools/kolla-ansible -i all-in-one bootstrap-servers
