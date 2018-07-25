@@ -7,7 +7,7 @@ RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 # Set default values.
 TESTS="stress_ng stress_oom stress_network"
-DURATION=$((60 * 60 * 6))
+DURATION=$((60 * 60 * 8))
 INTERFACE="eth0"
 # An valid link should be specified. Here is an example.
 LINK="http://192.168.3.1/testdata/stress-network.img"
