@@ -74,6 +74,10 @@ if [ "$lat" != "" ] ; then
 else
     lava-test-case $TCID2 --result fail
 fi
+
+kill -9 $(pidof qperf)
+print_info $? stop-qperf
+
 rm qperf-client.log
 print_info $? rm-log
 case $distro in
