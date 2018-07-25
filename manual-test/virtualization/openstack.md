@@ -22,7 +22,7 @@ Remark:
          - sudo visudo
           USERNAME ALL=(ALL) NOPASSWD: ALL 
 　　
-　　- 安装软件包：
+- 安装软件包：
 　　- apt-get install python-pip python-dev libffi-dev gcc libssl-dev python-selinux git
     
     - 升级pip、setuptools、idna
