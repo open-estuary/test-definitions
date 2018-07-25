@@ -47,6 +47,7 @@ Remark:
         
 　　- 配置/etc/kolla/globals.yml如下:
 　　
+　　
         kolla_base_distro: "debian”
 
         kolla_install_type: "source"
