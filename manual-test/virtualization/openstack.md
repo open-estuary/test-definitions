@@ -65,7 +65,8 @@ Remark:
 
         enable_fluentd: "no"
 　　
-　　- 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
+　　
+    - 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
         - cp kolla-ansible/ansible/inventory/* .
 
 　　- 生成密码文件，将会为/etc/kolla/passwords.yml的配置项填充随机生成的密码
