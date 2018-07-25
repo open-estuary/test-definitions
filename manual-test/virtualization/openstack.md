@@ -60,8 +60,8 @@ Remark:
         docker_namespace: "linaro”
 
         network_interface: "eth0"
-
-  　    neutron_external_interface: "eth1"
+        
+        neutron_external_interface: "eth1"
 
         enable_fluentd: "no"
 　　
