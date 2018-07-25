@@ -101,7 +101,7 @@ Remark:
 　　   用户名：admin，密码通过env命令查询
         
 - **Result:**
-      检查能否登录Dashboard，若可以，则pass；若不行，则fail。
+     检查能否登录Dashboard，若可以，则pass；若不行，则fail。
           
 　　
 
