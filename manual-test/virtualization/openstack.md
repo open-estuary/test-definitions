@@ -45,7 +45,7 @@ Remark:
     - 拷贝kolla-ansible/etc/kolla到/etc/kolla/   
         - cp -r kolla-ansible/etc/kolla /etc/kolla/
         
-　　- 配置/etc/kolla/globals.yml如下:
+    - 配置/etc/kolla/globals.yml如下:
         
         kolla_base_distro: "debian”
 
