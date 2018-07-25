@@ -56,13 +56,13 @@ Remark:
         kolla_internal_vip_address: "192.168.1.254"       //该ip为一个未被使用的ip
  
         docker_registry: "registry.docker-cn.com"
- 
-        docker_namespace: "linaro"
-  　    
+
+        docker_namespace: "linaro”
+
         network_interface: "eth0"
-  　    
-        neutron_external_interface: "eth1"
-　      
+
+  　    neutron_external_interface: "eth1"
+
         enable_fluentd: "no"
 　　
     - 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
