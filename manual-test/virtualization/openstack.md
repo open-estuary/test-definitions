@@ -18,9 +18,9 @@ Remark:
 - **Test:**
     - 检查服务器网卡是否可用（eth0、eth1网卡状态为up）：
          - ip a
-    - 设置sudo命令无需输入密码并配置如下：
-         - sudo visudo
-          USERNAME ALL=(ALL) NOPASSWD: ALL 
+　　- 设置sudo命令无需输入密码并配置如下：
+       	- sudo visudo  
+           USERNAME ALL=(ALL) NOPASSWD: ALL
 　　
     - 安装软件包：
          - apt-get install python-pip python-dev libffi-dev gcc libssl-dev python-selinux git
