@@ -47,7 +47,7 @@ Remark:
         
 　　- 配置/etc/kolla/globals.yml如下:   
 　　  ‘’’kolla_base_distro: "debian"’’’
-　　  kolla_install_type: "source"
+　　  ‘’’kolla_install_type: "source""’’’
 　　  openstack_release: "rocky-53"
 　　  kolla_internal_vip_address: "192.168.1.254"       //该ip为一个未被使用的ip
 　　  docker_registry: "registry.docker-cn.com"
