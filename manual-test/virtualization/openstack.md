@@ -70,6 +70,7 @@ Remark:
         - cp kolla-ansible/ansible/inventory/* .
 
     - 生成密码文件，为/etc/kolla/passwords.yml的配置项填充随机生成的密码
+        
         - kolla-genpwd
 　　
     - 将所有组件安装在一个节点：
@@ -106,7 +107,7 @@ Remark:
    - 初始化网络
       - ./kolla-ansible/tools/init-runonce
 　　
-　　- 访问openstack环境，web登录Dashboard
+　 - 访问openstack环境，web登录Dashboard
 　　   - http://192.168.1.254/dashboard/auth/login
 　　   用户名：admin，密码通过env命令查询
         
