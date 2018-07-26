@@ -108,6 +108,7 @@ Remark:
          - ./kolla-ansible/tools/init-runonce
 　　
    - 访问openstack环境，web登录Dashboard
+
          - http://192.168.1.254/dashboard/auth/login
 	   
 	   用户名：admin
