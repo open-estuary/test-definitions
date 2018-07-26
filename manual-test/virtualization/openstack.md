@@ -24,7 +24,7 @@ Remark:
            USERNAME ALL=(ALL) NOPASSWD: ALL
 　　
     - 安装软件包：
-          apt-get install python-pip python-dev libffi-dev gcc libssl-dev python-selinux git
+           apt-get install python-pip python-dev libffi-dev gcc libssl-dev python-selinux git
     
     - 升级pip、setuptools、idna
         - pip install -U pip
@@ -32,7 +32,7 @@ Remark:
         - pip install -U idna
     
     - 安装ansible2.4.0
-         pip install ansible==2.4.0
+          pip install ansible==2.4.0
 
     - 下载kolla-ansible和 kolla
          - git clone https://github.com/openstack/kolla-ansible
@@ -43,7 +43,7 @@ Remark:
         - pip install kolla-ansible/
 
     - 拷贝kolla-ansible/etc/kolla到/etc/kolla/   
-         cp -r kolla-ansible/etc/kolla /etc/kolla/
+          cp -r kolla-ansible/etc/kolla /etc/kolla/
         
     - 配置/etc/kolla/globals.yml如下:
         
@@ -67,13 +67,13 @@ Remark:
 　　
 　　
    - 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
-         cp kolla-ansible/ansible/inventory/* .
+          cp kolla-ansible/ansible/inventory/* .
 
    - 生成密码文件，为/etc/kolla/passwords.yml的配置项填充随机生成的密码
-         kolla-genpwd
+          kolla-genpwd
 　　
    - 将所有组件安装在一个节点：
-         ./kolla-ansible/tools/kolla-ansible -i all-in-one bootstrap-servers
+          ./kolla-ansible/tools/kolla-ansible -i all-in-one bootstrap-servers
 　　
    - 添加docker用户组并把当前用户加入到该组中。
         - sudo groupadd docker || true
@@ -82,30 +82,30 @@ Remark:
    - 重新登录当前用户   
    
    - 预检查配置
-         ./kolla-ansible/tools/kolla-ansible -i all-in-one prechecks
+          ./kolla-ansible/tools/kolla-ansible -i all-in-one prechecks
 
    - 拉取官方镜像
-         ./kolla-ansible/tools/kolla-ansible -i all-in-one pull
+          ./kolla-ansible/tools/kolla-ansible -i all-in-one pull
    
    - 开始部署
         - ./kolla-ansible/tools/kolla-ansible -i all-in-one deploy
         - ./kolla-ansible/tools/kolla-ansible -i all-in-one post-deploy
 
    - 安装openstack客户端
-         pip install python-openstackclient  
+          pip install python-openstackclient  
 　　
    - 设置admin环境变量
-         . /etc/kolla/admin-openrc.sh
+          . /etc/kolla/admin-openrc.sh
     
    - 配置init-runonce文件
-         vi ./kolla-ansible/tools/init-runonce
+          vi ./kolla-ansible/tools/init-runonce
 
-         EXT_NET_CIDR='192.168.1.0/24'
-         EXT_NET_RANGE='start=192.168.1.80,end=192.168.1.84'    //未使用ip
-         EXT_NET_GATEWAY='192.168.1.1                       //sudo route -n可以查询到
+          EXT_NET_CIDR='192.168.1.0/24'
+          EXT_NET_RANGE='start=192.168.1.80,end=192.168.1.84'    //未使用ip
+          EXT_NET_GATEWAY='192.168.1.1                       //sudo route -n可以查询到
 　　
    - 初始化网络
-          ./kolla-ansible/tools/init-runonce
+           ./kolla-ansible/tools/init-runonce
 　　
    - 访问openstack环境，web登录Dashboard
 
