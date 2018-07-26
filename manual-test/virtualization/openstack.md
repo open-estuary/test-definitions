@@ -99,9 +99,9 @@ Remark:
     
    - 配置init-runonce文件
         - vi ./kolla-ansible/tools/init-runonce
-         
-	 EXT_NET_CIDR='192.168.1.0/24'
-	 EXT_NET_RANGE='start=192.168.1.80,end=192.168.1.84'    //未使用ip
+
+         EXT_NET_CIDR='192.168.1.0/24'
+         EXT_NET_RANGE='start=192.168.1.80,end=192.168.1.84'    //未使用ip
          EXT_NET_GATEWAY='192.168.1.1                       //sudo route -n可以查询到
 　　
    - 初始化网络
