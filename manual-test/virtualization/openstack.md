@@ -47,23 +47,23 @@ Remark:
         
     - 配置/etc/kolla/globals.yml如下:
         
-        kolla_base_distro: "debian”
+          kolla_base_distro: "debian”
 
-        kolla_install_type: "source"
+          kolla_install_type: "source"
  
-        openstack_release: "rocky-53"
+          openstack_release: "rocky-53"
   
-        kolla_internal_vip_address: "192.168.1.254"       //该ip为一个未被使用的ip
+          kolla_internal_vip_address: "192.168.1.254"       //该ip为一个未被使用的ip
  
-        docker_registry: "registry.docker-cn.com"
+          docker_registry: "registry.docker-cn.com"
 
-        docker_namespace: "linaro”
+          docker_namespace: "linaro”
 
-        network_interface: "eth0"
+          network_interface: "eth0"
         
-        neutron_external_interface: "eth1"
+          neutron_external_interface: "eth1"
 
-        enable_fluentd: "no"
+          enable_fluentd: "no"
 　　
 　　
     - 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
@@ -102,7 +102,6 @@ Remark:
         - vi ./kolla-ansible/tools/init-runonce
          
 	 EXT_NET_CIDR='192.168.1.0/24'
-
          EXT_NET_RANGE='start=192.168.1.80,end=192.168.1.84'    //未使用ip
          EXT_NET_GATEWAY='192.168.1.1                       //sudo route -n可以查询到
 　　
