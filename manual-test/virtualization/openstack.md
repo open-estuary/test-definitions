@@ -74,45 +74,45 @@ Remark:
         - kolla-genpwd
 　　
     - 将所有组件安装在一个节点：
-      - ./kolla-ansible/tools/kolla-ansible -i all-in-one bootstrap-servers
+        - ./kolla-ansible/tools/kolla-ansible -i all-in-one bootstrap-servers
 　　
-　　- 添加docker用户组并把当前用户加入到该组中。
-      - sudo groupadd docker || true
-      - sudo usermod -aG docker $USER
+    - 添加docker用户组并把当前用户加入到该组中。
+        - sudo groupadd docker || true
+        - sudo usermod -aG docker $USER
 
     - 重新登录当前用户   
    
     - 预检查配置
-      - ./kolla-ansible/tools/kolla-ansible -i all-in-one prechecks
+        - ./kolla-ansible/tools/kolla-ansible -i all-in-one prechecks
 
     - 拉取官方镜像
-      - ./kolla-ansible/tools/kolla-ansible -i all-in-one pull
+        - ./kolla-ansible/tools/kolla-ansible -i all-in-one pull
    
-　　- 开始部署
-　　  - ./kolla-ansible/tools/kolla-ansible -i all-in-one deploy
-　　  - ./kolla-ansible/tools/kolla-ansible -i all-in-one post-deploy
+    - 开始部署
+        - ./kolla-ansible/tools/kolla-ansible -i all-in-one deploy
+        - ./kolla-ansible/tools/kolla-ansible -i all-in-one post-deploy
 
     - 安装openstack客户端
-      - pip install python-openstackclient  
+        - pip install python-openstackclient  
 　　
-　　- 设置admin环境变量
-　　   - . /etc/kolla/admin-openrc.sh
+    - 设置admin环境变量
+        - . /etc/kolla/admin-openrc.sh
     
    - 配置init-runonce文件
-      - vi ./kolla-ansible/tools/init-runonce
-       EXT_NET_CIDR='192.168.1.0/24'
-       EXT_NET_RANGE='start=192.168.1.80,end=192.168.1.84'    //未使用ip
-       EXT_NET_GATEWAY='192.168.1.1                       //sudo route -n可以查询到
+        - vi ./kolla-ansible/tools/init-runonce
+         EXT_NET_CIDR='192.168.1.0/24'
+         EXT_NET_RANGE='start=192.168.1.80,end=192.168.1.84'    //未使用ip
+         EXT_NET_GATEWAY='192.168.1.1                       //sudo route -n可以查询到
 　　
    - 初始化网络
-      - ./kolla-ansible/tools/init-runonce
+         - ./kolla-ansible/tools/init-runonce
 　　
-　 - 访问openstack环境，web登录Dashboard
-　　   - http://192.168.1.254/dashboard/auth/login
-　　   用户名：admin，密码通过env命令查询
+   - 访问openstack环境，web登录Dashboard
+　　     - http://192.168.1.254/dashboard/auth/login
+　　     用户名：admin，密码通过env命令查询
         
 - **Result:**
-     检查能否登录Dashboard，若可以，则pass；若不行，则fail。
+         检查能否登录Dashboard，若可以，则pass；若不行，则fail。
           
 　　
 
