@@ -66,35 +66,35 @@ Remark:
           enable_fluentd: "no"
 　　
 　　
-    - 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
+   - 拷贝kolla-ansible/ansible/inventory/*到当前目录配置如下：
         - cp kolla-ansible/ansible/inventory/* .
 
-    - 生成密码文件，为/etc/kolla/passwords.yml的配置项填充随机生成的密码
+   - 生成密码文件，为/etc/kolla/passwords.yml的配置项填充随机生成的密码
         - kolla-genpwd
 　　
-    - 将所有组件安装在一个节点：
+   - 将所有组件安装在一个节点：
         - ./kolla-ansible/tools/kolla-ansible -i all-in-one bootstrap-servers
 　　
-    - 添加docker用户组并把当前用户加入到该组中。
+   - 添加docker用户组并把当前用户加入到该组中。
         - sudo groupadd docker || true
         - sudo usermod -aG docker $USER
 
-    - 重新登录当前用户   
+   - 重新登录当前用户   
    
-    - 预检查配置
+   - 预检查配置
         - ./kolla-ansible/tools/kolla-ansible -i all-in-one prechecks
 
-    - 拉取官方镜像
+   - 拉取官方镜像
         - ./kolla-ansible/tools/kolla-ansible -i all-in-one pull
    
-    - 开始部署
+   - 开始部署
         - ./kolla-ansible/tools/kolla-ansible -i all-in-one deploy
         - ./kolla-ansible/tools/kolla-ansible -i all-in-one post-deploy
 
-    - 安装openstack客户端
+   - 安装openstack客户端
         - pip install python-openstackclient  
 　　
-    - 设置admin环境变量
+   - 设置admin环境变量
         - . /etc/kolla/admin-openrc.sh
     
    - 配置init-runonce文件
