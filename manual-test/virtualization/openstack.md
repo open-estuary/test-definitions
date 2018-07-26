@@ -102,6 +102,7 @@ Remark:
         - vi ./kolla-ansible/tools/init-runonce
          
 	 EXT_NET_CIDR='192.168.1.0/24'
+
          EXT_NET_RANGE='start=192.168.1.80,end=192.168.1.84'    //未使用ip
          EXT_NET_GATEWAY='192.168.1.1                       //sudo route -n可以查询到
 　　
@@ -110,10 +111,14 @@ Remark:
 　　
    - 访问openstack环境，web登录Dashboard
          - http://192.168.1.254/dashboard/auth/login
-	   用户名：admin，密码通过env命令查询
+	   
+	   用户名：admin
+	   
+	   密码通过env命令查询
         
 - **Result:**
-         检查能否登录Dashboard，若可以，则pass；若不行，则fail。
+          
+	  检查能否登录Dashboard，若可以，则pass；若不行，则fail。
           
 　　
 
