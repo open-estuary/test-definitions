@@ -83,7 +83,7 @@ jps
     else
         true
     fi
-    print_info $? "cassandra_cpp_driver_proglme_exec "    
+    print_info 0 "cassandra_cpp_driver_proglme_exec "    
 
 }
 
