@@ -27,30 +27,30 @@ Remark:
 　　
     - 安装软件包：
            
-	   apt-get install python-pip python-dev libffi-dev gcc libssl-dev python-selinux git
+	   sudo apt-get install python-pip python-dev libffi-dev gcc libssl-dev python-selinux git
     
     - 升级pip、setuptools、idna
         - pip install -U pip
-        - pip install -U setuptools
-        - pip install -U idna
+        - sudo pip install -U setuptools
+        - sudo pip install -U idna
     
     - 安装ansible2.4.0
           
-	  pip install ansible==2.4.0
+	  Sudo pip install ansible==2.4.0
 
     - 下载kolla-ansible和 kolla
          - git clone https://github.com/openstack/kolla-ansible
          - git clone https://github.com/openstack/kolla
 
     - 安装kolla-ansible和 kolla：
-        - pip install kolla/
-        - pip install kolla-ansible/
+        - sudo pip install kolla/
+        - sudo pip install kolla-ansible/
 
     - 拷贝kolla-ansible/etc/kolla到/etc/kolla/   
           
-	  cp -r kolla-ansible/etc/kolla /etc/kolla/
+	  sudo cp -r kolla-ansible/etc/kolla /etc/kolla/
         
-    - 配置/etc/kolla/globals.yml如下:
+    - 配置/etc/kolla/globals.yml(vi前需要加sudo)如下:
         
           kolla_base_distro: "debian”
 
@@ -60,8 +60,6 @@ Remark:
   
           kolla_internal_vip_address: "192.168.1.254"       //该ip为一个未被使用的ip
  
-          docker_registry: "registry.docker-cn.com"
-
           docker_namespace: "linaro”
 
           network_interface: "eth0"
@@ -77,11 +75,11 @@ Remark:
 
    - 生成密码文件，为/etc/kolla/passwords.yml的配置项填充随机生成的密码
           
-	  kolla-genpwd
+	  sudo kolla-genpwd
 　　
    - 将所有组件安装在一个节点：
           
-	  ./kolla-ansible/tools/kolla-ansible -i all-in-one bootstrap-servers
+	  sudo ./kolla-ansible/tools/kolla-ansible -i all-in-one bootstrap-servers
 　　
    - 添加docker用户组并把当前用户加入到该组中。
         - sudo groupadd docker || true
@@ -91,19 +89,19 @@ Remark:
    
    - 预检查配置
           
-	  ./kolla-ansible/tools/kolla-ansible -i all-in-one prechecks
+	  sudo ./kolla-ansible/tools/kolla-ansible -i all-in-one prechecks
 
    - 拉取官方镜像
           
 	  ./kolla-ansible/tools/kolla-ansible -i all-in-one pull
    
    - 开始部署
-        - ./kolla-ansible/tools/kolla-ansible -i all-in-one deploy
+        - sudo ./kolla-ansible/tools/kolla-ansible -i all-in-one deploy
         - ./kolla-ansible/tools/kolla-ansible -i all-in-one post-deploy
 
    - 安装openstack客户端
           
-	  pip install python-openstackclient  
+	  sudo pip install python-openstackclient  
 　　
    - 设置admin环境变量
           
@@ -121,8 +119,7 @@ Remark:
 　　
    - 访问openstack环境，web登录Dashboard
 
-          http://192.168.1.254/dashboard/auth/login
-	   
+          http://192.168.1.254/auth/login
 	   用户名：admin
 	   
 	   密码通过env命令查询
