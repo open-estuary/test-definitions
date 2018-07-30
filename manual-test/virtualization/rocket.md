@@ -21,8 +21,9 @@ Remark:
       　 rkt fetch --insecure-options=image docker://ubuntu
 　　
     4.查看下载的镜像
+    
 
-　　　　 rkt image list
+　　　　　　rkt image list
 
 
     5.编译出go程序的可执行文件(由于下载的镜像不能正常使用因此自己制作一个可用的镜像）
@@ -44,7 +45,6 @@ Remark:
 
 　　6.制作镜像文件
 
-
 　     　acbuild begin
 
          acbuild set-name examle.com/hello
@@ -63,23 +63,23 @@ Remark:
 　　　
     7.使用rkt启动镜像
 
-　　　　 rkt --insecure-options=image run hello-0.0.1-linux-amd64.aci
+　　　　 　rkt --insecure-options=image run hello-0.0.1-linux-amd64.aci
 
     8.查看启动的镜像
 
-　　　 　rkt list
+　　　 　　rkt list
 
     9.查看启动的镜像的状态
 
-　　　 　rkt status UUID:如果是running状态表示启动成功
+　　　 　　rkt status UUID:如果是running状态表示启动成功
 
     10.停止容器
 
-　　　 　rkt stop example.com/hello
+　　　 　　rkt stop example.com/hello
 
     11.删除镜像
 
-　　　 　rkt rm image-name
+　　　 　　rkt rm image-name
 
 
 - **Result:**
