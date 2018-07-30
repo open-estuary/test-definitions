@@ -141,7 +141,7 @@ Remark:
 
      创建域: openstack domain create --description "Test Domain" test
 
-`    创建项目（租户）: openstack project create --domain test --description "Test Project" projectTest
+     创建项目（租户）: openstack project create --domain test --description "Test Project" projectTest
 
      创建用户: openstack user create --domain test --password-prompt admin1
 
