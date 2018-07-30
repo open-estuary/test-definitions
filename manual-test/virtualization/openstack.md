@@ -115,6 +115,7 @@ Remark:
           EXT_NET_GATEWAY='192.168.1.1                       //sudo route -n可以查询到
 　　
    - 初始化网络
+
            ./kolla-ansible/tools/init-runonce
 　　
    - 访问openstack环境，web登录Dashboard
@@ -127,22 +128,39 @@ Remark:
 
 
    - 服务器上命令测试
+
      查看keystone的用户: openstack user list
+
      查看keystone endpoint: openstack endpoint list
+
      查看keystone的role: openstack role list
+
      查看keystone 服务：openstack service list
+
      查看keystone租户：openstack project list
-     创建域: openstack domain create --description "Test Domain" test 
+
+     创建域: openstack domain create --description "Test Domain" test
+
 `    创建项目（租户）: openstack project create --domain test --description "Test Project" projectTest
+
      创建用户: openstack user create --domain test --password-prompt admin1
+
      创建角色: openstack role create Admin1
+
      为某项目中的某用户指定角色: openstack role add  --project projectTest --user admin1 Admin1
+
      为组件创建服务实体: openstack service create  --name serviceTest --description "service test" type
+
      删除服务: openstack service delete serviceTest
+
      删除用户的角色: openstack role remove  --project projectTest --user admin1 Admin1 
+
      删除角色: openstack role delete Admin1
+
      删除用户: openstack user delete admin1
+
      删除项目: openstack project delete projectTest
+
      删除域: openstack domain set --disable  test;openstack domain delete test
 
 - **Result:**
