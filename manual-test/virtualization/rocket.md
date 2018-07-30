@@ -24,9 +24,11 @@ Remark:
 
 　　　　 rkt image list
 
+
     5.编译出go程序的可执行文件(由于下载的镜像不能正常使用因此自己制作一个可用的镜像）
 　　　　　
-　　 cat hello.go
+　　
+         cat hello.go
 
          package main
 
@@ -41,7 +43,6 @@ Remark:
        　go build hello.go
 
 　　6.制作镜像文件
-
 
 　     　acbuild begin
 
