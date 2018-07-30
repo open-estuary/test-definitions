@@ -1,0 +1,24 @@
+
+metadata:
+    name: hns13_2
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Fault tolerance test on the network interface"
+    maintainer:
+        - xue_xing@hoperun.com
+    scope:
+        - hns
+    os:
+        - centos
+    devices:
+        - d05
+    level: 1
+
+run:
+    steps:
+        - "cd auto-test/peripheral/hns/hns13.2; ./hns13.2.sh; cd -"
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+

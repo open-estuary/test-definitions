@@ -2,7 +2,7 @@
 metadata:
     name: "lamp"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Linux+Apache+Mysql/MariaDB+Perl/PHP/Python is often used to build open source software for dynamic web sites or servers"
+    description: "Linux+Apache+Mysql/MariaDB+Perl/PHP/Python is used to build open source software for dynamic web sites or servers"
     maintainer:
         - hongxin_228@163.com
     scope:
