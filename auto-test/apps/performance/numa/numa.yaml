@@ -1,0 +1,24 @@
+metadata:
+    name: numa
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "numa numa"
+    maintainer:
+        - fyuanz_2010@163.com
+    scope:
+        - performance
+    os:
+       - centos
+       - ubuntu
+    devices:
+        - d05
+    level: 1
+
+run:
+    steps:
+        - cd auto-test/apps/performance/numa
+        - ./blogbench.sh
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+    FAIL: fail
+    PASS: pass
