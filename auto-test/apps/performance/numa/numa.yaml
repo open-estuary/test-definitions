@@ -5,7 +5,7 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - performance
+        - numa
     os:
        - centos
        - ubuntu
