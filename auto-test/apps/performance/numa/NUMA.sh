@@ -100,3 +100,14 @@ else
         print_info 1 read-test
 fi
 rm -f sameread.log diffread.log
+
+#remove numactl
+case $distro in
+	centos)
+	yum remove numactl -y
+	print_info $? rm-numactl
+	;;
+	ubuntu)
+	apt-get remove numactl -y
+	print_info $? rm-numactl
+esac
