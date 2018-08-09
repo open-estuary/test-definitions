@@ -2,6 +2,7 @@ cd ../../../../utils
     . ./sys_info.sh
     . ./sh-test-lib
 cd -
+set -x
 #Verify that the system supports NUMA
 if [ `dmesg | grep -i numa` == "No NUMA configuration found" ];then
 	print_info 1 support-numa
@@ -34,6 +35,34 @@ if [[ $available != "" ]]&&[[ $cpus != "" ]]&&[[ $size != "" ]]&&[[ $free != "" 
 else
 	print_info 1 shownuma
 fi
+
+numnodes=`numactl -H|grep -o -P '(?<=available: ).*(?= nodes)'`
+for((i=0;i<$numnodes;i++));
+do
+nodecpu="numactl -H|grep -o -P '(?<=node $i cpus:).*'"
+nodecpus=`eval $nodecpu`
+if [ "$nodecpus" != "" ];then
+	print_info 0 node${i}cpu
+else
+	print_info 1 node${i}cpu
+fi
+
+nodesize="numactl -H|grep -o -P '(?<=node $i size: ).*(?= MB)'"
+nodesizes=`eval $nodesize`
+if [[ "$nodesizes" -gt 0 ]];then
+        print_info 0 node${i}size
+else
+        print_info 1 node${i}size
+fi
+
+nodefree="numactl -H|grep -o -P '(?<=node $i free: ).*(?= MB)'"
+nodefrees=`eval $nodefree`
+if [[ "$nodefrees" -gt 0 ]];then
+        print_info 0 node${i}free
+else
+        print_info 1 node${i}free
+fi
+done
 
 #Show NUMA policy settings of the current process
 policy=`numactl -s|grep "policy"`
