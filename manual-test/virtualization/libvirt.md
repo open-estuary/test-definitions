@@ -54,6 +54,12 @@ Remark:
    	--virt-type kvm    #使用kvm虚拟机
   6、启动虚拟机
 	$ virsh start centos7
+  7、重启虚拟机
+	$ virsh reboot centos7
+  8、设置虚拟机跟随系统自启
+	$ virsh auto
+  9、关闭自启
+  8、强制关闭虚拟机
   7、暂停虚拟机
 	$ virsh suspend centos7
   8、恢复虚拟机
@@ -68,6 +74,16 @@ Remark:
 	$ virsh autostart contos7
   13、克隆虚拟机
 	$ virt-clone --connect=qemu:///system -o centos7 -n centos1 -f /var/lib/libvirt/images/centos1.qcow2
+  14、列出所有虚拟机
+  15、查看虚拟机信息
+  16、显示虚拟机配置文件内容
+  17、添加虚拟机（不启动）
+  18、添加并创建虚拟机（立即启动）
+  19、查看虚拟机使用的磁盘文件
+  20、查看虚拟机磁盘文件信息
+  21、修改虚拟机的配置文件
+  22、
+
 
 
 
