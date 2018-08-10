@@ -57,36 +57,101 @@ Remark:
   7、重启虚拟机
 	$ virsh reboot centos7
   8、设置虚拟机跟随系统自启
-	$ virsh auto
+	$ virsh autostart centos7
   9、关闭自启
-  8、强制关闭虚拟机
-  7、暂停虚拟机
+	$ virsh autostart --disable centos7
+  10、强制关闭虚拟机
+	$ virsh destroy centos7
+  11、暂停虚拟机
 	$ virsh suspend centos7
-  8、恢复虚拟机
+  12、恢复虚拟机
 	$ virsh resume centos7
-  9、关闭虚拟机
+  13、关闭虚拟机
 	$ virsh shutdown centos7
-  10、登录虚拟机
+  14、登录虚拟机
 	$ virsh console centos7
-  11、退出虚拟机
+  15、退出虚拟机
 	快捷键ctrl+]
-  12、自动加载虚拟机
+  16、自动加载虚拟机
 	$ virsh autostart contos7
-  13、克隆虚拟机
+  17、克隆虚拟机
 	$ virt-clone --connect=qemu:///system -o centos7 -n centos1 -f /var/lib/libvirt/images/centos1.qcow2
-  14、列出所有虚拟机
-  15、查看虚拟机信息
-  16、显示虚拟机配置文件内容
-  17、添加虚拟机（不启动）
-  18、添加并创建虚拟机（立即启动）
-  19、查看虚拟机使用的磁盘文件
-  20、查看虚拟机磁盘文件信息
-  21、修改虚拟机的配置文件
-  22、
-
-
-
-
+  18、列出所有虚拟机
+	$ virsh list --all
+  19、添加虚拟机（不启动）
+	$ virsh define centos7.xml
+  20、添加并创建虚拟机（立即启动）
+	$ virsh create centos7.xml
+  21、查看虚拟机磁盘文件信息
+	$ qemu-img info centos7.qcow2
+  22、修改虚拟机的配置文件
+	$ virsh edit centos7
+  23、查看虚拟机信息
+	$ virsh dominfo centos7
+  24、显示虚拟机配置文件内容
+	$ virsh dumpxml centos7
+  25、显示虚拟机vcpu的信息
+	$ virsh vcpuinfo centos7
+  26、显示虚拟机的内存状态
+	$ virsh dommemstat centos7
+  27、显示虚拟机id号
+	$ virsh domid cents7
+  28、显示虚拟机uuid
+	$ virsh domuuid centos7
+  29、显示虚拟机当前的状态
+	$ virsh domstat centos7
+  30、显示虚拟机使用的磁盘文件
+	$ virsh domblklist centos7
+  31、显示虚拟机网卡接口
+	$ virsh domiflist centos7
+  32、显示网卡信息
+	$ virsh domiflist centos7
+  33、返回虚拟机的状态（ok or error）
+	$ virsh domcontrol centos7
+  34、显示虚拟机分区信息
+	$ virsh memtune centos7
+  35、显示虚拟机磁盘信息
+	$ virsh blkiotune centos7
+  36、给不活动虚拟机设置内存大小
+	$ virsh setmem centos7 512
+  37、设置虚拟机最大内存
+	$ virsh setmaxmem centos7
+  38、给不活动虚拟机设置cpu个数
+	$ virsh setvcpus centos7 4
+  39、保存当前运行的虚拟机状态，当虚拟机再次启动时会恢复到之前保存的状态
+	$ virsh managedsave domain-id(虚拟机id)
+  40、保存一个正在运行的虚拟机的状态到一个文件中，保存后虚拟机不再运行
+	$ virsh save domain-id state-file
+  41、恢复到之前保存的状态
+	$ virsh restore state-file
+  42、彻底删除虚拟机
+	1、关闭虚拟机 virsh destroy centos7
+	2、取消虚拟机定义 virsh undefine --nvram centos7	
+	3、删除磁盘文件 virsh dumpxml centos7|grep "source file",将source file删除
+  
+-----------------------------------------------------------------------------------------------------
+  43、异常场景分析
+	1、单个虚拟机内存大小不能超过系统剩余内存
+		步骤：
+		a、查询系统剩余内存=free -m
+		b、创建虚拟机，使用边界值分析，分别创建虚拟机内存ram小于、等于、大于系统剩余内存的场景	
+		结果：虚拟机内存小于或等于系统剩余内存时，虚拟机创建成功；虚拟机内存大于系统剩余内存时，虚拟机创建失败，返回“无法分配内存”
+	2、多个虚拟机内存大小之和不能超过系统剩余内存
+		步骤：
+		a、查询系统剩余内存=free -m
+		b、创建3个虚拟机，使用边界值分析，分别创建3个虚拟机的内存之和小于、等于、大于系统剩余内存的场景
+		结果：虚拟机内存小于或等于系统剩余内存时，虚拟机创建成功；虚拟机内存大于系统剩余内存时，虚拟机创建失败，返回“无法分配内存”
+	3、单个虚拟机vcpu数不能超过物理机CPU数
+		步骤：
+		a、查询物理机CPU数(lsmod)，查看CPU(s)参数
+		b、创建虚拟机，使用边界值分析，分别创建虚拟vcpu数小于、等于、大于物理机CPU数的场景
+		结果：虚拟机vcpu数小于或等于物理机CPU数时，虚拟机创建成功；虚拟机vcpu数大于物理机CPU数时，虚拟机创建失败，主机挂机
+	4、多个虚拟机vcpu数之和不能超过物理机CPU数
+		步骤：
+		a、查询物理机CPU数(lsmod)，查看CPU(s)参数
+		b、创建3个虚拟机，使用边界值分析，分别创建3个虚拟机的vcpu数小于、等于、大于物理机CPU数的场景
+		结果：虚拟机vcpu数小于或等于物理机CPU数时，虚拟机创建成功；虚拟机vcpu数大于物理机CPU数时，虚拟机创建失败，主机挂机
+	5、创建虚拟机过程中网络环境差，创建失败
 
 
 
