@@ -35,7 +35,7 @@ case $distro in
          yum install wget -y
          yum install gcc -y
          yum install make -y
-         wget https://github.com/esnet/iperf/archive/"${VERSION}".tar.gz
+         download_file https://github.com/esnet/iperf/archive/"${VERSION}".tar.gz
          tar xf "${VERSION}".tar.gz
          cd iperf-"${VERSION}"
          ./configure
@@ -79,7 +79,7 @@ print_info $? kill-iperf
 case $distro in
     "ubuntu")
 	#delete 20180601
-        #apt-get remove iperf* -y
+        apt-get remove iperf iperf3 -y
         print_info $? remove-package
         ;;
     "centos")
