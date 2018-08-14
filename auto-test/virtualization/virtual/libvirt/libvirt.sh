@@ -6,7 +6,10 @@ url=`pwd`
 echo $url
 random_uuid=`cat /proc/sys/kernel/random/uuid`
 
-! check_root && error_msg "Please run this script as root."
+if [ `whoami` != 'root' ]; then
+        echo "YOu must be the root to run this script" >$2
+        exit 1
+fi
 
 #Check that the kernel supports KVM
 ret=`dmesg|grep kvm|grep "initialized successfully"|awk '{print $7,$8}'`
@@ -17,8 +20,9 @@ else
 fi
 
 #Installation package
-apt-get install qemu-kvm qemu-efi libvirt-bin virtinst
-print_info $? qemu_libvirt
+pkgs="qemu-kvm qemu-efi libvirt-bin virtinst"
+install_deps "{pkgs}"
+print_info $? install-package
 
 #Modify configuration file
 sed -i "s/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g" /etc/libvirt/libvirtd.conf
