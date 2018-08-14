@@ -1,0 +1,27 @@
+
+metadata:
+    name: libvirt
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Libvirt creates and manages the KVM virtual machine"
+    maintainer:
+        - ding_yu1@hoperun.com
+    scope:
+        - virtualization
+        - libvirt
+    os:
+        - ubuntu
+    devices:
+        - d05
+        - d06
+    level: 1
+
+run:
+    steps:
+        - "cd ./auto-test/virtualization/virtual/libvirt; ./libvirt.sh ; cd -"
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+
