@@ -1,6 +1,15 @@
 #!/bin/bash
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
+case $distro in
+    "ubuntu")
+        apt-get install ethtool -y
+        print_info 0 install-package
+        ;;
+     "centos")
+        yum install net-tools -y
+        print_info 0 install-package
+esac
 inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'`
 TCID1="off-autoneg"
 echo $inet

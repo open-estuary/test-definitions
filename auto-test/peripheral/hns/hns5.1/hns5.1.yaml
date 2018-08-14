@@ -1,27 +1,24 @@
 
 metadata:
-    name: kernel-package2
+    name: hns5_1
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "不同发行版内核包的安装和卸载"
+    description: "Check the fault tolerance test of the number of BDs on the network interface"
     maintainer:
-        - shuangshengchen@qq.com
-        - fyuanz_2010@163.com
+        - xue_xing@hoperun.com
     scope:
-        - linux
+        - peripheral
+        - hns  
     os:
         - centos
-        - ubuntu 
     devices:
         - d05
-    level: 1 
-       
+    level: 5
+
 run:
     steps:
-        - "cd auto-test/kernel/linux/kernel-package2; ./kernel-package2.sh; cd -"
-
+        - "cd auto-test/peripheral/hns/hns5.1; ./hns5.1.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
         FAIL: fail
         PASS: pass
-

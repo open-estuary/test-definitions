@@ -8,6 +8,8 @@ metadata:
     os:
         - centos
         - ubuntu
+        - debian
+        - fedora
     scope:
         - performance
     devices:
