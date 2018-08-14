@@ -4,26 +4,26 @@ Introduction : The developer and tester of each module
 ```
 | Level | Modules | Developer | Tester |
 | :-: | :-: | :-: | :-: |
-| apps | performance | wangyu | mahongxin |
-|  | server | wangyu | mahongxin |
+| apps | performance | wangyu | dingyu |
+|  | server | wangyu | dingyu |
 |  | stress | wangyu | wangsisi |
-|  | website | peiqiang | suzhou |
-|  | e-commerce | zhouxingchen | suzhou |
-|  | bigdata | dingwei | tanliqing |
-| bootloaders | uefi | huangming | suzhou |
-| distributions | distribution | linwenkai | rensiyi |
+|  | website | peiqiang | xuexing |
+|  | e-commerce | zhouxingchen | xuexing |
+|  | bigdata | wangyu | mahongxin |
+| bootloaders | uefi | huangming | xuexing |
+| distributions | distribution | linwenkai | wangsisi |
 |  | build | linwenkai | rensiyi |
 |  | deploy | linwenkai | rensiyi |
 | hardwareboards |  |  |  |
-| kernel | linux | tiantao | fangyuanzheng |
-|  | memory | tiantao | fangyuanzheng |
+| kernel | linux | liuxinliang | dingyu |
+|  | memory | liuxinliang | xuexing |
 | middleware | tool | wangyu | wangsisi |
-|  | database | dingwei | tanliqing |
-|  | language | wangyu | liucaili |
-| peripheral | raid | tiantao | liuzhiqiang |
-|  | ssd | tiantao | liuzhiqiang |
-|  | 82599 | tiantao | liuzhiqiang |
-|  | sas | tiantao | liuzhiqiang |
-|  | misc | tiantao | liuzhiqiang |
-|  | hns | tiantao | liuzhiqiang |
-| virtualization | virtual | tiantao | liucaili |
+|  | database | wangyu | mahongxin |
+|  | language | wangyu | liubeijie |
+| peripheral | raid | liuxinliang | xuexing |
+|  | ssd | liuxinliang | xuexing |
+|  | 82599 | liuxinliang | xuexing |
+|  | sas | liuxinliang | xuexing |
+|  | misc | liuxinliang | xuexing |
+|  | hns | liuxinliang | xuexing |
+| virtualization | virtual | liuxinliang | liubeijie |

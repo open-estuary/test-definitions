@@ -136,7 +136,7 @@ case "${dist}" in
         apt-get update -q=2
         v='4.16.0-504'
         v1='4.16.0'
-        package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-${v} linux-headers-${v}-generic linux-image-${v}-generic linux-image-extra-${v}-generic linux-libc-dev linux-source-${v1} linux-tools-${v} linux-tools-${v}-generic linux-tools-common"
+        package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-${v} linux-headers-${v}-generic linux-image-${v}-generic linux-image-extra-${v}-generic linux-source-${v1} linux-tools-${v} linux-tools-${v}-generic linux-tools-common"
         for p in ${package_list};do
             echo "$p install"
             apt-get install -y $p

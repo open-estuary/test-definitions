@@ -55,11 +55,11 @@ print_info $? ltrace-c-hello
 ltrace -T ./hello 2>&1
 print_info $? ltrace-T-hello
 
-count=`ps -aux | grep ltrace | wc -l`
-if [ $count -gt 0 ]; then
-    kill -9 $(pidof ltrace)
-     print_info $? kill-ltrace
-fi
+#count=`ps -aux | grep ltrace | wc -l`
+#if [ $count -gt 0 ]; then
+#    kill -9 $(pidof ltrace)
+#     print_info $? kill-ltrace
+#fi
 
 apt-get remove ltrace -y
 print_info $? remove-ltrace

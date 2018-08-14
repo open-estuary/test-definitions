@@ -95,8 +95,8 @@ noderes=`cockroach sql --certs-dir=certs/ -e "SELECT * FROM bank.accounts"`
 if [ `echo $noderes | grep "1 row" -c` -eq 1 ] ;then
     lava-test-case "cockroach_secure_single_point_failure" --result pass 
 else
-    #lava-test-case "cockroach_secure_single_point_failure" --result fail
-    lava-test-case  "cockroach_secure_single_point_failure" --result pass
+    lava-test-case "cockroach_secure_single_point_failure" --result fail
+   # lava-test-case  "cockroach_secure_single_point_failure" --result pass
 fi
 
 #ps -ef | grep cockroach | grep -v grep | awk '{print $2}'| xargs kill -9
@@ -105,19 +105,20 @@ cockroach start --certs-dir=certs --store=node2 --host=localhost --port=26258 --
 if [ `ps -ef |grep "cockroach start" | grep -v grep | wc -l` -eq 3 ];then
     lava-test-case "cockroach_secure_restart" --result pass
 else
-    #lava-test-case "cockroach_secure_restart" --result fail
-    lava-test-case  "cockroach_secure_restart" --result pass
+    lava-test-case "cockroach_secure_restart" --result fail
+    #lava-test-case  "cockroach_secure_restart" --result pass
 fi
 #cockroach node status --certs-dir=certs/
 cockroach quit --certs-dir=certs/ --port=26259
 cockroach quit --certs-dir=certs/ --port=26258
 cockroach quit --certs-dir=certs/ --port=26257
+sleep 5
 stopCluster=`ps -ef | grep "cockroach start" | grep -v grep`
 if [ -z  "$stopCluster" ];then
     lava-test-case "cockroach_secure_stop_cluster" --result pass
 else
-    #lava-test-case "cockroach_secure_stop_cluster" --result fail
-    lava-test-case  "cockroach_secure_stop_cluster" --result pass
+    lava-test-case "cockroach_secure_stop_cluster" --result fail
+    #lava-test-case  "cockroach_secure_stop_cluster" --result pass
 fi
 
 remove_deps cockroach
