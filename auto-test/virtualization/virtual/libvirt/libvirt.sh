@@ -21,7 +21,7 @@ fi
 
 #Installation package
 pkgs="qemu-kvm qemu-efi libvirt-bin virtinst"
-install_deps "{pkgs}"
+install_deps "${pkgs}"
 print_info $? install-package
 
 #Modify configuration file
