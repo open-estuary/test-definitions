@@ -57,12 +57,12 @@ mkdir -p "${OUTPUT}"
         yum remove -y `rpm -qa | grep -i alisql`
         yum remove -y `rpm -qa | grep -i percona`
         yum remove -y `rpm -qa | grep -i mariadb`
-        yum install curl -y
-        yum install httpd -y
-        yum install mysql-community-server -y
-        yum install php php-mysql -y
-        #pkgs="httpd mysql-community-server php php-mysql"
-        #install_deps "curl ${pkgs}"
+        #yum install curl -y
+        #yum install httpd -y
+        #yum install mysql-community-server -y
+        #yum install php php-mysql -y
+        pkgs="curl httpd mysql-community-server php php-mysql"
+        install_deps "${pkgs}"
         print_info $? install-pkgs
         systemctl start httpd.service
         systemctl start mysql

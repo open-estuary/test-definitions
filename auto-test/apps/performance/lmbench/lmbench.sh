@@ -2,50 +2,87 @@
 
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-export RESULT_FILE
 
-bandwidth_test() {
-    test_list="rd wr rdwr cp frd fwr fcp bzero bcopy"
-    for test in ${test_list}; do
-        # bw_mem use MB/s as units.
-        # shellcheck disable=SC2154
-        ./bin/"${abi}"/bw_mem 512m "$test" 2>&1 \
-          | awk -v test_case="memory-${test}-bandwidth" \
-            '{printf("%s pass %s MB/s\n", test_case, $2)}' \
-          | tee -a "${RESULT_FILE}"
-          print_info $? ${test}
-    done
-}
+if [ `whoami` != "root" ];then
+	echo "YOu must be the root to run this script" >$2
+	exit 1
+fi
 
-latency_test() {
-    # Set memory size to 256M to make sure that main memory will be measured.
-    lat_output="${OUTPUT}/lat-mem-rd.txt"
-    ./bin/"${abi}"/lat_mem_rd 256m 128 2>&1 | tee "${lat_output}"
+pkgs="expect"
+install_deps "${pkgs}"
+print_info $? install-package
 
-    # According to lmbench manual:
-    # Only data accesses are measured; the instruction cache is not measured.
-    # L1: Try stride of 128 and array size of .00098.
-    # L2: Try stride of 128 and array size of .125.
-    grep "^0.00098" "${lat_output}" \
-      | awk '{printf("l1-read-latency pass %s ns\n", $2)}' \
-      | tee -a "${RESULT_FILE}"
+wget http://120.31.149.194:18083/test_dependents/lmbench3.tar.gz
+print_info $? download_lmbench3
 
-    grep "^0.125" "${lat_output}" \
-      | awk '{printf("l2-read-latency pass %s ns\n", $2)}' \
-      | tee -a "${RESULT_FILE}"
+tar zxf lmbench3.tar.gz && rm -rf lmbench3.tar.gz
 
-    # Main memory: the last line.
-    grep "^256" "${lat_output}" \
-      | awk '{printf("main-memory-read-latency pass %s ns\n", $2)}' \
-      | tee -a "${RESULT_FILE}"
-}
+cd lmbench3
+url=`pwd`
+mkdir log.txt
 
-# Test run.
-create_out_dir "${OUTPUT}"
 
-detect_abi
-bandwidth_test
-latency_test
-print_info $? latency-test
+mkdir SCCS && cd SCCS 
+touch s.ChangeSet
+cd ../
+
+sed -i "s%$O/lmbench : ../scripts/lmbench bk.ver%$O/lmbench : ../scripts/lmbench%g" src/Makefile
+
+cp ./gns-os /scripts
+
+make build
+print_info $? build_lmbench3
+
+EXPECT=$(which expect)
+$EXPECT << EOF
+set timeout 100
+spawn make results
+expect "MULTIPLE COPIES [default 1]"
+send "1\r"
+expect "Job placement selection:"
+send "1\r"
+expect "MB [default 180375]"
+send "512\r"
+expect "SUBSET (ALL|HARWARE|OS|DEVELOPMENT) [default all]"
+send "\r"
+expect "FASTMEM [default no]"
+send "\r"
+expect "SLOWFS [default no]"
+send "\r"
+expect "DISKS [default none]"
+send "\r"
+expect "REMOTE [default none]"
+send "\r"
+expect "Processor mhz [default 2398 MHz, 0.4170 nanosec clock]"
+send "\r"
+expect "FSDIR [default /var/tmp]"
+send "\r"
+expect "Status output file [default /dev/tty]"
+send "\r"
+expect "Mail results [default yes]"
+send "n\r"
+expect "make[1]: Leaving directory '${url}/src'"
+
+expect eof
+EOF
+
+print_info $? Confguration_do
+
+make see |tee log.txt
+results=`cat log.txt|grep "Communication bandwidths"`
+if [ "results"x != ""x ];then
+	print_info 0 run_pass
+else
+	print_info 1 run_fail
+
+
+cd ../
+rm -rf lmbench3
+print_info $? delete_lmbench3
+
+
+
+
+
+
+
