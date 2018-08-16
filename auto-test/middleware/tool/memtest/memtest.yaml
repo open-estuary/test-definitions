@@ -7,9 +7,10 @@ metadata:
         - liu_beijie@hoperun.com
         - yuanz_2010@163.com
     scope:
-        - tool
+        - liubeijei
     os:
-        - centos
+        - centos 
+        - ubuntu
     devices:
         - d05
         - d06
