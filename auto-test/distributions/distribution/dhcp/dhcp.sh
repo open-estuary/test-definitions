@@ -30,10 +30,13 @@ ROUTE_ADDR=$(ip route list |grep default |awk '{print $3}' |head -1)
 inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'|awk '{print $1}'| head -1'
 echo $inet
 #执行dhclient命令，并ping前面获取到的ip地址，看是否可以ping的通
+
+#dhclient -v -r enahisic2i0
 dhclient -v -r $inet
 ping -c 5 ${ROUTE_ADDR}
 print_info $? delete-ip
 
+#dhclient -v enahisic2i0
 dhclient -v $inet
 print_info $? acquiring-ip
 ping -c 5 ${ROUTE_ADDR} 2>&1 |tee dhcp.log
