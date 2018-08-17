@@ -23,8 +23,16 @@ print_info $? write-file
 cat test.sh
 print_info $? cat-file
 
+true >test.sh
+print_info $? true-file
+
+cp test.sh test2.sh
+print_info $? cp-file
+
+
 mv test.sh test1.sh
 print_info $? rename-file
+
 
 rm test1.sh
 print_info $? rm-file
