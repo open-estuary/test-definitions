@@ -15,6 +15,7 @@ metadata:
         - d05
         - d03
     level: 1
+    totalcase: 10
 run:
     steps:
         - "cd auto-test/distributions/distribution/ftp; ./ftp.sh; cd -"
