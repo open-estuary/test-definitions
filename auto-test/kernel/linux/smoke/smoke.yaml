@@ -8,6 +8,8 @@ metadata:
         - fyuanz_2010@163.com
     os:
         - centos
+        - opensuse
+        - fedora  
     scope:
         - linux
     devices:

@@ -49,6 +49,9 @@ run() {
 create_out_dir "${OUTPUT}"
 
 install
+ls -l
+print_info $? pwd
+
 run "pwd" 
 print_info $? pwd
 
