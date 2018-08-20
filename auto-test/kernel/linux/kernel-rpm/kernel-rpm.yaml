@@ -14,7 +14,9 @@ metadata:
     devices:
         - d05
     level: 1
-    totalcase: 13
+    totalcase:
+        centos: 5
+        ubuntu: 2
        
 run:
     steps:

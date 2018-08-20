@@ -17,7 +17,7 @@ metadata:
     environment:
         - lava-test-shell
     level: 5
-    totalcase: 6
+    totalcase:
 params:
     ISOL_CORES:   "2,3"
     SKIP_INSTALL: "False"

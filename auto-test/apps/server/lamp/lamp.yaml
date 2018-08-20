@@ -13,7 +13,8 @@ metadata:
         - d05
         - d03
     level: 1
-    totalcase: 14
+    totalcase:
+        centos: 12
 
 run:
     steps:

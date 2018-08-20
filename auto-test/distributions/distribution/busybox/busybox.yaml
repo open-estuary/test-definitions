@@ -15,7 +15,10 @@ metadata:
         - d05
         - d03
     level: 1
-    totalcase: 16
+    totalcase:
+        debian: 12
+        centos: 16
+        ubuntu: 16
 run:
     steps:
         - "cd auto-test/distributions/distribution/busybox; ./busybox.sh; cd - "

@@ -20,7 +20,8 @@ metadata:
         - d05
         - overdrive
     level: 1
-    totalcase: 6
+    totalcase:
+        centos: 6
 
 params:
     # Specify JDK vesion.
