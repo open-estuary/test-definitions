@@ -13,6 +13,7 @@ metadata:
         - d05
         - d03
     level: 5
+    totalcase: 11
 params:
     # Number of cycles helloworld is called (for loop repetitions)
     REPEAT: 1

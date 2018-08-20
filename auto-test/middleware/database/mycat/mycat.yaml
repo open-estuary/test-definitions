@@ -14,6 +14,7 @@ metadata:
         - d05
         - d03
     level: 1
+    totalcase: 21
 run:
     steps:
         - "cd auto-test/middleware/database/mycat; ./mycat.sh; cd - "

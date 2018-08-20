@@ -16,6 +16,7 @@ metadata:
     devices:
         - d05
     level: 1
+    totalcase: 3
 
 run:
     steps:

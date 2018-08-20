@@ -14,6 +14,7 @@ metadata:
         - d03
         - d05
     level: 1
+    totalcase: 10
 
 run:
     steps:
