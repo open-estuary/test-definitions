@@ -11,6 +11,7 @@ if [ `whoami` != 'root' ]; then
         exit 1
 fi
 
+
 #Check that the kernel supports KVM
 ret=`dmesg|grep kvm|grep "initialized successfully"|awk '{print $7,$8}'`
 if [ "$ret"x = "initialized successfully"x ];then
@@ -24,6 +25,7 @@ pkgs="qemu-kvm qemu-efi libvirt-bin virtinst"
 install_deps "${pkgs}"
 print_info $? install-package
 
+
 #Modify configuration file
 sed -i "s/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g" /etc/libvirt/libvirtd.conf
 sed -i "s/#unix_sock_ro_perms = "0777"/unix_sock_ro_perms = "0777"/g" /etc/libvirt/libvirtd.conf
@@ -33,6 +35,8 @@ sed -i "s/#auth_unix_rw = "none"/auth_unix_rw = "none"/g" /etc/libvirt/libvirtd.
 sed -i "s/#listen_tls = 0/listen_tls = 0/g" /etc/libvirt/libvirtd.conf
 sed -i "s/#listen_tcp = 1/listen_tcp = 1/g" /etc/libvirt/libvirtd.conf
 sed -i "s/#auth_tcp="sasl"/auth_tcp="none"/g" /etc/libvirt/libvirtd.conf
+sed -i "s/#user = "root"/user = "root"/g" /etc/libvirt/qemu.conf
+sed -i "s/#group = "root"/group = "root"/g" /etc/libvirt/qemu.conf
 print_info $? modify_configure
 
 cp demo.xml domain_aarch64.xml
@@ -42,7 +46,7 @@ print_info $? modify_uuid
 sed -i "s%<source file='/home/dingyu/cirros-0.4.0-aarch64-disk.img'/>%<source file='${url}/cirros-0.4.0-aarch64-disk.img'/>%g" domain_aarch64.xml
 print_info $? modify_adress
 
-wget http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-aarch64-disk.img 
+wget http://120.31.149.194:18083/test_dependents/cirros-0.4.0-aarch64-disk.img  
 print_info $? download_img
 
 #Start the libvirt service
