@@ -18,7 +18,7 @@ fi
 
 #install numactl
 case $distro in
-    "centos"|"ubuntu")
+    "centos"|"ubuntu"|"debian"|"opensuse"|"fedora")
         pkgs="numactl"
         install_deps "${pkgs}"
         print_info $? install-numactl
@@ -35,16 +35,15 @@ if [[ $available != "" ]]&&[[ $cpus != "" ]]&&[[ $size != "" ]]&&[[ $free != "" 
 else
 	print_info 1 shownuma
 fi
-
 numnodes=`numactl -H|grep -o -P '(?<=available: ).*(?= nodes)'`
 for((i=0;i<$numnodes;i++));
 do
 nodecpu="numactl -H|grep -o -P '(?<=node $i cpus:).*'"
 nodecpus=`eval $nodecpu`
 if [ "$nodecpus" != "" ];then
-	print_info 0 node${i}cpu
+        print_info 0 node${i}cpu
 else
-	print_info 1 node${i}cpu
+        print_info 1 node${i}cpu
 fi
 
 nodesize="numactl -H|grep -o -P '(?<=node $i size: ).*(?= MB)'"
@@ -54,7 +53,6 @@ if [[ "$nodesizes" -gt 0 ]];then
 else
         print_info 1 node${i}size
 fi
-
 nodefree="numactl -H|grep -o -P '(?<=node $i free: ).*(?= MB)'"
 nodefrees=`eval $nodefree`
 if [[ "$nodefrees" -gt 0 ]];then
@@ -64,6 +62,25 @@ else
 fi
 done
 
+#Verify the total number of CPU and memory
+numcpus=`cat /proc/cpuinfo| grep "processor"| wc -l`
+nummems=`free -m |grep Mem | awk '{print $2}'`
+sumcpus=0
+summems=0
+for((i=0;i<$numnodes;i++));
+do
+numcpu=`numactl -H|grep "node ${i} cpus"|awk -F ":" '{print $2}'|wc -w`
+nummem=`numactl -H|grep "node ${i} size"|grep -o -P '(?<=size: ).*(?= MB)'`
+a=$sumcpus
+b=$summems
+declare -i sumcpus=$a+$numcpu
+declare -i summems=$b+$nummem
+done
+if [ $numcpus -eq $sumcpus ]&&[ `expr $nummems - $summems` -lt 5 ];then
+        print_info 0 summary
+else
+        print_info 1 summary
+fi
 #Show NUMA policy settings of the current process
 policy=`numactl -s|grep "policy"`
 preferred=`numactl -s|grep "preferred"`
@@ -77,6 +94,30 @@ else
 	print_info 1 numapolicy
 fi
 
+#View the current policy after setting up--default preferred interleave bind
+if [ `numactl -s|grep "policy"|awk '{print $2}'` = "default" ];then
+	print_info 0 default-policy
+else
+	print_info 1 default-policy
+fi
+
+if [ `numactl --preferred 1 numactl --show |grep "policy"|awk '{print $2}'` = "preferred" ];then
+	print_info 0 preferred-policy
+else
+        print_info 1 preferred-policy
+fi
+
+if [ `numactl --interleave=all numactl --show|grep "policy"|awk '{print $2}'` = "interleave" ];then
+	print_info 0 interleave-policy
+else
+	print_info 1 interleave-policy
+fi
+
+if [ `numactl -m 0 numactl --show|grep "policy"|awk '{print $2}'` = "bind" ];then
+	print_info 0 bind-policy
+else
+	print_info 1 bind-policy
+fi
 #Verify that access memory in the same node is faster than the different nodes--write
 numactl --cpubind=0 --membind=0 dd if=/dev/zero of=/dev/shm/A bs=1M count=1000 2>> samewrite.log
 numactl --cpubind=0 --membind=1 dd if=/dev/zero of=/dev/shm/A bs=1M count=1000 2>> diffwrite.log
@@ -101,13 +142,10 @@ else
 fi
 rm -f sameread.log diffread.log
 
-#remove numactl
+#remove the numactl
 case $distro in
-	centos)
-	yum remove numactl -y
-	print_info $? rm-numactl
-	;;
-	ubuntu)
-	apt-get remove numactl -y
-	print_info $? rm-numactl
+    "centos"|"ubuntu"|"debian"|"opensuse"|"fedora")
+        pkgs="numactl"
+        remove_deps "${pkgs}"
+        print_info $? remove-numactl
 esac

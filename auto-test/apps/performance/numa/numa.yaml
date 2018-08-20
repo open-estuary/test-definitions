@@ -3,11 +3,10 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "numa numa"
     maintainer:
-        - fyuanz_2010@163.com
+        - xuexing4@hisilicon.com
     scope:
         - numa
     os:
-       - centos
        - ubuntu
     devices:
         - d05
