@@ -6,10 +6,13 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        -distribution
+        -file
     os:
         - centos
         - ubuntu
+        - debian
+        - fedora
+        - opensuse
     devices:
         - d05
         - d03
