@@ -16,6 +16,7 @@ metadata:
     devices:
         - d05
         - d03
+        - d06
     level: 1
 run:
     steps:
