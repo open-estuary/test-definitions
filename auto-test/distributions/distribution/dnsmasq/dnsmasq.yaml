@@ -6,10 +6,13 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - distribution
+	- dnsmasq
     os:
         - centos
         - ubuntu
+	- fedora
+	- debian
+	- opensuse
     devices:
         - d05
         - d03
