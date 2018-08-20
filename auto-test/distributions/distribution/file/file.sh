@@ -28,13 +28,17 @@ print_info $? write-file
 cat test.sh
 print_info $? cat-file
 
-#清空文件内容
-true >test.sh
-print_info $? true-file
-
 #复制文件并命名，不改变原文件
 cp test.sh test2.sh
 print_info $? cp-file
+
+#合并文件
+cat test.sh test2.sh >test3.sh
+print_info $? bing_file
+
+#清空文件内容
+true >test.sh
+print_info $? true-file
 
 #复制文件并命名，删除原文件
 mv test.sh test1.sh
