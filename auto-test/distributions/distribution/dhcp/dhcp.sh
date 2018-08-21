@@ -27,7 +27,7 @@ esac
 #获取IP地址
 ROUTE_ADDR=$(ip route list |grep default |awk '{print $3}' |head -1)
 #获取到激活的网卡名称
-inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'|awk '{print $1}'| head -1'
+inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'|awk '{print $1}'| head -1`
 echo $inet
 #执行dhclient命令，并ping前面获取到的ip地址，看是否可以ping的通
 
