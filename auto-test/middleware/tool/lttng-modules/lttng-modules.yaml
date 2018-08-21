@@ -13,6 +13,7 @@ metadata:
         - d03
         - d05
     level: 5 
+    totalcase: 30
 run:
     steps:
         - "cd auto-test/middleware/tool/lttng-modules; ./lttng-modules.sh; cd -"

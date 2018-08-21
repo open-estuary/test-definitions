@@ -15,6 +15,7 @@ metadata:
         - d03
         - d05
     level: 1
+    totalcase: 6
 run:
     steps:
         - "cd auto-test/kernel/linux/kernel-compilation; ./kernel-compilation.sh; cd -"

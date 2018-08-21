@@ -16,6 +16,7 @@ metadata:
         - d05
         - d03
     level: 1
+    totalcase: 1
 
 params:
     SKIP_INSTALL: "False"
