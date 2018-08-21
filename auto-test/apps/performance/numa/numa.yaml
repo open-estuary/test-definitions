@@ -8,6 +8,9 @@ metadata:
         - numa
     os:
        - ubuntu
+       - debian
+       - fedora
+       - opensuse
     devices:
         - d05
     level: 1
