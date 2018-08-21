@@ -7,12 +7,20 @@ cd ../../../../utils
 cd -
 
 IFCONFIG=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
+
 case $distro in
-    "centos"|"fedora"|"ubuntu"|"debian")
+    "centos"|"fedora")
+        yum install net-tools
+        IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'`
+        echo ${IP}
+        ;;
+    "ubuntu"|"debian")
+        apt install net-tools
         IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'`
         echo ${IP}
         ;;
     "opensuse")
+        zypper install net-tools
         IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'|awk -F ':' '{print $2}'`
         echo ${IP}
         ;;
