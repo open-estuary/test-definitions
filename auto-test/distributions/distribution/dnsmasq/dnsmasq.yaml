@@ -6,13 +6,13 @@ metadata:
     maintainer:
         - 1136920311@qq.com
     scope:
-	- dnsmasq
+        - dnsmasq
     os:
         - centos
         - ubuntu
-	- fedora
-	- debian
-	- opensuse
+        - fedora
+        - debian
+        - opensuse
     devices:
         - d05
         - d03
