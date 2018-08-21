@@ -17,7 +17,7 @@ metadata:
     totalcase: 7
 params:
     # Number of cycles helloworld is called (for loop repetitions)
-    REPEAT: 1
+    REPEAT: 5
 params:
     VERSION: ''
 
