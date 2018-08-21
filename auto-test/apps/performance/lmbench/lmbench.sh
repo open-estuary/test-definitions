@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/sh
 
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
@@ -12,14 +12,14 @@ pkgs="expect"
 install_deps "${pkgs}"
 print_info $? install-package
 
-wget http://192.168.50.122:8083/test_dependents/lmbench3.tar.gz
+wget http://120.31.149.194:18083/test_dependents/lmbench3.tar.gz
 print_info $? download_lmbench3
 
 tar zxf lmbench3.tar.gz && rm -rf lmbench3.tar.gz
 
 cd lmbench3
 url=`pwd`
-mkdir log.txt
+touch log.txt
 
 
 mkdir SCCS && cd SCCS 
@@ -28,40 +28,41 @@ cd ../
 
 sed -i "s%$O/lmbench : ../scripts/lmbench bk.ver%$O/lmbench : ../scripts/lmbench%g" src/Makefile
 
-cp ./gns-os /scripts
+cp ../gnu-os scripts/
+print_info $? gnu-os_conf
 
 make build
 print_info $? build_lmbench3
 
 EXPECT=$(which expect)
 $EXPECT << EOF
-set timeout 100
+set timeout 3000
 spawn make results
-expect "MULTIPLE COPIES [default 1]"
+expect "MULTIPLE COPIES"
 send "1\r"
-expect "Job placement selection:"
+expect "Job placement selection"
 send "1\r"
-expect "MB [default 180375]"
+expect "MB"
 send "512\r"
-expect "SUBSET (ALL|HARWARE|OS|DEVELOPMENT) [default all]"
+expect "SUBSET"
 send "\r"
-expect "FASTMEM [default no]"
+expect "FASTMEM"
 send "\r"
-expect "SLOWFS [default no]"
+expect "SLOWFS"
 send "\r"
-expect "DISKS [default none]"
+expect "DISKS"
 send "\r"
-expect "REMOTE [default none]"
+expect "REMOTE"
 send "\r"
-expect "Processor mhz [default 2398 MHz, 0.4170 nanosec clock]"
+expect "Processor mhz"
 send "\r"
-expect "FSDIR [default /var/tmp]"
+expect "FSDIR"
 send "\r"
-expect "Status output file [default /dev/tty]"
+expect "Status output file"
 send "\r"
-expect "Mail results [default yes]"
+expect "Mail results"
 send "n\r"
-expect "make[1]: Leaving directory '${url}/src'"
+expect "Leaving directory '${url}/src'"
 
 expect eof
 EOF
@@ -69,14 +70,17 @@ EOF
 print_info $? Confguration_do
 
 make see |tee log.txt
+
 results=`cat log.txt|grep "Communication bandwidths"`
-if [ "results"x != ""x ];then
+if [ "${results}"x != ""x ];then
 	print_info 0 run_pass
 else
 	print_info 1 run_fail
-
+fi
 
 cd ../
+
+cp -rf lmbench3/* lmbench3-results/
 rm -rf lmbench3
 print_info $? delete_lmbench3
 
