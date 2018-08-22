@@ -4,13 +4,15 @@ metadata:
     description: "Use openssl speed command to test the performance of
                   cryptographic algorithms"
     maintainer:
-        - hongxin_228@163.com
+        - 1136920311@qq.com
     os:
         - opensuse
         - ubuntu
         - centos
+        - fedora
+        - debian
     scope:
-        - distribution
+        - openssh
     devices:
         - d03
         - d05
