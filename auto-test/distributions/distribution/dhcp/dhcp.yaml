@@ -15,7 +15,6 @@ metadata:
         - fedora
     devices:
         - d05
-        - d06
         - d03
     level: 1
 
