@@ -4,11 +4,15 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "network_basic is the most basic function of the network"
     maintainer:
-        - hongxin_228@163.com
+        - 1136920311@qq.com
     scope:
-        - distribution
+        - network-basic
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     devices:
         - d05
         - d03
