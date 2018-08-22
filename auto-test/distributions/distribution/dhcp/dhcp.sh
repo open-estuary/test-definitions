@@ -54,8 +54,8 @@ echo $inet
 
 #dhclient -v -r enahisic2i0
 dhclient -v -r $inet
-ping -c 5 ${ROUTE_ADDR} >1.txt 2>&1
-cat 1.txt|grep -i "unreachable"
+#ping -c 5 ${ROUTE_ADDR} >1.txt 2>&1
+#cat 1.txt|grep -i "unreachable"
 print_info $? delete-ip
 
 #dhclient -v enahisic2i0
@@ -71,3 +71,28 @@ if [ "$str" != "" ];then
 else
     lava-test-case $TCID --result fail
 fi
+
+case $distro in
+     "centos")
+         remove_deps "${pkgs}"
+         print_info $? remove-package
+         ;;
+     "opensuse")
+         remove_deps "${pkgs}"
+         print_info $? remove-package
+         ;;
+     "debian")
+        remove_deps "${pkgs}"
+         print_info $? remove-package
+         ;;
+     "centos")
+         remove_deps "${pkgs}"
+         print_info $? remove-package
+         ;;
+     "ubuntu")
+        remove_deps "${pkgs}"
+         print_info $? remove-package
+         ;;
+    
+esac
+
