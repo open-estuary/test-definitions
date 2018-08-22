@@ -220,7 +220,9 @@ dist_name() {
         dist="unknown"
         warn_msg "Unsupported distro: cannot determine distribution name"
     fi
-
+    if [ $dist == "opensuse-leap" ];then
+		 dist=opensuse
+	fi
     # convert dist to lower case
     dist=$(echo ${dist} | tr '[:upper:]' '[:lower:]')
     case "${dist}" in
@@ -278,6 +280,16 @@ install_deps() {
 		sleep 2
 	    done
             ;;
+           opensuse)
+           while (($i <=5 ));do
+              zypper install -y ${pkgs} 
+             if [ $? -eq 0 ]; then
+                    break;
+             fi
+             let "i++"
+             sleep 2
+            done
+            ;;
           *)
             warn_msg "Unsupported distro: ${dist}! Package installation skipped."
 	    i=5
@@ -317,6 +329,9 @@ remove_deps() {
             ;;
           fedora)
             dnf remove -y ${pkgs}
+			;;
+          opensuse)
+            zypper remove -y ${pkgs}
             ;;
           *)
             warn_msg "Unsupported distro: ${dist}! Package remove skipped."
