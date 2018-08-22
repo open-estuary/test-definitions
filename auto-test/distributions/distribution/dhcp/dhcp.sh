@@ -55,7 +55,7 @@ echo $inet
 #dhclient -v -r enahisic2i0
 dhclient -v -r $inet
 ping -c 5 ${ROUTE_ADDR} >1.txt 2>&1
-cat 1.txt|grep "unreachable"
+cat 1.txt|grep -i "unreachable"
 print_info $? delete-ip
 
 #dhclient -v enahisic2i0
