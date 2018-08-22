@@ -135,9 +135,14 @@ case $distro in
         ;;
 esac
 sed -i 's/nameserver 127.0.0.1/nameserver 114.114.114.114/g' /etc/resolv.conf
-sed -i "s%addn-hosts=/etc/dnsmasq.hosts%%g" /etc/dnsmasq.conf
-sed -i "s%address=/freehao123.com/${IP}%%g" /etc/dnsmasq.conf
-sed -i "s%resolv-file=/etc/resolv.dnsmasq.conf%#resolv-file=%g" /etc/dnsmasq.conf
-sed -i "s/strict-order/#strict-order/g" /etc/dnsmasq.conf
-sed -i "s%addn-hosts=/etc/dnsmasq.hosts%#addn-hosts=/etc/banner_add_hosts%g" /etc/dnsmasq.conf
-sed -i "s/listen-address=127.0.0.1,${IP}/#listen-address=/g" /etc/dnsmasq.conf 
+case $distro in
+    "debian"|"fedora")
+	sed -i "s%addn-hosts=/etc/dnsmasq.hosts%%g" /etc/dnsmasq.conf
+	sed -i "s%address=/freehao123.com/${IP}%%g" /etc/dnsmasq.conf
+	sed -i "s%resolv-file=/etc/resolv.dnsmasq.conf%#resolv-file=%g" /etc/dnsmasq.conf
+	sed -i "s/strict-order/#strict-order/g" /etc/dnsmasq.conf
+	sed -i "s%addn-hosts=/etc/dnsmasq.hosts%#addn-hosts=/etc/banner_add_hosts%g" /etc/dnsmasq.conf
+	sed -i "s/listen-address=127.0.0.1,${IP}/#listen-address=/g" /etc/dnsmasq.conf 
+	;;
+esac
+
