@@ -41,7 +41,7 @@ case $distro in
      "debian")
 	pkgs="isc-dhcp-client"
 	install_deps "${pkgs}"
-	printf_info $? install-package
+	print_info $? install-package
 	;;
 
 esac
@@ -54,7 +54,8 @@ echo $inet
 
 #dhclient -v -r enahisic2i0
 dhclient -v -r $inet
-ping -c 5 ${ROUTE_ADDR}
+ping -c 5 ${ROUTE_ADDR} >1.txt 2>&1
+cat 1.txt|grep "unreachable"
 print_info $? delete-ip
 
 #dhclient -v enahisic2i0
