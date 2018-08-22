@@ -48,7 +48,7 @@ ping -c 5 ${ROUTE_ADDR} 2>&1 |tee dhcp.log
 #检查ping的log中是否包含 64 bytes 这个字符串
 str=`grep -Po "64 bytes" dhcp.log`
 TCID="dhcp"
-#检测到特定字符串的话，说明dhclient命令执行成功
+#检测到特定字符串的话，说明dhclient命令执行成功,否则就执行失败
 if [ "$str" != "" ];then
     lava-test-case $TCID --result pass
 else
