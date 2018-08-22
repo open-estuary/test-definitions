@@ -23,6 +23,11 @@ case $distro in
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
+     "ubuntu")
+	pkgs="isc-dhcp-server"
+	install_deps "${pkgs}"
+	print_info $? install-package
+	;;
 esac
 #获取IP地址
 ROUTE_ADDR=$(ip route list |grep default |awk '{print $3}' |head -1)
