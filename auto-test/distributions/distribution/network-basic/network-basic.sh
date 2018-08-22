@@ -56,7 +56,7 @@ print_info $? ping-gateway
 run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI -o curl_video.avi" "download-a-file"
 print_info $? curl
 
-remove_deps "${pkgs}"
+remove_deps "net-tools"
 print_info $? removse-pkgs
 
 
