@@ -6,6 +6,12 @@ cd ../../../../utils
 . ./sh-test-lib
 cd -
 
+if [ `whoami` != "root" ];then
+	echo "YOu must be the root to run this script" >$2
+	exit 1
+fi
+
+
 IFCONFIG=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
 
 case $distro in
