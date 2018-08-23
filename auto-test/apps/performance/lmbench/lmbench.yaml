@@ -14,7 +14,8 @@ metadata:
         - d05
         - d03
     level: 5
-    totalcase: 7
+    totalcase:
+        centos: 10
 params:
     # Number of cycles helloworld is called (for loop repetitions)
     REPEAT: 5

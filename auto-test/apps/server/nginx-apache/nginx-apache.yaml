@@ -13,7 +13,8 @@ metadata:
         - d05
         - d03
     level: 1
-    totalcase: 15
+    totalcase:
+        centos: 13
 run:
     steps:
         - "cd auto-test/apps/server/nginx-apache; ./nginx-apache.sh; cd - "

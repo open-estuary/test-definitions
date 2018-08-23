@@ -14,7 +14,9 @@ metadata:
         - d05
         - d03
     level: 1
-    totalcase: 4
+    totalcase:
+        centos: 9
+        ubuntu: 4
 run:
     steps:
         - "cd auto-test/distributions/distribution/compilation; ./compilation.sh; cd -"

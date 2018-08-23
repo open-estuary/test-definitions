@@ -12,7 +12,7 @@ metadata:
         - d03
         - d05
     level: 5
-    totalcase: 8
+    totalcase:
 
 run:
     steps:

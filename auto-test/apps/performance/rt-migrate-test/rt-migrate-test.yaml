@@ -15,7 +15,8 @@ metadata:
         - d03
         - d05
     level: 1
-    totalcase: 1
+    totalcase:
+        centos: 1
 params:
     # Number of loops.
     LOOPS: "100"

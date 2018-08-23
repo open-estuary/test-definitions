@@ -14,7 +14,8 @@ metadata:
         - d03
         - d05
     level: 1
-    totalcase: 25
+    totalcase:
+        centos: 11
 run:
     steps:
         - "cd auto-test/middleware/database/cockroach; ./cockroachSecureTest.sh; cd -"
