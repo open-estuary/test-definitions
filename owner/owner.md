@@ -7,13 +7,13 @@ Introduction : The developer and tester of each module
 | apps | performance | wangyu | dingyu |
 |  | server | wangyu | dingyu |
 |  | stress | wangyu | wangsisi |
-|  | website | peiqiang | xuexing |
+|  | website | fangyuanzheng | xuexing |
 |  | e-commerce | zhouxingchen | xuexing |
 |  | bigdata | wangyu | mahongxin |
 | bootloaders | uefi | huangming | xuexing |
 | distributions | distribution | linwenkai | wangsisi |
-|  | build | linwenkai | rensiyi |
-|  | deploy | linwenkai | rensiyi |
+|  | build | linwenkai | liubeijie |
+|  | deploy | linwenkai | liubeijie |
 | hardwareboards |  |  |  |
 | kernel | linux | liuxinliang | dingyu |
 |  | memory | liuxinliang | xuexing |
