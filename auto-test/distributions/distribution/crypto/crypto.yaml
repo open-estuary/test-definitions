@@ -6,8 +6,12 @@ metadata:
         - hongxin_228@163.com
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     scope:
-        - distribution
+        - crypto
     devices:
         - d03
         - d05
