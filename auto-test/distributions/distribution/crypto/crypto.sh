@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #gtest is Google's Unit test tool
 # Author: mahongxin <hongxin_228@163.com>
 set -x
@@ -14,19 +14,22 @@ if [ `whoami` != 'root' ]; then
 fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
-    "centos")
-        #yum install gcc -y
-        #yum install gcc-c++ -y
-        #yum install make -y
-        #yum install unzip -y
+	"centos"|"fedora"|"opensuse")
         pkgs="gcc gcc-c++ make unzip wget"
         install_deps "${pkgs}"
-        wget http://192.168.50.122:8083/test_dependents/cryptopp-CRYPTOPP_5_6_5.zip
-        print_info $? get-crypto
-        unzip cryptopp-CRYPTOPP_5_6_5.zip
-        print_info $? unzip-crypto
+	print_info $? install-pkgs
         ;;
+	"ubuntu"|"debian")
+	pkgs="gcc g++ make unzip wget"
+	install_deps "${pkgs}"
+	print_info $? install-pkgs
+	;;
 esac
+wget http://192.168.50.122:8083/test_dependents/cryptopp-CRYPTOPP_5_6_5.zip
+        print_info $? get-crypto
+unzip cryptopp-CRYPTOPP_5_6_5.zip
+        print_info $? unzip-crypto
+
 cd cryptopp-CRYPTOPP_5_6_5
 make
 make libcryptopp.so
@@ -149,10 +152,17 @@ if [ "$str" != "" ];then
 else
     lava-test-case $TCID --result fail
 fi
+rm -rf cryptopp-CRYPTOPP_5_6_5
+rm -f cryptopp-CRYPTOPP_5_6_5.zip Cryptopp_test.cc Cryptopp_test crytest.log
 case $distro in
-     "centos")
-         #yum remove gcc gcc-c++ make -y
-         remove_deps "${pkgs}"
-         print_info $? remove-package
-         ;;
+        "centos"|"fedora"|"opensuse")
+        pkgs="gcc gcc-c++ make unzip wget"
+        remove_deps "${pkgs}"
+        print_info $? remove-pkgs
+        ;;
+        "ubuntu"|"debian")
+        pkgs="gcc g++ make unzip wget"
+        remove_deps "${pkgs}"
+        print_info $? remove-pkgs
+        ;;
 esac
