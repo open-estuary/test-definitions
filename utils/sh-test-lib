@@ -327,6 +327,7 @@ remove_deps() {
             ;;
           fedora)
             dnf remove -y ${pkgs}
+            ;;
           opensuse)
             zypper remove -y ${pkgs}
             ;;
