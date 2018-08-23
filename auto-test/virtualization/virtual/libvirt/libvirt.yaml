@@ -13,9 +13,8 @@ metadata:
     devices:
         - d05
         - d06
-    level: 1
-    totalcase:
-        ubuntu: 37
+    level: 5
+    totalcase: 38
 
 run:
     steps:
