@@ -1,4 +1,3 @@
-
 #!/bin/sh 
 set -x
 cd ../../../../utils
@@ -12,11 +11,21 @@ if [ `whoami` != 'root' ] ; then
 fi
 
 case $distro in
-    "centos" )
-         yum install -y lldpad
-         print_info $? lldpad
-         ;;
- esac
+       "centos"|"debian"|"fedora"|"ubuntu")
+        pkgs="lldpad"
+        install_deps "${pkgs}"
+        print_info $? lldpad_install
+        ;;
+       "opensuse")
+        pkgs="lldpd"
+        install_deps "${pkgs}"
+        print_info $? lldpad_install
+        ;;
+        *)
+        exit 1
+        ;;
+esac
+
 
 # run the lldp daemon
 lldpad -d
@@ -35,7 +44,8 @@ done
 print_info $? script
 
 # check ethernet connection information
-lldptool -t -i enahisic2i0
+inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'|awk '{print $1}'| head -1`
+lldptool -t -i $inet
 print_info $? lldptool
 
 #stop process of lldpad -d
@@ -44,6 +54,6 @@ kill -9 $lpid
 print_info $? kill_lldpad
 
 # Remove package
-yum remove -y lldpad
+remove_deps "${pkgs}"
 print_info $? remove
 

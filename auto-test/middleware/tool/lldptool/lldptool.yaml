@@ -6,9 +6,13 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - tool
+        - wss
     os:
         - centos
+        - opensuse
+        - ubuntu
+        - fedora
+        - debian
     devices:
         - d03
         - d05
