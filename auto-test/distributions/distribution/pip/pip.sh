@@ -14,11 +14,9 @@ fi
 case $distro in
     "centos"|"fedora")
         yum install python2-pip.noarch -y
-        print_info $? install-pip
         ;;
     "ubuntu"|"debian")
         apt-get install python-pip -y
-        print_info $? install-pip
         ;;
      "opensuse")
         pkgs="python2"
@@ -47,9 +45,25 @@ case $distro in
     "ubuntu"|"debian")
         apt-get remove python-pip -y
         ;;
-    "opensuse"
+    "opensuse"£©
     remove_deps "${pkgs}"
     ;;
+esac
+
+case $distro in
+    "centos"|"fedora")
+        yum install python2-pip.noarch -y
+        print_info $? install-pip
+        ;;
+    "ubuntu"|"debian")
+        apt-get install python-pip -y
+        print_info $? install-pip
+        ;;
+     "opensuse")
+        pkgs="python2"
+        install_deps "${pkgs}" 
+        print_info $? install-pip
+        ;;
 esac
 
 pip install -U pip
@@ -82,7 +96,7 @@ case $distro in
         apt-get remove python-pip -y
         print_info $? remove-pip
         ;;
-    "opensuse"
+    "opensuse"£©
     remove_deps "${pkgs}"
     print_info $? remove-pip
     ;;
