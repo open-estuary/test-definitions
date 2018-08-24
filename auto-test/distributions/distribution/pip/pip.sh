@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Author: mahongxin <hongxin_228@163.com>
 set -x
 cd ../../../../utils
@@ -12,17 +12,52 @@ if [ `whoami` != 'root' ]; then
     exit 1
 fi
 case $distro in
-    "centos")
+    "centos"|"fedora")
         yum install python2-pip.noarch -y
         print_info $? install-pip
         ;;
-    "ubuntu")
+    "ubuntu"|"debian")
         apt-get install python-pip -y
         print_info $? install-pip
         ;;
+     "opensuse")
+        pkgs="python2"
+        install_deps "${pkgs}" 
+        ;;
 esac
+
+#部分发行版升级后会导致内部函数变化，需要卸载后在执行一遍
+pip install -U pip
+pip install requests
+pip uninstall requests -y
+pip install requests
+pip uninstall requests -y
+pip install requests
+pip uninstall requests -y
+pip list
+pip list --outdated
+pip install --upgrade anymarkup
+pip show anymarkup
+pip search "jquery"
+
+case $distro in
+    "centos"|"fedora")
+        yum remove python2-pip -y
+        ;;
+    "ubuntu"|"debian")
+        apt-get remove python-pip -y
+        ;;
+    "opensuse"
+    remove_deps "${pkgs}"
+    ;;
+esac
+
 pip install -U pip
 print_info $? pip-update
+pip install requests
+pip uninstall requests -y
+pip install requests
+pip uninstall requests -y
 pip install requests
 print_info $? pip-install-package
 pip uninstall requests -y
@@ -39,12 +74,16 @@ pip search "jquery"
 print_info $? pip-search
 
 case $distro in
-    "centos")
+    "centos"|"fedora")
         yum remove python2-pip -y
         print_info $? remove-pip
         ;;
-    "ubuntu")
+    "ubuntu"|"debian")
         apt-get remove python-pip -y
         print_info $? remove-pip
         ;;
+    "opensuse"
+    remove_deps "${pkgs}"
+    print_info $? remove-pip
+    ;;
 esac
