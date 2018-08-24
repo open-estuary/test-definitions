@@ -2,8 +2,8 @@
 #!/bin/sh 
 set -x
 cd ../../../../utils
-    .        ./sys_info.sh
-             ./sh-test-lib
+. ./sys_info.sh
+. ./sh-test-lib
 cd -
 
 if [ `whoami` != 'root' ] ; then
@@ -11,27 +11,30 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
-package="sysstat"
-
-for P in ${package};do
-    echo "$P install"
 case $distro in
-    "centos" )
-        yum install -y $P
-        print_info $? sysstat
+    "centos"|"opensuse"|"ubuntu"|"debian" )       
+	#yum install -y sysstat
+        pkgs="sysstat"
+	install_deps "${pkgs}"
+        print_info $? install_sysstat
         ;;
- esac
-done
+    "fedora")
+	#dnf install -y sysstat.aarch64
+	pkgs="sysstat.aarch64"
+	install_deps "${pkgs}"
+	print_info $? install_sysstat
+	;;
+esac
 
-# run pidstat
+# pidstat，输出系统启动后所有活动进程的CPU统计信息
 pidstat
 print_info $? all-cpu
 
-# statistics cpu usage information
+# pidstat输出以2秒为采样周期，输出10次cpu使用统计信息
 pidstat 2 10
 print_info $? cpu-usage
 
-# display cpu usage
+# pidstat将显示各活动进程的cpu使用统计
 pidstat -u 1 2
 print_info $? cpu
 
@@ -39,7 +42,7 @@ print_info $? cpu
 pidstat -r 1 2
 print_info $? memory
 
-# display IO statistics
+# 查看进程IO的统计信息
 pidstat -d 1 2 
 print_info $? IO
 
@@ -48,5 +51,13 @@ pidstat -p 1 1 10
 print_info $? pid
 
 # remove package
-yum remove -y $P
-print_info $? sysstat
+case $distro in
+	"centos"|"opensuse"|"ubuntu"|"debian")
+          remove_deps "${pkgs}"
+          print_info $? remove_pkgs
+	  ;;
+        "fedora")
+       	  remove_deps "${pkgs}"
+	  print_info $? remove_pkgs
+	 ;;
+esac
