@@ -14,7 +14,7 @@ case $distro in
         print_info $? install-dns
         ;;
 esac
-cat << EOF >> /etc/bind/named.conf.local
+cat << EOF > /etc/bind/named.conf.local
 zone "tonv.my" {
     type master;
     file "/etc/bind/zones/tonv.my.db";
@@ -26,7 +26,7 @@ zone "1.168.192.in-addr.arpa" {
 EOF
 cd /etc/bind
 mkdir zones
-cat << EOF >> /etc/bind/zones/tonv.my.db
+cat << EOF > /etc/bind/zones/tonv.my.db
 tonv.my. IN SOA ns1.tonv.my. admin.tonv.my. (
 2007031001
 28800
@@ -39,7 +39,7 @@ www IN A 192.168.1.70
 ns1 IN A 192.168.1.80
 mail IN A 192.168.1.90
 EOF
-cat << EOF >> /etc/bind/zones/rev.1.168.192.in-addr.arpa
+cat << EOF > /etc/bind/zones/rev.1.168.192.in-addr.arpa
 @ IN SOA ns1.tonv.my. admin.tonv.my. (
 2007031001;
 28800;
@@ -54,11 +54,14 @@ cat << EOF >> /etc/bind/zones/rev.1.168.192.in-addr.arpa
 EOF
 service bind9 restart
 print_info $? start-dns
-board_ip=`ifconfig |grep "inet"|cut -c21-34|head -n 1`
+board_ip=`ifconfig |grep "inet"|cut -c14-26|head -n 1`
+echo $borad_ip
 #sed -i '1i \nameserver 192.168.1.254' /etc/resolv.conf
+sed -i "s/nameserver/#nameserver/g" /etc/resolv.conf
 sed -i "1i nameserver ${board_ip}" /etc/resolv.conf
+#sed -i "nameserver ${board_ip}" /etc/resolv.conf
 service bind9 restart
-dig host www.tonv.my |grep -Po "has address"
+dig host www.tonv.my
 print_info $? forward-dns
 dig 192.168.1.70 2>&1 | tee -a dig.log
 print_info $? reverse-dns
