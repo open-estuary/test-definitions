@@ -9,6 +9,10 @@ metadata:
         - distribution
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
+        - opensuse
     devices:
         - d05
         - d03

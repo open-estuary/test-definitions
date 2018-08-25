@@ -9,7 +9,7 @@ if [ `whoami` != 'root' ]; then
     exit 1
 fi
 case $distro in
-    "ubuntu")
+    "debian")
         apt-get install bind9 -y;
         print_info $? install-dns
         ;;
@@ -55,19 +55,17 @@ EOF
 service bind9 restart
 print_info $? start-dns
 board_ip=`ifconfig |grep "inet"|cut -c14-26|head -n 1`
-echo $borad_ip
 #sed -i '1i \nameserver 192.168.1.254' /etc/resolv.conf
-sed -i "s/nameserver/#nameserver/g" /etc/resolv.conf
+sed -i "s/nameserver/# nameserver/g" /etc/resolv.conf
 sed -i "1i nameserver ${board_ip}" /etc/resolv.conf
-#sed -i "nameserver ${board_ip}" /etc/resolv.conf
 service bind9 restart
-dig host www.tonv.my
+host www.tonv.my
 print_info $? forward-dns
-dig 192.168.1.70 2>&1 | tee -a dig.log
+host 192.168.1.70 2>&1 | tee -a dig.log
 print_info $? reverse-dns
 #throu = `grep -Po "192.168.1.70" nfs.log`
 case $distro in
-    "ubuntu")
+    "debian")
         apt-get remove bind9 -y;
         print_info $? remove-package
         ;;

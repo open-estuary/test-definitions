@@ -4,17 +4,22 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "network_basic is the most basic function of the network"
     maintainer:
-        - hongxin_228@163.com
+        - 1136920311@qq.com
     scope:
         - distribution
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     devices:
         - d05
         - d03
     level: 1
     totalcase:
         centos: 11
+
 run:
     steps:
         - "cd auto-test/distributions/distribution/network-basic; ./network-basic.sh; cd - "
