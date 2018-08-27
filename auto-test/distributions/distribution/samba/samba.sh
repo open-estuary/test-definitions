@@ -8,14 +8,14 @@ cd ../../../../utils
 cd -
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
-    "ubuntu")
+    "ubuntu"|"debian")
           apt-get install samba -y
           apt-get install smbclient -y
           apt-get install expect -y
           apt-get install selinux-utils -y
           print_info $? install-package
           ;;
-    "centos")
+    "centos"|"fedora")
           yum install samba -y
           yum install samba-client.aarch64 -y
           yum install expect -y
@@ -23,18 +23,19 @@ case $distro in
           ;;
      "opensuse")
           zypper install -y samba
+          print_info $? install-package
           ;;
 esac
 case $distro in
-    "ubuntu")
-
-         systemctl start samba
+    "ubuntu"|"debian")
+         systemctl start smbd
          print_info $? start_smb
-         systemctl restart samba
+         systemctl restart smbd
          print_info $? restart_smb
-         systemctl stop samba
+         systemctl stop smbd
+         print_info $? stop_smb
          ;;
-    "centos")
+    "centos"|"fedora"|"opensuse")
          systemctl restart nmb.service smb.service
          print_info $? restart_smb
          systemctl start nmb.service smb.service
@@ -76,9 +77,18 @@ chmod -R 0755 share/
      #    chown -R nobody:nobody share/
       #   ;;
 #esac
+case $distro in
+    "ubuntu"|"debian")
+         systemctl restart smbd
+         service nmbd start
+         service smbd start
+         ;;
+    "centos"|"fedora"|"opensuse")
+         systemctl restart samba
+         systemctl restart nmb.service smb.service
+         ;;
+esac
 
-systemctl restart samba
-systemctl restart nmb.service smb.service
 groupadd smbgrp
 useradd smb -G smbgrp
 
@@ -109,8 +119,19 @@ chown -R smb:smbgrp secured/
     #browsable = yes
 #EOF
 chmod 777 /home/share
-systemctl restart samba
-systemctl restart nmb.service smb.service
+
+case $distro in
+    "ubuntu")
+         systemctl restart smbd
+         service nmbd start
+         service smbd start
+         ;;
+    "centos"|"fedora"|"opensuse")
+         systemctl restart samba
+         systemctl restart nmb.service smb.service
+         ;;
+esac
+
 SMB_GET_LOG=smb_get_test.log
 SMB_PUT_LOG=smb_put_test.log
 chmod 777 $SMB_PUT_LOG
@@ -198,12 +219,16 @@ if [ $count -gt 0 ];then
     print_info $? kill-samba
 fi
 case $distro in
-    "centos")
+    "centos"|"fedora")
      yum remove samba smbclient expect selinux-utils -y
      print_info $? remove-package
      ;;
- "ubuntu")
-    apt-get remove samba samba-client.aarch64 expect -y
+ "ubuntu"|"debian")
+    apt-get remove samba  expect -y
+    print_info $? remove-package
+    ;;
+ "opensuse")
+    zypper remove -y samba
     print_info $? remove-package
     ;;
 esac

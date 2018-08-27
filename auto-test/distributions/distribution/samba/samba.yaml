@@ -9,6 +9,11 @@ metadata:
         - distribution
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse   
+
     devices:
         - d03
         - d05
@@ -24,4 +29,3 @@ parse:
    fixupdict:
    FAIL: fail
    PASS: pass
-

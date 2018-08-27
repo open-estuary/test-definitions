@@ -282,7 +282,9 @@ install_deps() {
             ;;
            opensuse)
            while (($i <=5 ));do
-              zypper install -y ${pkgs}
+           
+              zypper install -y ${pkgs} 
+              
              if [ $? -eq 0 ]; then
                     break;
              fi
