@@ -4,16 +4,19 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Dnsmasq is tool for configuring DNS servers and DHCP servers"
     maintainer:
-        - hongxin_228@163.com
+        - 1136920311@qq.com
     scope:
         - distribution
     os:
         - centos
         - ubuntu
+        - fedora
+        - debian
+        - opensuse
     devices:
         - d05
         - d03
-    level: 5
+    level: 1
     totalcase:
 run:
     steps:
