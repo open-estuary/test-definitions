@@ -13,14 +13,14 @@ INTERFACE=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
 
 case $distro in
     "centos"|"ubuntu"|"debian"|"fedora")
-	      pkgs="curl net-tools"
-	      install_deps "${pkgs}"
-	      print_info $? install-pkgs
+	pkgs="curl net-tools"
+	install_deps "${pkgs}"
+	print_info $? install-pkgs
         ;;
     "opensuse")
-	      pkgs="curl net-tools dhcp-client"
-	      install_deps "${pkgs}"
-        print_info $? install-pkgs
+	 pkgs="curl net-tools dhcp-client"
+	 install_deps "${pkgs}"
+         print_info $? install-pkgs
         ;;
 esac
 
@@ -42,30 +42,30 @@ GATEWAY=`ip route list  | grep default | awk '{print $3}'|head -1`
 
 case $distro in
     "ubuntu"|"debian"|"centos"|"fedora")
-	        run "netstat -an" "print-network-statistics"
-	        print_info $? netstat
+	run "netstat -an" "print-network-statistics"
+	print_info $? netstat
 
-        	run "route" "print-routing-tables"
-	        print_info $? route
+        run "route" "print-routing-tables"
+	print_info $? route
 
-	        run "ip link set lo up" "ip-link-loopback-up"
-	        print_info $? ip-link
+	run "ip link set lo up" "ip-link-loopback-up"
+	print_info $? ip-link
 	
-	        run "route" "route-dump-after-ip-link-loopback-up"
-	        print_info $? route-dump
+	run "route" "route-dump-after-ip-link-loopback-up"
+	print_info $? route-dump
         	;;
     "opensuse")
-	        run "ss -an" "print-network-statistics"
-          print_info $? netstat
+	run "ss -an" "print-network-statistics"
+        print_info $? netstat
 
-	        run "ip route" "print-routing-info"
-          print_info $? route_info
+	run "ip route" "print-routing-info"
+        print_info $? route_info
 
-        	run "ip link set lo up" "ip-link-loopback-up"
-          print_info $? ip-link
+        run "ip link set lo up" "ip-link-loopback-up"
+        print_info $? ip-link
 
-          run "ip route" "route-dump-after-ip-link-loopback-up"
-          print_info $? route-dump
+        run "ip route" "route-dump-after-ip-link-loopback-up"
+        print_info $? route-dump
           ;;
 esac
 
@@ -83,12 +83,12 @@ rm -rf lmbench3.tar.gz
 case $distro in
     "opensuse")
       	zypper remove -y net-tools
-	      zypper remove -y dhcp-client 
+	zypper remove -y dhcp-client 
       	print_info $? removse-pkgs
-	      ;;
+	;;
     "ubuntu"|"debian"|"centos"|"fedora")
-	      remove_deps "net-tools"
-	      print_info $? removse-pkgs
+	remove_deps "net-tools"
+	print_info $? removse-pkgs
       	;;
 esac
 
