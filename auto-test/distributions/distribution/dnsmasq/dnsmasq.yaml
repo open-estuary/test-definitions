@@ -6,17 +6,23 @@ metadata:
     maintainer:
         - 1136920311@qq.com
     scope:
-        - dnsmasq
+	- dnsmasq
     os:
         - centos
         - ubuntu
-        - fedora
-        - debian
-        - opensuse
+	- fedora
+	- debian
+	- opensuse
     devices:
         - d05
         - d03
     level: 1
+    totalcase:
+        centos: 5
+        ubuntu: 5
+        fedora: 5
+        debian: 5
+        opensuse: 5
 run:
     steps:
         - "cd auto-test/distributions/distribution/dnsmasq; ./dnsmasq.sh; cd -"
