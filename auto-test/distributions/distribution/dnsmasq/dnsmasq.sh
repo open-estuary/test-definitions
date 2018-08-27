@@ -14,11 +14,6 @@ fi
 
 IFCONFIG=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
 
-#Test user id
-if [ `whoami` != 'root' ]; then
-    echo " You must be the superuser to run this script" >&2
-    exit 1
-fi
 
 #Install the package
 case $distro in
