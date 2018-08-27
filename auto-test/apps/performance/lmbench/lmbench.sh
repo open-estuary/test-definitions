@@ -12,7 +12,7 @@ pkgs="expect"
 install_deps "${pkgs}"
 print_info $? install-package
 
-wget http://120.31.149.194:18083/test_dependents/lmbench3.tar.gz
+wget http://192.168.50.122:8083/test_dependents/lmbench3.tar.gz
 print_info $? download_lmbench3
 
 tar zxf lmbench3.tar.gz && rm -rf lmbench3.tar.gz
@@ -80,7 +80,13 @@ fi
 
 cd ../
 
+if [ ! -d "/lmbench3-results" ];then
+	mkdir -p /lmbench3-results
+fi
+ 
 cp -rf lmbench3/* lmbench3-results/
+print_info $? lmbench3_results
+
 rm -rf lmbench3
 print_info $? delete_lmbench3
 

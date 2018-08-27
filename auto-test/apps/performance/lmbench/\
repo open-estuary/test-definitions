@@ -1,27 +1,25 @@
+
 metadata:
-    name: unixbench
+    name: lmbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "The purpose of UnixBench is to provide a basic
-                  indicator of the performance of a Unix-like system."
+    description: "lmbench-memory"
     maintainer:
         - 1136920311@qq.com
-    os:
-        - ubuntu
     scope:
         - performance
-    environment:
-        - lava-test-shell
+    os:
+        - ubuntu
     devices:
-        - d03
         - d05
+        - d03
     level: 5
-
 
 run:
     steps:
-        - "cd auto-test/apps/performance/unixbench/; ./unixbench.sh; cd -"
+        - "cd auto-test/apps/performance/lmbench/; ./lmbench.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
         FAIL: fail
         PASS: pass
+
