@@ -23,6 +23,7 @@ metadata:
         fedora: 5
         debian: 5
         opensuse: 5
+
 run:
     steps:
         - "cd auto-test/distributions/distribution/dnsmasq; ./dnsmasq.sh; cd -"

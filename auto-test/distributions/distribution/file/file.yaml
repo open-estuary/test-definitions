@@ -10,10 +10,16 @@ metadata:
     os:
         - centos
         - ubuntu
+        - debian
+        - fedora
+        - opensuse
     devices:
         - d05
         - d03
     level: 1
+    totalcase:
+        centos: 6
+        ubuntu: 6
 run:
     steps:
         - "cd auto-test/distributions/distribution/file; ./file.sh; cd -"

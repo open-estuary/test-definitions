@@ -15,6 +15,10 @@ metadata:
         - d05
         - d03
     level: 1
+    totalcase:
+        debian: 8
+        centos: 10
+        ubuntu: 9
 run:
     steps:
         - "cd auto-test/apps/performance/iostat; ./iostat.sh; cd - "

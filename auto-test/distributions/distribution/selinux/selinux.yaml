@@ -13,6 +13,8 @@ metadata:
         - d05
         - d03
     level: 1
+    totalcase:
+        centos: 3
 run:
     steps:
         - "cd auto-test/distributions/distribution/selinux; ./selinux.sh; cd -"

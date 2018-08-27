@@ -16,6 +16,10 @@ metadata:
         - d03
         - d05
     level: 1
+    totalcase:
+        debian: 5
+        centos: 6
+        ubuntu: 6
 run:
     steps:
         - "cd auto-test/apps/performance/iperf; ./iperf.sh; cd -"

@@ -15,8 +15,9 @@ metadata:
         - d03
         - d05
     level: 5
-
-
+    totalcase: 14
+params:
+    SKIP_INSTALL: "false"
 run:
     steps:
         - "cd auto-test/apps/performance/unixbench/; ./unixbench.sh; cd -"

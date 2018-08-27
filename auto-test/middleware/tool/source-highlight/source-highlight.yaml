@@ -13,6 +13,8 @@ metadata:
         - d03
         - d05
     level: 1
+    totalcase:
+        centos: 4
 run:
     steps:
         - "cd auto-test/middleware/tool/source-highlight; ./source-highlight.sh; cd -"

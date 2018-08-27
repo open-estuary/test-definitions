@@ -8,10 +8,15 @@ metadata:
         - tool
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
     devices:
         - d03
         - d05
     level: 1
+    totalcase:
+        centos: 11
 
 run:
     steps:

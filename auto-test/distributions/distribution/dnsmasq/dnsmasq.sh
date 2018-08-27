@@ -14,12 +14,11 @@ fi
 
 IFCONFIG=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
 
-
 #Install the package
 case $distro in
     "centos"|"fedora")
 	pkgs="dnsmasq bind-utils net-tools"
-        install_deps "${pkgs}"
+	install_deps "${pkgs}"
         print_info $? install-dnsmasq
 	IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'`
         ;;
@@ -30,12 +29,11 @@ case $distro in
 	IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'`
         ;;
     "opensuse")
-	pkgs="dnsmasq bind-utils net-tools"
+        pkgs="dnsmasq bind-utils net-tools"
 	install_deps "${pkgs}"
         print_info $? install-dnsmasq
 	IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'|awk -F ':' '{print $2}'`
         ;;
-
 esac
 
 #Modify configuration file
@@ -55,13 +53,14 @@ echo 'addn-hosts=/etc/dnsmasq.hosts' >> /etc/dnsmasq.conf
 case $distro in
     "centos"|"fedora"|"opensuse")
 	systemctl start dnsmasq
-	print_info $? start-dnsmasq
-    	;;
+      	print_info $? start-dnsmasq
+    	  ;;
     "ubuntu"|"debian")
 	service dnsmasq start
 	print_info $? start-dnsmasq
-	;;
+	      ;;
 esac
+
 #test
 dig www.baidu.com
 print_info $? dig_test
@@ -80,9 +79,10 @@ esac
 
 
 
+
 #Uninstall software
 case $distro in
-    "centos"|"fedora")
+    "centos"|"fedora"|"opensuse")
         remove_deps "${pkgs}"
         print_info $? remove-dnsmasq
         ;;
@@ -90,20 +90,18 @@ case $distro in
         remove_deps "${pkgs}"
         print_info $? remove-dnsmasq
         ;;
-    "opensuse")
-       remove_deps "${pkgs}"
-        print_info $? remove-dnsmasq
-        ;;
 esac
+
 sed -i 's/nameserver 127.0.0.1/nameserver 114.114.114.114/g' /etc/resolv.conf
+
 case $distro in
     "debian"|"ubuntu")
 	sed -i "s%addn-hosts=/etc/dnsmasq.hosts%%g" $DNSMASQ_CONF
 	sed -i "s/bind-interfaces/#bind-interfaces/g" $DNSMASQ_CONF
-	sed -i "s%resolv-file=/etc/resolv.dnsmasq.conf%#resolv-file=%g" $DNSMASQ_CONF
+      	sed -i "s%resolv-file=/etc/resolv.dnsmasq.conf%#resolv-file=%g" $DNSMASQ_CONF
 	sed -i "s/strict-order/#strict-order/g" $DNSMASQ_CONF
 	sed -i "s%addn-hosts=/etc/dnsmasq.hosts%#addn-hosts=/etc/banner_add_hosts%g" $DNSMASQ_CONF
 	sed -i "s/listen-address=127.0.0.1,${IP}/#listen-address=/g" $DNSMASQ_CONF
-	;;
+	      ;;
 esac
 

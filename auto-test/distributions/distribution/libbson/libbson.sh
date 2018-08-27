@@ -34,7 +34,6 @@ case "${dist}" in
             SOURCE="Estuary"
             pkgs="gcc libbson libbson-devel"
             install_deps "${pkgs}" "${SKIP_INSTALL}"
-            print_info $? install-libbson-devel
             print_info $? install-libbson
             v=$(yum info libbson | grep "^Version" | awk '{print $3}')
             if [ $v = ${version} ];then
@@ -66,6 +65,15 @@ case "${dist}" in
             fi
             print_info $? libbson-devel-source
             ;;
+       "ubuntu"|"debian")
+            pkgs="gcc libbson-1.0-0 libbson-dev"
+            install_deps "${pkgs}"
+            print_info $? install-libbson
+            ;;
+        "fedora")
+            pkgs=" tar gcc libbson libbson-devel"
+            install_deps "${pkgs}"
+            print_info $? install-libbson
 esac
 install_pkg-config
 print_info $? install-pkg-config

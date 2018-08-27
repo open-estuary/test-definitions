@@ -11,10 +11,15 @@ metadata:
         - ubuntu
         - opensuse
         - centos
+        - fedora
+        - debian
     devices:
         - d05
         - d03
     level: 1
+    totalcase:
+        centos: 7
+        ubuntu: 7
 run:
     steps:
         - "cd auto-test/distributions/distribution/ftp; ./ftp.sh; cd -"
