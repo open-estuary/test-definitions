@@ -57,14 +57,19 @@ print_info $? test-login
 $EXPECT << EOF
 set timeout 100
 spawn sftp localhost
-expect "(password|Password)"
-send "root\r"
+expect {
+"*yes/no"
+{send "yes\r";exp_continue;}
+"*assword:"
+{send "root\r";}
+} 
 expect "sftp>"
-send "get sftp_get_test.log\r"
+send "get sftp_get_test.log\r";
 expect "sftp>"
-send "put sftp_put_test.log\r"
+send "put sftp_put_test.log\r";
 expect "sftp>"
-send "quit\r"
+send "quit\r";
+
 expect eof
 EOF
 
