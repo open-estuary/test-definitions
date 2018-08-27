@@ -12,6 +12,7 @@ metadata:
         - opensuse
     scope:
         - pcre
+
     devices:
         - d03
         - d05
@@ -22,6 +23,7 @@ metadata:
         fedora: 7
         debian: 7
         opensuse: 7
+
 run:
     steps:
         - cd auto-test/distributions/distribution/pcre/

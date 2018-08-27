@@ -46,7 +46,7 @@ print_info $? modify_uuid
 sed -i "s%<source file='/home/dingyu/cirros-0.4.0-aarch64-disk.img'/>%<source file='${url}/cirros-0.4.0-aarch64-disk.img'/>%g" domain_aarch64.xml
 print_info $? modify_adress
 
-wget http://120.31.149.194:18083/test_dependents/cirros-0.4.0-aarch64-disk.img  
+wget http://192.168.50.122:8083/test_dependents/cirros-0.4.0-aarch64-disk.img  
 print_info $? download_img
 
 #Start the libvirt service

@@ -1,24 +1,24 @@
 #!/bin/bash
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
-    
+
 case $distro in
     "centos"|"fedora")
-	pkgs="pcre-devel gcc-c++"
-	install_deps "${pkgs}"
-	print_info $? install-pcre
-	;;
+	        pkgs="pcre-devel gcc-c++"
+        	install_deps "${pkgs}"
+	        print_info $? install-pcre
+	        ;;
     "ubuntu"|"debian")
-	apt install aptitude -y
-        pkgs="libpcre3 libpcre3-dev g++"
-        install_deps "${pkgs}"
-        print_info $? install-pcre
-        ;;
+	        apt install aptitude -y
+          pkgs="libpcre3 libpcre3-dev g++"
+          install_deps "${pkgs}"
+          print_info $? install-pcre
+          ;;
     "opensuse")
-	pkgs="pcre-devel gcc"
-        install_deps "${pkgs}"
-        print_info $? install-pcre
-        ;;
+	        pkgs="pcre-devel gcc"
+          install_deps "${pkgs}"
+          print_info $? install-pcre
+          ;;
 
 esac
 
@@ -41,16 +41,17 @@ print_info $? regular-release
 
 case $distro in
     "ubuntu"|"debian")
-	aptitude remove libpcre3 -y
-	aptitude remove libpcre3-dev -y
-	aptitude remove g++ -y
-	print_info $? remove-pkgs
-        ;;
+	       aptitude remove libpcre3 -y
+	       aptitude remove libpcre3-dev -y
+	       aptitude remove g++ -y
+         print_info $? remove-pkgs
+         ;;
     "centos"|"fedora"|"opensuse")
-	remove_deps  "${pkgs}"
-	print_info $? remove-pkgs
+      	remove_deps  "${pkgs}"
+	      print_info $? remove-pkgs
     	;;
 esac
 
 rm -rf pcre
+
 

@@ -16,6 +16,8 @@ metadata:
         - d05
         - d03
     level: 1
+    totalcase:
+        centos: 1
 
 params:
     SKIP_INSTALL: "False"

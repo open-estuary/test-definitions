@@ -14,17 +14,21 @@ if [ `whoami` != 'root' ]; then
 fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
-    "centos")
-        #yum install gcc -y
-        #yum install gcc-c++ -y
-        #yum install git -y
-        #yum install make -y
+    "centos"|"fedora"|"opensuse")
         pkgs="gcc gcc-c++ git make"
         install_deps "${pkgs}"
-        git clone https://github.com/google/googletest.git
-        print_info $? install-gtest
+       # git clone https://github.com/google/googletest.git
+       # print_info $? install-gtest
         ;;
+    "ubuntu"|"debian")
+	pkgs="gcc g++ git make"
+	install_deps "${pkgs}"
+	print_info $? install-deps
+        ;;
+
 esac
+git clone https://github.com/google/googletest.git
+print_info $? install-gtest
 cp Makefile googletest/googletest/samples
 cd googletest/googletest/samples
 make
@@ -36,7 +40,7 @@ touch sqrt.cpp
 chmod 777 sqrt.cpp
 touch sqrt_unittest.cpp
 chmod 777 sqrt_unittest.cpp
-cat << EOF >> ./sqrt.h
+cat << EOF > ./sqrt.h
 #ifndef _SQRT_H_
 #define _SQRT_H_
 
@@ -44,7 +48,7 @@ int sqrt(int x);
 #endif //_SQRT_H_
 EOF
 
-cat << EOF >> ./sqrt.cpp
+cat << EOF > ./sqrt.cpp
 #include "sqrt.h"
 int sqrt(int x) {
     if(x<=0) return 0;
@@ -76,7 +80,7 @@ int sqrt(int x) {
 }
 EOF
 
-cat <<EOF >> ./sqrt_unittest.cpp
+cat <<EOF > ./sqrt_unittest.cpp
 
 #include "sqrt.h"
 #include "gtest/gtest.h"
@@ -110,9 +114,12 @@ else
     lava-test-case $TCID --result fail
 fi
 case $distro in
-    "centos")
+    "centos"|"fedora"|"opensuse")
         #yum remove gcc gcc-c++ git make  -y
         remove_deps "${pkgs}"
         print_info $? remove-pkgs
         ;;
+    "ubuntu"|"debian")
+	remove_deps "${pkgs}"
+	print_info $? remove-pkgs
 esac

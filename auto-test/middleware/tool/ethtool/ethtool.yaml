@@ -22,6 +22,7 @@ metadata:
         fedora: 13
         debian: 13
         opensuse: 13 
+
 run:
     steps:
         - "cd auto-test/middleware/tool/ethtool; ./ethtool.sh; cd -"

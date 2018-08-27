@@ -6,13 +6,19 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - tool
+        - tool 
     os:
         - centos
+        - opensuse
+        - ubuntu
+        - fedora
+        - debian
     devices:
         - d03
         - d05
     level: 1
+    totalcase:
+        centos: 6
 
 run:
     steps:

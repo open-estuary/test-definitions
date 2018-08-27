@@ -18,6 +18,7 @@ install_deps "ethtool"
 print_info $? install_ethtool
 
 # Check ethernet drive
+
 ethtool -i $IFCONFIG 
 print_info $? check-drive
 

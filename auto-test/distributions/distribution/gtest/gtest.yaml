@@ -9,10 +9,16 @@ metadata:
         -distribution
     os:
         - centos
+        - ubuntu
+        - debian
+        - opensuse
+        - fedora
     devices:
         - d05
         - d03
     level: 1
+    totalcase:
+        centos: 6
 run:
     steps:
         - "cd auto-test/distributions/distribution/gtest; ./gtest.sh; cd -"
