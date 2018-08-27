@@ -3,7 +3,7 @@
 set -x
 cd ../../../../utils
     .        ./sys_info.sh
-             ./sh-test-lib
+    .        ./sh-test-lib
 cd -
 
 if [ `whoami` != 'root' ] ; then
@@ -18,15 +18,16 @@ install_deps "ethtool"
 print_info $? install_ethtool
 
 # Check ethernet drive
-ethtool -i $IFCONFIG
+
+ethtool -i $IFCONFIG 
 print_info $? check-drive
 
 # Check ethernet base configuration
-ethtool $IFCONFIG
+ethtool $IFCONFIG 
 print_info $? check-configuration
 
 # Resetting ethernet auto-negotiation
-ethtool -r $IFCONFIG
+ethtool -r $IFCONFIG 
 print_info $? reset-autoneg
 
 # Check ethernet statistic
@@ -60,3 +61,5 @@ print_info $? autoneg
 # Remove package
 remove_deps "ethtool"
 print_info $? remove
+
+
