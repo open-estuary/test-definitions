@@ -9,6 +9,9 @@ metadata:
         - tool
     os:
         - centos
+        - opensuse
+        - ubuntu
+        - fedora
     devices:
         - d03
         - d05
