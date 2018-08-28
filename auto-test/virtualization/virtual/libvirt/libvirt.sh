@@ -1,6 +1,9 @@
 #!/bin/bash
+set -x
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
+
+cd -
 
 url=`pwd`
 echo $url
@@ -27,24 +30,25 @@ print_info $? install-package
 
 
 #Modify configuration file
-sed -i "s/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g" /etc/libvirt/libvirtd.conf
-sed -i "s/#unix_sock_ro_perms = "0777"/unix_sock_ro_perms = "0777"/g" /etc/libvirt/libvirtd.conf
-sed -i "s/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g" /etc/libvirt/libvirtd.conf
-sed -i "s/#auth_unix_ro = "none"/auth_unix_ro = "none"/g" /etc/libvirt/libvirtd.conf
-sed -i "s/#auth_unix_rw = "none"/auth_unix_rw = "none"/g" /etc/libvirt/libvirtd.conf
-sed -i "s/#listen_tls = 0/listen_tls = 0/g" /etc/libvirt/libvirtd.conf
-sed -i "s/#listen_tcp = 1/listen_tcp = 1/g" /etc/libvirt/libvirtd.conf
-sed -i "s/#auth_tcp="sasl"/auth_tcp="none"/g" /etc/libvirt/libvirtd.conf
-sed -i "s/#user = "root"/user = "root"/g" /etc/libvirt/qemu.conf
-sed -i "s/#group = "root"/group = "root"/g" /etc/libvirt/qemu.conf
+LIBVIRT=/etc/libvirt/libvirtd.conf
+sed -i "s/#unix_sock_group = /unix_sock_group = /g" $LIBVIRT
+sed -i "s/#unix_sock_ro_perms = /unix_sock_ro_perms = /g" $LIBVIRT
+sed -i "s/#unix_sock_rw_perms = /unix_sock_rw_perms = /g" $LIBVIRT
+sed -i "s/#auth_unix_ro = /auth_unix_ro = /g" $LIBVIRT
+sed -i "s/#auth_unix_rw = /auth_unix_rw = /g" $LIBVIRT
+sed -i "s/#listen_tls = 0/listen_tls = 0/g" $LIBVIRT
+sed -i "s/#listen_tcp = 1/listen_tcp = 1/g" $LIBVIRT
+sed -i "s/#auth_tcp=/auth_tcp=/g" $LIBVIRT
+sed -i "s/#user = /user = /g" /etc/libvirt/qemu.conf
+sed -i "s/#group = /group = /g" /etc/libvirt/qemu.conf
 print_info $? modify_configure
 
+
 cp demo.xml domain_aarch64.xml
-sed -i "s/<uuid>e06d5011-2de4-48a0-834e-72eecf7c99f0<\/uuid>/<uuid>${random_uuid}<\/uuid>/g" domain_aarch64.xml
-print_info $? modify_uuid
+sed -i "s%<uuid>e06d5011-2de4-48a0-834e-72eecf7c99f0</uuid>%<uuid>${random_uuid}</uuid>%g" domain_aarch64.xml
 
 sed -i "s%<source file='/home/dingyu/cirros-0.4.0-aarch64-disk.img'/>%<source file='${url}/cirros-0.4.0-aarch64-disk.img'/>%g" domain_aarch64.xml
-print_info $? modify_adress
+print_info $? modify_xml
 
 wget http://192.168.50.122:8083/test_dependents/cirros-0.4.0-aarch64-disk.img  
 print_info $? download_img
@@ -149,4 +153,7 @@ print_info $? delete_clone
 rm -rf domain_aarch64.xml
 print_info $? delete_xml
 
+#Stop the libvirt service
+service libvirtd stop
+print_info $? libvirtd_stop
 
