@@ -9,10 +9,11 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - language
+        - php
     os:
         - centos
         - debian
+        - ubuntu
     devices:
         - d03
         - d05
@@ -20,7 +21,7 @@ metadata:
     totalcase:
         debian: 33
         centos: 34
-
+        ubuntu: 33
 run:
     steps:
         - "cd auto-test/middleware/language/php; ./phptest.sh; cd -"
