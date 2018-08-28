@@ -19,10 +19,10 @@ metadata:
     level: 1
     totalcase:
         centos: 8
-        debian: 
-        ubuntu:
-        fedora:
-        opensuse:
+        debian: 8 
+        ubuntu: 8
+        fedora: 8
+        opensuse: 8
 run:
     steps:
         - "cd auto-test/middleware/tool/swapon; ./swapon.sh; cd -"
