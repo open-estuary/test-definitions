@@ -32,7 +32,7 @@ fi
     #esac
 #done
 package1="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl "
-package2="git wget zip tar python python-yaml python-lxml python-setuptools python-numpy python-colorama python2-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl xz "
+package2="git wget zip tar python python-yaml python-lxml python-setuptools python2-numpy python-colorama python2-pip sqlite-devel time sysstat openssh-clients openssh-server sshpass python-jinja2 curl xz "
 cd "${TEST_DIR}"
 create_out_dir "${OUTPUT}"
 case $distro in
@@ -61,6 +61,7 @@ esac
     git checkout -b test-branch "${WA_TAG}"
     )
     print_info $? git-checkout-branch
+    pip install --ignore-installed numpy
     pip2 install ./workload-automation
     print_info $? pip2-install
     export PATH=$PATH:/usr/local/bin
@@ -69,6 +70,15 @@ esac
     mkdir -p ~/.workload_automation
     wa --version
     print_info $? wa-version
+    wa list augmentations
+
+    rm -rf devlib
+    git clone https://github.com/ARM-software/devlib.git devlib
+    (
+    cd devlib
+    git checkout master
+    )
+    pip2 install ./devlib
 
 rm -rf wa-templates
 git clone "${WA_TEMPLATES_REPO}" wa-templates
@@ -76,7 +86,7 @@ print_info $? git-clone-wa-templates
 (
     cd wa-templates
     git checkout "${TEMPLATES_BRANCH}"
-    cp "${CONFIG}" ../config.py
+    cp "${CONFIG}" ../config.yaml
     cp "${AGENDA}" ../agenda.yaml
 )
 print_info $? git-checkout-wa-templates
@@ -90,11 +100,11 @@ echo "root:linaro123" | chpasswd
 service sshd restart && sleep 3
 print_info $? restart-ssh
 # Ensure that csv is enabled in result processors.
-if ! awk '/result_processors = [[]/,/[]]/' ./config.py | grep -q 'csv'; then
-    sed -i "s/result_processors = [[]/result_processors = [\n    'csv',/" ./config.py
+if ! grep -q 'csv' config.yaml; then
+    sed -i "s/augmentations:/augmentations:\n  -  csv/" config.yaml
 fi
 
-wa run ./agenda.yaml -v -f -d "${OUTPUT}/wa" -c ./config.py
+wa run agenda.yaml -v -f -d "${OUTPUT}/wa" -c config.yaml
  print_info $? wa-run
 # Save results from results.csv to result.txt.
 # Use id-iteration_metric as test case name.
@@ -102,11 +112,6 @@ awk -F',' 'NR>1 {gsub(/[ _]/,"-",$4); printf("%s-itr%s_%s pass %s %s\n",$1,$3,$4
     | sed 's/\r//g' \
     | tee -a "${RESULT_FILE}"
 
-count=`ps -aux |grep sshd |wc -l`
-if [ $count -gt 0 ]; then
-    kill -9 ${pidof sshd}
-    print_info $? kill-ssh
-fi
 
 case $distro in
     "ubuntu"|"debian")
