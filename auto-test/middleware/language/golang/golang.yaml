@@ -9,10 +9,20 @@ metadata:
         - language
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
+        - opensuse
     devices:
         - d03
         - d05
     level: 1
+    totalcase:
+        centos: 15
+        ubuntu: 15
+        debian: 15
+        fedora: 15
+        opensuse: 15
 
 run:
     steps:

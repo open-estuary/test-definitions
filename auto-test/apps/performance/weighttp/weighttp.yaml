@@ -13,6 +13,8 @@ metadata:
         - d05
         - d03
     level: 1
+    totalcase:
+        centos: 7
 run:
     steps:
         - "cd auto-test/apps/performance/weighttp; ./weighttp.sh; cd - "

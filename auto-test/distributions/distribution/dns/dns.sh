@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #DNS is the server responsibel for domain name resolution
 #Author:mahongxin <hongxin_228@163.com>
 set -x

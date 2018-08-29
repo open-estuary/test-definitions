@@ -3,25 +3,31 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "pcre."
     maintainer:
-        - shuangchengchen@qq.com
+        - 1136920311@qq.com
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     scope:
-        - distribution
-    environment:
-        - lava-test-shell
+        - pcre
+
     devices:
         - d03
         - d05
     level: 1
-params:
-    # Test if lshw able to report the classes pre-defined in ${CLASSES}.
-    SKIP_INSTALL: "false"
+    totalcase:
+        centos: 7
+        ubuntu: 7
+        fedora: 7
+        debian: 7
+        opensuse: 7
 
 run:
     steps:
         - cd auto-test/distributions/distribution/pcre/
-        - ./pcre.sh -s "${SKIP_INSTALL}"
+        - ./pcre.sh
         - cd -
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

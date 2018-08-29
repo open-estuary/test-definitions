@@ -14,19 +14,8 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
-#while getopts "c:t:p:v:s:h" o; do
- # case "$o" in
-  #  c) SERVER="${OPTARG}" ;;
-   # t) TIME="${OPTARG}" ;;
-    #p) THREADS="${OPTARG}" ;;
-    #v) VERSION="${OPTARG}" ;;
-    #s) SKIP_INSTALL="${OPTARG}" ;;
-   # h|*) usage ;;
- # esac
-#done
-#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
-    "ubuntu")
+    "ubuntu"|"debian")
          apt-get install iperf -y
          apt-get install iperf3 -y
          print_info $? install-iperf
@@ -35,7 +24,7 @@ case $distro in
          yum install wget -y
          yum install gcc -y
          yum install make -y
-         wget https://github.com/esnet/iperf/archive/"${VERSION}".tar.gz
+         download_file https://github.com/esnet/iperf/archive/"${VERSION}".tar.gz
          tar xf "${VERSION}".tar.gz
          cd iperf-"${VERSION}"
          ./configure
@@ -43,8 +32,9 @@ case $distro in
          make install
          print_info $? install-iperf
          ;;
-    "opensuse")
-         zypper install -y iperf
+    "fedora")
+         dnf install -y iperf3
+         print_info $? install-iperf
          ;;
  esac
 sed -i '$a\/usr/local/lib' /etc/ld.so.conf
@@ -78,7 +68,8 @@ pkill iperf3 || true
 print_info $? kill-iperf
 case $distro in
     "ubuntu")
-        apt-get remove iperf* -y
+	#delete 20180601
+        apt-get remove iperf iperf3 -y
         print_info $? remove-package
         ;;
     "centos")

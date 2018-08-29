@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Busybox smoke tests.
 
 # shellcheck disable=SC1091
@@ -14,32 +14,17 @@ if [ `whoami` != 'root' ]; then
 fi
 
 case $distro in
-    "centos"|"ubuntu")
-        #yum install gcc -y
-        #yum install make -y
-        #yum install bzip2 -y
-        #yum install wget -y
-        pkgs="gcc make bzip2 wget"
+       "ubuntu"|"debian"|"fedora"|"opensuse")
+        pkgs="busybox"
         install_deps "${pkgs}"
-        wget https://busybox.net/downloads/busybox-1.27.2.tar.bz2
-        print_info $? download-busybox
-        tar -jxf busybox-1.27.2.tar.bz2
-        print_info $? tar-busybox
-
-        cd busybox-1.27.2/
-        make defconfig
-        make
-        print_info $? make-busybox
+        print_info $? busybox_install
+        ;;
+        *)
+        exit 1
         ;;
 esac
-case $distro in
-    "centos")
-     commond="./busybox"
-     ;;
-    "ubuntu")
-     commond="busybox"
-     ;;
-esac
+
+commond="busybox"
 
 $commond pwd
 print_info $? busybox-pwd
@@ -79,12 +64,7 @@ print_info $? busybox-free
 $commond df
 print_info $? busybox-df
 
-case $distro in
-    "centos"|"ubuntu")
-     #yum remove gcc -y
-     #yum remove make -y
-     #yum remove bzip2 -y
-     remove_deps "${pkgs}"
-     print_info $? remove-package
-     ;;
-esac
+#uninstall
+remove_deps "${pkgs}"
+print_info $? remove-package
+rm -rf dir

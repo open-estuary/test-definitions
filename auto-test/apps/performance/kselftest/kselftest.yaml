@@ -13,6 +13,8 @@ metadata:
         - d05
         - d03
     level: 1
+    totalcase:
+        centos: 4
 
 params:
     # Specify Linux kernel self test pre-build tarball name from below location

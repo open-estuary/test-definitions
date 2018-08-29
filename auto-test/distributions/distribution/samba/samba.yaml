@@ -9,10 +9,17 @@ metadata:
         - distribution
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse   
+
     devices:
         - d03
         - d05
     level: 1
+    totalcase:
+        centos: 11
 run:
     steps:
         - "cd auto-test/distributions/distribution/samba; ./samba.sh; cd -"
@@ -22,4 +29,3 @@ parse:
    fixupdict:
    FAIL: fail
    PASS: pass
-

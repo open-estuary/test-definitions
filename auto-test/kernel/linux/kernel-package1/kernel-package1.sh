@@ -132,20 +132,24 @@ case "${dist}" in
         done
         ;;
     ubuntu)
-        package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-4.12.0-502 linux-headers-4.12.0-502-generic linux-image-4.12.0-502-generic linux-image-extra-4.12.0-502-generic linux-libc-dev linux-source-4.12.0 linux-tools-4.12.0-502 linux-tools-4.12.0-502-generic linux-tools-common"
+        sed -i s/5.[0-9]/5.1/g /etc/apt/sources.list.d/estuary.list 
+        apt-get update -q=2
+        v='4.16.0-504'
+        v1='4.16.0'
+        package_list="linux-estuary linux-headers-estuary linux-source-estuary linux-tools-estuary linux-cloud-tools-common linux-doc linux-headers-${v} linux-headers-${v}-generic linux-image-${v}-generic linux-image-extra-${v}-generic linux-source-${v1} linux-tools-${v} linux-tools-${v}-generic linux-tools-common"
         for p in ${package_list};do
             echo "$p install"
             apt-get install -y $p
             status=$?
             from_repo1='linux-meta-estuary'
             from_repo2='linux'
-            version1='4.12.0.502.2'
-            version2='4.12.0-502.estuary'
+            version1='4.16.0.504.2'
+            version2='4.16.0-504.estuary'
             rmflag=0
             if test $status -eq 0
             then
                 print_info 0 install
-                from=$(apt show $p | grep "Source" | awk '{print $2}')
+                from=$(apt show $p | grep -w "Source" | awk '{print $2}')
                 if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
                 print_info 0 repo_check
                 else
@@ -161,14 +165,16 @@ case "${dist}" in
                     print_info 1 version_check 
                 fi
             fi
-            echo "$p remove"
-            apt-get remove -y $p
-            status=$?
-            if test $status -eq 0
-            then
-                print_info 0 remove
-            else
-                print_info 1 remove
+            if [ "$p" != "linux-image-${v}-generic" ];then  
+                echo "$p remove"
+                apt-get remove -y $p
+                status=$?
+                if test $status -eq 0
+                then
+                    print_info 0 remove
+                else
+                    print_info 1 remove
+                fi
             fi
         done
         ;;

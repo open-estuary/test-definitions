@@ -2,7 +2,7 @@
 # Author: mahongxin <hongxin_228@163.com>
 # Test user idcd -  bandwidth and latencyqperf is a tool for testing
 
-#!/bin/sh
+#!/bin/bash
 set -x
 
 cd ../../../../utils

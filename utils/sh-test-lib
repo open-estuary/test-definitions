@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Shared shell library for test management
 #
@@ -220,7 +220,9 @@ dist_name() {
         dist="unknown"
         warn_msg "Unsupported distro: cannot determine distribution name"
     fi
-
+    if [ $dist == "opensuse-leap" ];then
+		 dist=opensuse
+	fi
     # convert dist to lower case
     dist=$(echo ${dist} | tr '[:upper:]' '[:lower:]')
     case "${dist}" in
@@ -233,6 +235,7 @@ install_deps() {
     [ -z "${pkgs}" ] && error_msg "Usage: install_deps pkgs"
     # skip_install parmater is optional.
     skip_install="$2"
+    let i=0
 
     if [ "${skip_install}" = "True" ] || [ "${skip_install}" = "true" ]; then
         info_msg "install_deps skipped"
@@ -246,24 +249,64 @@ install_deps() {
             # Use the default answers for all questions.
             DEBIAN_FRONTEND=noninteractive apt-get update -q -y
             # shellcheck disable=SC2086
-            DEBIAN_FRONTEND=noninteractive apt-get install -q -y ${pkgs}
+	    while (( $i < 5 )); do
+            	DEBIAN_FRONTEND=noninteractive apt-get install -q -y ${pkgs}
+		if [ $? -eq 0 ]; then
+			break;
+		fi
+		let "i++"
+		sleep 2
+	    done
             ;;
           centos)
             # shellcheck disable=SC2086
-            yum -e 0 -y install ${pkgs}
+	    while (( $i < 5 )); do
+		yum -e 0 -y install ${pkgs}
+		if [ $? -eq 0 ]; then
+		    break;
+		fi
+		let "i++"
+		sleep 2
+	    done
             ;;
           fedora)
             # shellcheck disable=SC2086
-            dnf -e 0 -y install ${pkgs}
+	    while (( $i < 5 )); do
+            	dnf -e 0 -y install ${pkgs}
+		if [ $? -eq 0 ]; then
+			break;
+		fi
+		let "i++"
+		sleep 2
+	    done
+            ;;
+           opensuse)
+           while (($i <=5 ));do
+
+              zypper install -y ${pkgs} 
+
+
+             if [ $? -eq 0 ]; then
+                    break;
+             fi
+             let "i++"
+             sleep 2
+            done
             ;;
           *)
             warn_msg "Unsupported distro: ${dist}! Package installation skipped."
+	    i=5
             ;;
         esac
         # shellcheck disable=SC2181
         if [ $? -ne 0 ]; then
             error_msg "Failed to install dependencies, exiting..."
+	    i=5
         fi
+    fi
+
+    if [ $i -ge 5 ]; then
+	    return 1
     fi
 }
 
@@ -289,6 +332,9 @@ remove_deps() {
             ;;
           fedora)
             dnf remove -y ${pkgs}
+			;;
+          opensuse)
+            zypper remove -y ${pkgs}
             ;;
           *)
             warn_msg "Unsupported distro: ${dist}! Package remove skipped."
