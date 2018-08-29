@@ -42,7 +42,7 @@ rm -f test.py
 cd ./basic
 
 # 测试py脚本直接运行
-./test.py | grep "Hello, Python!"
+./test.py | grep "Hello, Python"
 print_info $? python-script-type2
 
 # 测试if
@@ -51,6 +51,7 @@ if [ $? || `cat out.log | grep 'error'` ];then
 	print_info 1 python-if
 else
 	print_info 0 python-if
+fi
 
 # 测试while循环
 ./while.py | tee out.log
@@ -58,6 +59,7 @@ if [ $? || `cat out.log | grep 'error'` ];then
 	print_info 1 python-while
 else
 	print_info 0 python-while
+fi
 
 # 测试for循环
 ./for.py | tee out.log
@@ -65,6 +67,7 @@ if [ $? || `cat out.log | grep 'error'` ];then
 	print_info 1 python-for
 else
 	print_info 0 python-for
+fi
 
 # 测试pass语句块
 ./pass.py
@@ -135,30 +138,27 @@ print_info $? python-object
 print_info $? python-re
 
 # 测试网络编程
-./pyserver.py &
-print_info $? python-socket-server
+#./pyserver.py &
+#print_info $? python-socket-server
 
-./client.py | grep 'welcome'
-count=`ps -aux | grep pyserver | wc -l`
-if [ $count -gt 0 ];then
-    kill -9 $(pidof pyserver)
-	print_info $? kill-pyserver
-fi
+#./pyclient.py 
+#print_info $? python-client
+
 
 # 测试多线程编程
 ./thread.py
 print_info $? python-thread
 
 # 测试python解析xml
-./xml.py
+./xml-test.py
 print_info $? python-xml
 
 # 测试python解析json
-./json.py
+./json-test.py
 print_info $? python-json
 
 cd ..
 
-pkgs="python expect"
+pkgs="expect"
 remove_deps "${pkgs}"
 print_info $? remove-python
