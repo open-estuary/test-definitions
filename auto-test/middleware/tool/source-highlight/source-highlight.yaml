@@ -1,4 +1,4 @@
-metadata:
+﻿metadata:
     name: source-highlight
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "source-highlight 语法高亮代码"
@@ -6,13 +6,23 @@ metadata:
         - shuangshengchen@qq.com
         - fyuanz_2010@163.com
     os:
+        - debian
+        - ubuntu
         - centos
+        - fedora
+        - opensuse
     scope:
         - tool
     devices:
         - d03
         - d05
     level: 1
+    totalcase:
+        centos: 4
+        debian: 
+        ubuntu:
+        fedora:
+        opensuse:        
 run:
     steps:
         - "cd auto-test/middleware/tool/source-highlight; ./source-highlight.sh; cd -"

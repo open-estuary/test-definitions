@@ -1,34 +1,28 @@
-#!/bin/sh
-#Author mahongxin <hongxin_228@163.com>
-set -x
+#!/bin/bash
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sh-test-lib
 cd -
-# shellcheck disable=SC1091
-#. ../../lib/sh-test-lib
-#OUTPUT="$(pwd)/output"
-#RESULT_FILE="${OUTPUT}/result.txt"
-#export RESULT_FILE
-INTERFACE="enahisic2i0"
 
-#usage() {
-#    echo "Usage: $0 [-s <true|false>] [-i <interface>]" 1>&2
-#    exit 1
-#}
+if [ `whoami` != "root" ];then
+	echo "YOu must be the root to run this script" >$2
+	exit 1
+fi
 
-#while getopts "s:i:" o; do
-#  case "$o" in
- #   s) SKIP_INSTALL="${OPTARG}" ;;
- #   i) INTERFACE="${OPTARG}" ;;
-  #  *) usage ;;
-  #esac
-#done
+INTERFACE=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
 
-install() {
-    pkgs="curl net-tools"
-    install_deps "${pkgs}" "${SKIP_INSTALL}"
-    print_info $? install-pkgs
-}
+
+case $distro in
+    "centos"|"ubuntu"|"debian"|"fedora")
+	pkgs="curl net-tools"
+	install_deps "${pkgs}"
+	print_info $? install-pkgs
+        ;;
+    "opensuse")
+	 pkgs="curl net-tools dhcp-client"
+	 install_deps "${pkgs}"
+         print_info $? install-pkgs
+        ;;
+esac
 
 run() {
     test_case="$1"
@@ -40,34 +34,64 @@ run() {
     check_return "${test_case_id}"
 }
 
-# Test run.
-#create_out_dir "${OUTPUT}"
 
-install
-
+# Test run
 # Get default Route Gateway IP address of a given interface
-GATEWAY=$(ip route list  | grep default | awk '{print $3}')
+GATEWAY=`ip route list  | grep default | awk '{print $3}'|head -1`
 
-run "netstat -an" "print-network-statistics"
-print_info $? netstat
+
+case $distro in
+    "ubuntu"|"debian"|"centos"|"fedora")
+	run "netstat -an" "print-network-statistics"
+	print_info $? netstat
+
+        run "route" "print-routing-tables"
+	print_info $? route
+
+	run "ip link set lo up" "ip-link-loopback-up"
+	print_info $? ip-link
+	
+	run "route" "route-dump-after-ip-link-loopback-up"
+	print_info $? route-dump
+        	;;
+    "opensuse")
+	run "ss -an" "print-network-statistics"
+        print_info $? netstat
+
+	run "ip route" "print-routing-info"
+        print_info $? route_info
+
+        run "ip link set lo up" "ip-link-loopback-up"
+        print_info $? ip-link
+
+        run "ip route" "route-dump-after-ip-link-loopback-up"
+        print_info $? route-dump
+          ;;
+esac
+
 run "ip addr" "list-all-network-interfaces"
 print_info $? ip-addr
-run "route" "print-routing-tables"
-print_info $? route
-run "ip link set lo up" "ip-link-loopback-up"
-print_info $? ip-link
-run "route" "route-dump-after-ip-link-loopback-up"
-print_info $? route-dump
-run "ip link set ${INTERFACE} up" "ip-link-interface-up"
-run "ip link set ${INTERFACE} down" "ip-link-interface-down"
-print_info $? ip-link
-run "dhclient -v ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhclient-v"
-print_info $? dhclient
-run "route" "print-routing-tables-after-dhclient-request"
+
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
 print_info $? ping-gateway
-run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI -o curl_big_video.avi" "download-a-file"
+
+run "curl http://192.168.50.122:8083/test_dependents/lmbench3.tar.gz -o lmbench3" "download-a-file"
 print_info $? curl
-#remove_deps "${pkgs}"
-yum remove net-tools -y
-print_info $? removse-pkgs
+
+rm -rf lmbench3.tar.gz 
+
+case $distro in
+    "opensuse")
+      	zypper remove -y net-tools
+	zypper remove -y dhcp-client 
+      	print_info $? removse-pkgs
+	;;
+    "ubuntu"|"debian"|"centos"|"fedora")
+	remove_deps "net-tools"
+	print_info $? removse-pkgs
+      	;;
+esac
+
+
+
+

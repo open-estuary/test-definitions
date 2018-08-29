@@ -1,12 +1,12 @@
-#!/bin/sh
+﻿#!/bin/sh
 # Copyright (C) 2017-8-29, Linaro Limited.
 # Author: mahongxin <hongxin_228@163.com>
 
 set -x
 
 cd ../../../../utils
-    .        ./sys_info.sh
-             ./sh-test-lib
+.        ./sys_info.sh
+.        ./sh-test-lib
 cd -
 
 # Test user id
@@ -15,12 +15,17 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 case $distro in
-    "debian")
+    "debian"|"ubuntu")     
         apt-get install gcc -y
         print_info $? gcc
-        apt-get install build-essential
+        apt-get install build-essential -y
         print_info $? buid-essential
         apt-get install ltrace -y
+        print_info $? ltrace
+         ;;
+    "centos"|"fedora"|"opensuse")     
+        pkgs="gcc  ltrace"
+        install_deps "${pkgs}"
         print_info $? ltrace
          ;;
 esac
@@ -55,18 +60,33 @@ print_info $? ltrace-c-hello
 ltrace -T ./hello 2>&1
 print_info $? ltrace-T-hello
 
-count=`ps -aux | grep ltrace | wc -l`
-if [ $count -gt 0 ]; then
-    kill -9 $(pidof ltrace)
-     print_info $? kill-ltrace
-fi
+#count=`ps -aux | grep ltrace | wc -l`
+#if [ $count -gt 0 ]; then
+#    kill -9 $(pidof ltrace)
+#     print_info $? kill-ltrace
+#fi
 
-apt-get remove ltrace -y
-print_info $? remove-ltrace
+######################  environment  restore ##########################
+case $distro in
+    "debian"|"ubuntu")     
+                 remove_deps "${pkgs}"
+                 print_info $? remove-package
+                 rm -rf dir
 
-apt-get remove gcc -y
-print_info $? remove-gcc
+                apt-get remove ltrace -y
+                print_info $? remove-ltrace
 
-apt-get remove build-essential -y
-print_info $? remove-build-essential -y
+                apt-get remove gcc -y
+                print_info $? remove-gcc
+
+                apt-get remove build-essential -y
+                print_info $? remove-build-essential -y
+         ;;
+    "centos"|"fedora"|"opensuse")     
+                pkgs="gcc  ltrace"
+                remove_deps "${pkgs}"
+                print_info $? remove
+         ;;
+esac
+
 

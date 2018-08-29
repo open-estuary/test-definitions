@@ -23,7 +23,6 @@ metadata:
         debian: 4
         fedora: 4
         opensuse: 4
-
 run:
     steps:
         - "cd auto-test/distributions/distribution/snappy; ./snappy.sh; cd - "

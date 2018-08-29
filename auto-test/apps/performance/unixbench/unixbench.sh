@@ -4,74 +4,90 @@
 # performance of a Unix-like system
 
 # shellcheck disable=SC1091
+
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-case $distro in
-    "centos")
-        yum install git -y
-        print_info $? install-git
-        ;;
-    "ubuntu")
-        apt-get install git -y
-        print_info $? install-git
-        ;;
-esac
-while getopts 's:h' opt; do
-    case "${opt}" in
-        s) SKIP_INSTALL="${OPTARG}" ;;
-        h|*) echo "Usage: $0 [-s <true|false>]" && exit 1 ;;
-    esac
-done
 
-! check_root && error_msg "Please run this script as root."
-create_out_dir "${OUTPUT}"
-cd "${OUTPUT}"
 
-install_deps "git gcc perl" "${SKIP_INSTALL}"
-# We need the recent fixes in master branch. Once they are included in the next
-# release, we can switch to release version.
-git clone https://github.com/kdlucas/byte-unixbench
-cd "byte-unixbench/UnixBench/"
+if [ `whoami` != 'root' ]; then
+        echo "YOu must be the root to run this script" >$2
+        exit 1
+fi
+
+#install package
+pkgs="gcc perl wget make unzip"
+install_deps "${pkgs}"
+print_info $? install-package
+
+#Download UnixBench5.1.3
+wget http://192.168.50.122:8083/test_dependents/unixbench.zip
+print_info $? download_unixbench
+
+unzip unixbench.zip && rm -rf unixbench.zip
+cd byte-unixbench-master/UnixBench/
+
 # -march=native and -mtune=native are not included in Linaro ARM toolchian
 # that older than v6. Comment they out here.
 cp Makefile Makefile.bak
 sed -i 's/OPTON += -march=native -mtune=native/#OPTON += -march=native -mtune=native/' Makefile
 
-log_parser() {
-    prefix="$1"
-    logfile="$2"
 
-    # Test Result.
-    egrep "[0-9.]+ [a-zA-Z]+ +\([0-9.]+ s," "${logfile}" \
-        | awk -v prefix="${prefix}" '{printf(prefix)};{for (i=1;i<=(NF-6);i++) printf("-%s",$i)};{printf(" pass %s %s\n"),$(NF-5),$(NF-4)}' \
-        | tee -a "${RESULT_FILE}"
+#run unixbench
+make
+./Run -c 1
+echo  "======= running 1 parallel copy of tests ======= "
+print_info $? run_results
 
-    # Index Values.
-    egrep "[0-9]+\.[0-9] +[0-9]+\.[0-9] +[0-9]+\.[0-9]" "${logfile}" \
-        | awk -v prefix="${prefix}" '{printf(prefix)};{for (i=1;i<=(NF-3);i++) printf("-%s",$i)};{printf(" pass %s index\n"),$NF}' \
-        | tee -a "${RESULT_FILE}"
+today=`date --date='0 days ago' +%Y-%m-%d`
+host_name=`hostname`
+cd results
+cat ${host_name}-${today}-01|grep "Dhrystone 2 using register variables"
+print_info $? Dhrystone_test
 
-    ms=$(grep "System Benchmarks Index Score" "${logfile}" | awk '{print $NF}')
-    add_metric "${prefix}-System-Benchmarks-Index-Score" "pass" "${ms}" "index"
-}
+cat ${host_name}-${today}-01|grep "Double-Precision Whetstone"
+print_info $? Double-Precision_test
 
-# Run a single copy.
-./Run -c "1" | tee "${OUTPUT}/unixbench-single.txt"
-log_parser "single" "${OUTPUT}/unixbench-single.txt"
-print_info $? dhrystom-test
-print_info $? execl-test
-print_info $? file-copy
-print_info $? whetstone-test
-print_info $? pipe-throughput
-print_info $? pipe-based
-print_info $? process-creation
-print_info $? shell-scripts
-print_info $? system-call
+cat ${host_name}-${today}-01|grep "Execl Throughput"
+print_INFO $? Execl-Throughput_test
+
+cat ${host_name}-${today}-01|grep "File Copy"
+print_info $? File-Copy_test
+
+cat ${host_name}-${today}-01|grep "Pipe Throughput"
+print_info $? Pipe-Throughput_test
+
+cat ${host_name}-${today}-01|grep "Pipe-based Context Switching"
+print_info $? Pipe-based_test
+
+cat ${host_name}-${today}-01|grep "Process Creation"
+print_info $? Process-Creation_test
+
+cat ${host_name}-${today}-01|grep "Shell Scripts"
+print_info $? Shell-Scripts_test
+
+cat ${host_name}-${today}-01|grep "System Call Overhead"
+print_info $? System-Call-Overhead_test
+
+score=`cat ${host_name}-${today}-01|grep "System Benchmarks Index Score"|awk '{print $5}'`
+echo "the sore of 1 parallel copies is ${score}"
+print_info $? score_1
 
 # Run the number of CPUs copies.
-if [ "$(nproc)" -gt 1 ]; then
-    ./Run -c "$(nproc)" | tee "${OUTPUT}/unixbench-multiple.txt"
-    log_parser "multiple" "${OUTPUT}/unixbench-multiple.txt"
+cd ../
+NPROC=$(nproc)
+if [ "${NPROC}" -gt 1 ]; then
+	./Run -c "${NPROC}"
+
+	echo  "======= running ${NPROC} parallel copy of tests ======= "
 fi
+
+cd results
+score=`cat ${host_name}-${today}-02|grep "System Benchmarks Index Score"|awk '{print $5}'`
+echo "the sore of ${NPROC} parallel copies is ${score}"
+print_info $? score_${NPROC}
+
+
+cd ../../../
+rm -rf byte-unixbench-master
+print_info $? delete_Unixbench
+

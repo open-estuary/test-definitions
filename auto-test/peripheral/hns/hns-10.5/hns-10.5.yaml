@@ -1,0 +1,25 @@
+metadata:
+    name: "hns"
+    format: "boost-Test-Shell Test Definition 1.0"
+    description: "boost is a c++ lib"
+    maintainer:
+        - dingyu
+    os:
+        - ubuntu
+        - centos
+    scope:
+        - hns
+    devices:
+        - d03
+        - d05
+    level: 5
+    totalcase:
+
+run:
+    steps:
+        - "cd auto-test/peripheral/hns/hns-10.5; ./hns.10.5.sh; cd -"
+parse:
+   pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+   fixupdict:
+   FAIL: fail
+PASS: pass

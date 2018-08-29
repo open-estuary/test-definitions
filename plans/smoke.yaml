@@ -1,0 +1,86 @@
+metadata:
+  # name key is needed by test-runner
+  name: smoke-test-plan-example
+  description: Linux test plan example
+  os: 
+    - centos
+  devices:
+    - d03
+    - d05
+  maintainer:
+    - liu_caili@hoperun.com
+  approver:
+    - liu_caili@hoperun.com
+  owner:
+    - liu_caili@hoperun.com
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: auto-test/middleware/tool/ethtool/ethtool.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/middleware/tool/devtoolset-4/devtoolset-4.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/middleware/tool/bazel/bazel.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/middleware/tool/fio-test/fio-test.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/middleware/tool/lldptool/lldptool.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/middleware/tool/swapon/swapon.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/middleware/tool/nicstat/nicstat.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/middleware/tool/pidstat/pidstat.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/middleware/tool/blktrace/blktrace.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/samba/samba.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/dnsmasq/dnsmasq.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/pip/pip.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/openssh/openssh.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/selinux/selinux.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/busybox/busybox.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/ftp/ftp.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/unzip/unzip.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/distributions/distribution/network-basic/network-basic.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/kernel/linux/smoke/smoke.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/kernel/linux/usb-smoke/usb-smoke.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/kernel/linux/pm-qa/pm-qa.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70
+    - path: auto-test/kernel/linux/modules/modules.yaml
+      repository: https://github.com/open-estuary/test-definitions.git
+      timeout: 70

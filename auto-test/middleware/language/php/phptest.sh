@@ -19,7 +19,10 @@ case "${distro}" in
 
 		# Configure PHP.
 		cp /etc/php.ini /etc/php.ini.bak
-		sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php.ini
+		sed -i "s/index.nginx-debian.html/index.nginx-debian.html index.php/g" /etc/nginx/sites-available/default
+	        sed -i "s/;fastcgi_pass unix/fastcgi_pass unix/g"  /etc/nginx/sites-available/default
+        	sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/fpm/php.ini
+
 		#sed -i "s/listen.allowed_clients = 127.0.0.1/listen = \/run\/php-fpm\/php-fpm.sock/" /etc/php-fpm.d/www.conf
 		#sed -i "s/;listen.owner = nobody/listen.owner = nginx/" /etc/php-fpm.d/www.conf
 		#sed -i "s/;listen.group = nobody/listen.group = nginx/" /etc/php-fpm.d/www.conf
@@ -38,27 +41,39 @@ case "${distro}" in
 		print_info $? configure-nginx
 		systemctl stop httpd.service > /dev/null 2>&1 || true
 		;;
-	debian|ubuntu)
-	    pkgs="nginx php php-common php7.0-fpm"
-        install_deps "${pkgs}"
-
+	debian)
+	    pkgs="nginx php php-common php7.2-fpm"
+            install_deps "${pkgs}"
+	    print_info $? install_php
         # Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
 
         # Configure PHP.
-        cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
-        sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
-		print_info $? configure-php
-        systemctl restart php7.0-fpm
-		print_info $? start-php-fpm
+        cp /etc/php/7.2/fpm/php.ini /etc/php/7.2/fpm/php.ini.bak
+        sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
+	sed -i "s/max_execution_time = /max_execution_time = 300/" /etc/php/7.2/fpm/php.ini
+	sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/g" /etc/php/7.2/fpm/pool.d/www.conf
+	echo "listen = /run/php/php7.2-fpm.sock" >> /etc/php/7.2/fpm/php-fpm.conf
+	print_info $? configure-php
 
         # Configure NGINX for PHP.
         mv -f /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
         cp ../../../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
-		print_info $? configure-php
+
+	print_info $? configure-nginx
+
+	systemctl restart php7.2-fpm
+        print_info $? start-php-fpm
+
         ;;
-    *)
-        error_msg "Unsupported distribution: ${distro}"
+    ubuntu)
+	pkgs="nginx php-fpm"
+	install_deps "${pkgs}"
+        print_info $? install_php_nginx
+	sed -i "s/index.nginx-debian.html/index.nginx-debian.html index.php/g" /etc/nginx/sites-available/default
+        sed -i "s/;fastcgi_pass unix/fastcgi_pass unix/g"  /etc/nginx/sites-available/default
+	sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/fpm/php.ini
+	systemctl restart php7.2-fpm
         ;;
 esac
 
@@ -73,7 +88,7 @@ else
 fi
 
 #sed -i "s/Apache/Nginx/g" ./html/index.html
-cp ./html/* /usr/share/nginx/html/
+#cp ./html/* /usr/share/nginx/html/
 
 curl -o "output" "http://localhost/index.html"
 grep 'Welcome to nginx!' ./output
@@ -182,13 +197,13 @@ case "${distro}" in
 		print_info $? remove-php
 		;;
 	debian|ubuntu)
-        systemctl stop php7.0-fpm
+        systemctl stop php7.2-fpm
 		print_info $? stop-php-fpm
 
         systemctl stop nginx
 		print_info $? stop-nginx
 
-	    pkgs="nginx php php-common php7.0-fpm"
+	    pkgs="nginx php php-common php7.2-fpm"
         remove_deps "${pkgs}"
 		print_info $? remove-php
         ;;

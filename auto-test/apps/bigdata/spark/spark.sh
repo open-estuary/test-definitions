@@ -165,6 +165,7 @@ function spark_stop_cluster(){
     
 #    ansible-playbook -i ./spark/hosts ./spark/site.yml -t stop_cluster 
 	$SPARK_HOME/sbin/stop-all.sh
+	sleep 5
     #jps_cnt=`ansible -i ./spark/hosts all -m shell -a "jps" | grep -Ec "Worker|Master"`
 	jps_cnt=`jps | grep -Ec "Worker|Master"`
    	if [ $jps_cnt -eq 0 ];then

@@ -43,38 +43,26 @@ cd ../../../../utils
     . ./sys_info.sh
     . ./sh-test-lib
 cd -
-#distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
-    "ubuntu")
-        #apt-get install vsftpd -y
-        #apt-get install expect -y
-        pkgs="vsftpd expect"
+    "ubuntu"|"debian")
+        pkgs="vsftpd expect ftp"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
-    "centos")
-        #yum install vsftpd -y
-        #yum install vsftpd.aarch64 -y
-        #yum install expect -y
-        #yum install ftp -y
+    "centos"|"fedora"|"opensuse")
         pkgs="vsftpd expect ftp vsftpd.aarch64"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
 esac
 
-# test case -- start, stop, restart
 vsftpd_execute start
 vsftpd_execute restart
 vsftpd_execute stop
-#process=$(vsftpd_op status | grep "running")
-#if [ "$process"x != ""x  ]; then
- #   vsftpd_op stop
-#fi
 
 FTP_PUT_LOG=ftp_put_test.log
 FTP_GET_LOG=ftp_get_test.log
-if [ "$distro"x = "centos"x ] ;
+if [ "$distro"x = "centos"x ] || [ "$distro" = "fedora" ];
 then
 	FTP_USERS=/etc/vsftpd/ftpusers
 	VSFTPD_CONF=/etc/vsftpd/vsftpd.conf
@@ -158,9 +146,11 @@ expect eof
 EOF
 
 if [ $(find . -maxdepth 1 -name "$FTP_GET_LOG")x != ""x ]; then
-    lava-test-case vsftpd-download --result pass
+    #lava-test-case vsftpd-download --result pass
+    print_info 0 vsftpd-download
 else
-    lava-test-case vsftpd-download --result fail
+    #lava-test-case vsftpd-download --result fail
+    print_info 1 vsftpd-download
 fi
 
 cd -
@@ -168,20 +158,20 @@ cd -
 cd ~
 
 if [ $(find . -maxdepth 1 -name "ftp_put_test.log")x != ""x ]; then
-    lava-test-case vsftpd-upload --result pass
+    #lava-test-case vsftpd-upload --result pass
+    print_info 0 vsftpd-upload
 else
-    lava-test-case vsftpd-upload --result fail
+    #lava-test-case vsftpd-upload --result fail
+    print_info 1 vsftpd-upload
 fi
 
 rm -rf tmp
 case $distro in
-    "ubuntu")
-        #apt-get remove vsftpd expect -y
+    "ubuntu"|"debian")
         remove_deps "${pkgs}"
         print_info $? remove-package
         ;;
-    "centos")
-        #yum remove vsftpd expect -y
+    "centos"|"opensuse"|"fedora")
         remove_deps "${pkgs}"
         print_info $? remove-package
         ;;

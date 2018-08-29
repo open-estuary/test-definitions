@@ -35,7 +35,8 @@ else
 fi
 
 if [ ! -d docker ]; then
-    download_file http://htsat.vicp.cc:804/docker/docker.tar.gz
+    #download_file http://htsat.vicp.cc:804/docker/docker.tar.gz
+    download_file http://192.168.50.122:8083/test_dependents/docker.tar.gz
     [[ $? -eq 0 ]] && tar -xvf docker.tar.gz
 	print_info $? download-docker-image
 fi
