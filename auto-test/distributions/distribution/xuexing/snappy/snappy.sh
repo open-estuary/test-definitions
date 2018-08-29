@@ -15,7 +15,7 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos"|"fedora"|"opensuse")
-        pkgs="gcc gcc-c++ make cmake3 wget"
+        pkgs="gcc gcc-c++ make3 cmake wget"
         install_deps "${pkgs}"
 	print_info $? install-pkgs
 	;;

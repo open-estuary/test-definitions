@@ -1,34 +1,27 @@
 
 metadata:
-    name: "compilation"
+    name: snappy-testing
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Basic operations on files"
+    description: "snappy is a c++ development kit used to compress and decompress"
     maintainer:
         - hongxin_228@163.com
     scope:
-        -distribution
+        - snappy
     os:
         - centos
-        - ubuntu
         - fedora
-        - debian
         - opensuse
+        - ubuntu
+        - debian
     devices:
         - d05
         - d03
     level: 1
-    totalcase:
-        centos: 2
-        ubuntu: 2
-        debian: 2
-        fedora: 2
-        opensuse: 2
 run:
     steps:
-        - "cd auto-test/distributions/distribution/compilation; ./compilation.sh; cd -"
+        - "cd auto-test/distributions/distribution/xuexing/snappy; ./snappy.sh; cd - "
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
    FAIL: fail
    PASS: pass
-

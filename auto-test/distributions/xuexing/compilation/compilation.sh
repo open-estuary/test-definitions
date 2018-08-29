@@ -1,5 +1,4 @@
 #!/bin/bash
-# Author: mahongxin <hongxin_228@163.com>
 set -x
 cd ../../../../utils
 . ./sys_info.sh
