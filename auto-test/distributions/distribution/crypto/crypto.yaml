@@ -16,7 +16,12 @@ metadata:
         - d03
         - d05
     level: 1
-
+    totalcase:
+        centos: 3
+        ubuntu: 3
+        debian: 3
+        fedora: 3
+        opensuse: 3
 run:
     steps:
         - "cd auto-test/distributions/distribution/crypto; ./crypto.sh; cd -"
