@@ -1,4 +1,4 @@
-
+﻿
 metadata:
     name: kernel-package1 
     format: "Lava-Test-Shell Test Definition 1.0"
@@ -11,13 +11,14 @@ metadata:
     os:
         - centos
         - ubuntu 
+        - debian
     devices:
         - d05
     level: 1 
     totalcase:
         centos: 38
         ubuntu: 43
-       
+        debian：57
 run:
     steps:
         - "cd auto-test/kernel/linux/kernel-package1; ./kernel-package1.sh; cd -"
