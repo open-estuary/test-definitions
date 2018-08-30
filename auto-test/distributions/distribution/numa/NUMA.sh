@@ -3,7 +3,7 @@
 # Filename: NUMA.sh
 # Author: xuexing4@hisilicon.com
 # Description: NUMA--Non Uniform Memory Access Architecture
-# Latest: 2018-08-29
+# Latest: 2018-08-30
 
 cd ../../../../utils
 source ./sys_info.sh
@@ -17,7 +17,6 @@ if [ `whoami` != 'root' ]; then
     exit 1
 fi
 
-numnodes=`numactl -H|grep -o -P '(?<=available: ).*(?= nodes)'`
 numcpus=`cat /proc/cpuinfo| grep "processor"| wc -l`
 nummems=`free -m |grep Mem | awk '{print $2}'`
 
@@ -42,6 +41,8 @@ case $distro in
         print_info $? install-numactl
 esac
 
+numnodes=`numactl -H|grep -o -P '(?<=available: ).*(?= nodes)'`
+
 #Show inventory of available nodes on the system
 show_numa ()
 {
@@ -65,14 +66,13 @@ show_numa ()
             done
     fi
 
-    return 0
+    print_info $? show-numa
 }
 
 show_numa
-print_info $? show-numa
 
 #Verify the total number of CPU and memory
-totol_number ()
+total_number ()
 {
     sumcpus=0
     summems=0
@@ -86,13 +86,13 @@ totol_number ()
         declare -i summems=$b+$nummem
     done
     if [ $numcpus -eq $sumcpus ]&&[ `expr $nummems - $summems` -lt 3 ];then
-            print_info 0 totol-number
+            print_info 0 total-number
     else
-            print_info 1 totol-number
+            print_info 1 total-number
     fi
 }
 
-totol_number
+total_number
 
 #Show NUMA policy settings of the current process
 numa_policy ()
@@ -146,11 +146,10 @@ mem_bind ()
         fi
     done
 
-    return 0
+    print_info $? mem-bind
 }
 
 mem_bind
-print_info $? mem-bind
 
 cpu_bind ()
 {
@@ -167,11 +166,10 @@ cpu_bind ()
         fi    
     done
 
-    return 0
+    print_info $? cpu-bind
 }
 
 cpu_bind
-print_info $? cpu-bind
 
 #remove the numactl
 case $distro in
