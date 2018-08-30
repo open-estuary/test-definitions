@@ -16,15 +16,18 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 case $distro in
-    "centos")
-         yum install yaml-cpp-static -y
-         yum install yaml-cpp -y
-         yum install cmake -y
-         yum install boost -y
-         yum install gcc-c++ -y
-         yum install make -y
+    "centos"|"fedora")
+         #yum install yaml-cpp-static -y
+         #yum install yaml-cpp -y
+         #yum install cmake -y
+         #yum install boost -y
+         #yum install gcc-c++ -y
+         #yum install make -y
+         package="yaml-cpp-static yaml-cpp cmake boost gcc-c++ make"
+         install_deps "${package}"
          print_info $? install-yaml-cpp
          ;;
+    
 esac
 mkdir test3
 cd test3
@@ -33,7 +36,7 @@ cp -rf /usr/include/yaml-cpp/ /usr/include/
 #把测试文件test.cpp cmd_mux.yaml放到test3文件夹里面
 #cp ../test.cpp ./
 #cp ../cmd_mux.yaml ./
-cat << EOF >> ./test.cpp
+cat << EOF > ./test.cpp
     #include <iostream>
     #include <fstream>
     #include <string>
@@ -87,7 +90,7 @@ cat << EOF >> ./test.cpp
       cout<<"priority: "<<priority<<endl;
     }
 EOF
-cat << EOF >> ../cmd_mux.yaml
+cat << EOF > ../cmd_mux.yaml
 subscribers:
   - name:        "Default task"
     topic:       "input/cmd_default_check"
@@ -115,9 +118,16 @@ print_info $? compile-cpp
 TCID="yaml-cpp-test"
 str=`grep -Po "name: Default task" yaml-cpp.log`
 if [ "$str" != "" ];then
-    lava-test-case $TCID --result pass
+    #lava-test-case $TCID --result pass
+    print_info 0 yaml-test
 else
-    lava-test-case $TCID --result fail
+    #lava-test-case $TCID --result fail
+    print_info 1 yaml-test
 fi
-rm -rf yaml-cpp-yaml-cpp-0.5.3
-print_info $? remove-pkgs
+
+case $distro in
+     "centos"|"fedora")
+     remove_deps "${package}"
+     print_info $? remove-package
+;;
+esac
