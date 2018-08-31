@@ -25,7 +25,6 @@ examine_all_usb_devices() {
 		print_info $? exam-"$device"
             done
         done
-        print_info 1 "examine-all-usb-devices"
     else
         print_info 1 "examine-all-usb-devices"
     fi
