@@ -20,6 +20,7 @@ metadata:
         debian: 5
         centos: 6
         ubuntu: 6
+        fedora: 5
 run:
     steps:
         - "cd auto-test/apps/performance/iperf; ./iperf.sh; cd -"

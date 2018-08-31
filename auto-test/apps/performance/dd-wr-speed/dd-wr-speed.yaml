@@ -15,6 +15,7 @@ metadata:
     level: 1
     totalcase:
         centos: 3
+        ubuntu: 3
 
 run:
     steps:

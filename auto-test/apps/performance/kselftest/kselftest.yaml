@@ -15,6 +15,7 @@ metadata:
     level: 1
     totalcase:
         centos: 4
+        ubuntu: 4
 
 params:
     # Specify Linux kernel self test pre-build tarball name from below location
