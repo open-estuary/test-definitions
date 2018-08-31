@@ -15,6 +15,10 @@ metadata:
     level: 1
     totalcase:
         centos: 7
+        ubuntu: 7
+        fedora: 7
+        debian: 7
+        opensuse: 7
 run:
     steps:
         - "cd auto-test/apps/performance/weighttp; ./weighttp.sh; cd - "
