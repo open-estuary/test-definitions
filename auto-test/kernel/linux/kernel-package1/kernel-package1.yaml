@@ -12,13 +12,17 @@ metadata:
         - centos
         - ubuntu 
         - debian
+        - fedora
+        - opensuse
     devices:
         - d05
     level: 1 
     totalcase:
         centos: 38
         ubuntu: 43
-        debian：57
+        debian: 55
+        fedora: 32
+        opensuse: 8        
 run:
     steps:
         - "cd auto-test/kernel/linux/kernel-package1; ./kernel-package1.sh; cd -"

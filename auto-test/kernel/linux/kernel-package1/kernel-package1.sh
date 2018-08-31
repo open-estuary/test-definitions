@@ -184,9 +184,10 @@ case "${dist}" in
         sed -i s/5.[0-9]/5.1/g /etc/yum.repos.d/estuary.repo
         yum update
         version="4.16.0"
-        release="estuary.6"
-        from_repo="Estuary"
-        package_list="kernel-devel kernel-headers kernel-tools-libs kernel-tools-libs-devel perf python-perf  kernel-debug kernel-debug-debuginfo"
+        release="estuary.2.fc26"
+        from_repo="estuary"
+        from_repo1="Estuary"
+        package_list="kernel kernel-core kernel-devel kernel-headers kernel-debuginfo kernel-debuginfo-common kernel-modules kernel-modules-extra"
         for p in ${package_list};do
             echo "$p install"
             yum install -y $p
@@ -195,17 +196,17 @@ case "${dist}" in
             if test $status -eq 0
             then
                  print_info 0 install
-                from=$(yum info $p | grep "From repo" | awk '{print $4}')
-                if [ "$from" = "$from_repo" ];then
+                from=$(yum info $p | grep "From repo" | awk '{print $4}'|head -1)
+                if [ "$from" = "$from_repo" -o "$from" = "$from_repo1" ];then
                    print_info 0 repo_check
                 else
                     #已经安装，但是安装源不是estuary的情况需要卸载重新安装
                     rmflag=1
-                    if [ "$from" != "Estuary" ];then
+                    if [ "$from" != "$from_repo"  -o "$from" != "$from_repo1" ];then
                         yum remove -y $p
                         yum install -y $p
-                        from=$(yum info $p | grep "From repo" | awk '{print $4}')
-                        if [ "$from" = "$from_repo" ];then
+                        from=$(yum info $p | grep "From repo" | awk '{print $4}'|head -1)
+                        if [ "$from" = "$from_repo" -o "$from" = "$from_repo1" ];then
                              print_info 0 repo_check
                         else
                             print_info 1 repo_check
@@ -213,14 +214,14 @@ case "${dist}" in
                     fi
                 fi
 
-                vs=$(yum info $p | grep "Version" | awk '{print $3}')
+                vs=$(yum info $p | grep "Version      : 4.16.0" | awk '{print $3}'|head -1)
                 if [ "$vs" = "$version" ];then
                       print_info 0 version
                 else
                       print_info 1 version
                 fi
 
-                rs=$(yum info $p | grep "Release" | awk '{print $3}')
+                rs=$(yum info $p | grep "Release      : estuary.2.fc26" | awk '{print $3}'|head -1)
                 if [ "$rs" = "$release" ];then
                      print_info 0 release
                 else
@@ -245,4 +246,63 @@ case "${dist}" in
             fi
         done
         ;;
+    opensuse)
+         version="4.16.3-0.gd41301c" 
+         source1="kernel-default-4.16.3-0.gd41301c.nosrc"  
+         installed="No"
+         package_list="kernel-default kernel-default-base"
+          wget ftp://117.78.41.188/utils/distro-binary/opensuse/kernel-default-4.16.3-0.gd41301c.aarch64.rpm
+         wget ftp://117.78.41.188/utils/distro-binary/opensuse/kernel-default-base-4.16.3-0.gd41301c.aarch64.rpm
+#         wget ftp://117.78.41.188/utils/distro-binary/opensuse/kernel-default-devel-4.16.3-0.gd41301c.aarch64.rpm
+         
+          for p in ${package_list};do  
+               inst=$(zypper info $p  |grep  "Installed      :" | awk '{print $3}')  
+               if [ "$p" = "kernel-default" ];then
+                  if [ "$inst" = "$installed" ];then
+                     zypper --no-gpg-checks install -y kernel-default-4.16.3-0.gd41301c.aarch64.rpm
+                     print_info $? install
+                  else
+                     zypper remove -y $p
+                     zypper --no-gpg-checks install -y kernel-default-4.16.3-0.gd41301c.aarch64.rpm
+                     print_info $? install
+                  fi
+               fi
+
+               if [ "$p" = "kernel-default-base" ];then
+                  if [ "$inst" = "$installed" ];then
+                     zypper --no-gpg-checks install -y kernel-default-base-4.16.3-0.gd41301c.aarch64.rpm
+                     print_info $? install
+                  else
+                     zypper remove -y $p
+                     zypper --no-gpg-checks install -y kernel-default-base-4.16.3-0.gd41301c.aarch64.rpm
+                     print_info $? install 
+                  fi
+               fi
+
+#               if [ "$p" = "kernel-default-devel" ];then
+#                  if [ "$inst" = "$installed" ];then
+#                    zypper --no-gpg-checks  install -y kernel-default-devel-4.16.3-0.gd41301c.aarch64.rpm
+#                    print_info $? install
+#                 else
+#                     zypper remove -y $p
+#                     zypper --no-gpg-checks install -y kernel-default-devel-4.16.3-0.gd41301c.aarch64.rpm
+#                     print_info $? install
+#                  fi                   
+#               fi
+               vs=$(zypper info $p | grep "Version" | awk '{print $3}')               
+                  if [ "$vs" = "$version" ];then
+                      print_info 0 version
+                  else
+                      print_info 1 version
+                  fi
+              sr=$(zypper info $p | grep "Source package" | awk '{print $4}')
+                  if [ "$sr" = "$source1" ];then
+                      print_info 0 source_package
+                  else
+                      print_info 1 source_package
+                  fi
+              zypper remove -y $p
+              print_info $? remove
+         done
+         ;;   
 esac
