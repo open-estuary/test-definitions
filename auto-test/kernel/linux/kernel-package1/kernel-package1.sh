@@ -33,18 +33,8 @@ case "${dist}" in
                 if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
                 print_info 0 repo_check
                 else
-                    #已经安装，但是安装源不是estuary的情况需要卸载重新安装
                     rmflag=1
-                   # if [ "$from" != "anaconda" ];then
-                   #     yum remove -y $p
-                   #     yum install -y $p
-                   #     from=$(yum info $p | grep "Source" | awk '{print $2}')
-                   #     if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
-                   #         echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
-                   #     else
                     print_info 1 repo_check
-                   #    fi
-                   # fi
                 fi
 
                 vs=$(apt show $p | grep "Version" | awk '{print $2}')
@@ -155,7 +145,7 @@ case "${dist}" in
                 if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
                 print_info 0 repo_check
                 else
-                    #已经安装，但是安装源不是estuary的情况需要卸载重新安装
+                    #已经安装，但是安装源不是estuary
                     rmflag=1
                     echo "$p already installed,source is: $from " | tee -a ${RESULT_FILE}
                 fi
