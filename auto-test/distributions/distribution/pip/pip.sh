@@ -28,11 +28,7 @@ esac
 pip install -U pip
 pip install requests
 pip uninstall requests -y
-pip list
-pip list --outdated
 pip install --upgrade anymarkup
-pip show anymarkup
-pip search "jquery"
 
 case $distro in
     "centos"|"fedora")
