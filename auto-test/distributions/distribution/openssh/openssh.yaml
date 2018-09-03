@@ -12,14 +12,18 @@ metadata:
         - fedora
         - debian
     scope:
-        - distribution
+        - openssh
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 5
+        opensuse: 5
         ubuntu: 5
+        centos: 5
+        fedora: 5
+        debian: 5
+
 
 run:
     steps:

@@ -16,6 +16,7 @@ metadata:
     level: 1
     totalcase:
         centos: 4
+        ubuntu: 4
 
 params:
     # Number of cycles helloworld is called (for loop repetitions)

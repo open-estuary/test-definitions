@@ -16,6 +16,7 @@ metadata:
     level: 1
     totalcase:
         centos: 8
+        ubuntu: 8
 run:
     steps:
         - "cd auto-test/apps/performance/qperf; ./qperf.sh; "

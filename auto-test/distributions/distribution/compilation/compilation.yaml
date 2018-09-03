@@ -10,13 +10,19 @@ metadata:
     os:
         - centos
         - ubuntu
+        - fedora
+        - debian
+        - opensuse
     devices:
         - d05
         - d03
     level: 1
     totalcase:
-        centos: 9
-        ubuntu: 4
+        centos: 2
+        ubuntu: 2
+        debian: 2
+        fedora: 2
+        opensuse: 2
 run:
     steps:
         - "cd auto-test/distributions/distribution/compilation; ./compilation.sh; cd -"

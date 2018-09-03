@@ -10,10 +10,19 @@ fi
 
 INTERFACE=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
 
-pkgs="curl net-tools"
-install_deps "${pkgs}"
-print_info $? install-pkgs
 
+case $distro in
+    "centos"|"ubuntu"|"debian"|"fedora")
+	pkgs="curl net-tools"
+	install_deps "${pkgs}"
+	print_info $? install-pkgs
+        ;;
+    "opensuse")
+	 pkgs="curl net-tools dhcp-client"
+	 install_deps "${pkgs}"
+         print_info $? install-pkgs
+        ;;
+esac
 
 run() {
     test_case="$1"
@@ -30,36 +39,59 @@ run() {
 # Get default Route Gateway IP address of a given interface
 GATEWAY=`ip route list  | grep default | awk '{print $3}'|head -1`
 
-run "netstat -an" "print-network-statistics"
-print_info $? netstat
+
+case $distro in
+    "ubuntu"|"debian"|"centos"|"fedora")
+	run "netstat -an" "print-network-statistics"
+	print_info $? netstat
+
+        run "route" "print-routing-tables"
+	print_info $? route
+
+	run "ip link set lo up" "ip-link-loopback-up"
+	print_info $? ip-link
+	
+	run "route" "route-dump-after-ip-link-loopback-up"
+	print_info $? route-dump
+        	;;
+    "opensuse")
+	run "ss -an" "print-network-statistics"
+        print_info $? netstat
+
+	run "ip route" "print-routing-info"
+        print_info $? route_info
+
+        run "ip link set lo up" "ip-link-loopback-up"
+        print_info $? ip-link
+
+        run "ip route" "route-dump-after-ip-link-loopback-up"
+        print_info $? route-dump
+          ;;
+esac
 
 run "ip addr" "list-all-network-interfaces"
 print_info $? ip-addr
 
-run "route" "print-routing-tables"
-print_info $? route
-
-run "ip link set lo up" "ip-link-loopback-up"
-print_info $? ip-link
-
-run "route" "route-dump-after-ip-link-loopback-up"
-print_info $? route-dump
-
-run "ip link set dev ${INTERFACE} down" "ip-link-interface-down"
-print_info $? ip_link_down
-
-run "ip link set dev ${INTERFACE} up" "ip-link-interface-up"
-print_info $? ip_link_up
-
-run "dhclient -v ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhclient-v"
-print_info $? dhclient
-
-run "route" "print-routing-tables-after-dhclient-request"
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
 print_info $? ping-gateway
 
-run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI -o curl_video.avi" "download-a-file"
+run "curl http://192.168.50.122:8083/test_dependents/lmbench3.tar.gz -o lmbench3" "download-a-file"
 print_info $? curl
 
-remove_deps "net-tools"
-print_info $? removse-pkgs
+rm -rf lmbench3.tar.gz 
+
+case $distro in
+    "opensuse")
+      	zypper remove -y net-tools
+	zypper remove -y dhcp-client 
+      	print_info $? removse-pkgs
+	;;
+    "ubuntu"|"debian"|"centos"|"fedora")
+	remove_deps "net-tools"
+	print_info $? removse-pkgs
+      	;;
+esac
+
+
+
+

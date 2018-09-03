@@ -15,7 +15,7 @@ if [ `whoami` != 'root' ]; then
 fi
 
 #install package
-pkgs="gcc perl wget make"
+pkgs="gcc perl wget make unzip"
 install_deps "${pkgs}"
 print_info $? install-package
 
@@ -39,46 +39,52 @@ echo  "======= running 1 parallel copy of tests ======= "
 print_info $? run_results
 
 today=`date --date='0 days ago' +%Y-%m-%d`
+host_name=`hostname`
 cd results
-cat localhost.localdomain-${today}-01|grep "Dhrystone 2 using register variables"
+cat ${host_name}-${today}-01|grep "Dhrystone 2 using register variables"
 print_info $? Dhrystone_test
 
-cat localhost.localdomain-${today}-01|grep "Double-Precision Whetstone"
+cat ${host_name}-${today}-01|grep "Double-Precision Whetstone"
 print_info $? Double-Precision_test
 
-cat localhost.localdomain-${today}-01|grep "Execl Throughput"
+cat ${host_name}-${today}-01|grep "Execl Throughput"
 print_INFO $? Execl-Throughput_test
 
-cat localhost.localdomain-${today}-01|grep "File Copy"
+cat ${host_name}-${today}-01|grep "File Copy"
 print_info $? File-Copy_test
 
-cat localhost.localdomain-${today}-01|grep "Pipe Throughput"
+cat ${host_name}-${today}-01|grep "Pipe Throughput"
 print_info $? Pipe-Throughput_test
 
-cat localhost.localdomain-${today}-01|grep "Pipe-based Context Switching"
+cat ${host_name}-${today}-01|grep "Pipe-based Context Switching"
 print_info $? Pipe-based_test
 
-cat localhost.localdomain-${today}-01|grep "Process Creation"
+cat ${host_name}-${today}-01|grep "Process Creation"
 print_info $? Process-Creation_test
 
-cat localhost.localdomain-${today}-01|grep "Shell Scripts"
+cat ${host_name}-${today}-01|grep "Shell Scripts"
 print_info $? Shell-Scripts_test
 
-cat localhost.localdomain-${today}-01|grep "System Call Overhead"
+cat ${host_name}-${today}-01|grep "System Call Overhead"
 print_info $? System-Call-Overhead_test
 
-score=`cat localhost.localdomain-${today}-01|grep "System Benchmarks Index Score"|awk '{print $5}'
+score=`cat ${host_name}-${today}-01|grep "System Benchmarks Index Score"|awk '{print $5}'`
 echo "the sore of 1 parallel copies is ${score}"
 print_info $? score_1
 
 # Run the number of CPUs copies.
-if [ "$(nproc)" -gt 1 ]; then
-	./Run -c "${nproc}"
-echo  "======= running ${nproc} parallel copy of tests ======= "
+cd ../
+NPROC=$(nproc)
+if [ "${NPROC}" -gt 1 ]; then
+	./Run -c "${NPROC}"
 
-score=`cat localhost.localdomain-${today}-01|grep "System Benchmarks Index Score"|awk '{print $5}'
-echo "the sore of 1 parallel copies is ${score}"
-print_info $? score_${score}
+	echo  "======= running ${NPROC} parallel copy of tests ======= "
+fi
+
+cd results
+score=`cat ${host_name}-${today}-02|grep "System Benchmarks Index Score"|awk '{print $5}'`
+echo "the sore of ${NPROC} parallel copies is ${score}"
+print_info $? score_${NPROC}
 
 
 cd ../../../
