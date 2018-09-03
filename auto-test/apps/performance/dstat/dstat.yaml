@@ -10,13 +10,19 @@ metadata:
     os:
         - ubuntu
         - centos
+        - debian
+        - opensuse
+        - fedora
     devices:
         - d05
         - d03
     level: 1
     totalcase:
-        centos: 21
-        ubuntu: 11
+        centos: 13
+        ubuntu: 13
+        debian: 13
+        fedora: 13
+        opensuse: 13
 run:
     steps:
         - "cd auto-test/apps/performance/dstat; ./dstat.sh; cd - "

@@ -17,7 +17,11 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 8
+        centos: 6
+        ubuntu: 6
+        debian: 6
+        opensuse: 6
+        fedora: 6
 
 run:
     steps:

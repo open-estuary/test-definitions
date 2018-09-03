@@ -14,6 +14,7 @@ metadata:
         - centos
         - debian
         - ubuntu
+        - fedora
     devices:
         - d03
         - d05
@@ -22,6 +23,7 @@ metadata:
         debian: 33
         centos: 34
         ubuntu: 33
+        fedora: 33
 run:
     steps:
         - "cd auto-test/middleware/language/php; ./phptest.sh; cd -"

@@ -9,30 +9,22 @@
 #================================================================*/
 
 function nodejs_install(){
-    case $distro in
-    opensuse)
-    pkgs="nodejs npm8 "
-    install_deps "${pkgs}"
-    print_info $? "install-nodejs"
-    ;;
-    ubuntu|fedora|centos)
-    pkgs="nodejs npm" 
-    install_deps "${pkgs}"
+    
+    yum install -y nodejs 
     print_info $? "install_nodejs"
-    ;;
-   esac
-   # res=`node -v`
+    
+    res=`node -v`
 
-    #echo $res | grep "v6"
-    #print_info $? "nodejs_version"
+    echo $res | grep "v6"
+    print_info $? "nodejs_version"
 
 }
 
 function nodejs_npm(){
 
-    #res=`npm -v`
-    #echo $res | grep "3.10"
-   # print_info $? "nodejs_npm_version"
+    res=`npm -v`
+    echo $res | grep "3.10"
+    print_info $? "nodejs_npm_version"
     
     npm install "express"
     print_info $? "nodejs_install_package_local"
@@ -80,8 +72,8 @@ function nodejs_fs_test(){
 }
 
 function nodejs_uninstall(){
-    pkgs="nodejs"
-    remove_deps "${pkgs}" 
+    
+    yum remove -y nodejs 
     print_info $? "uninstall_nodejs"
 
 
