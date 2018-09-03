@@ -15,12 +15,9 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 case $distro in
-    "debian"|"ubuntu")     
-        apt-get install gcc -y
-        print_info $? gcc
-        apt-get install build-essential -y
-        print_info $? buid-essential
-        apt-get install ltrace -y
+    "debian"|"ubuntu")
+        pkgs="gcc build-essential ltrace" 
+        install_deps "${pkgs}"
         print_info $? ltrace
          ;;
     "centos"|"fedora"|"opensuse")     
@@ -71,19 +68,8 @@ case $distro in
     "debian"|"ubuntu")     
                  remove_deps "${pkgs}"
                  print_info $? remove-package
-                 rm -rf dir
-
-                apt-get remove ltrace -y
-                print_info $? remove-ltrace
-
-                apt-get remove gcc -y
-                print_info $? remove-gcc
-
-                apt-get remove build-essential -y
-                print_info $? remove-build-essential -y
          ;;
     "centos"|"fedora"|"opensuse")     
-                pkgs="gcc  ltrace"
                 remove_deps "${pkgs}"
                 print_info $? remove
          ;;

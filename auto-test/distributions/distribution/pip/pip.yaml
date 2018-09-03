@@ -19,6 +19,10 @@ metadata:
     level: 1
     totalcase:
         centos: 10
+        ubuntu: 10
+        fedora: 10
+        debian: 10
+        opensuse: 10
 run:
     steps:
         - "cd auto-test/distributions/distribution/pip; ./pip.sh; cd -"
