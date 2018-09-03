@@ -28,10 +28,6 @@ esac
 pip install -U pip
 pip install requests
 pip uninstall requests -y
-pip install requests
-pip uninstall requests -y
-pip install requests
-pip uninstall requests -y
 pip list
 pip list --outdated
 pip install --upgrade anymarkup
@@ -68,10 +64,6 @@ esac
 
 pip install -U pip
 print_info $? pip-update
-pip install requests
-pip uninstall requests -y
-pip install requests
-pip uninstall requests -y
 pip install requests
 print_info $? pip-install-package
 pip uninstall requests -y
