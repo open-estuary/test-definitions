@@ -55,9 +55,12 @@ case "${distro}" in
 	pkgs="nginx php-fpm"
 	install_deps "${pkgs}"
         print_info $? install_php_nginx
+	systemctl stop apache2 > /dev/null 2>&1 || true
+	
 	sed -i "s/index.nginx-debian.html/index.nginx-debian.html index.php/g" /etc/nginx/sites-available/default
         sed -i "s/;fastcgi_pass unix/fastcgi_pass unix/g"  /etc/nginx/sites-available/default
 	sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/fpm/php.ini
+	
 	systemctl start php7.2-fpm
 	print_info $? start-php-fpm
         ;;
