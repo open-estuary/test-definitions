@@ -10,11 +10,19 @@ metadata:
         - hns  
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     devices:
         - d05
     level: 1
     totalcase:
         centos: 1
+        ubuntu: 1
+        fedora: 1
+        debian: 1
+        opensuse: 1
 
 run:
     steps:

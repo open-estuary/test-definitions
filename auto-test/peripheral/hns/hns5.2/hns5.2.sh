@@ -6,8 +6,7 @@ cd -
 
 case $distro in
     "centos"|"fedora"|"opensuse")
-	#yum install net-tools -y
-	pkgs="net-tools"
+	pkgs="net-tools ethtool"
 	install_deps "$pkgs"
         ;;
         ubuntu|debian)
