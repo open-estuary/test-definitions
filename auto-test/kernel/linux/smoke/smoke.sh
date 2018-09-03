@@ -25,10 +25,10 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}"
+      debian|ubuntu) install_deps "lsb-release sysstat" "${SKIP_INSTALL}"
       print_info $? install-pkg
       ;;
-      fedora|centos) install_deps "lshw lsof pcp-import-iostat2pcp redhat-lsb-core numactl pciutils usbutils" "${SKIP_INSTALL}"
+      fedora|centos|opensuse) install_deps "lshw lsof pcp-import-iostat2pcp redhat-lsb-core numactl pciutils usbutils sysstat dmidecode" "${SKIP_INSTALL}"
       print_info $? install-pkg
 ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
