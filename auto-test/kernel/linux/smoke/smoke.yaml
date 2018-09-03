@@ -8,6 +8,10 @@ metadata:
         - fyuanz_2010@163.com
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     scope:
         - linux
     devices:
@@ -16,6 +20,10 @@ metadata:
     level: 1
     totalcase:
         centos: 29
+        ubuntu: 29
+        fedora: 29
+        debian: 29
+        opensuse: 29
 
 run:
     steps:
