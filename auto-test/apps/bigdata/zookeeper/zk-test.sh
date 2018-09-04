@@ -13,13 +13,11 @@ basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 . ../../../../lib/sh-test-lib
 . ../../../../utils/sys_info.sh
-. ../../../../utils/sshpasswd.sh 
 source ./zk.sh 
 #set -x
 #export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 outDebugInfo
-ssh_no_passwd
 
 zk_install_standalone
 zk_install_c_client
