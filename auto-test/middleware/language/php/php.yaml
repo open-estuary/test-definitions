@@ -20,10 +20,10 @@ metadata:
         - d05
     level: 1
     totalcase:
-        debian: 33
-        centos: 34
-        ubuntu: 33
-        fedora: 33
+        debian: 28
+        centos: 28
+        ubuntu: 28
+        fedora: 28
 run:
     steps:
         - "cd auto-test/middleware/language/php; ./phptest.sh; cd -"

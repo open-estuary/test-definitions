@@ -72,7 +72,6 @@ case "${distro}" in
         sed -i "s/;listen.group = nobody/listen.group = nginx/" /etc/php-fpm.d/www.conf
         sed -i "s/user = apache/user = nginx/" /etc/php-fpm.d/www.conf
         sed -i "s/group = apache/group = nginx/" /etc/php-fpm.d/www.conf
-	print_info $? configure-php	
 
 	systemctl start php-fpm
         print_info $? start-php-fpm
@@ -80,7 +79,6 @@ case "${distro}" in
 	# Configure NGINX for PHP.
 	cp /etc/nginx/nginx.conf.default /etc/nginx/nginx.conf.default.bak
 	cp ../../../../utils/centos-nginx.conf /etc/nginx/nginx.conf.default
-	print_info $? configure-nginx
 	systemctl stop httpd.service > /dev/null 2>&1 || true
 	;;
 esac
@@ -88,14 +86,8 @@ esac
 systemctl stop nginx
 systemctl start nginx
 print_info $? start-nginx
-if [ !$? ];then
-    print_info 0 start-nginx
-else
-    print_info 1 start-nginx
-    exit 0
-fi
 
-#sed -i "s/Apache/Nginx/g" ./html/index.html
+sed -i "s/Apache/Nginx/g" ./html/index.html
 cp ./html/* /usr/share/nginx/html/
 
 curl -o "output" "http://localhost/index.html"
