@@ -23,6 +23,7 @@ metadata:
         ubuntu: 6
         fedora: 6
         debian: 6
+
 run:
     steps:
         - "cd auto-test/middleware/tool/lldptool; ./lldptool.sh; cd -"

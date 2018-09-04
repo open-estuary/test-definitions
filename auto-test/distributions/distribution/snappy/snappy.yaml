@@ -6,15 +6,23 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - distribution
+        - snappy
     os:
         - centos
+        - fedora
+        - opensuse
+        - ubuntu
+        - debian
     devices:
         - d05
         - d03
     level: 1
     totalcase:
-        centos: 6
+        centos: 4
+        ubuntu: 4
+        debian: 4
+        fedora: 4
+        opensuse: 4
 run:
     steps:
         - "cd auto-test/distributions/distribution/snappy; ./snappy.sh; cd - "

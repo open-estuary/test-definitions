@@ -4,9 +4,9 @@ metadata:
     description: "The purpose of UnixBench is to provide a basic
                   indicator of the performance of a Unix-like system."
     maintainer:
-        - shuangshengchen@qq.com
+        - 1136920311@qq.com
     os:
-        - centos
+        - ubuntu
     scope:
         - performance
     environment:
@@ -18,11 +18,9 @@ metadata:
     totalcase: 14
 params:
     SKIP_INSTALL: "false"
-
 run:
     steps:
-        - cd auto-test/apps/performance/unixbench/
-        - ./unixbench.sh -s "${SKIP_INSTALL}"
+        - "cd auto-test/apps/performance/unixbench/; ./unixbench.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

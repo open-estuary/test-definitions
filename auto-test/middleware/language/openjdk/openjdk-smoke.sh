@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # shellcheck disable=SC1091
 . ../../../../utils/sh-test-lib
@@ -45,6 +45,9 @@ else
         centos|fedora)
             install_deps "java-1.${VERSION}.0-openjdk-devel"
             ;;
+    opensuse)
+	    install_deps "java-1_${VERSION}_0-openjdk-devel"
+	    ;;
         *)
             error_msg "Unsupported distribution"
             ;;
@@ -53,12 +56,28 @@ fi
 print_info $? OpenJDK-Install
 
 # Set the specific version as default in case more than one jdk installed.
+case $dirstro in
+	"ubuntu"|"fedora"|"centos"|"debian")
 for link in java javac; do
     path="$(update-alternatives --display "${link}" \
         | egrep "^/usr/lib/jvm/java-(${VERSION}|1.${VERSION}.0)" \
         | awk '{print $1}')"
     update-alternatives --set "${link}" "${path}"
 done
+;;
+esac
+
+case $dirstro in
+     "opensuse")
+     for link in java javac; do
+     path="$(update-alternatives --display "${link}" \
+     | egrep "^/usr/lib/jvm/java-(${VERSION}|1_${VERSION}_0)" \
+     | awk '{print $1}')"
+     update-alternatives --set "${link}" "${path}"
+done
+     ;;
+esac
+
 
 java -version 2>&1 | grep "version \"1.${VERSION}"
 print_info $? OpenJDK-CheckJavaVersion 
@@ -106,6 +125,9 @@ else
         centos|fedora)
             remove_deps "java-1.${VERSION}.0-openjdk-devel"
             ;;
+        opensuse)
+	    remove_deps "java-1_${VERSION}_0-openjdk-devel"
+	    ;;
         *)
             error_msg "Unsupported distribution"
             ;;

@@ -8,12 +8,21 @@ metadata:
         - language
     os:
         - centos
+        - debian
+        - ubuntu
+        - opensuse
+        - fedora
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 5
+        centos: 3
+        debian: 3
+        ubuntu: 3
+        opensuse: 3
+        fedora: 3
+
 
 
 run:
