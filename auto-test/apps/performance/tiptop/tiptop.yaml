@@ -6,6 +6,9 @@ metadata:
         - shuangshengchen@qq.com
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
     scope:
         - performance
     environment:
@@ -16,6 +19,9 @@ metadata:
     level: 1
     totalcase:
         centos: 4
+        ubuntu: 3
+        debian: 4
+        fedora: 4
 
 params:
     # Test if lshw able to report the classes pre-defined in ${CLASSES}.

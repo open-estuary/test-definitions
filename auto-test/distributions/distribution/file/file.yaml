@@ -18,8 +18,11 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 6
-        ubuntu: 6
+        centos: 9
+        ubuntu: 9
+        opensuse: 9
+        debian: 9
+        fedora: 9
 run:
     steps:
         - "cd auto-test/distributions/distribution/file; ./file.sh; cd -"

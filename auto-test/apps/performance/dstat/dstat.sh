@@ -15,14 +15,11 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 case $distro in
-    "debian|ubuntu")
-        apt-get install dstat -y
+    "debian"|"ubuntu"|"fedora"|"centos"|"opensuse")
+        package="dstat"
+        install_deps "${package}"
         print_info $? install-dstat
          ;;
-    "centos")
-        yum install dstat -y
-        print_info $? install-dstat
-
 esac
 
 #输出默认监控，报表 输出时间间隔为3s,输出10个结果
@@ -70,12 +67,8 @@ dstat -r 3 10 2>&1 | tee -a dstat.log
 print_info $? dstat-r
 
 case $distro in
-    "ubuntu|debian")
-     apt-get remove dstat -y
-     print_info $? remove-dstat
-     ;;
-    "centos")
-     yum remove dstat -y
+    "ubuntu"|"debian"|"centos"|"fedora"|"opensuse")
+     remove_deps "${package}"
      print_info $? remove-dstat
     ;;
 esac
