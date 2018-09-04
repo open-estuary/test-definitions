@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Linux kernel self test
 
 # shellcheck disable=SC1091
