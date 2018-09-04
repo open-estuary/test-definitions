@@ -1,79 +1,72 @@
+# Copyright (C) 2018-9-4, Estuary.
+# Author: wangsisi
+
 #!/bin/sh 
 set -x
-cd ../../../../utils
-    . ./sys_info.sh
-    . ./sh-test-lib
-cd -
-SERVER="127.0.0.1"
-TIME="10"
-THREADS="1"
-VERSION="3.1.4"
-
 if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
 
+cd ../../../../utils
+source  ./sys_info.sh
+source  ./sh-test-lib
+cd -
+
+SERVER="127.0.0.1"
+TIME="10"
+THREADS="1"
+
 case $distro in
     "ubuntu"|"debian")
-         apt-get install iperf -y
-         apt-get install iperf3 -y
+         pkgs="iperf iperf3"
+         install_deps "${pkgs}"
          print_info $? install-iperf
          ;;
     "centos")
-         yum install wget -y
-         yum install gcc -y
-         yum install make -y
-         download_file https://github.com/esnet/iperf/archive/"${VERSION}".tar.gz
-         tar xf "${VERSION}".tar.gz
-         cd iperf-"${VERSION}"
-         ./configure
-         make
-         make install
+         pkgs="iperf iperf3"
+         install_deps "${pkgs}"
          print_info $? install-iperf
          ;;
     "fedora")
-         dnf install -y iperf3
+         pkgs="iperf3"
+         install_deps "${pkgs}"
+         print_info $? install-iperf
+         ;;
+    "opensuse")
+         pkgs="iperf"
+         install_deps "${pkgs}"
          print_info $? install-iperf
          ;;
  esac
+
 sed -i '$a\/usr/local/lib' /etc/ld.so.conf
 cd /etc
 ldconfig
+cd -
+
 # Run local iperf3 server as a daemon when testing localhost.
-[ "${SERVER}" = "127.0.0.1" ] && iperf3 -s -D
-print_info $? start-iperf-server
+ [ "${SERVER}" = "127.0.0.1" ] && iperf3 -s -D
+ print_info $? start-iperf-server
 # Run iperf test with unbuffered output mode.
-stdbuf -o0 iperf3 -c "${SERVER}" -t "${TIME}" -P "${THREADS}" 2>&1 \
-    | tee iperf.log
-print_info $? start-iperf-client
-TCID="iperf"
+ stdbuf -o0 iperf3 -c "${SERVER}" -t "${TIME}" -P "${THREADS}" 2>&1 \
+  | tee iperf.log
+ print_info $? start-iperf-client
+
 # Parse logfile.
 if [ "${THREADS}" -eq 1 ]; then
-    egrep "(sender|receiver)" iperf.log \
-        | awk '{printf("iperf-%s pass %s %s\n", $NF,$7,$8)}' \
-        | tee -a iperf.log
-    lava-test-case $TCID --result pass
+    egrep "(sender|receiver)" iperf.log
+    print_info $? iperf_test
 elif [ "${THREADS}" -gt 1 ]; then
-    egrep "[SUM].*(sender|receiver)" "${LOGFILE}" \
-        | awk '{printf("iperf-%s pass %s %s\n", $NF,$6,$7)}' \
-        | tee -a iperf.log
-    lava-test-case $TCID --result pass
+    egrep "[SUM].*(sender|receiver)" iperf.log 
+    print_info $? iperf_test
 else
-    lava-test-case $TCID --result fail
+    print_info 1 iperf_test
 fi
 
 # Kill iperf test daemon if any.
 pkill iperf3 || true
 print_info $? kill-iperf
-case $distro in
-    "ubuntu")
-	#delete 20180601
-        apt-get remove iperf iperf3 -y
-        print_info $? remove-package
-        ;;
-    "centos")
-        yum remove gcc make wget -y
-        print_info $? remove-package
-        ;;
-esac
+#uninstall
+remove_deps "${pkgs}"
+print_info $? remove-package
