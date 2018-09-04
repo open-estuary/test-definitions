@@ -9,12 +9,20 @@ metadata:
         - performance
     os:
         - centos
+        - opensuse
+        - debian
+        - fedora
+        - ubuntu
     devices:
         - d05
         - d03
     level: 1
     totalcase:
         centos: 4
+        ubuntu: 4
+        fedora: 4
+        debian: 4
+        opensuse: 4
 
 params:
     # Number of cycles helloworld is called (for loop repetitions)
