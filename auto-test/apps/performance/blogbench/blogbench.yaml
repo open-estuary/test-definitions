@@ -10,6 +10,8 @@ metadata:
     os:
        - centos
        - ubuntu
+       - fedora
+       - debian
     devices:
         - d03
         - d05
@@ -17,11 +19,13 @@ metadata:
     totalcase:
         centos: 3
         ubuntu: 3
-
+        fedora: 3
+        debian: 3
 run:
     steps:
         - cd auto-test/apps/performance/blogbench
         - ./blogbench.sh
+        - cd -
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

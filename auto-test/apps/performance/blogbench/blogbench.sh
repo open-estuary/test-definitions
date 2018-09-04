@@ -49,5 +49,5 @@ for i in writes reads; do
         | tee -a "${RESULT_FILE}"
 done
 
-rm -rf ./bench
+rm -rf bench
 print_info $? delete-blogbench
