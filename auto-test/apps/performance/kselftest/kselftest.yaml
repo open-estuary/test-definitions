@@ -7,6 +7,9 @@ metadata:
     os:
         - centos
         - ubuntu
+        - fedora
+        - debian
+        - opensuse
     scope:
         - performance
     devices:
@@ -16,6 +19,9 @@ metadata:
     totalcase:
         centos: 4
         ubuntu: 4
+        fedora: 4
+        debian: 4
+        opensuse: 4
 
 params:
     # Specify Linux kernel self test pre-build tarball name from below location
