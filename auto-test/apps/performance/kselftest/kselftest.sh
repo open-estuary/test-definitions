@@ -66,7 +66,7 @@ install() {
     case "${dist}" in
         debian|ubuntu) install_deps "sed wget xz-utils" "${SKIP_INSTALL}" ;;
         centos|fedora) install_deps "sed wget xz" "${SKIP_INSTALL}" ;;
-        opensuse) install_deos "sed wget xz" "${SKIP_INSTALL}";;
+        opensuse) install_deps "sed wget xz" "${SKIP_INSTALL}";;
         unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
