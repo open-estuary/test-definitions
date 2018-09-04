@@ -67,13 +67,20 @@ install_source-highlight() {
                  print_info 1 version
             fi
         ;;
-      "fedora") 
+      "debian") 
             install_deps "${PACKAGE}" "${SKIP_INSTALL}"
             if test $? -eq 0;then
                  print_info 0 install
             else
                 print_info 1 install
                 exit 1
+            fi
+            VERSION_DEBIAN="3.1.8-1.2~deb9u1"
+            version=$( apt show ${PACKAGE} | grep "Version" | awk '{print $2}')
+            if [ ${version} = ${VERSION_DEBIAN} ];then
+                 print_info 0 version
+            else
+                 print_info 1 version
             fi
         ;;
       "opensuse") 
