@@ -25,10 +25,6 @@ metadata:
         opensuse: 5
 run:
     steps:
-        - "cd auto-test/distributions/distribution/dns; ./debian_dns.sh; cd -"
-        - "cd auto-test/distributions/distribution/dns; ./ubuntu_dns.sh; cd -"
-        - "cd auto-test/distributions/distribution/dns; ./opensuse_dns.sh; cd -"
-        - "cd auto-test/distributions/distribution/dns; ./fedora_dns.sh; cd -"
         - "cd auto-test/distributions/distribution/dns; ./dns.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
