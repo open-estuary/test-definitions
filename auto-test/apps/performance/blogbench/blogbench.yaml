@@ -12,7 +12,8 @@ metadata:
        - ubuntu
        - fedora
        - debian
-    devices:
+       - opensuse 
+   devices:
         - d03
         - d05
     level: 1
@@ -21,6 +22,7 @@ metadata:
         ubuntu: 3
         fedora: 3
         debian: 3
+        opensuse: 3
 run:
     steps:
         - cd auto-test/apps/performance/blogbench
