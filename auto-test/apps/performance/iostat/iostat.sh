@@ -1,26 +1,28 @@
-﻿#!/bin/sh
+﻿#!/bin/bash
 # Copyright (C) 2017-8-29, Linaro Limited.
 # Author: mahongxin <hongxin_228@163.com>
 
 set -x
-
-cd ../../../../utils
-    . ./sys_info.sh
-    . ./sh-test-lib
-cd -
-
 # Test user id
 if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+
+cd ../../../../utils
+source ./sys_info.sh
+source ./sh-test-lib
+cd -
+
 case $distro in
     "centos"|fedora)
-        yum install pcp-import-iostat2pcp -y
+        pkgs="pcp-import-iostat2pcp"
+        install_deps "${pkgs}"
         print_info $? pcp-import-iostat2pcp
         ;;
-    "ubuntu")
-        apt-get install sysstat -y
+    "ubuntu"|"debian")
+        pkgs="sysstat"
+        install_deps "${pkgs}"
         print_info $? sysstat
          ;;
 esac
@@ -57,15 +59,11 @@ print_info $? iostat-x
 iostat -c 1 3 2>&1 | tee iostat-c.log
 print_info $? iostat-c
 
-case $distro in
-    "ubuntu|debian")
-     apt-get remove systat -y
-     print_info $? remove-systat
-     ;;
- "centos"|"fedora")
-    yum remove pcp-import-iostat2pcp -y
-    print_info $? remove-pcp-import-iostat2pcp
-    ;;
-esac
-
+#uninstall
+remove_deps "${pkgs}" 
+ if test $? -eq 0;then
+    print_info 0 remove
+ else
+    print_info 1 remove
+ fi 
 
