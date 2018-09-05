@@ -17,6 +17,7 @@ metadata:
         - d05
     level: 1
     totalcase:
+        centos: 0
 run:
     steps:
         - "cd auto-test/middleware/database/nginx; ./nginx.sh;"

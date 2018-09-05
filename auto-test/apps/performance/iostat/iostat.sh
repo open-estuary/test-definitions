@@ -1,4 +1,4 @@
-#!/bin/sh
+﻿#!/bin/sh
 # Copyright (C) 2017-8-29, Linaro Limited.
 # Author: mahongxin <hongxin_228@163.com>
 
@@ -15,7 +15,7 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 case $distro in
-    "centos")
+    "centos"|fedora)
         yum install pcp-import-iostat2pcp -y
         print_info $? pcp-import-iostat2pcp
         ;;
@@ -62,7 +62,7 @@ case $distro in
      apt-get remove systat -y
      print_info $? remove-systat
      ;;
- "centos")
+ "centos"|"fedora")
     yum remove pcp-import-iostat2pcp -y
     print_info $? remove-pcp-import-iostat2pcp
     ;;

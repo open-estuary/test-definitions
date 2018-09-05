@@ -10,12 +10,20 @@ metadata:
         - tool
     os:
         - debian
+        - ubuntu
+        - centos
+        - fedora
+        - opensuse
     devices:
         - d05
         - d03
     level: 1 
     totalcase:
-        debian: 12
+        debian: 8
+        ubuntu: 8
+        centos: 8
+        fedora: 8
+        opensuse: 8
 run:
     steps:
         - "cd auto-test/middleware/tool/ltrace; ./ltrace.sh; cd - "

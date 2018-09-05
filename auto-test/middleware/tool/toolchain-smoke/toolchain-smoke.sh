@@ -35,7 +35,7 @@ install() {
         print_info 1 install
 	exit 1
         fi ;;
-      fedora|centos) install_deps "gcc glibc-static" "${SKIP_INSTALL}"
+      fedora|centos|opensuse) install_deps "gcc glibc-static" "${SKIP_INSTALL}"
         if test $? -eq 0;then
         print_info 0 install
         else
@@ -70,9 +70,9 @@ command="./hello | grep -x 'Hello world'"
 # skip_list is used as test case name to avoid typing mistakes
 run_test_case "${command}" "${skip_list}"
   if test $? -eq 0;then
-     print_info 0 "avoid typing mistakes"
+     print_info 0  avoid_typing_mistakes
   else
-     print_info 1 "avoid typing mistakes"
+     print_info 1  avoid_typing_mistakes
   fi
  case "${dist}" in
    debian|ubuntu) remove_deps "build-essential" 
