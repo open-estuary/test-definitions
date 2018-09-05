@@ -46,7 +46,7 @@ case "${distro}" in
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
 
         mv -f /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-        cp ../../../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
+        cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
 
 	systemctl start php7.0-fpm
         print_info $? start-php-fpm
@@ -57,10 +57,13 @@ case "${distro}" in
         print_info $? install_php_nginx
 	systemctl stop apache2 > /dev/null 2>&1 || true
 	
-	sed -i "s/index.nginx-debian.html/index.nginx-debian.html index.php/g" /etc/nginx/sites-available/default
-        sed -i "s/;fastcgi_pass unix/fastcgi_pass unix/g"  /etc/nginx/sites-available/default
-	sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/fpm/php.ini
+	cp /etc/php/7.2/fpm/php.ini /etc/php/7.2/fpm/php.ini.bak
+        sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
+
+        cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+        cp ../../../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
 	
+
 	systemctl start php7.2-fpm
 	print_info $? start-php-fpm
         ;;
@@ -78,7 +81,7 @@ case "${distro}" in
 
 	# Configure NGINX for PHP.
 	cp /etc/nginx/nginx.conf.default /etc/nginx/nginx.conf.default.bak
-	cp ../../../../utils/centos-nginx.conf /etc/nginx/nginx.conf.default
+	cp ../../../../utils/fedora-nginx.conf /etc/nginx/nginx.conf.default
 	systemctl stop httpd.service > /dev/null 2>&1 || true
 	;;
 esac
