@@ -8,6 +8,9 @@ metadata:
     os:
         - centos
         - ubuntu
+        - debian
+        - fedora
+        - opensuse
     scope:
         - performance
     devices:
@@ -17,6 +20,9 @@ metadata:
     totalcase:
         centos: 3
         ubuntu: 3
+        debian: 3
+        fedora: 3
+        opensuse: 3
 
 run:
     steps:

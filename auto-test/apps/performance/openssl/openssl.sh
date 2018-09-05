@@ -6,6 +6,14 @@
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
 set -x
+
+#! check_root && error_msg "You need to be root to run this script."
+#create_out_dir "${OUTPUT}"
+if [ `whoami` != 'root' ] ; then
+    echo "You must be the superuser to run this script" >&2
+    exit 1
+fi
+
 cd ../../../../utils
     . ./sys_info.sh
     . ./sh-test-lib
@@ -18,12 +26,6 @@ while getopts "s:" o; do
   esac
 done
 
-#! check_root && error_msg "You need to be root to run this script."
-#create_out_dir "${OUTPUT}"
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "ubuntu")
@@ -38,6 +40,16 @@ case $distro in
          zypper install -y openssl
          print_info $? install-openssl
          ;;
+     "fedora")
+         dnf install openssl -y
+         print_info $? install-openssl
+         ;;
+     "debian")
+         apt-get install openssl -y
+         print_info $? install-openssl
+         ;;
+
+
 esac
 
 # Record openssl vesion as it has a big impact on test reuslt.
@@ -88,4 +100,17 @@ case $distro in
         yum remove openssl -y
         print_info $? remove-openssl
         ;;
+    "opensuse")
+        zypper remove -y openssl
+        print_info $? remove-openssl
+        ;;
+    "fedora")
+        dnf remove openssl -y
+        print_info $? remove-openssl
+        ;;
+    "debian")
+        apt-get remove openssl -y
+        print_info $? remove-openssl
+        ;;
+
 esac
