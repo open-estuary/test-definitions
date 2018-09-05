@@ -20,7 +20,7 @@ case "$distro" in
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
 	# Configure NGINX for PHP.
         cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-        cp ../../../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
+        cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
 
 	systemctl start php7.0-fpm
 	systemctl start nginx
@@ -28,8 +28,8 @@ case "$distro" in
 	;;
         
     ubuntu)
-	echo mysql-server mysql-server/root_password password root | sudo debconf-set-selections
-	echo mysql-server mysql-server/root_password_again password root | sudo debconf-set-selections
+	echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
+	echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
 	pkgs="nginx mysql-server php php-mysql php-common libapache2-mod-php curl php7.2-fpm"
         install_deps "${pkgs}"
         print_info $? install-pkgs
@@ -40,9 +40,8 @@ case "$distro" in
 	sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/fpm/php.ini
 	# Configure NGINX for PHP.
 	cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-	sed -i "s/index.nginx-debian.html/index.nginx-debian.html index.php/g" /etc/nginx/sites-available/default
-        sed -i "s/;fastcgi_pass unix/fastcgi_pass unix/g"  /etc/nginx/sites-available/default
-	
+	cp ../../../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
+
 	systemctl start php7.2-fpm
 	systemctl start nginx
         systemctl start mysql
@@ -50,7 +49,6 @@ case "$distro" in
     centos)
         # x86_64 nginx package can be installed from epel repo. However, epel
         # project doesn't support ARM arch yet. RPB repo should provide nginx.
-        [ "$(uname -m)" = "x86_64" ] && install_deps "epel-release"
         yum remove -y `rpm -qa | grep -i mysql`
         yum remove -y `rpm -qa | grep -i alisql`
         yum remove -y `rpm -qa | grep -i percona`
@@ -86,7 +84,7 @@ case "$distro" in
 	sed -i "s/group = apache/group = nginx/" /etc/php-fpm.d/www.conf
 	# Configure NGINX for PHP.
 	cp /etc/nginx/nginx.conf.default /etc/nginx/nginx.conf.default.bak
-	cp ../../../../utils/centos-nginx.conf /etc/nginx/nginx.conf.default
+	cp ../../../../utils/fedora-nginx.conf /etc/nginx/nginx.conf.default
 
 	systemctl start php-fpm
 	systemctl start nginx
@@ -102,8 +100,8 @@ grep 'Test Page for the Nginx HTTP Server' ./output
 print_info $? test-nginx-server
 
 # Test MySQL.
-set password for root@localhost = root
-mysql --user='root' --password='root' -e 'show databases'
+mysqladmin -u root password lxmptest
+mysql --user='root' --password='lxmptest' -e 'show databases'
 print_info $? mysql-show-databases
 
 # Test PHP.
