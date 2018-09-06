@@ -57,11 +57,11 @@ EOF
 
 #compile the source file
 g++ main.cpp -o test2.o
-print_info $? compilation-C++file
+print_info $? compilation-Cplusfile
 
 #run the compiled file
 ./test2.o
-print_info $? run-C++file
+print_info $? run-Cplusfile
 
 #make a file based on JAVA program
 cat <<EOF >> ./test3.java
@@ -74,11 +74,11 @@ EOF
 
 #compile the source file
 javac test3.java
-print_info $? compilation-JAVAfile
+#print_info $? compilation-JAVAfile
 
 #run the compiled file
 java test3
-print_info $? run-JAVAfile
+#print_info $? run-JAVAfile
 
 case $distro in
     "ubuntu"|"debian")
