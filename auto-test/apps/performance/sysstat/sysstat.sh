@@ -1,6 +1,14 @@
 #!/bin/bash
+
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
+
+#检查root
+if [ `whoami` != 'root' ] ; then
+    echo "You must be the superuser to run this script" >&2
+    exit 1
+fi
+
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/sysstat.txt"
@@ -50,32 +58,53 @@ install() {
             fi
             print_info $? sys-source
             ;;
-        "ubuntu")
-            apt-get install sysstat -y
+        "ubuntu"|"debian"|"opensuse")
+            pkgs="sysstat"
+            install_deps "${pkgs}"
             print_info $? install-sysstat
             ;;
+        "fedora")
+           pkgs="sysstat.aarch64"
+           install_deps "${pkgs}"
+           print_info $? install-sysstat
+           ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
 sysstat_test() {
+#收集1秒之内的10次动态信息到指定文件
     /usr/lib64/sa/sadc  1 10 sa00
-    #print_info $? sadc-test
+#通过sar工具查看系统状态
     sar -f sa000 | tee -a ${LOG_FILE}
     print_info $? sar-cpu
+   
+#查看CPU利用率，每秒更新一次，更新5次
     sar -u  1 5 | tee -a ${LOG_FILE}
     print_info $? sar-network
+
+#查看设备的情况
     sar -n DEV 2 5 | tee -a ${LOG_FILE}
     print_info $? sar-io
+
+#查看io设备的情况
     iostat -x | tee -a  ${LOG_FILE}
     print_info $? iostat-test
+
+#获取CPU的信息，2秒运行一次，运行10次
     mpstat 2 10 | tee -a ${LOG_FILE}
     print_info $? mpstat-test
 }
-! check_root && error_msg "You need to be root to run this script."
-create_out_dir "${OUTPUT}"
-cd "${OUTPUT}"
 
 install
 sysstat_test
-remove_deps "sysstat"
-print_info $? remove-sysstat
+case $distro in
+      "centos")
+       remove_deps "sysstat"
+       print_info $? remove-sysstat
+       ;;
+      "ubuntu"|"opensuse"|"fedora"|"debian")
+       remove_deps "${pkgs}"
+       print_info $? remove-sysstat
+       ;;
+
+esac
