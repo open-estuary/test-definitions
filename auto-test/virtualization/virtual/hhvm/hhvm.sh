@@ -21,19 +21,22 @@ INSTALLDIR=$(cd $1; pwd)
 HOST=$distro
 
 PKG_NAME="hhvm"
+#PKG_NAME="php-phpunit-environment"
 PKG_VER="3.17.3"
 
 case $HOST in
-    centos)
+    centos|fedora|opensuse)
         echo "[$PKG_NAME] install package on $HOST system"
         # install hhvm dependent packages
-        yum install tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
-        libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau -y
+        pkgs="tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
+        libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau"
+        install_deps "${pkgs}" 
         print_info $? install-dependent-packages
-        yum install -y curl nginx
-		print_info $? install-nginx
+        pkgs="curl nginx"
+        install_deps "${pkgs}"
+	print_info $? install-nginx
     ;;
-    ubuntu)
+    ubuntu|debian)
         echo "[$PKG_NAME] install package on $HOST system"
         #update the system
         apt-get update -y
@@ -46,11 +49,11 @@ case $HOST in
         apt-get install -y curl nginx
 		print_info $? install-nginx
     ;;
-    debian)
-        echo "[$PKG_NAME] Do not support install hhvm on $HOST system"
-        print_info 1 install-dependent-packages
-		print_info 1 install-nginx
-    ;;
+    #debian)
+     #   echo "[$PKG_NAME] Do not support install hhvm on $HOST system"
+      #  print_info 1 install-dependent-packages
+	#	print_info 1 install-nginx
+    #;;
     *)
         echo "[$PKG_NAME] do not support install hhvm on $HOST system"
         print_info 1 install-dependent-packages
@@ -59,13 +62,15 @@ case $HOST in
 esac
 
 pushd $INSTALLDIR/packages/$PKG_NAME-$PKG_VER
-
-if [ ! -e ./${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz ];then
-    echo "[$PKG_NAME] the tarball is not exist"
-	#wget http://htsat.vicp.cc:804/hhvm/${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz
-	wget http://192.168.50.122:8083/test_dependents/${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz
-fi
-print_info $? download-hhvm-tarball
+       #case $distro in
+       # centos|fedora|opensuse|)
+	wget http://192.168.50.122:8083/test_dependents/hhvm-3.17.3-centos.aarch64.tar.gz
+        #;;
+        #ubuntu|debian)
+ #       wget http://192.168.50.122:8083/test_dependents/hhvm-3.17.3-ubuntu.aarch64.tar.gz
+       # ;;
+#esac
+#print_info $? download-hhvm-tarball
 
 if [ ! -d ${INSTALLDIR}/bin ];then
     mkdir -p $INSTALLDIR/bin
@@ -74,8 +79,8 @@ fi
 if [ ! -d ${INSTALLDIR}/etc/hhvm ];then
     mkdir -p ${INSTALLDIR}/etc/hhvm
 fi
-
-tar -xzvf ./${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz
+pwd
+tar -xzvf ./hhvm-3.17.3-centos.aarch64.tar.gz
 print_info $? unzip-hhvm-file
 
 r1=`cp -fr ./bin/* $INSTALLDIR/bin`
@@ -99,7 +104,7 @@ test ! -d /var/log/hhvm && mkdir -p /var/log/hhvm
 
 cp ./conf/nginx.conf* /etc/nginx/ -fr
 test ! -d $INSTALLDIR/etc/hhvm && mkdir -p $INSTALLDIR/etc/hhvm
-
+mkdir /usr/share/nginx/html
 cp ./test_page/test_*.php /usr/share/nginx/html/ -fr
 print_info $? copy-php-to-webserver
 
@@ -125,7 +130,7 @@ if [ ! -e $INSTALLDIR/bin/hhvm ];then
     #print_info 1 start-hhvm 
 else
 	$INSTALLDIR/bin/hhvm --mode daemon --config $INSTALLDIR/etc/hhvm/server.ini --config $INSTALLDIR/etc/hhvm/php.ini --config $INSTALLDIR/etc/hhvm/config.hdf
-	print_info $? start-hhvm
+#	print_info $? start-hhvm
 	echo "[$PKG_NAME] start hhvm service successfully"
 fi
 

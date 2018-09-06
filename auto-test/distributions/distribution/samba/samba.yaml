@@ -20,6 +20,10 @@ metadata:
     level: 1
     totalcase:
         centos: 11
+        ubuntu: 11
+        fedora: 11
+        debian: 11
+        opensuse: 10
 run:
     steps:
         - "cd auto-test/distributions/distribution/samba; ./samba.sh; cd -"

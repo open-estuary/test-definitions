@@ -7,16 +7,22 @@ metadata:
         - tanliqing2010@163.com
     scope:
         - database
-        - redis
     os:
         - centos
+        - ubuntu
+        - debian
+        - opensuse
+        - fedora
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 47
-
+        centos: 46
+        ubuntu: 46
+        debian: 46
+        opensuse: 46
+        fedora: 46
 
 run:
     steps:

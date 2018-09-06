@@ -1,5 +1,6 @@
 #! /bin/bash
 
+
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 . ../../../../utils/sh-test-lib
@@ -14,48 +15,68 @@ outDebugInfo
 
 
 function memcached_install(){
-    yum install -y memcached
-    print_info $? "memcacehd_install"
+case $distro in
+    "centos"|"fedora")
+	pkgs="memcached libevent python2-pip nmap-ncat"
+	install_deps "${pkgs}"
+        pip install -q python-memcached
+	print_info $? install_pkgs	
+        ;;
+    "ubuntu"|"debian")
+	pkgs="memcached libevent-dev"
+        install_deps "${pkgs}"
+        print_info $? install_pkgs
+	;;
+    "opensuse")
+	pkgs="memcached libevent-2_1-8"
+	install_deps "${pkgs}"
+        print_info $? install_pkgs
+        ;;
 
-    yum install -y libevent python2-pip
-    print_info $? "memcacehd_preinstall"
+esac
 
-    pip install -q python-memcached
-    print_info $? "memcached_client_install"
-
-    yum install -y nmap-ncat 
 }
 
 function memcached_start_by_command(){
-
-    useradd memtest
-    memcached -d -p 11211 -m 64m -u memtest 
-    ps -ef |grep "memcached -d -p" | grep -v grep
-    print_info $? "memcached_start"
+    user=`cat /etc/passwd|grep "memtest"|awk -F ':' '{print $1}'`
+    if [ "$user"x != "memtest"x ];then
+	useradd memtest    
+    fi
+	memcached -d -p 11211 -m 64m -u memtest 
+    	ps -ef |grep "memcached -d -p" | grep -v grep
+    	print_info $? "memcached_start"
+        
 }
 
 function memcached_start_by_service(){
 
     systemctl start memcached.service 
-    ps -ef | grep '/usr/bin/memcached' | grep -v grep 
-
-    if [ $? -eq 0 ];then
-        true
-    else
-        false
-    fi
-    print_info $? "memcached_start_by_systemd"
+    systemctl status memcached.service | grep "running"
+    print_info $? memcached_start_by_service
 }
 
 
 function memcached_conn(){
-    res=`echo "stats" | nc localhost 11211`
-    if [ $? -eq 0 ] ; then
-        lava-test-case "memcache_connect" --result pass
-    else
-        lava-test-case "memcache_connect" --result fail
-    fi 
-
+case $distro in
+    "centos"|"fedora")
+	echo "stats" | nc localhost 11211|grep "pid"
+	print_info $? memcached_conn
+	;;
+    "ubuntu"|"debian")
+	EXPECT=$(which expect)
+	$EXPECT << EOF
+	set timeout 100
+	spawn telnet localhost 11211
+	expect "'^]'"
+	send "set foo 0 0 3\r"
+	send "bar\r"
+	expect "STORED"
+	send "quit\r"
+	expect eof
+EOF
+	print_info $? memcached_conn
+	;;
+esac
 }
 
 function memcached_exec(){
@@ -64,39 +85,36 @@ function memcached_exec(){
     python ./mc.py
     echo 
     echo "-------stop memcached innter function------"
+    print_info $? memcached_exec
 }
 
 function memcached_stop_by_service(){
    systemctl stop memcached.service 
-   ps -ef | grep '/usr/bin/memcached' | grep -v grep 
-   if [ $? -eq 0 ];then
-       false
-   else
-       true
-   fi
-   print_info $? "memcached_stop_service_by_systemd"
+   systemctl status memcached.service | grep "dead"
+   print_info $? memcached_stop_by_service
+        
+
 }
 
 function memcached_stop_by_command(){
     
-    pid=`ps -ef | grep '/usr/bin/memcached' | grep -v grep | awk {'print $2'}`
+    pid=`ps -ef | grep 'memcached' | grep -v grep | awk {'print $2'}`
     if [ $? -eq 0 ];then
         kill -9 $pid
     fi 
-    ps -ef | grep '/usr/bin/memcached' | grep -v grep 
+    ps -ef | grep 'memcached' | grep -v grep 
     if [ $? -eq 0 ];then
-        false
+        print_info 1 memcached_stop_by_command
     else
-        true
+        print_info 0 memcached_stop_by_command
     fi
-    print_info $? "memcached_stop_service_by_command"
-
+    
 }
 
 
 
 function memcached_uninstall(){
-    yum remove -y memcached
+    remove_deps "${pkgs}"
     print_info $? "memcached_uninstall"
 }
 
@@ -106,7 +124,7 @@ memcached_conn
 memcached_exec
 memcached_stop_by_service
 
-memcached_start_by_service
+memcached_start_by_command
 memcached_stop_by_command 
 
 memcached_uninstall

@@ -8,26 +8,45 @@
 #   描    述：
 #
 #================================================================
-
+set -x
 
 function install_redis(){
-    
-    yum install -y redis 
-    print_info $? "install_redis"
+    case $distro in
+	 ubuntu|centos)
+         install_deps "redis redis-server" 
+         print_info $? "install_redis"
+	 ;;
+	 debian)
+         install_deps "redis-server redis-tools"
+	 print_info $? "install-redis"
+	 ;;
+         fedora|opensuse)
+         install_deps "redis"
+         print_info $? "install-redis"
+         ;;
+   esac
 
-    version=`redis-server --version | awk {'print $3'}`
-    if [ x"$version" == x"v=4.0.2" ];then
-        true
-    else
-        false
-    fi
-    print_info $? "redis version is 4.0.2 ?"
+    #version=`redis-server --version | awk {'print $3'}`
+    #if [ x"$version" == x"v=4.0.2" ];then
+     #   true
+    #else
+     #   false
+    #fi
+    #print_info $? "redis version is 4.0.2 ?"
 
-
+    if [ "$distro" == "opensuse" ];then
+	  mv ./redis.conf /etc/redis/
+    fi	  
     #修改配置文件，可以后台运行
-    sed -i 's/daemonize no/daemonize yes/' /etc/redis.conf 
-    grep "daemonize yes" /etc/redis.conf 
-    print_info $? "redis_edit_config_file_,that_can_run_background"
+    if [ "$distro" = "centos" ] || [ "$distro" = "fedora" ];then
+	    CONF=/etc/redis.conf
+    else
+	    CONF=/etc/redis/redis.conf
+    fi
+
+        sed -i 's/daemonize no/daemonize yes/' $CONF 
+        grep "daemonize yes" $CONF 
+        print_info $? "redis_edit_config_file_,that_can_run_background"
     
 }
 function redis_uninstall(){
@@ -36,8 +55,16 @@ function redis_uninstall(){
     if [ $? -eq 0 ];then
         redis_stop -a
     fi
-    yum -y remove redis 
-    print_info $? "redis_uninstall"
+    case $distro in
+      ubuntu|centos|fedora)
+         remove_deps "redis redis-server" 
+         print_info $? "redis_uninstall"
+        ;;
+    debian)
+	remove_deps "redis-server redis-tools"
+	print_info $? "redis_remove"
+	;;
+esac
     rm -rf /redis/db/ 
     print_info $? "redis_clean_up_workdir"
 }
@@ -57,9 +84,9 @@ function redis_start(){
     
     mkdir -p /redis/db/$port
 
-    unalias cp 
-    cp -f /etc/redis.conf /redis/db/$port 
-    
+    #unalias cp 
+    #cp -f /etc/redis.conf /redis/db/$port 
+    cp -f $CONF /redis/db/$port
     #修改配置文件，可以后台运行
     sed -i 's/daemonize no/daemonize yes/' /redis/db/${port}/redis.conf 
     grep "daemonize yes" /redis/db/${port}/redis.conf  

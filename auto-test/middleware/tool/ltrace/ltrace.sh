@@ -1,12 +1,12 @@
-#!/bin/sh
+﻿#!/bin/sh
 # Copyright (C) 2017-8-29, Linaro Limited.
 # Author: mahongxin <hongxin_228@163.com>
 
 set -x
 
 cd ../../../../utils
-    .        ./sys_info.sh
-             ./sh-test-lib
+.        ./sys_info.sh
+.        ./sh-test-lib
 cd -
 
 # Test user id
@@ -15,12 +15,14 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 case $distro in
-    "debian")
-        apt-get install gcc -y
-        print_info $? gcc
-        apt-get install build-essential
-        print_info $? buid-essential
-        apt-get install ltrace -y
+    "debian"|"ubuntu")
+        pkgs="gcc build-essential ltrace" 
+        install_deps "${pkgs}"
+        print_info $? ltrace
+         ;;
+    "centos"|"fedora"|"opensuse")     
+        pkgs="gcc  ltrace"
+        install_deps "${pkgs}"
         print_info $? ltrace
          ;;
 esac
@@ -61,12 +63,16 @@ print_info $? ltrace-T-hello
 #     print_info $? kill-ltrace
 #fi
 
-apt-get remove ltrace -y
-print_info $? remove-ltrace
+######################  environment  restore ##########################
+case $distro in
+    "debian"|"ubuntu")     
+                 remove_deps "${pkgs}"
+                 print_info $? remove-package
+         ;;
+    "centos"|"fedora"|"opensuse")     
+                remove_deps "${pkgs}"
+                print_info $? remove
+         ;;
+esac
 
-apt-get remove gcc -y
-print_info $? remove-gcc
-
-apt-get remove build-essential -y
-print_info $? remove-build-essential -y
 

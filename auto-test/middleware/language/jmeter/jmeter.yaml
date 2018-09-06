@@ -12,12 +12,18 @@ metadata:
         - language
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
     devices:
         - d05
         - d03
     level: 1
     totalcase:
-        centos: 12
+        centos: 9
+        ubuntu: 9
+        debian: 9
+        fedora: 9
 
 run:
     steps:
