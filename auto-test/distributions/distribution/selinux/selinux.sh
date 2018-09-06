@@ -1,5 +1,7 @@
 #!/bin/bash
+# Copyright (C) 2018-8-29, Estury
 # Author: wangsisi
+
 set -x
 #Test user id
 if [ `whoami` != 'root' ]; then
