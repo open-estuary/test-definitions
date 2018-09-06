@@ -7,6 +7,9 @@ metadata:
     os:
         - centos
         - ubuntu
+        - debian
+        - fedora
+        - opensuse
     scope:
         - performance
     environment:
@@ -18,6 +21,9 @@ metadata:
     totalcase:
         centos: 9
         ubuntu: 7
+        debian: 7
+        fedora: 7
+        opensuse: 7
 
 run:
     steps:
