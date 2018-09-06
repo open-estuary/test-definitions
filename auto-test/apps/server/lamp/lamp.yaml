@@ -9,10 +9,13 @@ metadata:
         - server
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
     devices:
         - d05
         - d03
-    level: 1
+    level: 5
     totalcase:
         centos: 12
 
