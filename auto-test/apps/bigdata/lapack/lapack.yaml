@@ -8,7 +8,9 @@ metadata:
     os:
         - ubuntu
         - centos
-        - opensuse 
+        - opensuse
+        - fedora
+        - debian 
     scope:
         - bigdata
         - lapack
@@ -18,6 +20,10 @@ metadata:
     level: 1
     totalcase:
         centos: 1
+        ubuntu: 1
+        fedora: 1
+        debian: 1
+        opensuse: 1
 
 params:
     SKIP_INSTALL: "False"
