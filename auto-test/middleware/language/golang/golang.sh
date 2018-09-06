@@ -8,11 +8,17 @@ cd ../../../../utils
 cd -
 
 case "${distro}" in
-	centos|fedora)
+	centos|fedora|opensuse)
 		pkgs="go net-tools gcc"
 		install_deps "${pkgs}"
 		print_info $? install-golang
 	;;
+        ubuntu|debian)
+               pkgs="golang net-tools gcc"
+	       install_deps "${pkgs}"
+	       print_info $? install-golang
+	       ;; 
+
 	*)
 		error_msg "Unsupported distribution!"
 esac
@@ -150,11 +156,18 @@ go build http
 print_info $? build-http-go
 
 ./http &
-netstat -anp | grep 12345
+case ${dirtro} in 
+	opensuse)
+        ss -anp |grep "12345"
+       ;;
+     ubuntu|debian|fedora|centos)
+     netstat -anp | grep "12345"
+ ;;
+esac
 print_info $? http-bind-port
 
-curl http://localhost:12345 | grep '404'
-print_info $? http-server
+#curl http://localhost:12345 | grep '404'
+#print_info $? http-server
 
 kill -9 $(pidof http)
 print_info $? kill-go-http
@@ -162,7 +175,7 @@ print_info $? kill-go-http
 cd ..
 rm -rf $dir
 
-yum remove -y go
+remove_deps "${pkgs}"
 print_info $? remove-golang
 
 

@@ -9,13 +9,20 @@ metadata:
         - tool
     os:
         - centos
+        - ubuntu
+        - opensuse
+        - fedora
+        - debian  
     devices:
         - d03
         - d05
     level: 1
     totalcase:
         centos: 4
-
+        ubuntu: 4
+        fedora: 4
+        opensuse: 4
+        debian: 4
 run:
     steps:
         - "cd auto-test/middleware/tool/libasan3; ./libasan3.sh; cd -"

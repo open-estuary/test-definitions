@@ -17,14 +17,14 @@ headers=$(uname -r)
 case "${dist}" in
     ubuntu)
         kernel_name="linux-image-${headers}"
-        sudo apt-get -y build-dep ${kernel_name} | tee "${LOG}"
+        sudo apt-get -y build-dep ${kernel_name} 
         status=$?
         if test $status -eq 0;then
             print_info 0 install
         else
             print_info 1 install
         fi
-        sudo apt-get source -b ${kernel_name} | tee "${LOG}"
+        sudo apt-get source -b ${kernel_name} 
         status=$?
         if test $status -eq 0
         then
@@ -35,8 +35,15 @@ case "${dist}" in
         ;;
     debian)
         kernel_name="linux-image-${headers}"
-        apt-get build-dep ${kernel_name} | tee "${LOG}"
-        apt-get source -b ${kernel_name} | tee "${LOG}"
+        apt-get build-dep ${kernel_name} 
+        status=$?
+        if test $status -eq 0
+        then
+            print_info 0 install
+        else
+            print_info 1 install
+        fi
+        apt-get source -b ${kernel_name} 
         status=$?
         if test $status -eq 0
         then
@@ -45,7 +52,7 @@ case "${dist}" in
             print_info 1 install
         fi
         ;;
-    centos) 
+    centos|fedora) 
         yum install yum-utils -y
         print_info $? yum-utils
 
@@ -66,7 +73,7 @@ case "${dist}" in
             print_info 0 install
         fi
         kernel_name=$(ls | grep "kernel-aarch64-")
-        rpmbuild --rebuild  ${kernel_name} | tee  "${LOG}"
+        rpmbuild --rebuild  ${kernel_name} 
         status=$?
         if test $status -eq 0
         then

@@ -23,8 +23,8 @@
 
 
 LANG=C
-export LANG
-
+ci_http_addr=http://192.168.50.122:8083
+export LANG ci_http_addr
 
 
 

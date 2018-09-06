@@ -1,4 +1,4 @@
-
+﻿
 metadata:
     name: kernel-package2
     format: "Lava-Test-Shell Test Definition 1.0"
@@ -10,13 +10,13 @@ metadata:
         - linux
     os:
         - centos
-        - ubuntu 
+         
     devices:
         - d05
     level: 1 
     totalcase:
         centos: 30
-        ubuntu: 43
+        
        
 run:
     steps:

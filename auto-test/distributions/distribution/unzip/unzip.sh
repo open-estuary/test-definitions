@@ -12,10 +12,7 @@ if [ `whoami` != 'root' ]; then
     exit 1
 fi
 case $distro in
-    "centos"|"ubuntu")
-        yum install wget -y
-        yum install unzip -y
-        yum install zip -y
+    "centos"|"ubuntu"|"debian"|"fedora"|"opensuse")
         pkg="wget unzip zip"
         install_deps "${pkg}"
         print_info $? install-pkg
@@ -42,3 +39,10 @@ print_info $? zip-packaging
 
 rm -rf netperf*
 rm -rf cryp*
+case $distro in
+    "centos"|"ubuntu"|"debian"|"fedora"|"opensuse")
+        pkg="wget unzip zip"
+        remove_deps "${pkg}"
+        print_info $? remove-pkg
+        ;;
+esac

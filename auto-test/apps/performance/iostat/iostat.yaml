@@ -11,6 +11,7 @@ metadata:
         - debian
         - centos
         - ubuntu
+        - fedora
     devices:
         - d05
         - d03
@@ -18,6 +19,7 @@ metadata:
     totalcase:
         debian: 8
         centos: 10
+        fedora: 10
         ubuntu: 9
 run:
     steps:

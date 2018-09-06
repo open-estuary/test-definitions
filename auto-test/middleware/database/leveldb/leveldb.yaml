@@ -10,13 +10,14 @@ metadata:
         - leveldb
     os:
         - centos
+        - fedora
     devices:
         - d03
         - d05
     level: 1
     totalcase:
         centos: 14
-
+        fedora: 14
 
 run:
     steps:

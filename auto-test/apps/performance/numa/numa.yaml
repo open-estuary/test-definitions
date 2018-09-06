@@ -1,0 +1,33 @@
+metadata:
+    name: numa
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "numa numa"
+    maintainer:
+        - xuexing4@hisilicon.com
+    scope:
+        - numa
+    os:
+       - ubuntu
+       - debian
+       - fedora
+       - opensuse
+    devices:
+        - d05
+    level: 1
+    totalcase:
+        centos: 24
+        ubuntu: 24
+        debian: 24
+        fedora: 24
+        opensuse: 24
+
+
+run:
+    steps:
+        - cd auto-test/apps/performance/numa
+        - ./NUMA.sh
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    fixupdict:
+    FAIL: fail
+    PASS: pass

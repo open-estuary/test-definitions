@@ -4,27 +4,25 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "cyclictest"
     maintainer:
-        - shuangshengchen@qq.com
+        - 1136920311@qq.com
     scope:
         - performance
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     devices:
         - d05
         - d03
     level: 1
     totalcase:
-        centos: 5
-params:
-    # Number of cycles helloworld is called (for loop repetitions)
-    REPEAT: 1
-
-#install:
-#    deps:
-        
-
-params:
-    VERSION: ''
+        centos: 10
+        ubuntu: 10
+        fedora: 10
+        debian: 10
+        opensuse: 10
 
 run:
     steps:

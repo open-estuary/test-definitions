@@ -7,22 +7,27 @@ cd ../../../../utils
 . ./sh-test-lib
 cd -
 
-yum install go -y
-print_info $? golang-install
-go version
+#yum install go -y
+#print_info $? golang-install
+#go version
 
 case "${distro}" in
-	centos|fedora)
+	centos|fedora|opensuse)
 		#sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
 		#sudo chmod +r /etc/yum.repos.d/estuary.repo
 		#sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
 		#yum clean dbcache
-		print_info $? setup-estuary-repository
+		#print_info $? setup-estuary-repository
 		
-		pkgs="go-bindata"
+		pkgs="go-bindata go"
 		install_deps "${pkgs}"
 		print_info $? install-go-bindata
 	;;
+	       ubuntu|debian)
+	       pkgs="go-bindata golang"
+	       install_deps "${pkgs}"
+	       print_info $? install_pkgs
+	       ;;
 	*)
 		error_msg "Unsupported distribution!"
 esac
@@ -89,7 +94,7 @@ print_info $? release-file
 cd ..
 rm -rf $dir
 
-yum remove -y go-bindata
+remove_deps "${pkgs}"
 print_info $? remove-go-bindata
 
 

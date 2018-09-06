@@ -5,16 +5,17 @@
 
 set -x
 
-cd ../../../../utils
-    . ./sys_info.sh
-    . ./sh-test-lib
-cd -
-
 # Test user id
 if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+
+cd ../../../../utils
+    . ./sys_info.sh
+    . ./sh-test-lib
+cd -
+
 #name=`uname -a | awk '{print $2}'`
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
@@ -34,6 +35,17 @@ case $distro in
          #make install
          print_info $? install-qperf
          ;;
+    "fedora")
+	    pkgs="qperf.aarch64"
+	    install_deps "${pkgs}"
+	    print_info $? install-qperf
+	    ;;
+    "opensuse")
+	    pkgs="qperf"
+	   install_deps "${pkgs}"
+	   print_info $? install-qperf
+	   ;;
+
 esac
 
 #Test 'qperf start server'
@@ -89,4 +101,9 @@ case $distro in
        yum remove qperf -y
        print_info $? remove-package
        ;;
+    "fedora"|"opensuse")
+	    remove_deps "${pkgs}"
+	    print_info $? remove-pkgs
+	    ;;
+
 esac

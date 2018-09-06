@@ -10,13 +10,19 @@ metadata:
         - hadoop
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
     devices:
         - d03
         - d05
 
     level: 1
     totalcase:
-        centos: 39
+        centos: 37
+        ubuntu: 37
+        debian: 37
+        fedora: 37
 run:
     steps:
         - "cd auto-test/apps/bigdata/hadoop; ./hadoop-test.sh ; cd -"

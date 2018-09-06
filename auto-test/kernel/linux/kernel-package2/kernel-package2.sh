@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 cd ../../../../utils
     .        ./sys_info.sh
@@ -12,6 +12,7 @@ dist_name
 ! check_root && error_msg "This script must be run as root"
 create_out_dir "${OUTPUT}"
 case "${dist}" in
+:<<!
     debian)
         from_repo1='linux-estuary-latest'
         from_repo2='linux'
@@ -67,6 +68,7 @@ case "${dist}" in
             fi
         done
         ;;
+!
     centos)
         sed -i s/5.[0-9]/5.1/g /etc/yum.repos.d/estuary.repo
         version="4.16.0"
@@ -131,6 +133,7 @@ case "${dist}" in
             fi
         done
         ;;
+:<<!
     ubuntu)
         sed -i s/5.[0-9]/5.1/g /etc/apt/sources.list.d/estuary.list
         apt-get update -q=2
@@ -178,4 +181,5 @@ case "${dist}" in
             fi 
         done
         ;;
+!
 esac

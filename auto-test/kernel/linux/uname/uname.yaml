@@ -9,13 +9,21 @@ metadata:
         - linux
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
+        - opensuse
+
     devices:
         - d03
         - d05
     level: 1
-    totalcase:
-        centos: 1
-
+    totalcase: 1
+       centos: 1
+       ubuntu: 1
+       debian: 1
+       fedora: 1
+       opensuse: 1
 run:
     steps:
         - "cd auto-test/kernel/linux/uname; ./uname.sh; cd -"

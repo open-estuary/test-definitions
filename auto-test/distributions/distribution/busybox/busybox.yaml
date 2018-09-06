@@ -17,9 +17,10 @@ metadata:
         - d03
     level: 1
     totalcase:
-        debian: 12
-        centos: 16
-        ubuntu: 16
+        ubuntu: 14
+        debian: 14
+        fedora: 14
+        opensuse: 14
 run:
     steps:
         - "cd auto-test/distributions/distribution/busybox; ./busybox.sh; cd - "
