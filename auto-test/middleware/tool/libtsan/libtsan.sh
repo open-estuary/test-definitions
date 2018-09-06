@@ -75,9 +75,9 @@ case $distro in
 esac
 case $distro in 
      "opensuse")
-     from=$(zypper info $package |grep Source)
+     from=$(zypper info $package |grep Source|awk '{print $3}')
            print_info $? from
-           vers=$(zypper info $package |grep Vesion)
+           vers=$(zypper info $package |grep Version|awk '{print $3}')
            print_info $? vers
 	   ;;
 esac	       
