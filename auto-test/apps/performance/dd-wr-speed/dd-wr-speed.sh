@@ -38,6 +38,7 @@ dd_read() {
     rm -f dd.img
 }
 
+#从dd-write-output.txt、dd-read-output.txt获取读写速度输出到result.txt，同时计算筛选出平均、最大、最小值
 parse_output() {
     test_case_id="$1"
     if ! [ -f "${OUTPUT}/${test_case_id}-output.txt" ]; then
