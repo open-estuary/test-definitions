@@ -1,45 +1,104 @@
-#!/bin/sh 
-# shellcheck disable=SC1090
-# shellcheck disable=SC2154
+#!/bin/bash 
+set -x
 # pmqtest start pairs of threads and measure the latency of interprocess
 # communication with POSIX messages queues.
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sh-test-lib
-TEST_DIR=$(dirname "$(realpath "$0")")
-OUTPUT="${TEST_DIR}/output"
-LOGFILE="${OUTPUT}/pmqtest.log"
-RESULT_FILE="${OUTPUT}/result.txt"
+
 LOOPS="10000"
 
-usage() {
-    echo "Usage: $0 [-l loops]" 1>&2
-    exit 1
-}
-
-while getopts ":l:" opt; do
-    case "${opt}" in
-        l) LOOPS="${OPTARG}" ;;
-        *) usage ;;
-    esac
-done
-
-. "${TEST_DIR}/../../../../lib/sh-test-lib"
-
 ! check_root && error_msg "Please run this script as root."
-create_out_dir "${OUTPUT}"
 
-# Run pmqtest.
-detect_abi
-./bin/"${abi}"/pmqtest -S -l "${LOOPS}" | tee "${LOGFILE}"
+case "$distro" in
+    centos|fedora)
+	pkgs="gcc git numactl-devel"
+	install_deps "${pkgs}"
+	print_info $? install_pkgs
 
-print_info $? start-pmqtest
+	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+	print_info $? download_rt-test
+
+	cd rt-tests
+	make all
+	cp ./cyclictest /usr/bin/
+
+	cyclictest -S -l "${LOOPS}" | tee runpmq.log
+        print_info $? run-pmqtest
+	;;
+    ubuntu|debian)
+	pkgs="rt-tests"
+	install_deps "${pkgs}"
+        print_info $? install_pkgs
+
+	pmqtest -S -l "${LOOPS}" | tee runpmq.log
+        print_info $? run-pmqtest
+	;;
+    opensuse)
+	pkgs="gcc git libnuma-devel"
+	install_deps "${pkgs}"
+        print_info $? install_pkgs
+	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+        print_info $? download_rt-test
+
+        cd rt-tests
+        make all
+        cp ./cyclictest /usr/bin/
+
+	cyclictest -S -l "${LOOPS}" | tee runpmq.log
+        print_info $? run-pmqtest
+        ;;
+esac
+
 # Parse test log.
-tail -n "$(nproc)" "${LOGFILE}" \
+tail -n "$(nproc)" runpmq.log \
     | sed 's/,//g' \
     | awk '{printf("t%s-min-latency pass %s us\n", NR, $(NF-6))};
            {printf("t%s-avg-latency pass %s us\n", NR, $(NF-2))};
            {printf("t%s-max-latency pass %s us\n", NR, $NF)};'  \
-    | tee -a "${RESULT_FILE}"
-print_info $? posix-max
-print_info $? posix-avg
+    | tee -a pmqresult.txt
+
+for((i=0;i<$(nproc);i++));
+do
+    a=`expr $i + 1`
+    if [ `cat pmqresult.txt|grep "t$a-min"|sed 's/ //g'` != "" ];then
+        echo "$a-min-latency is pass"
+    else
+	print_info 1 posix-min
+    fi
+done
 print_info $? posix-min
+
+for((i=0;i<$(nproc);i++));
+do
+    a=`expr $i + 1`
+    if [ `cat pmqresult.txt|grep "t$a-avg"|sed 's/ //g'` != "" ];then
+        echo "$a-avg-latency is pass"
+    else
+        print_info 1 posix-avg
+    fi
+done
+print_info $? posix-avg
+
+for((i=0;i<$(nproc);i++));
+do
+    a=`expr $i + 1`
+    if [ `cat pmqresult.txt|grep "t$a-max"|sed 's/ //g'` != " " ];then
+        echo "$a-max-latency is pass"
+    else
+        print_info 1 posix-max
+    fi
+done
+print_info $? posix-max
+
+rm -f runpmq.log pmqresult.txt
+case "$distro" in
+    centos|fedora|opensuse)
+	rm -rf rt-tests
+	remove_deps "${pkgs}"
+	print_info $? remove_pkgs
+	;;
+    ubuntu|debian)
+	remove_deps "${pkgs}"
+        print_info $? remove_pkgs
+	;;
+esac

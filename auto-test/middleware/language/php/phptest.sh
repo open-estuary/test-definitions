@@ -1,16 +1,21 @@
 #!/bin/bash
 
+! check_root && error_msg "Please run this script as root."
+
 set -x
 
 cd ../../../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
+##################### Environmental preparation  ##############################
+#Installation basic package
 pkgs="curl net-tools vim git expect"
 install_deps "${pkgs}"
 print_info $? install-tools
 
+#Install PHP and nginx packages and modify configuration files
 case "${distro}" in
     centos)
 	pkgs="nginx php php-fpm"
@@ -27,7 +32,7 @@ case "${distro}" in
 	#sed -i "s/group = apache/group = nginx/" /etc/php-fpm.d/www.conf
 	sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php.ini
 	sed -i "s/doc_root =/doc_root=\/usr\/share\/nginx\/html/" /etc/php.ini
-	
+	# Configure NGINX for PHP.
 	cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
 	cp ../../../../utils/centos-nginx.conf /etc/nginx/conf.d/default.conf
 	systemctl stop httpd.service > /dev/null 2>&1 || true
@@ -39,13 +44,16 @@ case "${distro}" in
 	pkgs="nginx php-fpm"
         install_deps "${pkgs}"
 	print_info $? install_php
-        # Stop apache server in case it is installed and running.
+        
+	# Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
-
+	
+	# Configure PHP.
         cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
 
-        mv -f /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+	# Configure NGINX for PHP.
+        cp  /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
         cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
 
 	systemctl start php7.0-fpm
@@ -55,11 +63,15 @@ case "${distro}" in
 	pkgs="nginx php-fpm"
 	install_deps "${pkgs}"
         print_info $? install_php_nginx
+	
+	# Stop apache server in case it is installed and running.
 	systemctl stop apache2 > /dev/null 2>&1 || true
 	
+
+	 # Configure PHP.
 	cp /etc/php/7.2/fpm/php.ini /etc/php/7.2/fpm/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
-
+	# Configure NGINX for PHP.
         cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
         cp ../../../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
 	
@@ -71,19 +83,21 @@ case "${distro}" in
 	pkgs="nginx php php-fpm"
         install_deps "${pkgs}"
         print_info $? install_php_nginx
+	
+	# Configure PHP.
 	sed -i "s/;listen.owner = nobody/listen.owner = nginx/" /etc/php-fpm.d/www.conf
         sed -i "s/;listen.group = nobody/listen.group = nginx/" /etc/php-fpm.d/www.conf
         sed -i "s/user = apache/user = nginx/" /etc/php-fpm.d/www.conf
         sed -i "s/group = apache/group = nginx/" /etc/php-fpm.d/www.conf
-
-	systemctl start php-fpm
-        print_info $? start-php-fpm
-
 	# Configure NGINX for PHP.
 	cp /etc/nginx/nginx.conf.default /etc/nginx/nginx.conf.default.bak
 	cp ../../../../utils/fedora-nginx.conf /etc/nginx/nginx.conf.default
 	systemctl stop httpd.service > /dev/null 2>&1 || true
+	
+	systemctl start php-fpm
+        print_info $? start-php-fpm
 	;;
+
 esac
 
 systemctl stop nginx
@@ -93,6 +107,7 @@ print_info $? start-nginx
 sed -i "s/Apache/Nginx/g" ./html/index.html
 cp ./html/* /usr/share/nginx/html/
 
+#################### testing the step ########################################
 curl -o "output" "http://localhost/index.html"
 grep 'Welcome to' ./output
 print_info $? test-nginx-server
@@ -116,21 +131,14 @@ print_info $? php-for
 curl -o "output" "http://localhost/if.php"
 grep 'Have a good day' ./output
 print_info $? php-if
-#print_info 0 php-if
 
 curl -o "output" "http://localhost/print.php"
 grep 'PHP is fun' ./output
 print_info $? php-print
 
-#curl -o "output" "http://localhost/sort.php"
-#print_info $? php-sort
-
 curl -o "output" "http://localhost/time.php"
 grep 'the current time is' ./output
 print_info $? php-time
-
-#php /usr/share/nginx/html/writefile.php
-#print_info $? php-writefile
 
 curl -o "output" "http://localhost/constant.php"
 grep 'Welcome to hoperun.com' ./output
@@ -147,9 +155,6 @@ print_info $? php-function
 curl -o "output" "http://localhost/multiarray.php"
 grep 'Row number 3' ./output
 print_info $? php-multiarray
-
-#php /usr/share/nginx/html/readfile.php | grep Bill
-#print_info $? php-readfile
 
 curl -o "output" "http://localhost/string.php"
 grep 'iahgnahS' ./output
@@ -186,6 +191,8 @@ print_info $? php-switch
 curl -o "output" "http://localhost/while.php"
 grep 'this number is:' ./output
 print_info $? php-while
+
+######################## environment  restore ###########################
 
 case "${distro}" in
     centos|fedora)
