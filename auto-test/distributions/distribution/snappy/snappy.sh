@@ -62,17 +62,17 @@ int main() {
 }
 
 EOF
-g++ testsnappy.cc -o testsnappy -lsnappy
-	print_info $? compile-snappy
-./testsnappy >runsnappy.log
-	print_info $? run-snappy
+#g++ testsnappy.cc -o testsnappy -lsnappy
+#	print_info $? compile-snappy
+#./testsnappy >runsnappy.log
+#	print_info $? run-snappy
 input=`grep  "input" runsnappy.log`
 output=`grep "ouput" runsnappy.log`
-if [[ "$input" != ""]]&&[[ "$ouput" != ""]];then
-	print_info 0 test-snappy
-else
-	print_info 1 test-snappy
-fi
+#if [[ "$input" != "" ]] && [[ "$ouput" != "" ]];then
+#	print_info 0 test-snappy
+#else
+#	print_info 1 test-snappy
+#fi
 rm -f google-snappy-1.1.7-15-gea660b5.tar.gz
 rm -rf google-snappy-ea660b5
 case $distro in
