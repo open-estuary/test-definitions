@@ -1,6 +1,14 @@
 #!/bin/bash
+
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
+
+#检查root
+if [ `whoami` != 'root' ] ; then
+    echo "You must be the superuser to run this script" >&2
+    exit 1
+fi
+
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/sysstat.txt"
@@ -50,10 +58,16 @@ install() {
             fi
             print_info $? sys-source
             ;;
-        "ubuntu")
-            apt-get install sysstat -y
+        "ubuntu"|"debian"|"opensuse")
+            pkgs="sysstat"
+            install_deps "${pkgs}"
             print_info $? install-sysstat
             ;;
+        "fedora")
+           pkgs="sysstat.aarch64"
+           install_deps "${pkgs}"
+           print_info $? install-sysstat
+           ;;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
@@ -71,11 +85,20 @@ sysstat_test() {
     mpstat 2 10 | tee -a ${LOG_FILE}
     print_info $? mpstat-test
 }
-! check_root && error_msg "You need to be root to run this script."
+#! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
 cd "${OUTPUT}"
 
 install
 sysstat_test
-remove_deps "sysstat"
-print_info $? remove-sysstat
+case $distro in
+      "centos")
+       remove_deps "sysstat"
+       print_info $? remove-sysstat
+       ;;
+      "ubuntu"|"opensuse"|"fedora"|"debian")
+       remove_deps "${pkgs}"
+       print_info $? remove-sysstat
+       ;;
+
+esac
