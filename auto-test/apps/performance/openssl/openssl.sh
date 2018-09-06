@@ -15,8 +15,8 @@ if [ `whoami` != 'root' ] ; then
 fi
 
 cd ../../../../utils
-    . ./sys_info.sh
-    . ./sh-test-lib
+. ./sys_info.sh
+. ./sh-test-lib
 cd -
 
 while getopts "s:" o; do
@@ -48,15 +48,13 @@ case $distro in
          apt-get install openssl -y
          print_info $? install-openssl
          ;;
-
-
 esac
 
 # Record openssl vesion as it has a big impact on test reuslt.
 openssl_version="$(openssl version | awk '{print $2}')"
 #add_metric "openssl-version" "pass" "${openssl_version}" "version"
-
 print_info $? openssl-version
+
 # Test run
 cipher_commands="md5 sha1 sha256 sha512 des des-ede3 aes-128-cbc aes-192-cbc \
                 aes-256-cbc rsa2048 dsa2048"
@@ -64,7 +62,6 @@ for test in ${cipher_commands}; do
     echo
    # info_msg "Running openssl speed ${test} test"
     openssl speed "${test}" 2>&1 | tee openssl.log
-
     case "${test}" in
       # Parse asymmetric encryption output.
       rsa2048|dsa2048)
@@ -89,7 +86,6 @@ for test in ${cipher_commands}; do
         #lava-test-case $TCID --result pass
         ;;
     esac
-       
 done
 case $distro in
     "ubuntu")
