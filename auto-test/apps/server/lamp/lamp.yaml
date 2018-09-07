@@ -6,19 +6,21 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - server
+        - lamp
     os:
         - centos
         - ubuntu
-        - debian
         - fedora
+        - debian
     devices:
         - d05
         - d03
-    level: 5
-    totalcase:
+    level: 1
+    totalcase:  12
         centos: 12
-
+        ubuntu: 12
+        fedora: 12
+        debian: 12
 run:
     steps:
         - "cd auto-test/apps/server/lamp; ./lamp.sh; cd - "
