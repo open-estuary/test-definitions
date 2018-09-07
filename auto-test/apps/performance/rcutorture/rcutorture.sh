@@ -1,34 +1,21 @@
-#!/bin/sh 
-. ../../../../utils/sys_info.sh
-TEST_DIR=$(dirname "$(realpath "$0")")
-OUTPUT="${TEST_DIR}/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-export RESULT_FILE
-LOGFILE="${OUTPUT}/dmesg-rcutorture.txt"
-SKIP_INSTALL="false"
+#!/bin/bash 
+#RCU or Read-Copy Update Torture test for Linux Kernel.
+
+source ../../../../utils/sys_info.sh
+source ../../../../utils/sh-test-lib
+
+#test user id
+! check_root && error_msg "Please run this script as root."
+
+#environment preparation
+pkgs="gzip"
+install_deps ${pkgs}
+info_msg "install-$pkgs successfully"
+
+#set variable
 TORTURE_TIME="600"
 
-usage() {
-    echo "Usage: $0 [-s <skip_install>] [-t <rcutorture_time>]" 1>&2
-    exit 1
-}
-
-while getopts ':s:t:' opt; do
-    case "${opt}" in
-        s) SKIP_INSTALL="${OPTARG}" ;;
-        t) TORTURE_TIME="${OPTARG}" ;;
-        *) usage ;;
-    esac
-done
-
-# shellcheck disable=SC1090
-. ../../../../utils/sys_info.sh
-. ../../../../utils/sh-test-lib
-
-! check_root && error_msg "Please run this script as root."
-install_deps "gzip" "${SKIP_INSTALL}"
-print_info $? install-pkgs
-create_out_dir "${OUTPUT}"
+# procedure
 
 # Check kernel config.
 if [ -f "/proc/config.gz" ]; then
@@ -36,47 +23,37 @@ if [ -f "/proc/config.gz" ]; then
 elif [ -f "/boot/config-$(uname -r)" ]; then
     test_cmd="grep CONFIG_RCU_TORTURE_TEST=m /boot/config-$(uname -r)"
 fi
-print_info $? check-kernel
-if [ -n "${test_cmd}" ]; then
-    tc_id="check-kernel-config"
-    skip_list="modprobe-rcutorture rctorture-start rmmod-rcutorture rcutorture-end"
-    run_test_case "${test_cmd}" "${tc_id}" "${skip_list}"
-fi
+eval $test_cmd
+print_info $? check-kernel-config
 
 # Insert rcutoruture kernel module.
 dmesg -c > /dev/null
 if lsmod | grep rcutorture; then
     rmmod rcutorture || true
 fi
-test_cmd="modprobe rcutorture"
-tc_id="modprobe-rcutorture"
-skip_list="rctorture-start rmmod-rcutorture rcutorture-end"
-run_test_case "${test_cmd}" "${tc_id}" "${skip_list}"
+modprobe rcutorture
+print_info $? modprobe-rcutorture
 
 # Check if rcutoruture started.
 sleep 10
-test_cmd="dmesg | grep 'rcu-torture:--- Start of test'"
-tc_id="rcutorture-start"
-skip_list="rmmod-rcutorture rcutorture-end"
-run_test_case "${test_cmd}" "${tc_id}" "${skip_list}"
+dmesg | grep 'rcu-torture:--- Start of test'
+print_info $? rcutorture-start
+
 info_msg "Running rcutorture for ${TORTURE_TIME} seconds..."
 sleep "${TORTURE_TIME}"
 
 # Remove rcutoruture kernel module.
-test_cmd="rmmod rcutorture"
-tc_id="rmmod-rcutorture"
-skip_list="rcutorture-end"
-run_test_case "${test_cmd}" "${tc_id}" "${skip_list}"
-print_info $? load-rcutorture
+rmmod rcutorture
+print_info $? rmmod-rcutorture
+
 # Check if rcutoruture test finished successfully.
 sleep 10
-dmesg > "${LOGFILE}"
-if grep 'rcu-torture:--- End of test: SUCCESS' "${LOGFILE}"; then
-    report_pass "rcutorture-end"
+dmesg > dmesg-rcutorture.txt
+if grep 'rcu-torture:--- End of test: SUCCESS' dmesg-rcutorture.txt; then
+    print_info 0 rcutorture-end
 else
-    report_fail "rcutorture-end"
-    cat "${LOGFILE}"
+    print_info 1 rcutorture-end
 fi
-print_info $? cat-rcutorture
+
 remove_deps "gzip"
-print_info $? remove-pkgs
+info_msg "remove pkgs successfully"
