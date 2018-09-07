@@ -9,7 +9,7 @@ metadata:
         - server
     os:
         - centos
-	- ubuntu
+        - ubuntu
         - fedora
         - debian
     devices:
