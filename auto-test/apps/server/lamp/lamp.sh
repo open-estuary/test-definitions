@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -x
 
@@ -6,9 +6,6 @@ set -x
 . ../../../../utils/sh-test-lib
 
 
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-export RESULT_FILE
 
 
 #usage() {
@@ -24,8 +21,6 @@ export RESULT_FILE
 #done
 
 #! check_root && error_msg "This script must be run as root"
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
 
 # Install lamp and use systemctl for service management. Tested on Ubuntu 16.04,
 # Debian 8, CentOS 7 and Fedora 24. systemctl should available on newer releases
@@ -40,17 +35,24 @@ mkdir -p "${OUTPUT}"
     case "${distro}" in
       debian|ubuntu)
         if [ "${distro}" = "debian" ]; then
-            pkgs="apache2 mysql-server php5-mysql php5-common libapache2-mod-php5"
+            pkgs="curl apache2 mysql-server php-mysql php-common libapache2-mod-php"
         elif [ "${distro}" = "ubuntu" ]; then
             echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
             echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
-           pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
+           pkgs="curl apache2 mysql-server php-mysql php-common libapache2-mod-php"
         fi
-        install_deps "curl ${pkgs}"
+        install_deps "${pkgs}"
         print_info $? install-pkgs
-        echo "extension=mysqli.so" >> /etc/php/7.0/apache2/php.ini
-        systemctl restart apache2
-        systemctl restart mysql
+	case $distro in
+	    ubuntu)
+            echo "extension=mysqli.so" >> /etc/php/7.2/apache2/php.ini
+	    ;;
+            debian)
+            echo "extension=mysqli.so">> /etc/php/7.0/apache2/php.ini
+	    ;;
+	 esac
+        systemctl start apache2
+        systemctl start mysql
         ;;
       centos|fedora)
         yum remove -y `rpm -qa | grep -i mysql`
@@ -76,8 +78,8 @@ sed -i "s/Nginx/Apache/g" ./html/index.html
 cp ./html/* /var/www/html/
 
 # Test Apache.
-curl -o "${OUTPUT}/index.html" "http://localhost/index.html"
-grep "Test Page for the Apache HTTP Server" "${OUTPUT}/index.html"
+curl -o "output" "http://localhost/index.html"
+grep "Test Page for the Apache HTTP Server" ./output
 print_info $? apache2-test-page
 
 # Test MySQL.
@@ -86,46 +88,45 @@ mysql --user="root" --password="lxmptest" -e "show databases"
 print_info $? mysql-show-databases
 
 # Test PHP.
-curl -o "${OUTPUT}/phpinfo.html" "http://localhost/info.php"
-grep "PHP Version" "${OUTPUT}/phpinfo.html"
+curl -o "output" "http://localhost/info.php"
+grep "PHP Version" ./output
 print_info $? phpinfo
 
 # PHP Connect to MySQL.
-curl -o "${OUTPUT}/connect-db" "http://localhost/connect-db.php"
-grep "Connected successfully" "${OUTPUT}/connect-db"
+curl -o "output" "http://localhost/connect-db.php"
+grep "Connected successfully" ./output
 #exit_on_fail "php-connect-db"
 print_info $? php-connect-db
 
 # PHP Create a MySQL Database.
-curl -o "${OUTPUT}/create-db" "http://localhost/create-db.php"
-grep "Database created successfully" "${OUTPUT}/create-db"
+curl -o "output" "http://localhost/create-db.php"
+grep "Database created successfully" ./output
 print_info $? php-create-db
 
 # PHP Create MySQL table.
-curl -o "${OUTPUT}/create-table" "http://localhost/create-table.php"
-grep "Table MyGuests created successfully" "${OUTPUT}/create-table"
+curl -o "output" "http://localhost/create-table.php"
+grep "Table MyGuests created successfully" ./output
 print_info $? php-create-table
 
 # PHP add record to MySQL table.
-curl -o "${OUTPUT}/add-record" "http://localhost/add-record.php"
-grep "New record created successfully" "${OUTPUT}/add-record"
+curl -o "output" "http://localhost/add-record.php"
+grep "New record created successfully" ./output
 print_info $? php-add-record
 
 # PHP select record from MySQL table.
-curl -o "${OUTPUT}/select-record" "http://localhost/select-record.php"
-grep "id: 1 - Name: John Doe" "${OUTPUT}/select-record"
+curl -o "output" "http://localhost/select-record.php"
+grep "id: 1 - Name: John Doe" ./output
 print_info $? php-select-record
 
 # PHP delete record from MySQL table.
-curl -o "${OUTPUT}/delete-record" "http://localhost/delete-record.php"
-grep "Record deleted successfully" "${OUTPUT}/delete-record"
+curl -o "output" "http://localhost/delete-record.php"
+grep "Record deleted successfully" ./output
 print_info $? php-delete-record
 
 # Delete myDB for the next run.
 mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
 print_info $? delete-database
-rpm -e --nodeps curl
-print_info $? remove-curl
 remove_deps "${pkgs}"
 print_info $? remove-package
 
+rm -rf output
