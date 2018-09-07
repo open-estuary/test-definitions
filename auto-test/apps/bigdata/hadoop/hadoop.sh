@@ -50,19 +50,19 @@ function install_hadoop() {
 		rm -rf hadoop-$version 
 	fi
 
-	#if [ ! -f hadoop-${version}.tar.gz ];then
+	if [ ! -f hadoop-${version}.tar.gz ];then
         #timeout 1m wget -c http://192.168.1.107/test-definitions/hadoop-${version}.tar.gz 
-      #  wget -c http://192.168.50.122:8083/test_dependents/hadoop-${version}.tar.gz
-       # if [ $? -ne 0 ];then 
-        #    wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz 
-        #fi
-        #if test $? -ne 0;then
-         #   echo 
-          #  echo "download hadoop source error,please check url or network !!!"
-           # echo 
-            #exit 1
-        #fi 
-    #fi
+        wget -c http://192.168.50.122:8083/test_dependents/hadoop-${version}.tar.gz
+        if [ $? -ne 0 ];then 
+            wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz 
+        fi
+        if test $? -ne 0;then
+            echo 
+            echo "download hadoop source error,please check url or network !!!"
+            echo 
+            exit 1
+        fi 
+    fi
     pwd
     echo 22222222
     tar -zxvf hadoop-2.7.4.tar.gz
