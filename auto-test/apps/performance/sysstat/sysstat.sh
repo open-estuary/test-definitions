@@ -62,7 +62,7 @@ sysstat_test() {
 #收集1秒之内的10次动态信息到指定文件
     /usr/lib64/sa/sadc  1 10 sa00
 #通过sar工具查看系统状态
-    sar -f sa000 | tee -a ${LOG_FILE}
+    sar -f sa00 | tee -a ${LOG_FILE}
     print_info $? sar-cpu
    
 #查看CPU利用率，每秒更新一次，更新5次
