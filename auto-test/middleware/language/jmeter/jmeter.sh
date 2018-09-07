@@ -10,8 +10,13 @@ cd ../../../../utils
     . ./sh-test-lib
 cd -
 case $distro in
-    centos|debian|ubuntu)
-    install_deps "jmeter"
+    centos)
+    install_deps "jmeter java-1.8.0-openjdk"
+    jm=jmeter
+    print_info $? install-jmeter
+    ;;
+    debian|ubuntu)
+    install_deps "jmeter openjdk-8-jdk"
     jm=jmeter
     print_info $? install-jmeter
     ;;
