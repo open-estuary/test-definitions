@@ -62,8 +62,6 @@ do
     a=`expr $i + 1`
     if [ `cat pmqresult.txt|grep "t$a-min"|sed 's/ //g'` != "" ];then
         echo "$a-min-latency is pass"
-    else
-	print_info 1 posix-min
     fi
 done
 print_info $? posix-min
@@ -73,8 +71,6 @@ do
     a=`expr $i + 1`
     if [ `cat pmqresult.txt|grep "t$a-avg"|sed 's/ //g'` != "" ];then
         echo "$a-avg-latency is pass"
-    else
-        print_info 1 posix-avg
     fi
 done
 print_info $? posix-avg
@@ -84,8 +80,6 @@ do
     a=`expr $i + 1`
     if [ `cat pmqresult.txt|grep "t$a-max"|sed 's/ //g'` != " " ];then
         echo "$a-max-latency is pass"
-    else
-        print_info 1 posix-max
     fi
 done
 print_info $? posix-max
