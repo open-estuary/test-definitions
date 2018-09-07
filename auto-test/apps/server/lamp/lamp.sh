@@ -43,7 +43,7 @@ set -x
         fi
         install_deps "${pkgs}"
         print_info $? install-pkgs
-	case $distro in
+	case "$distro" in
 	    ubuntu)
             echo "extension=mysqli.so" >> /etc/php/7.2/apache2/php.ini
 	    ;;
