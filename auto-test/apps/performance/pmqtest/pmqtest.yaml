@@ -6,10 +6,13 @@ metadata:
                   that are synchronized via mq_send/mw_receive() and measures
                   the latency between sending and receiving the message."
     maintainer:
-        - chase.qi@linaro.org
         - shuangshengchen@qq.com
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     scope:
         - performance
     devices:
@@ -17,7 +20,11 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 4
+        centos: 2
+        ubuntu: 2
+        fedora: 2
+        debian: 2
+        opensuse: 2
 
 params:
     LOOPS: 10000

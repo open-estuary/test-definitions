@@ -10,12 +10,18 @@ metadata:
     os:
         - centos
         - ubuntu
+        - fedora
+        - opensuse
     devices:
         - d05
         - d03
     level: 1
     totalcase:
         centos: 8
+        ubuntu: 8
+        fedora: 8
+        opensuse: 8
+
 run:
     steps:
         - "cd auto-test/apps/performance/qperf; ./qperf.sh; "

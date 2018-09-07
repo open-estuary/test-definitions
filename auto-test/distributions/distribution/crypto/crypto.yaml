@@ -6,15 +6,22 @@ metadata:
         - hongxin_228@163.com
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     scope:
-        - distribution
+        - crypto
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 5
-
+        centos: 3
+        ubuntu: 3
+        debian: 3
+        fedora: 3
+        opensuse: 3
 run:
     steps:
         - "cd auto-test/distributions/distribution/crypto; ./crypto.sh; cd -"

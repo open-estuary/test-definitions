@@ -45,6 +45,7 @@ install_ltp() {
     # shellcheck disable=SC2140
    # wget https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
     wget http://192.168.50.122:8083/test_dependents/ltp-full-20170516.tar.xz
+#wget http://120.31.149.194:18083/test_dependents/ltp-full-20170516.tar.xz
     print_info $? wget-ltp
     tar --strip-components=1 -Jxf ltp-full-"${LTP_VERSION}".tar.xz
     ./configure --with-realtime-testsuite
@@ -83,7 +84,7 @@ else
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         print_info $? instll-pkg
         ;;
-      centos|fedora)
+      centos|fedora|opensuse)
         pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         print_info $? install-pkg
