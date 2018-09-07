@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # shellcheck disable=SC1091
 . ../../../../utils/sh-test-lib
@@ -59,21 +59,27 @@ lapack_build_test() {
     ulimit -s 100000
     make blaslib
     make | tee -a "${RESULT_LOG}"
+    print_info $? build-lapack
 }
 
 install() {
-    dist_name
     # shellcheck disable=SC2154
-    case "${dist}" in
+    case "$distro" in
       debian|ubuntu)
         pkgs="binutils gcc make python sed tar wget gfortran "
         install_deps "${pkgs}" "${SKIP_INSTALL}"
+	print_info $? "install_lapack"
         ;;
       fedora|centos)
- #       pkgs="binutils gcc glibc-static make python sed tar wget gfortran gcc-gfortran lapack"
-        install_deps lapack 
+        pkgs="binutils gcc glibc-static make python sed tar wget gcc-gfortran "
+        install_deps "${pkgs}"
         print_info $? "install_lapack"
         ;;
+      opensuse)
+	pkgs="binutils gcc glibc-devel-static make python sed tar wget gcc-fortran"
+        install_deps "${pkgs}"
+        print_info $? "install_lapack"
+	;;
     esac
 }
 
@@ -89,7 +95,25 @@ info_msg "Output directory: ${OUTPUT}"
 # Install packages
 install
 # Build lapack tests
-#lapack_build_test
+lapack_build_test
 
 # Parse and print lapack tests results
 #parse_output
+
+case "$distro" in
+      debian|ubuntu)
+        pkgs="binutils gcc make python sed tar wget gfortran "
+        remove_deps "${pkgs}" "${SKIP_INSTALL}"
+        print_info $? "install_lapack"
+        ;;
+      fedora|centos)
+        pkgs="binutils gcc glibc-static make python sed tar wget gcc-gfortran "
+        remove_deps "${pkgs}"
+        print_info $? "install_lapack"
+        ;;
+      opensuse)
+        pkgs="binutils gcc glibc-devel-static make python sed tar wget gcc-gfortran"
+        remove_deps "${pkgs}"
+        print_info $? "install_lapack"
+	;;
+esac

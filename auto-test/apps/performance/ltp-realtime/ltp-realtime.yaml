@@ -10,6 +10,9 @@ metadata:
     os:
         - centos
         - ubuntu
+        - debian
+        - fedora
+        - opensuse
     devices:
         - d05
         - d03
@@ -17,6 +20,9 @@ metadata:
     totalcase:
         centos: 18
         ubuntu: 18
+        debian: 18
+        fedora: 18
+        opensuse: 18
 run:
     steps:
         - "cd auto-test/apps/performance/ltp-realtime; ./ltp-realtime.sh; cd - "
