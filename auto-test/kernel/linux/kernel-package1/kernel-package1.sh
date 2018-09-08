@@ -1,5 +1,5 @@
 ﻿#!/bin/bash
-# Copyright (C) 2018-8-29, Estury
+# Copyright (C) 2018-8-29, Estuary
 # Author: wangsisi
 
 # Test user id
