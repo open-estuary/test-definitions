@@ -8,6 +8,7 @@ metadata:
         - shuangshengchen@qq.com
     os:
         - centos
+        - fedora
     devices:
         - d03
         - d05
@@ -15,7 +16,8 @@ metadata:
         - performance
     level: 1
     totalcase:
-        centos: 4
+        centos: 5
+        fedora: 5
 params:
     SKIP_INSTALL: "false"
     TORTURE_TIME: 600
