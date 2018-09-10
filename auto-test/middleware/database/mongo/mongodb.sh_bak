@@ -2,24 +2,17 @@
 
 
 function install_mongodb() {
-    case $distro in
-    centos|fedora)
-    pkgs="mongodb mongodb-server"
-    install_deps "${pkgs}"
+    yum install -y mongodb 
     print_info $? "mongodb_install_mongodb_client"
-    ;;
-    ubuntu|debian)
-    pkgs="mongodb mongodb-server"
-    install_deps "${pkgs}"
-    print_info $? "mongodb_install_client"
-    ;;
-   esac
-    #version=`mongo -version | grep "shell version" | awk {'print $4'}`
-    #echo  $version | grep "v3.4.3"
+    yum install -y mongodb-server
+    print_info $? "mongodb_install_mongodb_server"
+
+    version=`mongo -version | grep "shell version" | awk {'print $4'}`
+    echo  $version | grep "v3.4.3"
     #print_info $? "mongodb_client_version"
 
-    #version=`mongod -version | grep "db version | awk {'print $3'}"`
-    #echo $version | grep "v3.4.3"
+    version=`mongod -version | grep "db version | awk {'print $3'}"`
+    echo $version | grep "v3.4.3"
     #print_info $? "mongodb_server_version"
 
 }
@@ -56,9 +49,8 @@ function mongodb_start(){
     fi
     mkdir -p /mongodb/db 
     mkdir -p /mongodb/log
-    mongod --fork --dbpath /mongodb/db --logpath /mongodb/log/mongodb.log --logappend 
+    mongod --fork --dbpath /mongodb/db --logpath /mongodb/log/mongodb.log --logappend --rest
     print_info $? "mongodb_start_server"
-    sleep 10
 
 }
 
@@ -110,7 +102,7 @@ EOF
 
 
 function mongodb_uninstall() {
-    remove_deps "${pkgs}" 
+    yum -y remove mongodb
     print_info $? 'mongdb_uninstall'
     rm -rf /mongodb
 
