@@ -13,26 +13,19 @@ fi
 
 
 IFCONFIG=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
+IP=`ip a|grep ${IFCONFIG}|grep "inet "|awk '{print $2}'|cut -d '/' -f 1`
 
 #Install the package
 case $distro in
-    "centos"|"fedora")
+    "centos"|"fedora"|"opensuse")
 	pkgs="dnsmasq bind-utils net-tools"
 	install_deps "${pkgs}"
         print_info $? install-dnsmasq
-	IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'`
         ;;
     "ubuntu"|"debian")
         pkgs="dnsmasq dnsutils net-tools"
         install_deps "${pkgs}"
         print_info $? install-dnsmasq
-	IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'`
-        ;;
-    "opensuse")
-        pkgs="dnsmasq bind-utils net-tools"
-	install_deps "${pkgs}"
-        print_info $? install-dnsmasq
-	IP=`ifconfig ${IFCONFIG}|grep "inet "|awk '{print $2}'|awk -F ':' '{print $2}'`
         ;;
 esac
 
