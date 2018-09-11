@@ -7,7 +7,7 @@ set timeout 500
 spawn mysql -u root -p
 expect "password:"
 send "root\r"
-expect "mysql>"
+expect ">"
 send "use test;\r"
 expect "Database changed"
 send "create table testalter_tbl

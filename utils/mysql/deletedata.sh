@@ -7,7 +7,7 @@ set timeout 500
 spawn mysql -u root -p
 expect "password:"
 send "root\r"
-expect "mysql>"
+expect ">"
 send "use test;\r"
 expect "Database changed"
 send "DELETE FROM case_tbl WHERE case_id=3;\r"
