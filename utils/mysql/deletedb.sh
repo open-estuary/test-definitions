@@ -7,7 +7,7 @@ set timeout 500
 spawn mysql -u root -p
 expect "password:"
 send "root\r"
-expect "mysql>"
+expect ">"
 send "drop database test;\r"
 expect "OK"
 send "exit\r"
