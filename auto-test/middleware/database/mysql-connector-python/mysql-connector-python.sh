@@ -1,52 +1,47 @@
 #!/bin/bash
-
+set -x
 
 cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -
 
-source ../percona/mysql.sh
+! check_root && error_msg "Please run this script as root."
 
+##################### Environmental preparation ###################
 
-#set -x
+source ./mysql.sh
 outDebugInfo
-yum erase -y mariadb-libs
-yum remove -y mariadb-libs
-yum update -y
+case "${distro}" in
+    centos)
+        yum erase -y mariadb-libs
+        yum remove -y mariadb-libs
+        yum update -y
+        cleanup_all_database
+        pkgs1="mysql-community-server mysql-community-devel expect"
+	install_deps "${pkgs1}"
+	print_info $? install_mysql
+	pkgs2="MySQL-python python"
+	install_deps "${pkgs2}"
+	print_info $? install-python
+        ;;
+    ubuntu|debian)
+        apt-get remove --purge mysql-server -y
+        pkgs="mysql-server mysql-client python-mysqldb python expect"
+        install_deps "${pkgs}"
+	print_info $? install-mysql-community
+	;;
+esac
 
+##################### the testing step ###########################
 
-cleanup_all_database
-
-pkgs="mysql-community-common mysql-community-server 
-	mysql-community-client mysql-community-devel expect"
-install_deps "${pkgs}"
-print_info $? install-mysql-community
-
-pkgs="python"
-install_deps "${pkgs}"
-print_info $? install-python
-
-pkgs="mysql-connector-python mysql-connector-python-cext mysql-connector-python-debuginfo"
-install_deps "${pkgs}"
-print_info $? install-mysql-connector-python
-
-systemctl start mysqld
+systemctl start mysql
 print_info $? start-mysqld
 
 mysqladmin -u root password "root"
 print_info $? set-root-pwd
 
-EXPECT=$(which expect)
-$EXPECT << EOF
-set timeout 100
-spawn mysqladmin -uroot -p create test
-expect "password:"
-send "root\r"
-expect eof
-EOF
-print_info $? create-database
-
+#Determine if the file exists
 if !  test  -f "test.py" ;then
 	echo "Error: Have not found test.py!!"
 	exit 1
@@ -58,8 +53,11 @@ print_info $? build-mysql-python
 cat out.log  | grep "success connect mysql"
 print_info $? python-connect-db
 
-cat out.log  | grep "success use test database"
-print_info $? python-use-db
+cat out.log  | grep "success create test database"
+print_info $? python-create-db
+
+cat out.log  | grep "success choose database"
+print_info $? python-choose-db
 
 cat out.log  | grep "success create test table"
 print_info $? python-create-table
@@ -87,7 +85,7 @@ set timeout 100
 spawn mysql -uroot -p
 expect "password:"
 send "root\r"
-expect "mysql>"
+expect ">"
 send "drop database test;\r"
 expect "OK"
 send "exit\r"
@@ -95,13 +93,23 @@ expect eof
 EOF
 print_info $? drop-database
 
-systemctl stop mysqld
+
+
+####################  environment  restore ##############
+
+systemctl stop mysql
 print_info $? stop-mysqld
 
-yum remove -y mysql-connector-python mysql-connector-python-cext mysql-connector-python-debuginfo
-print_info $? remove-mysql-connector-python
-
-
-yum remove -y mysql-community-server mysql-community-common mysql-community-client mysql-community-devel
-print_info $? remove-mysql-community
+case "${distro}" in
+    centos)
+        remove_deps "${pkgs1}"
+        print_info $? remove-mysql
+        ;;
+    ubuntu|debian)
+        apt-get remove --purge mysql-server -y
+        apt-get remove mysql-client -y
+	apt-get remove python-mysqldb -y
+        print_info $? remove-mysql
+        ;;
+esac
 
