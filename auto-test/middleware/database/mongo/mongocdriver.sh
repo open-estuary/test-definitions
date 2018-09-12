@@ -2,30 +2,32 @@
 
 
 function install_c_driver(){
-    
-    yum install -y gcc
-    print_info $? "mongo_c_driver_install_gcc"
-    yum install -y mongo-c-driver 
-    print_info $? "mongodb_install_c_driver"
-
-    export LANG=en_US.UTF-8
-    ver=`yum info mongo-c-driver|grep "Version" | cut -d : -f 2`
-    if [ x"$ver" == x"1.6.2"  ];then
-        true
-    else
-        false
-    fi
-    #print_info $? "mongo_c_driver_version"
-
-    yum install -y mongo-c-driver-devel 
-
+    case $distro in
+      centos)
+        pkgs="gcc mongo-c-driver mongo-c-driver-devel"
+        install_deps "${pkgs}" 
+        print_info $? "mongo_c_driver_install_gcc"
+        export LANG=en_US.UTF-8
+        ver=`yum info mongo-c-driver|grep "Version" | cut -d : -f 2`
+        if [ x"$ver" == x"1.8.2"  ];then
+            print_info 0 mongo_c_driver_version
+        else
+            print_info 1 mongo_C_driver_verion
+        fi
+        ;;
+      fedora)
+         pkgs="gcc mongo-c-driver mongo-c-driver-devel"
+         install_deps "${pkgs}"
+         print_info $? "mongo_c_driver_install"
+         ;;
+     esac
+      
 }
 
 function mongo_c_driver_uninstall(){
     
-    yum remove -y mongo-c-driver
+    remove_deps "${pkgs}"
     print_info $? "uninstall_mongo_c_driver"
-    yum remove -y mongo-c-driver-devel 
 }
 
 function mongo_c_driver_base(){
