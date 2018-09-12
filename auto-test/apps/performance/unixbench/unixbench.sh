@@ -1,20 +1,16 @@
-#!/bin/sh 
-
+#!/bin/bash 
+# Author:dingyu
 # The purpose of UnixBench is to provide a basic indicator of the
 # performance of a Unix-like system
 
-# shellcheck disable=SC1091
+#加载外部文件
+source ../../../../utils/sh-test-lib
+source ../../../../utils/sys_info.sh
 
-. ../../../../utils/sh-test-lib
-. ../../../../utils/sys_info.sh
+#检查用户权限
+! check_root && error_msg "Please run this script as root."
 
-
-if [ `whoami` != 'root' ]; then
-        echo "YOu must be the root to run this script" >$2
-        exit 1
-fi
-
-#install package
+#环境准备
 pkgs="gcc perl wget make unzip"
 install_deps "${pkgs}"
 print_info $? install-package
@@ -86,8 +82,12 @@ score=`cat ${host_name}-${today}-02|grep "System Benchmarks Index Score"|awk '{p
 echo "the sore of ${NPROC} parallel copies is ${score}"
 print_info $? score_${NPROC}
 
-
+#环境恢复
 cd ../../../
 rm -rf byte-unixbench-master
 print_info $? delete_Unixbench
+
+pkgs="gcc perl wget make unzip"
+remove_deps "${pkgs}"
+print_info $? remove-package
 
