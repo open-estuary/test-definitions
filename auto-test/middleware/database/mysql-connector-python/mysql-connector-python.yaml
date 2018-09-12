@@ -13,12 +13,16 @@ metadata:
         - mysql
     os:
         - centos
+        - ubuntu
+        - debian
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 19
+        centos: 17
+        ubuntu: 16
+        debian: 16
 
 run:
     steps:
