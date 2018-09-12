@@ -1,6 +1,7 @@
 #!/bin/sh 
+#date:2018-9-12
 ##Author：fangyuanzheng<fyuanz_2010@163.com>
-##PACKETH是一个支持GUI和CLI的以太网数据包生成器,测试包的源和版本号
+##PACKETH是一个支持GUI和CLI的以太网数据包生成器,可以生成和发送任何以太网数据包,测试包的源和版本号
 
 set -x
 
@@ -37,7 +38,6 @@ case $distro in
 	 install_deps "${package}"
 	 print_info $? package
 	 ;;
-
  esac
 
 #######################  testing the step ###########################
