@@ -24,7 +24,7 @@ metadata:
         ubuntu: 14
         debian: 14
         fedora: 14
-        opensuse:14
+        opensuse: 14
 
 params:
     SKIP_INSTALL: "false"
