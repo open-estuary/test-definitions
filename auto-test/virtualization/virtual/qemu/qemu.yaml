@@ -10,6 +10,9 @@ metadata:
     os:
         - centos
         - ubuntu
+        - debian
+        - fedora
+        - opensuse
     devices:
         - d03
         - d05
@@ -17,18 +20,21 @@ metadata:
     totalcase:
         centos: 3
         ubuntu: 3
+        fedora: 3
+        debian: 3
+        opensuse: 3
 
 
 params:
     #BINURL: 'http://192.168.3.100:8083/open-estuary/v2.3-rc0/d02-arm64/binary/'
     #modify by liucaili 2017-9-19
     #BINURL: 'http://htsat.vicp.cc:804/qemu'
-    BINURL: 'http://192.168.50.122:8083/test_dependents/qemu'
+    #BINURL: 'http://192.168.50.122:8083/test_dependents/qemu'
     #BINURL: 'http://192.168.3.100:8083/qemu'
 
 run:
     steps:
-        - "cd ./auto-test/virtualization/virtual/qemu; ./qemu-kvm.sh $BINURL; cd -"
+        - "cd ./auto-test/virtualization/virtual/qemu; ./qemu-kvm.sh; cd -"
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
