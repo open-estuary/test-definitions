@@ -1,9 +1,16 @@
 #!/bin/bash
+
+#=================================================================
+#   文件名称：mysql-connector-python.sh
+#   创 建 者：dingyu ding_yu@hoperun.com
+#   描    述：mysql-connector-python是MySQL官方的纯Python驱动,使用这个驱动让Python连接MySQL,测试创建数据库，创建表格,插入,删除,修改,查询数据等基本功能.
+#
+#================================================================*/
 set -x
 
 cd ../../../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
 ! check_root && error_msg "Please run this script as root."
@@ -20,24 +27,25 @@ case "${distro}" in
         cleanup_all_database
         pkgs1="mysql-community-server mysql-community-devel expect"
 	install_deps "${pkgs1}"
+	pkgs2="mysql-connector-python mysql-connector-python-cext python"
 	print_info $? install_mysql
-	pkgs2="MySQL-python python"
-	install_deps "${pkgs2}"
-	print_info $? install-python
+
         ;;
     ubuntu|debian)
         apt-get remove --purge mysql-server -y
-        pkgs="mysql-server mysql-client python-mysqldb python expect"
+        pkgs="mysql-server mysql-client python expect"
+	pip install mysql-connector-python
         install_deps "${pkgs}"
 	print_info $? install-mysql-community
 	;;
 esac
 
 ##################### the testing step ###########################
-
+#启动mysql服务
 systemctl start mysql
 print_info $? start-mysqld
 
+#给root用户添加密码
 mysqladmin -u root password "root"
 print_info $? set-root-pwd
 
@@ -79,6 +87,7 @@ print_info $? python-drop-table
 
 rm -f out.log
 
+#删除数据库
 EXPECT=$(which expect)
 $EXPECT << EOF
 set timeout 100
@@ -108,7 +117,7 @@ case "${distro}" in
     ubuntu|debian)
         apt-get remove --purge mysql-server -y
         apt-get remove mysql-client -y
-	apt-get remove python-mysqldb -y
+	pip uninstall mysql-connector-python -y
         print_info $? remove-mysql
         ;;
 esac
