@@ -37,18 +37,23 @@ case $distro in
 esac
 
 #######################  testing the step ###########################
-#Test 'netperf start server'
+#测试能否成功启动netserver
 echo "Performing netperf start server test..."
 TCID="netperf-server-start"
 netserver &
+#计算netserver进程的行数
 count=`ps -ef | grep netserver | grep -v "grep"| wc -l`
+#计算结果大于0就pass
 if [ ${count} -gt 0 ]; then
     print_info $? $TCID
 else
     print_info $? $TCID
 fi
 
-# Test 'netperf client'
+#测试 网络带宽是否成功
+#-H 主机名或IP 指定运行netserver的服务器的IP
+#-l 测试时长 指定测试的时间长度，单位为秒
+#-m 发送消息大小 单位为bytes
 echo "Performing netperf client test..."
 TCID1="netperf-64-test"
 TCID2="netperf-1024-test"
@@ -67,10 +72,10 @@ if [ "$throu2" != "" ] ; then
 else
     print_info $? $TCID2
 fi
-rm netperf-client64.log
-rm netperf-client1024.log
 
 ######################  environment  restore ##########################
+rm netperf-client64.log
+rm netperf-client1024.log
 case $distro in
     "centos")
         yum remove netperf -y
