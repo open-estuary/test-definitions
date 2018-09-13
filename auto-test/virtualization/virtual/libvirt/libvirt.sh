@@ -1,74 +1,85 @@
 #!/bin/bash
 set -x
-. ../../../../utils/sh-test-lib
-. ../../../../utils/sys_info.sh
+source ../../../../utils/sh-test-lib
+source ../../../../utils/sys_info.sh
 
-cd -
+! check_root && error_msg "Please run this script as root."
 
-url=`pwd`
-echo $url
+##################### Environmental preparation ###################
+### variables set ###
+path=`pwd`
 random_uuid=`cat /proc/sys/kernel/random/uuid`
 
-if [ `whoami` != 'root' ]; then
-        echo "YOu must be the root to run this script" >$2
-        exit 1
-fi
+### Download the virtual machine image file ###
+wget ${ci_http_addr}/test_dependents/cirros-0.4.0-aarch64-disk.img
 
 
-#Check that the kernel supports KVM
-ret=`dmesg|grep kvm|grep "initialized successfully"|awk '{print $7,$8}'`
-if [ "$ret"x = "initialized successfully"x ];then
-        print_info 0 kvm_enable
-else
-        print_info 1 kvm_enable
-fi
+case "${distro}" in
+    ubuntu)
+	# Check if the kernel support kvm
+	ret=`dmesg|grep kvm|grep "initialized successfully"|awk '{print $7,$8}'`
+	if [ "$ret"x != "initialized successfully"x ];then
+        	echo "the kernel not supports KVM" >&2
+        	exit 1
+	fi
+	pkgs="qemu-kvm qemu-efi libvirt-bin virtinst"
+	install_deps "${pkgs}"
+	print_info $? install-package
+	;;
+    fedora)
+	pkgs="qemu-kvm libvirt virt-install"
+	install_deps "${pkgs}"
+	print_info $? install-package
+	;;
+esac
 
-#Installation package
-pkgs="qemu-kvm qemu-efi libvirt-bin virtinst"
-install_deps "${pkgs}"
-print_info $? install-package
-
-
-#Modify configuration file
+##################  initialize ###############################
 LIBVIRT=/etc/libvirt/libvirtd.conf
+#To define file-based permissions for the libvirt group users to 
+#manage the virtual machine, uncomment the following lines:
 sed -i "s/#unix_sock_group = /unix_sock_group = /g" $LIBVIRT
 sed -i "s/#unix_sock_ro_perms = /unix_sock_ro_perms = /g" $LIBVIRT
 sed -i "s/#unix_sock_rw_perms = /unix_sock_rw_perms = /g" $LIBVIRT
 sed -i "s/#auth_unix_ro = /auth_unix_ro = /g" $LIBVIRT
 sed -i "s/#auth_unix_rw = /auth_unix_rw = /g" $LIBVIRT
+#Use non-encrypted TCP/IP sockets
 sed -i "s/#listen_tls = 0/listen_tls = 0/g" $LIBVIRT
 sed -i "s/#listen_tcp = 1/listen_tcp = 1/g" $LIBVIRT
 sed -i "s/#auth_tcp=/auth_tcp=/g" $LIBVIRT
+#Add root to users and groups
 sed -i "s/#user = /user = /g" /etc/libvirt/qemu.conf
 sed -i "s/#group = /group = /g" /etc/libvirt/qemu.conf
-print_info $? modify_configure
 
-
-cp demo.xml domain_aarch64.xml
-sed -i "s%<uuid>e06d5011-2de4-48a0-834e-72eecf7c99f0</uuid>%<uuid>${random_uuid}</uuid>%g" domain_aarch64.xml
-
-sed -i "s%<source file='/home/dingyu/cirros-0.4.0-aarch64-disk.img'/>%<source file='${url}/cirros-0.4.0-aarch64-disk.img'/>%g" domain_aarch64.xml
-print_info $? modify_xml
-
-wget http://192.168.50.122:8083/test_dependents/cirros-0.4.0-aarch64-disk.img  
-print_info $? download_img
-
-#Start the libvirt service
 service libvirtd start
 print_info $? libvirtd_start
 
-#Test whether libvirt works at the system level
-virsh -c qemu:///system list
-print_info $? libvirt_works
+res=`virsh -c qemu:///system list|grep "Id"|awk '{print $1}'`
+if [ "$res"x != "Id"x ];then
+        echo "the libvirt service is fail" >&2
+        exit 1
+fi
+
+case "${distro}" in
+    ubuntu)
+	cp ubuntu_libvirt_demo.xml domain_aarch64.xml
+	sed -i "s%<uuid>e06d5011-2de4-48a0-834e-72eecf7c99f0</uuid>%<uuid>${random_uuid}</uuid>%g" domain_aarch64.xml
+	sed -i "s%<source file='/home/dingyu/cirros-0.4.0-aarch64-disk.img'/>%<source file='${path}/cirros-0.4.0-aarch64-disk.img'/>%g" domain_aarch64.xml
+	;;
+    fedora)
+	cp fedora_libvirt_demo.xml domain_aarch64.xml
+	sed -i "s%<uuid>0af1092d-6aea-4e71-927e-538f131b9f39</uuid>%<uuid>${random_uuid}</uuid>%g" domain_aarch64.xml
+        sed -i "s%<source file='/home/dingyu/fedora_01.qcow2'/>%<source file='${path}/cirros-0.4.0-aarch64-disk.img'/>%g" domain_aarch64.xml
+	################## testing the step ##############################
 
 #Create virtual machines
-
 virsh define domain_aarch64.xml
 print_info $? virtual_create
 
+#Start virtual machines
 virsh start domain_aarch64
 print_info $? virtual_start
 
+#Virtual machine lifecycle operations
 virsh reboot domain_aarch64
 print_info $? domain_reboot
 
@@ -146,6 +157,8 @@ virsh undefine --nvram domain_aarch64
 rm -rf cirros-0.4.0-aarch64-disk.img
 print_info $? domain_undefine
 
+
+################ environment  restore  #######################
 virsh undefine --nvram domain_copy
 rm -rf /var/lib/libvirt/images/domain_copy.qcow2
 print_info $? delete_clone
@@ -156,4 +169,8 @@ print_info $? delete_xml
 #Stop the libvirt service
 service libvirtd stop
 print_info $? libvirtd_stop
+
+#remove packgs
+remove_deps ${pkgs}
+print_info $? remove_pkgs
 
