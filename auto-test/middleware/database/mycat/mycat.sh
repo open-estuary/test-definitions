@@ -1,72 +1,78 @@
 #!/bin/bash
 # Copyright (C) 2017-8-29, Linaro Limited.
 #qperf is a tool for testing bandwidth and latency
-# A#uthor: mahongxin <hongxin_228@163.com>
-#
+# Author: mahongxin <hongxin_228@163.com>
+
 
 cd ../../../../utils
     . ./sys_info.sh
-  
-       "opensuse")            pkgs="mariadb expect java-1_8_0-openjdk"
-inst#all_deps "${pkgs}"
-prin#t_info $? installd-pkgs
-tar -xvf mycat.tar.gz -C /usr/local
-print_info $? tar-mycadt
-;; ./sh-test-lib
+    . ./sh-test-lib
 cd -
-|opensuse
-#set# -x
-outDe#bugInfo
+
+#set -x
+outDebugInfo
 # Test user id
 if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
-#download source pakgs
     exit 1
 fi
 
 
-source ../percona/mysql       wget 
-case $distro in     ub
-#start mysqluntu|debian|opensuse|fe       tar -xvf mesact.tar.gz -C /usr/local
+source ../percona/mysql.sh 
+
 case $distro in
-      "centos")
-         cleanup_all_database
-         pkgs="java-1.8.0-openjdk.aarch64 mysql-community-server.aarch64 expect mycat"
-         install_deps "${pkgs}"
-         print_info $? install-package
-         ;;
-      "ubuntu")
-	  pkgs="openjdk-8-jdk mysql-server expect"
+    "centos")
+        cleanup_all_database
+        pkgs="java-1.8.0-openjdk.aarch64 mysql-community-server.aarch64 expect mycat"
+        install_deps "${package}"
+        print_info $? install-package
+        ;;
+      "ubuntu"|"debian")
+        apt-get remove --purge mysql-server -y	
+	pkgs="openjdk-8-jdk mysql-server expect"
+	install_deps "${pkgs}"
+	print_info $? install-package
+	#tar -xvf mycat.tar.gz -C /usr/local
+	#print_info $? tar-mycat
+	;;
+       "fedora")
+	 pkgs="community-mysql-server expect java-1.8.0-openjdk"
+	 install_deps "${pkgs}"
+	 print_info $? install-pkgs
+	 #tar -xvf mycat.tar.gz -C /usr/local
+	 #print_info $? tar-mycat
+	 ;;
+        "opensuse")
+          pkgs="mariadb expect java-1_8_0-openjdk"
 	  install_deps "${pkgs}"
-	  print_info $? install-package
-	  tar -xvf mycat.tar.gz -C /usr/local
-	  print_info $? tar-mycat
-	  ;;http://192.168.50.122:8083/test_dependents/mycat.tar.gz
-      "fedora")
-          pkgs="community-mysql-server expect java-1.8.0-openjdk"
-          install_deps "${pkgs}"
-          print_info $? install-pkgs
-          tar -xvf mycat.tar.gz -C /usr/local
-          print_info $? tar-mycat
-          ;;
-#systemctl start mysql
+	  print_info $? install-pkgs
+	 # tar -xvf mycat.tar.gz -C /usr/local
+	  #print_info $? tar-mycat
+	  ;;
+
+esac
+#download source pakgs
 case $distro in
-   fedora)
+     ubuntu|debian|opensuse|fedora)
+       wget http://192.168.50.122:8083/test_dependents/mycat.tar.gz
+       tar -xvf mycat.tar.gz -C /usr/local
+       ;;
+esac
+#start mysql
+case $distro in
+  fedora)
     systemctl start mysqld
     print_info $? start-mysqld
     systemctl status mysqld |grep "active (running)"
-    print_info $? mysqld-status
+    print_info $? mysql-status
     ;;
-   centos|ubuntu)
-     systemctl start mysql
-     print_info $? star-mysql
-     systemctl status mysql |grep "active (running)"
-     print_info $? mysql-stauts
-     ;;
-esac
-#systemctl status mysql |grep "active (running)"
-#print_info $? mysql-status
-
+  centos|ubuntu|debian|opensuse)
+    systemctl start mysql
+    print_info $? start-mysql
+    systemctl status mysql |grep "running"
+    print_info $? mysql-status
+    ;;
+ esac
 #修改密码
 mysqladmin -uroot  password "123456"
 print_info $? set-passwd
@@ -77,18 +83,18 @@ $EXPECT << EOF | tee -a out.log
 set timeout 100
 spawn mysql -uroot -p
 expect "Enter password"
-send "root\n"
-expect "mysql>"
+send "123456\n"
+expect ">"
 send "create database db1;\n"
-expect "mysql>"
+expect ">"
 send "create database db2;\n"
-expect "mysql>"
+expect ">"
 send "create database db3;\n"
-expect "mysql>"
+expect ">"
 send "exit;\n"
 expect eof
 EOF
-grep "Welcome to the MySQL" out.log
+grep "Welcome to the " out.log
 print_info $? login-mysql
 grep "Query OK" out.log
 print_info $? create-db
@@ -137,16 +143,16 @@ $EXPECT << EOF | tee -a mycat.log
 set timeout 100
 spawn mysql -uroot -p -h127.0.0.1 -P8066 -DTESTDB
 expect "Enter password"
-send "root\n"
-expect "mysql>"
+send "123456\n"
+expect ">"
 send "create table employee (id int not null primary key,name varchar(100),sharding_id int not null);\n"
-expect "mysql>"
+expect ">"
 send "insert into employee(id,name,sharding_id) values(1,'leader us',10000);\n"
-expect "mysql>"
+expect ">"
 send "explain create table company(id int not null primary key,name varchar(100));\n"
-expect "mysql>"
+expect ">"
 send "explain insert into company(id,name) values(1,'hp');\n"
-expect "mysql>"
+expect ">"
 send "exit;\n"
 expect eof
 EOF
@@ -156,19 +162,19 @@ count=`grep "Query OK" mycat.log|wc -l`
 if [ "$count" -eq  4 ]; then
     print_info $? creat-table
     print_info $? insert-table
-#    print_info $? explain-create
- #  print_info $? explain-insert
+    print_info $? explain-create
+    print_info $? explain-insert
 fi 
 
-sy#stemctl stop mysql 
-#./mycat stop 
+systemctl stop mysql 
+./mycat stop 
 print_info $? "mycat_stop"
 
 :
 cd - 
-case $distro in
-    "centos"|"ubuntu"|"fedora"|"opensuse"|"debian")
-     #remove_deps "${pkgs}"
+#case $distro in
+ #   "centos"|"ubuntu"|"fedora"|"opensuse"|"debian")
+     remove_deps "${pkgs}"
      print_info $? remove_package
-     ;;
-esac
+  #   ;;
+#esac
