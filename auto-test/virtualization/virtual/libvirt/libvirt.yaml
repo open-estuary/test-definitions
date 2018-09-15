@@ -11,6 +11,7 @@ metadata:
     os:
         - ubuntu
         - fedora
+        - centos
     devices:
         - d05
         - d06
@@ -18,6 +19,7 @@ metadata:
     totalcase: 
         ubuntu: 38
         fedora: 38
+        centos: 38
 
 run:
     steps:

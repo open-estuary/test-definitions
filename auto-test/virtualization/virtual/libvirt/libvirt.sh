@@ -26,12 +26,20 @@ case "${distro}" in
 	install_deps "${pkgs}"
 	print_info $? install-package
 	;;
-    fedora)
-	pkgs="qemu-kvm libvirt virt-install"
+   centos)
+	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils"
 	install_deps "${pkgs}"
 	print_info $? install-package
+	#添加loaler文件
+	cp ./AAVMF_CODE.fd /usr/share/AAVMF/
+	;;
+   fedora)
+	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils"
+	install_deps "${pkgs}"
+        print_info $? install-package
 	;;
 esac
+
 
 ##################  initialize ###############################
 LIBVIRT=/etc/libvirt/libvirtd.conf
@@ -69,8 +77,14 @@ case "${distro}" in
 	cp fedora_libvirt_demo.xml domain_aarch64.xml
 	sed -i "s%<uuid>0af1092d-6aea-4e71-927e-538f131b9f39</uuid>%<uuid>${random_uuid}</uuid>%g" domain_aarch64.xml
         sed -i "s%<source file='/home/dingyu/fedora_01.qcow2'/>%<source file='${path}/cirros-0.4.0-aarch64-disk.img'/>%g" domain_aarch64.xml
-	################## testing the step ##############################
-
+	;;
+    centos)
+	cp centos_libvirt_demo.xml domain_aarch64.xml
+	sed -i "s%<uuid>e06d5011-2de4-48a0-834e-72eecf7c99f0</uuid>%<uuid>${random_uuid}</uuid>%g" domain_aarch64.xml
+        sed -i "s%<source file='/home/dingyu/fedora_01.qcow2'/>%<source file='${path}/cirros-0.4.0-aarch64-disk.img'/>%g" domain_aarch64.xml
+	;;
+esac
+ ################## testing the step ##############################
 #Create virtual machines
 virsh define domain_aarch64.xml
 print_info $? virtual_create
