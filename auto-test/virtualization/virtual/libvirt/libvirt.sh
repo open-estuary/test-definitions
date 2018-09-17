@@ -31,6 +31,7 @@ case "${distro}" in
 	install_deps "${pkgs}"
 	print_info $? install-package
 	#添加loaler文件
+        wget -c http://192.168.50.122:8083/test_dependents/AAVMF_CODE.fd 
 	cp ./AAVMF_CODE.fd /usr/share/AAVMF/
 	;;
    fedora)
