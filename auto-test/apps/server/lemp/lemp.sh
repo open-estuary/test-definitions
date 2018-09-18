@@ -10,7 +10,8 @@ set -x
 
 case "$distro" in
     debian)
-	pkgs="nginx mysql-server php-mysql php-fpm curl"
+	apt-get install mysql-server -y
+	pkgs="nginx php-mysql php-fpm curl"
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
 	systemctl stop apache2 > /dev/null 2>&1 || true
@@ -30,7 +31,8 @@ case "$distro" in
     ubuntu)
 	echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
 	echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
-	pkgs="nginx mysql-server php php-mysql php-common libapache2-mod-php curl php7.2-fpm"
+	apt-get install mysql-server -y
+	pkgs="nginx php php-mysql php-common libapache2-mod-php curl php7.2-fpm"
         install_deps "${pkgs}"
         print_info $? install-pkgs
         systemctl stop apache2 > /dev/null 2>&1 || true
@@ -143,10 +145,8 @@ print_info $? php-delete-record
 # Delete myDB for the next run.
 mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
 print_info $? delete-myDB
-# Restore from backups.
-#rm -rf /usr/share/nginx/html
-#mv /usr/share/nginx/html.bak /usr/share/nginx/html
-# shellcheck disable=SC2154
+
+#stop php,mysql and nginx service
 case "${distro}" in
     debian)
 	systemctl stop php7.0-fpm
@@ -179,5 +179,17 @@ case "${distro}" in
 esac
 
 rpm -e --nodeps curl
-remove_deps "${pkgs}"
-print_info $? remove-package
+
+#remove packges
+case "${distro}" in
+    ubuntu|debian)
+	apt-get remove --purge mysql-sever -y
+	remove_deps "${pkgs}"
+	print_info $? remove-package
+	;;
+    centos|fedora)
+	remove_deps "${pkgs}"
+	print_info $? remove-package
+	;;
+esac
+
