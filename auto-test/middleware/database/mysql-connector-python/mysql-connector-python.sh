@@ -28,12 +28,13 @@ case "${distro}" in
         pkgs1="mysql-community-server mysql-community-devel expect"
 	install_deps "${pkgs1}"
 	pkgs2="mysql-connector-python mysql-connector-python-cext python"
-	print_info $? install_mysql
+	install_deps "${pkgs2}"
+	print_info $? install_mysql_python
 
         ;;
     ubuntu|debian)
         apt-get remove --purge mysql-server -y
-        pkgs="mysql-server mysql-client python expect"
+        pkgs="mysql-server mysql-client python python-pip expect"
 	pip install mysql-connector-python
         install_deps "${pkgs}"
 	print_info $? install-mysql-community
