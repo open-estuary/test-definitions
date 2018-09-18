@@ -82,11 +82,4 @@ if [ "$throu2" != "" ]; then
 else
     lava-test-case $TCID2 --result fail
 fi
-case $distro in
-    "centos")
-        #yum remove bind bind-utils -y
-        remove_deps "${pkgs}"
-        print_info $? remove-package
-        ;;
-esac
 
