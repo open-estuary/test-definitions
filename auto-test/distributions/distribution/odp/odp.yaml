@@ -9,7 +9,6 @@ metadata:
         - ubuntu
     scope:
         - distribution
-        - yh
     devices:
         - d03
         - d05
