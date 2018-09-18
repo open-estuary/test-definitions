@@ -66,17 +66,17 @@ install() {
     # shellcheck disable=SC2154
     case "$distro" in
       debian|ubuntu)
-        pkgs="binutils gcc make python sed tar wget gfortran "
+        pkgs="binutils gcc make python gfortran "
         install_deps "${pkgs}" "${SKIP_INSTALL}"
 	print_info $? "install_lapack"
         ;;
       fedora|centos)
-        pkgs="binutils gcc glibc-static make python sed tar wget gcc-gfortran "
+        pkgs="binutils gcc glibc-static make python gcc-gfortran "
         install_deps "${pkgs}"
         print_info $? "install_lapack"
         ;;
       opensuse)
-	pkgs="binutils gcc glibc-devel-static make python sed tar wget gcc-fortran"
+	pkgs="binutils gcc glibc-devel-static make python  gcc-fortran"
         install_deps "${pkgs}"
         print_info $? "install_lapack"
 	;;
