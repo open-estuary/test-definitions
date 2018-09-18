@@ -102,17 +102,17 @@ lapack_build_test
 
 case "$distro" in
       debian|ubuntu)
-        pkgs="binutils gcc make python sed tar wget gfortran "
+        pkgs="gcc"
         remove_deps "${pkgs}" "${SKIP_INSTALL}"
         print_info $? "install_lapack"
         ;;
       fedora|centos)
-        pkgs="binutils gcc glibc-static make python sed tar wget gcc-gfortran "
+        pkgs="gcc"
         remove_deps "${pkgs}"
         print_info $? "install_lapack"
         ;;
       opensuse)
-        pkgs="binutils gcc glibc-devel-static make python sed tar wget gcc-gfortran"
+        pkgs="gcc"
         remove_deps "${pkgs}"
         print_info $? "install_lapack"
 	;;
