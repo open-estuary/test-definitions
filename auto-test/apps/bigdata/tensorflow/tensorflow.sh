@@ -26,8 +26,8 @@ fi
 case $distro in
     "centos")
     pkgs="tensorflow wget python-pip python-devel gcc vim expect"
-    Check_Repo "${pkgs}" "Estuary"
-    print_info $? check-repo
+#    Check_Repo "${pkgs}" "Estuary"
+#    print_info $? check-repo
     install_deps "${pkgs}"
     print_info $? install-tensorflow
     ;;
@@ -37,6 +37,7 @@ case $distro in
     mkdir -p /usr/share/tensorflow
     wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl ~/usr/share/tensorflow
     print_info $? install-tensorflow
+    ;;
     "fedora"|"opensuse")
     pkgs="wget python-pip python-devel gcc vim expect"
     install_deps "$pkgs"
