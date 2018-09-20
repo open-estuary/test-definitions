@@ -12,9 +12,6 @@ cd -
 
 ###################  Environmental preparation  ######################
 #变量赋初始值
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-LOG_FILE="${OUTPUT}/sysstat.txt"
 ITERATION="30"
 PARTITION=""
 VERSION="11.5.5"
@@ -27,19 +24,17 @@ install() {
             print_info $? install-pkgs
             version=$(yum info sysstat | grep "^Version" | awk '{print $3}')
             if [ ${version} = ${VERSION} ];then
-                echo "syssta version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
+                echo "syssta version is ${version}: [PASS]" 
             else
-                echo "syssta version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                #exit 1
+                echo "syssta version is ${version}: [FAIL]" 
             fi
             print_info $? sys-version
 
             sourc=$(yum info sysstat | grep "^From repo" | awk '{print $4}')
             if [ ${sourc} = ${SOURCE} ];then
-                echo "syssta source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
+                echo "syssta source from ${version}: [PASS]"
             else
-                echo "syssta source from ${version}: [FAIL]" | tee -a/n "${RESULT_FILE}"
-                #exit 1
+                echo "syssta source from ${version}: [FAIL]"
             fi
             print_info $? sys-source
             ;;
@@ -62,23 +57,23 @@ sysstat_test() {
 #收集1秒之内的10次动态信息到指定文件
     /usr/lib64/sa/sadc  1 10 sa00
 #通过sar工具查看系统状态
-    sar -f sa00 | tee -a ${LOG_FILE}
+    sar -f sa00 
     print_info $? sar-cpu
    
 #查看CPU利用率，每秒更新一次，更新5次
-    sar -u  1 5 | tee -a ${LOG_FILE}
+    sar -u  1 5 
     print_info $? sar-network
 
 #查看设备的情况
-    sar -n DEV 2 5 | tee -a ${LOG_FILE}
+    sar -n DEV 2 5 
     print_info $? sar-io
 
 #查看io设备的情况
-    iostat -x | tee -a  ${LOG_FILE}
+    iostat -x 
     print_info $? iostat-test
 
 #获取CPU的信息，2秒运行一次，运行10次
-    mpstat 2 10 | tee -a ${LOG_FILE}
+    mpstat 2 10 
     print_info $? mpstat-test
 }
 
