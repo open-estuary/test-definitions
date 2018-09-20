@@ -11,7 +11,7 @@ cd -
 
 case "$distro" in 
     centos|fedora)
-	pkgs="gcc git numactl-devel"
+	pkgs="gcc git numactl-devel make"
 	install_deps "${pkgs}"
 	print_info $? install_pkgs
 	
@@ -23,12 +23,12 @@ case "$distro" in
 	cp ./cyclictest /usr/bin/
 	;;
     ubuntu|debian)
-	pkgs="gcc git libnuma-dev rt-tests"
+	pkgs="gcc git libnuma-dev rt-tests make"
 	install_deps "${pkgs}"
         print_info $? install_pkgs
 	;;
     opensuse)
-	pkgs="gcc git libnuma-devel"
+	pkgs="gcc git libnuma-devel make"
 	install_deps "${pkgs}"
         print_info $? install_pkgs
 	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git

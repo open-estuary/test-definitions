@@ -9,8 +9,7 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - database 
-        - mysql
+        - mysql-connector-python
     os:
         - centos
         - ubuntu
