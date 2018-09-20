@@ -9,7 +9,7 @@ function install_c_driver(){
         print_info $? "mongo_c_driver_install_gcc"
         export LANG=en_US.UTF-8
         ver=`yum info mongo-c-driver|grep "Version" | cut -d : -f 2`
-        if [ x"$ver" == x"1.8.2"  ];then
+        if [ x"$ver" == x" 1.8.2"  ];then
             print_info 0 mongo_c_driver_version
         else
             print_info 1 mongo_C_driver_verion
