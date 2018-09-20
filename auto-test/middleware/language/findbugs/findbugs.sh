@@ -21,7 +21,7 @@ function install_findbugs(){
       print_info $? install_findbugs
       ;;
       opensuse)
-      pkgs="findbugs java-1_8_0-openjdk java-1_8_0-openjdk-devel
+      pkgs="findbugs java-1_8_0-openjdk java-1_8_0-openjdk-devel"
       install_deps "${pkgs}"
       print_info $? install_findbugs
     esac
