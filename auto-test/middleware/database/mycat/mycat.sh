@@ -24,7 +24,7 @@ case $distro in
     "centos")
         cleanup_all_database
         pkgs="java-1.8.0-openjdk.aarch64 mysql-community-server.aarch64 expect mycat"
-        install_deps "${package}"
+        install_deps "${pkgs}"
         print_info $? install-package
         ;;
       "ubuntu"|"debian")
