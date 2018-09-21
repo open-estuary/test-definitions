@@ -10,6 +10,7 @@ if [ `whoami` != 'root' ]; then
 fi
 case $distro in
     "ubuntu")
+        apt-get install dnsutils -y;
         apt-get install bind9 -y;
         print_info $? install-dns
         ;;

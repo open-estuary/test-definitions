@@ -22,14 +22,6 @@ usage() {
     exit 1
 }
 
-while getopts "v:s:" o; do
-  case "$o" in
-    v) VERSION="${OPTARG}" ;;
-    s) SKIP_INSTALL="${OPTARG}" ;;
-    *) usage ;;
-  esac
-done
-
 ######################## Environmental preparation   ######################
 if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     info_msg "JDK package installation skipped"
@@ -83,7 +75,8 @@ done
 esac
 
 #######################  testing the step ###########################
-java -version 2>&1 | grep "version \"1.${VERSION}"
+#java -version 2>&1 | grep "version \"1.${VERSION}"
+java -version 2>&1 | grep "version"
 print_info $? OpenJDK-CheckJavaVersion 
 
 javac -version 2>&1 | grep "javac 1.${VERSION}"
