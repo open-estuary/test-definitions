@@ -11,6 +11,9 @@ path=`pwd`
 random_uuid=`cat /proc/sys/kernel/random/uuid`
 
 ### Download the virtual machine image file ###
+pkgs="wget"
+install_deps "${pkgs}"
+#wget http://120.31.149.194:18083/test_dependents/cirros-0.4.0-aarch64-disk.img
 wget ${ci_http_addr}/test_dependents/cirros-0.4.0-aarch64-disk.img
 
 
@@ -31,6 +34,9 @@ case "${distro}" in
 	install_deps "${pkgs}"
 	print_info $? install-package
 	#添加loaler文件
+	#wget  http://120.31.149.194:18083/test_dependents/AAVMF_CODE.fd
+	wget -c http://192.168.50.122:8083/test_dependents/AAVMF_CODE.fd
+	mkdir -p /usr/share/AAVMF/
 	cp ./AAVMF_CODE.fd /usr/share/AAVMF/
 	;;
    fedora)
@@ -99,6 +105,45 @@ print_info $? domain_reboot
 
 virsh list --all
 print_info $? virsh_list
+
+#从一个xml文件进行磁盘热插拔
+mkdir -p /home/domain
+qemu-img create -f qcow2 /home/domain/huge.img 500G
+virsh attach-device domain_aarch64 disk.xml
+print_info $? domain_attach-device
+
+#通过attach-disk进行磁盘热插拔
+qemu-img create -f qcow2 /home/domain/test.img 500G
+virsh attach-disk domain_aarch64 /home/domain/test.img vdb --subdriver qcow2
+print_info $? domain_attach-disk
+
+#删除热插拔
+virsh detach-device domain_aarch64 disk.xml
+print_info $? domain_detach_device
+
+virsh detach-disk domain_aarch64 /home/domain/test.img
+print_info $? domain_detach_disk
+
+#使用blkdeviotune设置虚拟机的读写速度和iops
+BLKDEV=`virsh domblklist domain_aarch64|grep "cirros-0.4.0-aarch64-disk.img"|awk '{print $1}'`
+virsh blkdeviotune domain_aarch64 $BLKDEV --read-bytes-sec 20000000 --write-bytes-sec 1000000 --total-iops-sec 30 --read-iops-sec 15 --write-iops-sec 15 --live
+res=`virsh blkdeviotune domain_aarch64 $BLKDEV|grep "total_iops_sec"|awk '{print $3}'`
+if [ "$res"x == "80"x ];then
+        print_info 0 domain_blkdeviotune
+else
+        print_info 1 domain_blkdeviotune
+fi
+
+#使用blkiotune设置虚拟机的权重
+virsh blkiotune domain_aarch64 --weight 700 --live
+res1=`virsh blkiotune domain_aarch64 |grep "weight "|awk '{print $3}'`
+if [ "$res1"x == "700"x ];then
+	print_info 0 domain_blkiotune
+else
+	print_info 1 domain_blkiotune
+fi
+
+
 
 virsh autostart domain_aarch64
 print_info $? domain_autostart
@@ -177,8 +222,8 @@ virsh undefine --nvram domain_copy
 rm -rf /var/lib/libvirt/images/domain_copy.qcow2
 print_info $? delete_clone
 
-rm -rf domain_aarch64.xml
-print_info $? delete_xml
+rm -rf domain_aarch64.xml AAVMF_CODE.fd
+rm -rf /home/domain
 
 #Stop the libvirt service
 service libvirtd stop
