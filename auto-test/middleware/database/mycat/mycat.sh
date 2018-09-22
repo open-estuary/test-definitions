@@ -23,27 +23,27 @@ source ../percona/mysql.sh
 case $distro in
     "centos")
         cleanup_all_database
-        pkgs="java-1.8.0-openjdk.aarch64 mysql-community-server.aarch64 expect mycat"
+        pkgs="wget java-1.8.0-openjdk.aarch64 mysql-community-server.aarch64 expect mycat"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
       "ubuntu"|"debian")
         apt-get remove --purge mysql-server -y	
-	pkgs="openjdk-8-jdk mysql-server expect"
+	pkgs="wget openjdk-8-jdk mysql-server expect"
 	install_deps "${pkgs}"
 	print_info $? install-package
 	#tar -xvf mycat.tar.gz -C /usr/local
 	#print_info $? tar-mycat
 	;;
        "fedora")
-	 pkgs="community-mysql-server expect java-1.8.0-openjdk"
+	 pkgs="wget community-mysql-server expect java-1.8.0-openjdk"
 	 install_deps "${pkgs}"
 	 print_info $? install-pkgs
 	 #tar -xvf mycat.tar.gz -C /usr/local
 	 #print_info $? tar-mycat
 	 ;;
         "opensuse")
-          pkgs="mariadb expect java-1_8_0-openjdk"
+          pkgs="wget mariadb expect java-1_8_0-openjdk"
 	  install_deps "${pkgs}"
 	  print_info $? install-pkgs
 	 # tar -xvf mycat.tar.gz -C /usr/local
