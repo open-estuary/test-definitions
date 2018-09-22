@@ -24,7 +24,7 @@ case "$distro" in
     debian)
 	apt-get update
 	#安装软件包
-        pkgs="apt-transport-https ca-certificates curl gnupg2 software-properties-common make wget"
+        pkgs="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make wget"
 	install_deps "${pkgs}"
 	#添加官方GPG key: 
 	curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
@@ -172,7 +172,7 @@ case "${distro}" in
 	print_info $? remove_docker
 	;;
     debian)
-	apt-get purge docker-ce
+	apt-get purge docker-ce -y
 	remove_deps "${pkgs}"
         print_info $? remove_docker
 	;;

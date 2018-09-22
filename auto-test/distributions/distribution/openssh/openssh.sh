@@ -82,6 +82,7 @@ send "quit\r";
 expect eof
 EOF
 
+#测试下载结果
 if [ $(find . -maxdepth 1 -name "$FTP_GET_LOG")x != ""x ]; then
 	print_info 0  sftp-get
 else
@@ -93,6 +94,7 @@ rm -rf tmp
 
 cd ~
 
+#测试上传结果
 if [ $(find . -maxdepth 1 -name "sftp_put_test.log")x != ""x ]; then
 	print_info 0  sftp-put
 else
