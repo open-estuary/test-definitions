@@ -25,6 +25,8 @@ case $distro in
          print_info $? install-netperf
          ;;
      "fedora"|"opensuse"|"debian")
+         pkgs="wget make"
+         install_deps "${pkgs}"
          wget http://htsat.vicp.cc:804/liubeijie/netperf-2.5.0.tar.gz
          tar -zxvf netperf-2.5.0.tar.gz
          cd netperf-netperf-2.5.0
