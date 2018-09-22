@@ -10,13 +10,14 @@ metadata:
         - zookeeper
     os:
         - centos
+        - ubuntu
     devices:
         - d03
         - d05
     level: 5
     totalcase:
         centos: 24
-
+        ubuntu: 24
 
 run:
     steps:

@@ -1,19 +1,19 @@
 #!/bin/sh
 # Copyright (C) 2017-8-29, Linaro Limited.
 # Author: mahongxin <hongxin_228@163.com>
+##dstat是一个监控工具，用于收集监控cpu、内存、设备IO等系统资源的占用情况
 
 set -x
-
+#####加载外部文件################
 cd ../../../../utils
     . ./sys_info.sh
     . ./sh-test-lib
 cd -
 
-# Test user id
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
+
+######################## Environmental preparation   ######################
 case $distro in
     "debian"|"ubuntu"|"fedora"|"centos"|"opensuse")
         package="dstat"
@@ -21,7 +21,7 @@ case $distro in
         print_info $? install-dstat
          ;;
 esac
-
+#######################  testing the step ###########################
 #输出默认监控，报表 输出时间间隔为3s,输出10个结果
 dstat 3 10  2>&1 | tee dstat.log
 print_info $? dstat
@@ -66,6 +66,7 @@ print_info $? dstat-socket
 dstat -r 3 10 2>&1 | tee -a dstat.log
 print_info $? dstat-r
 
+######################  environment  restore ##########################
 case $distro in
     "ubuntu"|"debian"|"centos"|"fedora"|"opensuse")
      remove_deps "${package}"

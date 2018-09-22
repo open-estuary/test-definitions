@@ -1,9 +1,19 @@
-#!/bin/sh 
+#!/bin/bash 
 # signaltest is a RT signal roundtrip test software.
 
 # shellcheck disable=SC1091
-. ../../../../utils/sh-test-lib
-. ../../../../utils/sys_info.sh
+set -x
+
+#####加载外部文件################
+cd ../../../../utils
+source      ./sys_info.sh
+source       ./sh-test-lib
+cd -
+
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
+
+######################## Environmental preparation   ######################
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/signaltest.txt"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -11,11 +21,6 @@ RESULT_FILE="${OUTPUT}/result.txt"
 PRIORITY="99"
 THREADS="2"
 LOOPS="10000"
-
-usage() {
-    echo "Usage: $0 [-p priority] [-t threads] [-l loops]" 1>&2
-    exit 1
-}
 
 while getopts ":p:t:l:" opt; do
     case "${opt}" in
@@ -26,7 +31,7 @@ while getopts ":p:t:l:" opt; do
     esac
 done
 
-! check_root && error_msg "Please run this script as root."
+#######################  testing the step ###########################
 create_out_dir "${OUTPUT}"
 
 # Run signaltest.
@@ -41,6 +46,22 @@ tail -n 1 "${LOGFILE}" \
            {printf("avg-latency pass %s us\n", $(NF-2))};
            {printf("max-latency pass %s us\n", $NF)};'  \
     | tee -a "${RESULT_FILE}"
-print_info $? RT-min
-print_info $? RT-avg
-print_info $? RT-max
+
+if [-z "$min-latency"];then
+   print_info 1 RT-min
+else
+   print_info 0 RT-min
+fi
+
+if [-z "$avg-latency"];then
+   print_info 1 RT-min
+else
+   print_info 0 RT-min
+fi
+
+if [-z "$max-latency"];then
+   print_info 1 RT-min
+else
+   print_info 0 RT-min
+fi
+

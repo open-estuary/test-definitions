@@ -11,12 +11,20 @@ metadata:
         - tensorflow
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     devices:
         - d03
         - d05
     level: 1
     totalcase:
         centos: 17
+        ubuntu: 17
+        fedora: 17
+        debian: 17
+        opensuse: 17
 
 run:
     steps:

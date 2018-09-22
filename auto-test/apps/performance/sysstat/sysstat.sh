@@ -1,64 +1,44 @@
 #!/bin/bash
+# Copyright (C) 2017-8-29, Linaro Limited.
 
-. ../../../../utils/sh-test-lib
-. ../../../../utils/sys_info.sh
+#####加载外部文件################
+cd ../../../../utils
+source      ./sys_info.sh
+source       ./sh-test-lib
+cd -
 
-#检查root
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
 
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-LOG_FILE="${OUTPUT}/sysstat.txt"
+###################  Environmental preparation  ######################
+#变量赋初始值
 ITERATION="30"
 PARTITION=""
 VERSION="11.5.5"
 SOURCE="Estuary"
-usage() {
-    echo "Usage: $0 [-s <true|flase>] [-t <true|flase>]" 1>&2
-    exit 1
-}
-
-while getopts "s:h" o; do
-    case "$o" in
-        s) SKIP_INSTALL="${OPTARG}" ;;
-        h|*) usage ;;
-    esac
-done
-
+#执行函数得到发行版的名字
 install() {
-    dist_name
-    # shellcheck disable=SC2154
-    case "${dist}" in
-      centos)
-            install_deps "sysstat" "${SKIP_INSTALL}"
-            if test $? -eq 0;then
-                echo "sysstat install: [PASS]" | tee -a "${RESULT_FILE}"
-            else
-                echo "sysstat install: [FAIL]" | tee -a "${RESULT_FILE}"
-                exit 1
-            fi
+    case $distro in
+      "centos")
+            install_deps "sysstat" 
             print_info $? install-pkgs
             version=$(yum info sysstat | grep "^Version" | awk '{print $3}')
             if [ ${version} = ${VERSION} ];then
-                echo "syssta version is ${version}: [PASS]" | tee -a "${RESULT_FILE}"
+                echo "syssta version is ${version}: [PASS]" 
             else
-                echo "syssta version is ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                #exit 1
+                echo "syssta version is ${version}: [FAIL]" 
             fi
             print_info $? sys-version
+
             sourc=$(yum info sysstat | grep "^From repo" | awk '{print $4}')
             if [ ${sourc} = ${SOURCE} ];then
-                echo "syssta source from ${version}: [PASS]" | tee -a "${RESULT_FILE}"
+                echo "syssta source from ${version}: [PASS]"
             else
-                echo "syssta source from ${version}: [FAIL]" | tee -a "${RESULT_FILE}"
-                #exit 1
+                echo "syssta source from ${version}: [FAIL]"
             fi
             print_info $? sys-source
             ;;
-        "ubuntu"|"debian"|"opensuse")
+          "ubuntu"|"debian"|"opensuse")
             pkgs="sysstat"
             install_deps "${pkgs}"
             print_info $? install-sysstat
@@ -71,32 +51,43 @@ install() {
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
+
+#######################  testing the step ##########################
 sysstat_test() {
 #收集1秒之内的10次动态信息到指定文件
-    /usr/lib64/sa/sadc  1 10 sa00
+case $distro in
+   "centos"|"opensuse"|"fedora")    
+   /usr/lib64/sa/sadc  1 10 sa00
+   ;;
+   "ubuntu"|"debian")
+   /usr/lib/sysstat/sadc 1 10 sa00
+   ;;
+esac
 #通过sar工具查看系统状态
-    sar -f sa000 | tee -a ${LOG_FILE}
+    sar -f sa00 
     print_info $? sar-cpu
    
 #查看CPU利用率，每秒更新一次，更新5次
-    sar -u  1 5 | tee -a ${LOG_FILE}
+    sar -u  1 5 
     print_info $? sar-network
 
 #查看设备的情况
-    sar -n DEV 2 5 | tee -a ${LOG_FILE}
+    sar -n DEV 2 5 
     print_info $? sar-io
 
 #查看io设备的情况
-    iostat -x | tee -a  ${LOG_FILE}
+    iostat -x 
     print_info $? iostat-test
 
 #获取CPU的信息，2秒运行一次，运行10次
-    mpstat 2 10 | tee -a ${LOG_FILE}
+    mpstat 2 10 
     print_info $? mpstat-test
 }
 
+
 install
 sysstat_test
+#######################  environment  restore ###########################
 case $distro in
       "centos")
        remove_deps "sysstat"

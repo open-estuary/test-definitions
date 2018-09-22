@@ -8,6 +8,10 @@ metadata:
         - shuangshengchen@qq.com
     os:
         - centos
+        - ubuntu
+        - fedora
+        - debian
+        - opensuse
     scope:
         - performance
     environment:
@@ -18,6 +22,10 @@ metadata:
     level: 1
     totalcase:
         centos: 3
+        ubuntu: 3
+        debian: 3
+        fedora: 3
+        opensuse: 3
 params:
     # Priority of highest prio thread.
     PRIORITY: "99"

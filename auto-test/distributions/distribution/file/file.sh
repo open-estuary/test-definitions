@@ -1,17 +1,18 @@
 #!/bin/bash
 # Author: mahongxin <hongxin_228@163.com>
+##file是一个文件，测试它的基本使用功能
 set -x
+
+#####加载外部文件################
 cd ../../../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
-#Test user id
-if [ `whoami` != 'root' ]; then
-    echo " You must be the superuser to run this script" >&2
-    exit 1
-fi
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
 
+#######################  testing the step ###########################
 #创建文件
 touch test.sh
 print_info $? create-file

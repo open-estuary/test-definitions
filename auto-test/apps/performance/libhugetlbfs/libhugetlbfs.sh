@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+# Build and run libhugetlbfs tests.One needs to run with a kernel that supports huge pages
 
-# shellcheck disable=SC1091
+#加载外部环境
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 OUTPUT="$(pwd)/output"
@@ -13,8 +14,8 @@ TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 CWD=""
 
 WORD_SIZE="64"
-#VERSION="02df38e93e25e07f4d54edae94fb4ec90b7a2824"
 VERSION="2.20"
+
 usage() {
     echo "Usage: $0 [-b <4|64>] [-s <true>] [-v <libhugetlbfs-version>]" 1>&2
     exit 1
@@ -35,7 +36,7 @@ parse_output() {
     # shellcheck disable=SC2063
     grep -v "*"  "${TMP_LOG}" | tee -a "${RESULT_LOG}"
     # Parse each type of results
-    grep -E "PASS" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
+    egrep "PASS" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
     sed -i -e 's/ (inconclusive)//g' "${TEST_PASS_LOG}"
     sed -i -e 's/(//g' "${TEST_PASS_LOG}"
     sed -i -e 's/)://g' "${TEST_PASS_LOG}"
@@ -43,15 +44,15 @@ parse_output() {
     awk '{for (i=1; i<NF-1; i++) printf $i "-"; print $i " " $NF}' "${TEST_PASS_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
     sed -i -e 's/PASS/pass/g' "${RESULT_FILE}"
 
-    grep -E "FAIL" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_FAIL_LOG}"
+    egrep "FAIL" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_FAIL_LOG}"
     sed -i -e 's/ (inconclusive)//g' "${TEST_FAIL_LOG}"
     sed -i -e 's/(//g' "${TEST_FAIL_LOG}"
     sed -i -e 's/)//g' "${TEST_FAIL_LOG}"
     sed -i -e 's/://g' "${TEST_FAIL_LOG}"
     awk '{for (i=1; i<NF; i++) printf $i "-"; print $i " " "fail"}' "${TEST_FAIL_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
 
-    grep -E "SKIP" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
-    grep -E "Bad configuration" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
+    egrep "SKIP" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
+    egrep "Bad configuration" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
     sed -i -e 's/ (inconclusive)//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/(//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/)//g' "${TEST_SKIP_LOG}"
@@ -85,25 +86,18 @@ libhugetlbfs_cleanup() {
 }
 
 libhugetlbfs_build_test() {
-    CWD=$(pwd)
-
     # shellcheck disable=SC2140
     # Upstream tree
-    # wget https://github.com/libhugetlbfs/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
-    # tar -xvf libhugetlbfs-"${VERSION}".tar.gz
-    # # shellcheck disable=SC2164
-    # cd libhugetlbfs-"${VERSION}"
-    # make BUILDTYPE=NATIVEONLY
-
-    # En lieu of an actual libhugetlbfs release, fetch a tarball from a github
-    # commit and write a version file explicitly.
-   # wget -O libhugetlbfs-"${VERSION}".tar.gz https://github.com/libhugetlbfs/libhugetlbfs/tarball/"${VERSION}"
+#    wget https://github.com/libhugetlbfs/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
+    #TODO
+    # Private tree with CentOS build fix
+    # When patch is upstream remove private tree and enable upstream tree
+    #wget http://github.com/nareshkamboju/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
     wget http://htsat.vicp.cc:804/libhugetlbfs-2.20.tar.gz
-    mkdir libhugetlbfs-"${VERSION}"
-    tar -xvf libhugetlbfs-"${VERSION}".tar.gz --strip=1 -C libhugetlbfs-"${VERSION}"
+    CWD=$(pwd)
+    tar -xvf libhugetlbfs-"${VERSION}".tar.gz
     # shellcheck disable=SC2164
     cd libhugetlbfs-"${VERSION}"
-    echo "${VERSION}" > version
     make BUILDTYPE=NATIVEONLY
 }
 
@@ -127,6 +121,11 @@ install() {
         ;;
       fedora|centos)
         pkgs="binutils gcc glibc-static make python sed tar wget"
+        install_deps "${pkgs}" "${SKIP_INSTALL}"
+        print_info $? install-pkgs
+        ;;
+      opensuse)
+	pkgs="binutils gcc glibc-devel-static make python sed tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         print_info $? install-pkgs
         ;;
@@ -177,7 +176,6 @@ else
     # Build libhugetlbfs tests
     libhugetlbfs_build_test
 fi
-
 # Run libhugetlbfs tests
 libhugetlbfs_run_test
 

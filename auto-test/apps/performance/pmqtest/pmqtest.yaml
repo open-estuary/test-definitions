@@ -20,11 +20,11 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 2
-        ubuntu: 2
-        fedora: 2
-        debian: 2
-        opensuse: 2
+        centos: 6
+        ubuntu: 6
+        fedora: 6
+        debian: 6
+        opensuse: 6
 
 params:
     LOOPS: 10000

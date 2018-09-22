@@ -10,6 +10,7 @@ if [ `whoami` != 'root' ]; then
 fi
 case $distro in
     "ubuntu")
+        apt-get install dnsutils -y;
         apt-get install bind9 -y;
         print_info $? install-dns
         ;;
@@ -66,9 +67,3 @@ print_info $? forward-dns
 dig 192.168.1.70 2>&1 | tee -a dig.log
 print_info $? reverse-dns
 #throu = `grep -Po "192.168.1.70" nfs.log`
-case $distro in
-    "ubuntu")
-        apt-get remove bind9 -y;
-        print_info $? remove-package
-        ;;
-esac

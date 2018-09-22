@@ -17,13 +17,13 @@ metadata:
     devices:
         - d05
         - d03
-    level: 1
+    level: 5
     totalcase:
-        centos: 1
-        ubuntu: 1
-        fedora: 1
-        debian: 1
-        opensuse: 1
+        centos: 2
+        ubuntu: 2
+        fedora: 2
+        debian: 2
+        opensuse: 2
 
 params:
     SKIP_INSTALL: "False"

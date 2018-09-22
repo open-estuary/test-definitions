@@ -1,25 +1,36 @@
 #! /bin/bash
 
 function install_mongo-tools() {
-
-    yum install -y mongo-tools
-    print_info $? 'install_mongo-tools'
-    
-    yum install -y mongodb
-
-    export LANG=en_US.UTF-8
-    ver=`yum info mongo-tools | grep 'Version'| cut -d : -f 2`
-    if [ x"$ver" == x"3.5.7"  ];then
-        lava-test-case 'mongo-tools_version' --result pass
-    else 
-        #lava-test-case "mongo-tools_version" --result fail
-    fi
+    case $distro in
+     centos)
+       pkgs="mongo-tools mongodb"
+       install_deps "${pkgs}"
+       print_info $? "install_mongo-tools"
+       export LANG=en_US.UTF-8
+       ver=`yum info mongo-tools | grep 'Version'| cut -d : -f 2`
+       if [ x"$ver" == x"3.5.7"  ];then
+          print_info 1 mongo-version
+       else 
+          print_info 0 mongo-version
+       fi
+       ;;
+     ubuntu)
+       pkgs="mongo-tools mongodb"
+       install_deps "${pkgs}"
+       print_info $? "install-mongo-tools"
+       ;;       
+     fedora)
+       pkgs="mongo-tools mongodb-test"
+       install_deps "${pkgs}"
+       print_info $? "install-tools"
+       ;;
+ esac
 
 }
 
 function uninstall_mongo-tools(){
     
-    yum remove -y mongo-tools
+    remove_deps "${pkgs}" 
     print_info $? "uninstall_mongo-tools"
 
 }
@@ -66,9 +77,9 @@ eof
     mongorestore --db dump_restore dump 
     print_info $? "mongodb_restore_database"
     
-    if [ -f export.json  ];then
-        rm -f export.json
-    fi 
+    #if [ -f export.json  ];then
+        #rm -f export.json
+    #fi 
     mongoexport --db dump_restore --collection col --out=export.json --type json
     if [ $?  ];then
         if [ -f export.json  ];then
