@@ -5,6 +5,7 @@ set -x
 cd ../../../../utils
 source ./sh-test-lib
 source ./sys_info.sh
+cd -
 
 ! check_root && error_msg "Please run this script as root."
 
