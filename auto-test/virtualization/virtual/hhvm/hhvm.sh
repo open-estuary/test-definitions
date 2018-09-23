@@ -28,7 +28,7 @@ case $HOST in
     centos|fedora|opensuse)
         echo "[$PKG_NAME] install package on $HOST system"
         # install hhvm dependent packages
-        pkgs="tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
+        pkgs="wget tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau"
         install_deps "${pkgs}" 
         print_info $? install-dependent-packages

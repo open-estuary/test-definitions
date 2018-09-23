@@ -21,7 +21,7 @@ case $distro in
     print_info $? install-jmeter
     ;;
     fedora)
-    install_deps "jmeters"
+    install_deps "java-1.8.0-openjdk jmeters"
     jm=jmeters
     print_info $? install-jmeter
     ;;
