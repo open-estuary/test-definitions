@@ -10,12 +10,19 @@ metadata:
         - mongodb
     os:
         - centos
+        - debian
+        - ubuntu
+        - fedora
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 25
+        centos: 5
+        debian: 5
+        ubuntu: 5
+        fedora: 5
+
 
 run:
     steps:

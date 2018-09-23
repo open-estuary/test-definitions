@@ -1,21 +1,25 @@
 #!/bin/bash
-
+#modify by liucaili 2017-06-08
 set -x
 
+#####加载外部文件################
 cd ../../../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
-#modify by liucaili 2017-06-08
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
+
+######################## Environmental preparation   ######################
 #IMAGE='Image_D02'
-IMAGE='Image'
-ROOTFS='mini-rootfs.cpio.gz'
+IMAGE="Image"
+ROOTFS="mini-rootfs.cpio.gz"
 HOME_PATH=$HOME
 CUR_PATH=$PWD
 DISK_NAME=${distro}.img
 
-download_url=$1
+download_url="http://120.31.149.194:18083/test_dependents/qemu"
 
 if [ ! -e ${CUR_PATH}/${IMAGE} ]; then
     download_file ${download_url}/${IMAGE}
@@ -26,10 +30,10 @@ if [ ! -e ${CUR_PATH}/${ROOTFS} ]; then
 fi
 
 if [[ -e ${CUR_PATH}/${IMAGE} && -e ${CUR_PATH}/${ROOTFS} ]]; then
-   lava-test-case image_or_rootfs_exist --result pass
+   print_info $? image_or_rootfs_exist
 else
    echo '${IMAGE} or ${ROOTFS} not exist'
-   lava-test-case image_or_rootfs_exist --result fail
+   print_info $? image_or_rootfs_exist
    exit 0
 fi
 
@@ -37,13 +41,25 @@ fi
 pkgs="expect wget qemu qemu-kvm gcc"
 install_deps "${pkgs}"
 case "${distro}" in
-	debian|ubuntu)
+	ubuntu)
 		pkgs="libvirt-bin zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
 		install_deps "${pkgs}"
 	;;
-	centos|fedora)
+        debian)
+		pkgs="libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
+		install_deps "${pkgs}"
+	;;
+	centos)
 		yum remove yum-plugin-priorities.noarch -y
-		pkgs="kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel"
+		pkgs="kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
+		install_deps "${pkgs}"
+	;;
+        fedora)
+		pkgs="qemu-kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel"
+		install_deps "${pkgs}"
+        ;;
+        opensuse)
+		pkgs="qemu virt-manager virt-install xauth kvm_stat libvirt libvirt-python libvirt-client glib2-devel"
 		install_deps "${pkgs}"
 	;;
 	*)
@@ -51,6 +67,8 @@ case "${distro}" in
 esac
 print_info $? qemu-install
 
+#######################  testing the step ###########################
+#编译qemu-2.6.0文件
 qemu-system-aarch64 --help
 if [ $? -ne 0 ]; then
     QEMU_VER=qemu-2.6.0.tar.bz2
@@ -69,7 +87,6 @@ print_info $? qemu-system-aarch64-help
 chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
 
 # start qemu 
-# add distro as parameter  20180408 liucaili
 ${CUR_PATH}/qemu-load-kvm.sh $IMAGE $ROOTFS $distro
 if [ $? -ne 0 ]; then
     echo 'qemu system load fail'
@@ -108,8 +125,6 @@ if [ $? -ne 0 ];then
     lava-test-case create-partition --result fail
     exit 0
 else
-    #nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'nbd0p1')
-	#modify by liucaili 2017-06-09
     nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'Linux')
     if [ "$nbd_p1"x = ""x ] ; then
         lava-test-case create-partition --result fail

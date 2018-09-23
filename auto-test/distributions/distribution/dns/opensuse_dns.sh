@@ -64,14 +64,6 @@ systemctl restart named.service
 throu=`host www.tonv.my|grep -Po "has address"`
 print_info $? forward-dns
 #throu = `grep -Po "192.168.1.70" nfs.log`
-case $distro in
-     "opensuse")
-	 zypper remove -y bind ;
-	 zypper remove -y expect;
-         print_info $? remove-dns
-         ;;
-
-esac
 #TCID="opensuse_dns test"
 #if [ "$throu" != "" ]; then
 #    lava-test-case $TCID --result pass

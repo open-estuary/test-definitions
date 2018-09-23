@@ -10,12 +10,20 @@ metadata:
         - mycat
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
+        - opensuse
     devices:
         - d05
         - d03
     level: 1
     totalcase:
         centos: 16
+        ubuntu: 16
+        debian: 16
+        fedora: 16
+        opensuse: 16
 run:
     steps:
         - "cd auto-test/middleware/database/mycat; ./mycat.sh; cd - "

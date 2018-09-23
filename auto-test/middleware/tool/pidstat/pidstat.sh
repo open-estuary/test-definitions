@@ -1,16 +1,19 @@
+#!/bin/sh
+#Author:fangyuanzheng<fyuanz_2010@163.com>
+##pidstat是sysstat工具的一个命令，用于监控全部或指定进程的cpu、内存、线程、设备IO等系统资源的占用情况。 
 
-#!/bin/sh 
 set -x
+
+#####加载外部文件################
 cd ../../../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
 
+######################## Environmental preparation   ######################
 case $distro in
     "centos"|"opensuse"|"ubuntu"|"debian" )
 	#yum install -y sysstat
@@ -26,6 +29,7 @@ case $distro in
 	;;
 esac
 
+#######################  testing the step ###########################
 # pidstat，输出系统启动后所有活动进程的CPU统计信息
 pidstat
 print_info $? all-cpu
@@ -50,6 +54,7 @@ print_info $? IO
 pidstat -p 1 1 10
 print_info $? pid
 
+######################  environment  restore ##########################
 # remove package
 case $distro in
 	"centos"|"opensuse"|"ubuntu"|"debian")

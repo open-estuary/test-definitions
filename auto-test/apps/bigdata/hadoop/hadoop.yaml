@@ -17,12 +17,12 @@ metadata:
         - d03
         - d05
 
-    level: 1
+    level: 5
     totalcase:
-        centos: 37
-        ubuntu: 37
-        debian: 37
-        fedora: 37
+        centos: 36
+        ubuntu: 36
+        debian: 36
+        fedora: 36
 run:
     steps:
         - "cd auto-test/apps/bigdata/hadoop; ./hadoop-test.sh ; cd -"

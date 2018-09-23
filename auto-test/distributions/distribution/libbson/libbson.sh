@@ -71,7 +71,7 @@ case "${dist}" in
             print_info $? install-libbson
             ;;
         "fedora")
-            pkgs=" tar gcc libbson libbson-devel"
+            pkgs="gcc libbson libbson-devel"
             install_deps "${pkgs}"
             print_info $? install-libbson
 esac

@@ -121,7 +121,7 @@ function memcached_uninstall(){
 memcached_install
 memcached_start_by_service
 memcached_conn
-memcached_exec
+#memcached_exec
 memcached_stop_by_service
 
 memcached_start_by_command
