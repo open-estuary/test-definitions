@@ -13,7 +13,7 @@ metadata:
        - fedora
        - debian
        - opensuse 
-   devices:
+    devices:
         - d03
         - d05
     level: 1
