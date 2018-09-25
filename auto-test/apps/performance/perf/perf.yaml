@@ -13,7 +13,7 @@ metadata:
         - d05
     level: 5
     totalcase:
-
+        - centos: 8      
 run:
     steps:
         - "cd auto-test/apps/performance/perf; ./perf.sh; cd -"
