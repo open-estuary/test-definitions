@@ -15,24 +15,24 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos"|"fedora"|"opensuse")
-        pkgs="gcc gcc-c++ make cmake3 wget"
+        pkgs="gcc gcc-c++ make cmake wget"
         install_deps "${pkgs}"
 	print_info $? install-pkgs
 	;;
 	"ubuntu"|"debian")
-	pkgs="gcc g++ make cmake3 wget"
+	pkgs="gcc g++ make cmake wget"
         install_deps "${pkgs}"
         print_info $? install-pkgs
         ;;
 esac
-wget http://192.168.50.122:8083/test_dependents/google-snappy-1.1.7-15-gea660b5.tar.gz
+wget ${ci_http_addr}/test_dependents/google-snappy-1.1.7-15-gea660b5.tar.gz
         print_info $? get-snappy
 tar -zxvf google-snappy-1.1.7-15-gea660b5.tar.gz
         print_info $? decompression
 
 cd google-snappy-ea660b5
 mkdir build 
-cd build && cmake3 ../ && make 
+cd build && cmake ../ && make 
 make install
 cd ../
 
@@ -67,8 +67,8 @@ g++ testsnappy.cc -o testsnappy -lsnappy
 ./testsnappy >runsnappy.log
 	print_info $? run-snappy
 input=`grep  "input" runsnappy.log`
-output=`grep "ouput" runsnappy.log`
-if [[ "$input" != ""]]&&[[ "$ouput" != ""]];then
+output=`grep "output" runsnappy.log`
+if [[ "$input" != ""]]&&[[ "$output" != ""]];then
 	print_info 0 test-snappy
 else
 	print_info 1 test-snappy
@@ -77,13 +77,13 @@ rm -f google-snappy-1.1.7-15-gea660b5.tar.gz
 rm -rf google-snappy-ea660b5
 case $distro in
     "centos"|"fedora"|"opensuse")
-        pkgs="gcc gcc-c++ make cmake3 wget"
+        pkgs="gcc gcc-c++ make cmake wget"
         remove_deps "${pkgs}"
-        print_info $? install-pkgs
+        print_info $? remove-pkgs
         ;;
         "ubuntu"|"debian")
-        pkgs="gcc g++ make cmake3 wget"
+        pkgs="gcc g++ make cmake wget"
         remove_deps "${pkgs}"
-        print_info $? install-pkgs
+        print_info $? remove-pkgs
         ;;
 esac
