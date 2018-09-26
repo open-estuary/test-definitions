@@ -13,6 +13,7 @@ case "$distro" in
     debian)
 	#清理环境
 	./test.sh
+	apt-get remove --purge mysql-server
 	
 	#安装包
 	apt-get install mysql-server mysql-client -y
