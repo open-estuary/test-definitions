@@ -31,11 +31,19 @@ Remark:
 
 　　　 ip addr
 
-　  (5)打开浏览器访问eureka
+    (5)CentOS7系统打开服务所使用的端口号
+
+	1)systemctl start firewalld：启动前可以先用systemctl status firewalld查看firewalld状态；
+	2)firewall-cmd --zone=public --add-port=8761/tcp --permanent：打开8761端口
+	3) firewall-cmd --reload：重启服务
+	4) firewall-cmd --zone=public --list-ports：可以用来查看已打开的端口
+	5)firewall-cmd --zone=public --remove-port=8761/tcp --permanent：当不希望这个端口被打开时，则使用该命令删除；
+
+　  (6)打开浏览器访问eureka
 
        http://ip:8761
 
-    (6)编写项目eureka-service和eureka-client(项目源码存放在lab1 107web服务器）
+    (7)编写项目eureka-service和eureka-client(项目源码存放在lab1 107web服务器）
 
       eureka-client/
     ├── pom.xml
@@ -59,12 +67,12 @@ Remark:
 │       └── resources
 │           └── application.yml
 
-　　(7)编译源程序
+　　(8)编译源程序
 
       编译客户端:进入到eureka-client/下的pom.xml文件所在的位置,执行命令mvn clean package
       编译服务端: eureka-service编译方法同上
 
-    (8)启动
+    (9)启动
 
 　　　编译成功后会出现一个target文件夹
 
@@ -74,12 +82,12 @@ Remark:
 
     　java -jar eureka-service-0.0.1-SNAPSHOT.jar
 
-　　(9)打开浏览器访问eureka http://ip:8761
+　　(10)打开浏览器访问eureka http://ip:8761
 
      查看eureka上Application注册了cloud-client
      CLOUD-CLIENT	n/a (1)	(1)	UP (1) - k8s-node-2:cloud-client:7070
 
-    (10)卸载安装包
+    (11)卸载安装包
 　     yum remove micro-service-zipkin.aarch64
        yum remove java-1.8.0-openjdk.aarch64
        yum remove maven-archiver.noarch

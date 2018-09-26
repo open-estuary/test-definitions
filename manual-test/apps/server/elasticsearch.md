@@ -102,13 +102,20 @@ Remark:
 	a.找到network.host，去除#号，修改为 network.host: 192.168.1.130
 	b.找到http.port, 去除#号, 修改为 http.port: 9200
 	c.切换到testuser用户,启动elasticsearch
+
+    13.关闭防火墙
+
+        1)systemctl stop firewall;
+	2)systemctl disable firewall;
        
-     13.关闭elasticsearch
+    14.打开浏览器,输入 http://192.168.1.130:9200,查看信息
+       
+    15.关闭elasticsearch
        kill -9 进程号
       或者
        curl -X POST http://localhost:9200/_cluster/nodes/_shutdown
        
-     14.卸载elasticsearch	
+    16.卸载elasticsearch	
 	rm -rf  elasticsearch-5.6.3
   
 - **Result:**
