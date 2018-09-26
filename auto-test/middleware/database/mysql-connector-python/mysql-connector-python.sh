@@ -35,6 +35,7 @@ case "${distro}" in
     debian)
 	./test.sh
 	print_info $? delete_package
+	apt-get remove --purge mysql-server
         pkgs="mysql-server mysql-client python python-pip expect"
         install_deps "${pkgs}"
 	print_info $? install-mysql-community
@@ -179,6 +180,7 @@ case "${distro}" in
         ;;
     debian)
 	./test.sh
+	apt-get remove --purge mysql-server
         print_info $? remove-mysql
 	;;
     ubuntu)
