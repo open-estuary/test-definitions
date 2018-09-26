@@ -6,6 +6,7 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
+        - mahongxin
         - bigdata
         - spark
     os:
