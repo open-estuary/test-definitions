@@ -23,8 +23,10 @@ case $distro in
      print_info $? install-pkgs
      wget http://192.168.50.122:8083/test_dependents/centos_odp.tar.gz
      tar xf centos_odp.tar.gz
-     ./centos_redhat_fedora/run-test.sh > odp.log
-
+     grep "_test" odp_centos.log > 1.log
+     grep "test_in_ip" odp_centos.log >> 1.log
+     awk '{print $2,$3}' 1.log > 2.log
+     sed 's/\...//g' 2.log > 3.log
      ;;
  "ubuntu")
      apt-get install libcunit1-dev -y
@@ -33,13 +35,12 @@ case $distro in
      wget http://192.168.50.122:8083/test_dependents/debian_odp.tar.gz
      tar xf debian_odp.tar.gz
      ./debian_ubuntu/run-test.sh > odp.log
+     grep "_test" odp.log > 1.log
+     grep "test_in_ip" odp.log >> 1.log
+     awk '{print $2,$3}' 1.log > 2.log
+     sed 's/\...//g' 2.log > 3.log
      ;;
 esac
-
-grep "_test" odp.log > 1.log
-grep "test_in_ip" odp.log >> 1.log
-awk '{print $2,$3}' 1.log > 2.log
-sed 's/\...//g' 2.log > 3.log
 
 while read line
 do
