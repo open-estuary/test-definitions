@@ -1,4 +1,4 @@
-
+﻿
 metadata:
     name: kernel-rpm 
     format: "Lava-Test-Shell Test Definition 1.0"
@@ -11,12 +11,14 @@ metadata:
     os:
         - centos
         - ubuntu
+        - fedora        
     devices:
         - d05
     level: 1
     totalcase:
         centos: 5
         ubuntu: 2
+        fedora: 5
        
 run:
     steps:

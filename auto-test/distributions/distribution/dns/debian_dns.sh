@@ -64,9 +64,3 @@ print_info $? forward-dns
 host 192.168.1.70 2>&1 | tee -a dig.log
 print_info $? reverse-dns
 #throu = `grep -Po "192.168.1.70" nfs.log`
-case $distro in
-    "debian")
-        apt-get remove bind9 -y;
-        print_info $? remove-package
-        ;;
-esac

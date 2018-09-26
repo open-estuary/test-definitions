@@ -1,3 +1,4 @@
+#import MySQLdb
 import mysql.connector
 config={'host':'127.0.0.1',
         'user':'root',
@@ -8,19 +9,29 @@ config={'host':'127.0.0.1',
 }
 
 try:
-   cnn=mysql.connector.connect(**config)
+   cnn = mysql.connector.connect(**config)
+   #cnn=MySQLdb.connect(**config)
    print('success connect mysql') 
 except mysql.connector.Error as e:
    print('connect fails!{}'.format(e))
 
-cursor=cnn.cursor()
+cursor = cnn.cursor()
  
-sql_create_table="use test"
+sql_create_db="create database test"
 try:
-   cursor.execute(sql_create_table)
-   print('success use test database')  
+   cursor.execute(sql_create_db)
+   print('success create test database')  
 except mysql.connector.Error as e:
    print('use test database fails!{}'.format(e))  
+
+
+sql_choose_db="use test"
+try:
+    cursor.execute(sql_choose_db)
+    print('success choose database')
+except mysql.connector.Error as e:
+    print('choose database fails!{}'.format(e))
+
 
 sql_create_table="CREATE TABLE student( \
 id int(10) NOT NULL AUTO_INCREMENT, \
@@ -32,6 +43,7 @@ try:
    print('success create test table')  
 except mysql.connector.Error as e:
    print('create test table fails!{}'.format(e))  
+
 
 try:
    sql_insert1="insert into student (name, age) values ('orange', 20);"
@@ -46,6 +58,7 @@ try:
 except mysql.connector.Error as e:
    print('insert datas error!{}'.format(e))
 
+
 try:
   sql_query='select id,name,age from student'
   cursor.execute(sql_query)
@@ -55,12 +68,14 @@ try:
 except mysql.connector.Error as e:
   print('query error!{}'.format(e))
 
+
 try:
   sql_query="update student set age=29 where name='mumu'"
   cursor.execute(sql_query)
   print('success update data')
 except mysql.connector.Error as e:
   print('query error!{}'.format(e))
+
 
 try:
   sql_delete='delete from student where name = %(name)s and age < %(age)s'

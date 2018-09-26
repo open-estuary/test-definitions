@@ -1,5 +1,12 @@
 #! /bin/bash
 
+#=================================================================
+#   文件名称：openssh.sh
+#   创 建 者：dingyu ding_yu@hoperun.com
+#   描    述：OpenSSH 是 SSH 协议的免费开源实现,OpenSSH提供了服务端后台程序和客户端工具，用来加密远程控制和文件传输过程中的数据.
+#
+#================================================================*/
+
 set -x
 
 cd ../../../../utils
@@ -7,11 +14,10 @@ cd ../../../../utils
     . ./sh-test-lib
 cd -
 
-if [ `whoami` != "root" ];then
-	echo "YOu must be the root to run this script" >$2
-	exit 1
-fi
+! check_root && error_msg "Please run this script as root."
 
+
+##################### Environmental preparation  ##############################
 case $distro in
     "ubuntu"|"debian")
         pkgs="openssh-server expect"
@@ -29,6 +35,8 @@ case $distro in
         print_info $? install-package
         ;;
 esac
+
+#################### testing the step ########################################
 
 FTP_PUT_LOG=sftp_put_test.log
 FTP_GET_LOG=sftp_get_test.log
@@ -53,7 +61,8 @@ expect eof
 EOF
 print_info $? test-login
 
-#for get and put test "EXPECT=$(which expect)
+
+#测试sftp上传下载功能
 $EXPECT << EOF
 set timeout 100
 spawn sftp localhost
@@ -73,6 +82,7 @@ send "quit\r";
 expect eof
 EOF
 
+#测试下载结果
 if [ $(find . -maxdepth 1 -name "$FTP_GET_LOG")x != ""x ]; then
 	print_info 0  sftp-get
 else
@@ -84,12 +94,13 @@ rm -rf tmp
 
 cd ~
 
+#测试上传结果
 if [ $(find . -maxdepth 1 -name "sftp_put_test.log")x != ""x ]; then
 	print_info 0  sftp-put
 else
 	print_info 0  sftp-put
 fi
 
-
+######################## environment  restore ###########################
 remove_deps "expect"
 print_info $? remove-package

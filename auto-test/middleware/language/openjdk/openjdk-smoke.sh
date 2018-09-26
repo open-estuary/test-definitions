@@ -1,14 +1,19 @@
 #!/bin/bash
+##openjdk是jdk的开放原始码版本
+set -x
 
-# shellcheck disable=SC1091
+#####加载外部文件################
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh 
+
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
+
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 VERSION="8"
 
-set -x 
 export PS4='+{$LINENO:${FUNCNAME[0]}} '
 
 
@@ -17,16 +22,7 @@ usage() {
     exit 1
 }
 
-while getopts "v:s:" o; do
-  case "$o" in
-    v) VERSION="${OPTARG}" ;;
-    s) SKIP_INSTALL="${OPTARG}" ;;
-    *) usage ;;
-  esac
-done
-
-! check_root && error_msg "You need to be root to run this script."
-
+######################## Environmental preparation   ######################
 if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     info_msg "JDK package installation skipped"
 else
@@ -45,7 +41,7 @@ else
         centos|fedora)
             install_deps "java-1.${VERSION}.0-openjdk-devel"
             ;;
-    opensuse)
+        opensuse)
 	    install_deps "java-1_${VERSION}_0-openjdk-devel"
 	    ;;
         *)
@@ -78,8 +74,9 @@ done
      ;;
 esac
 
-
-java -version 2>&1 | grep "version \"1.${VERSION}"
+#######################  testing the step ###########################
+#java -version 2>&1 | grep "version \"1.${VERSION}"
+java -version 2>&1 | grep "version"
 print_info $? OpenJDK-CheckJavaVersion 
 
 javac -version 2>&1 | grep "javac 1.${VERSION}"
@@ -95,10 +92,10 @@ public class HelloWorld {
     }
 }
 EOL
-
+#编译
 javac HelloWorld.java 
 print_info $?  OpenJDK-compileHelloWorld 
-
+#是否编译成功
 java HelloWorld | grep "Hello, World"
 if [ $? -eq 0  ];then
     true 
@@ -107,6 +104,7 @@ else
 fi
 print_info $?  OpenJDK-ExecuteHelloWorld 
 
+######################  environment  restore ##########################
 if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     info_msg "JDK package removing skipped"
 else

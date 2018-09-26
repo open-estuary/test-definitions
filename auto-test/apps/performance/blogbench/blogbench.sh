@@ -1,28 +1,17 @@
 #!/bin/sh 
 
+if [ `whoami` != "root" ];then
+        echo "YOu must be the root to run this script" >$2
+        exit 1
+fi
+
+set -x
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sh-test-lib
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-LOG_FILE="${OUTPUT}/blogbench.txt"
+
 ITERATION="30"
 PARTITION=""
 
-usage() {
-    echo "Usage: $0 [-i <iterations>] [-p </dev/sda1>]" 1>&2
-    exit 1
-}
-
-while getopts "i:p:h" o; do
-    case "$o" in
-        i) ITERATION="${OPTARG}" ;;
-        p) PARTITION="${OPTARG}" ;;
-        h|*) usage ;;
-    esac
-done
-
-! check_root && error_msg "You need to be root to run this script."
-create_out_dir "${OUTPUT}"
 
 # Set the directory for blogbench test.
 if [ -n "${PARTITION}" ]; then
@@ -40,13 +29,13 @@ mkdir ./bench
 # Run blogbench test.
 detect_abi
 # shellcheck disable=SC2154
-./bin/"${abi}"/blogbench -i "${ITERATION}" -d ./bench 2>&1 | tee "${LOG_FILE}"
+./bin/"${abi}"/blogbench -i "${ITERATION}" -d ./bench 2>&1 | tee blogbench_log.txt
 print_info $? test-blogbench
 # Parse test result.
 for i in writes reads; do
-    grep "Final score for $i" "${LOG_FILE}" \
+    grep "Final score for $i" log.txt \
         | awk -v i="$i" '{printf("blogbench-%s pass %s blogs\n", i, $NF)}' \
-        | tee -a "${RESULT_FILE}"
+        | tee -a blogbench_result.txt
 done
 
 rm -rf ./bench

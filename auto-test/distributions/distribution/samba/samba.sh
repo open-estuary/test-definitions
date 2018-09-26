@@ -10,16 +10,18 @@ cd -
 case $distro in
     "ubuntu"|"debian")
           apt-get install samba -y
+          print_info $? install-samba
           apt-get install smbclient -y
+          print_info $? install-smbclient
           apt-get install expect -y
           apt-get install selinux-utils -y
-          print_info $? install-package
           ;;
     "centos"|"fedora")
           yum install samba -y
+          print_info $? install-samba
           yum install samba-client.aarch64 -y
-          yum install expect -y
-          print_info $? install-package
+          print_info $? install-samba-client
+          yum install expect -y          
           ;;
      "opensuse")
           zypper install -y samba

@@ -7,7 +7,7 @@ set timeout 500
 spawn mysql -u root -p
 expect "password:"
 send "root\r"
-expect "mysql>"
+expect ">"
 send "use test;\r"
 expect "Database changed"
 send "SELECT case_author, COUNT(*) FROM case_tbl GROUP BY case_author;\r"

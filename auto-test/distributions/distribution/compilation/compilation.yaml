@@ -18,11 +18,11 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 2
-        ubuntu: 2
-        debian: 2
-        fedora: 2
-        opensuse: 2
+        centos: 6
+        ubuntu: 6
+        debian: 6
+        fedora: 6
+        opensuse: 6
 run:
     steps:
         - "cd auto-test/distributions/distribution/compilation; ./compilation.sh; cd -"

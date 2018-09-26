@@ -1,17 +1,22 @@
 ﻿#!/bin/bash
+# Copyright (C) 2018-8-29, Estuary
+# Author: wangsisi
+
+# Test user id
+if [ `whoami` != 'root' ] ; then
+    echo "You must be the superuser to run this script" >&2
+    exit 1
+fi
 
 cd ../../../../utils
-    .        ./sys_info.sh
-    .         ./sh-test-lib
+source        ./sys_info.sh
+source         ./sh-test-lib
 cd -
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-export RESULT_FILE
-package_list=""
-dist_name
-! check_root && error_msg "This script must be run as root"
-create_out_dir "${OUTPUT}"
-case "${dist}" in
+
+###################  Environmental preparation  #######################
+
+######################  testing the step #############################
+case "${distro}" in
     debian)
         sed -i s/5.[0-9]/5.1/g /etc/apt/sources.list.d/estuary.list
         apt-get update
@@ -29,24 +34,20 @@ case "${dist}" in
             status=$?
             if test ${status} -eq 0;then
                 print_info 0 $p_install
-                from=$(apt show $p | grep "Source" | awk '{print $2}')
+                from=$(apt show $p | grep Source: | awk '{print $2}')
                 if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
                 print_info 0 repo_check
                 else
-                    #已经安装，但是安装源不是estuary的情况需要卸载重新安装
                     rmflag=1
-                   # if [ "$from" != "anaconda" ];then
-                   #     yum remove -y $p
-                   #     yum install -y $p
-                   #     from=$(yum info $p | grep "Source" | awk '{print $2}')
-                   #     if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
-                   #         echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
-                   #     else
-                    print_info 1 repo_check
-                   #    fi
-                   # fi
+                    apt-get remove -y $p
+                    apt-get install -y $p
+                
+                    if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
+                       print_info 0 repo_check
+                    else
+                       print_info 1 repo_check
+                    fi
                 fi
-
                 vs=$(apt show $p | grep "Version" | awk '{print $2}')
                 if [ "$vs" = "$version1" -o "$vs" = "$version2" -o "$vs" = "$version3" ];then
                     print_info 0 version
@@ -57,15 +58,19 @@ case "${dist}" in
                 #对于自带的包不去做卸载处理
                 if test $rmflag -eq 0
                 then
-                    apt-get remove -y $p
-                    status=$?
-                    if test $status -eq 0
-                    then
-                        print_info 0 remove
-                    else
-                        print_info 1 remove
-                    fi
-                fi
+                    if [ "$p" != "linux-image-4.16.0-${v}-arm64" ];then
+                         apt-get remove -y $p
+                         status=$?
+                         if test $status -eq 0
+                         then
+                             print_info 0 remove
+                          else
+                             print_info 1 remove
+                        fi
+                   fi
+                fi            
+            else
+                 print_info 1 ${p}"_install"
             fi
         done
         ;;
@@ -151,13 +156,19 @@ case "${dist}" in
             if test $status -eq 0
             then
                 print_info 0 installa
-                from=$(apt show $p | grep -w "Source" | awk '{print $2}')
+                from=$(apt show $p | grep -i "Source" | awk '{print $2}')
                 if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
-                print_info 0 repo_check
+                    print_info 0 repo_check
                 else
-                    #已经安装，但是安装源不是estuary的情况需要卸载重新安装
                     rmflag=1
-                    echo "$p already installed,source is: $from " | tee -a ${RESULT_FILE}
+                    apt-get remove -y $p
+                    apt-get install -y $p
+                    from=$(apt show $p | grep "Source" | awk '{print $2}')
+                    if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
+                       print_info 0 repo_check
+                    else
+                       print_info 1 repo_check
+                    fi
                 fi
 
                 vs=$(apt show $p | grep "Version" | awk '{print $2}')
@@ -253,8 +264,7 @@ case "${dist}" in
          package_list="kernel-default kernel-default-base"
           wget ftp://117.78.41.188/utils/distro-binary/opensuse/kernel-default-4.16.3-0.gd41301c.aarch64.rpm
          wget ftp://117.78.41.188/utils/distro-binary/opensuse/kernel-default-base-4.16.3-0.gd41301c.aarch64.rpm
-#         wget ftp://117.78.41.188/utils/distro-binary/opensuse/kernel-default-devel-4.16.3-0.gd41301c.aarch64.rpm
-         
+#         wget ftp://117.78.41.188/utils/distro-binary/opensuse/kernel-default-devel-4.16.3-0.gd41301c.aarch64.rpm         
           for p in ${package_list};do  
                inst=$(zypper info $p  |grep  "Installed      :" | awk '{print $3}')  
                if [ "$p" = "kernel-default" ];then
@@ -306,3 +316,4 @@ case "${dist}" in
          done
          ;;   
 esac
+######################  environment  restore ##########################

@@ -11,16 +11,20 @@ metadata:
     os:
         - centos
         - ubuntu
-        - opensuse
+        - fedora
+        - debian
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 0
+        centos: 6
+        ubuntu: 6
+        fedora: 6
+        debian: 6
 run:
     steps:
-        - "cd auto-test/middleware/database/nginx; ./nginx.sh;"
+        - "cd auto-test/middleware/database/nginx; ./nginx.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

@@ -11,11 +11,24 @@
 
 function zk_install_standalone(){
     
-    yum install -y ansible
-    yum install -y python2-pip 
-    yum install -y nmap-ncat
-    yum install -y gcc 
-
+#    yum install -y ansible
+ #   yum install -y python2-pip 
+  #  yum install -y nmap-ncat
+   # yum install -y gcc 
+case $distro in
+    "centos")   
+    package="ansible python2-pip nmap-ncat gcc"
+    install_deps "${package}"
+;;
+    "fedora")
+    package="ansible python2-pip nmap-ncat gcc-c++"
+    install_deps "${package}"
+;;
+    "ubuntu"|"debian")
+    package="ansible python-pip nmap gcc"
+    install_deps "${package}"
+;;      
+esac
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
     ret=$?
     print_info $ret "zookeeper_standalone_install" 
@@ -48,7 +61,11 @@ function zk_stop(){
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t stop 
     sleep 3
     jps | grep QuorumPeerMain
-    test $? -ne 0  && true || false 
+case $distro in
+     "ubuntu")
+    test $? -ne 0  && true || false
+;;
+esac 
     ret=$?
     print_info $ret "zookeeper_stop"
     if [ $ret -ne 0 ];then
@@ -78,7 +95,11 @@ function zk_install_c_client(){
     popd 
     if [ $ret -eq 0 ];then
        yum install -y python-devel python-pip 
+case $distro in
+      "centos"|"ubuntu"|"debian"|"opensuse")
        pip install zkpython
+;;
+esac
        ret=$?
        print_info $ret "zookeeper_install_zkpython"
     fi

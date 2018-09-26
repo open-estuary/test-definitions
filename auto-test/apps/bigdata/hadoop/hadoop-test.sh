@@ -18,7 +18,7 @@ install_jdk
 install_hadoop
 hadoop_standalone
 
-hadoop_ssh_nopasswd
+#hadoop_ssh_nopasswd
 hadoop_config_base
 hadoop_namenode_format
 

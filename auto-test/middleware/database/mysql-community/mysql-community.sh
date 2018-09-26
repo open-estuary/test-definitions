@@ -1,36 +1,44 @@
 #!/bin/bash
 
-
+set -x
 
 basedir=$(cd `dirname $0`;pwd)
 cd $basedir
 
 cd ../../../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
-source ../percona/mysql.sh 
-#set -x
+
+! check_root && error_msg "Please run this script as root."
+
+source ./mysql.sh 
 outDebugInfo
-yum erase -y mariadb-libs
-yum remove -y mariadb-libs
-yum update -y
 
-cleanup_all_database
+case "${distro}" in
+    centos)
+	yum erase -y mariadb-libs
+	yum remove -y mariadb-libs
+	yum update -y
+	cleanup_all_database
+	pkgs="mysql-community-common mysql-community-server 
+        mysql-community-client mysql-community-devel expect"
+	;;
+    ubuntu|debian)
+	apt-get remove --purge mysql-server -y
+	pkgs="mysql-server mysql-client"
+	;;
+esac
 
-pkgs="mysql-community-common mysql-community-server 
-	mysql-community-client mysql-community-devel expect"
 install_deps "${pkgs}"
 print_info $? install-mysql-community
 
-mysqladmin --version | grep 5.6
-print_info $? test-mysql-version
 
-systemctl start mysqld
+systemctl start mysql
 print_info $? start-mysqld
 
-systemctl status mysqld | grep running
+systemctl status mysql | grep running
 print_info $? status-mysqld
 
 cd ../../../../utils/mysql
@@ -202,9 +210,19 @@ fi
 rm -f ./out.log
 cd -
 
-systemctl stop mysqld
-print_info $? stop-mysqld
+systemctl stop mysql
+print_info $? stop-mysql
 
-yum remove -y mysql-community-server mysql-community-common mysql-community-client mysql-community-devel
-print_info $? remove-mysql-community
+case "${distro}" in
+    centos|fedora)
+	remove_deps "${pkgs}"
+	print_info $? remove-mysql
+	;;
+    ubuntu|debian)
+	apt-get remove --purge mysql-server -y
+	apt-get remove mysql-client -y
+	print_info $? remove-mysql
+	;;
+esac
+
 

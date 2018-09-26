@@ -10,6 +10,7 @@ metadata:
         - ubuntu
         - debian
         - fedora
+        - opensuse
     scope:
         - performance
     devices:
@@ -17,10 +18,11 @@ metadata:
         - d05
     level: 1
     totalcase:
-        debian: 5
+        debian: 6
         centos: 6
         ubuntu: 6
-        fedora: 5
+        fedora: 6
+        opensuse: 6
 run:
     steps:
         - "cd auto-test/apps/performance/iperf; ./iperf.sh; cd -"
