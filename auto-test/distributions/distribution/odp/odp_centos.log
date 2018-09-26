@@ -1,0 +1,3913 @@
+running with pktio_main: 
+pktio: using 'loop' device
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+No interfaces specified, using default "loop".
+
+Suite: Packet I/O Unsegmented
+  Test: pktio_test_open ...passed
+  Test: pktio_test_lookup ...passed
+  Test: pktio_test_index ...passed
+  Test: pktio_test_print ...
+pktio
+  handle            1
+  name              loop
+  type              loop
+  state             opened
+  mac               02:e9:34:80:73:01
+  pktin maxlen      2147483647
+  pktout maxlen     2147483647
+  promisc           yes
+  max input queues  1
+  max output queues 1
+
+passed
+  Test: pktio_test_pktio_config ...passed
+  Test: pktio_test_info ...pktio 0
+  name   loop
+  driver loop
+passed
+  Test: pktio_test_pktin_queue_config_direct ...passed
+  Test: pktio_test_pktin_queue_config_sched ...passed
+  Test: pktio_test_pktin_queue_config_queue ...passed
+  Test: pktio_test_pktout_queue_config ...passed
+  Test: pktio_test_plain_queue ...passed
+  Test: pktio_test_plain_multi ...passed
+  Test: pktio_test_sched_queue ...passed
+  Test: pktio_test_sched_multi ...passed
+  Test: pktio_test_recv ...passed
+  Test: pktio_test_recv_multi ...passed
+  Test: pktio_test_recv_queue ...passed
+  Test: pktio_test_recv_tmo ...passed
+  Test: pktio_test_recv_mq_tmo ...passed
+  Test: pktio_test_recv_mtu ...passed
+  Test: pktio_test_mtu ... 2147483647  2147483647 passed
+  Test: pktio_test_promisc ...passed
+  Test: pktio_test_mac ...testing mac for loop
+ 2:E9:34:80:73:1 
+ mac address set not supported for loop!
+passed
+  Test: pktio_test_start_stop ...passed
+  Test: pktio_test_recv_on_wonly ...passed
+  Test: pktio_test_send_on_ronly ...passed
+  Test: pktio_test_plain_multi_event ...passed
+  Test: pktio_test_sched_multi_event ...passed
+  Test: pktio_test_recv_multi_event ...passed
+  Test: pktio_test_statistics_counters ...passed
+  Test: pktio_test_pktin_ts ...passedNo interfaces specified, using default "loop".
+
+Suite: Packet I/O Segmented
+  Test: pktio_test_plain_queue ...passed
+  Test: pktio_test_plain_multi ...passed
+  Test: pktio_test_sched_queue ...passed
+  Test: pktio_test_sched_multi ...passed
+  Test: pktio_test_recv ...passed
+  Test: pktio_test_recv_multi ...passed
+  Test: pktio_test_recv_mtu ...passedNo interfaces specified, using default "loop".
+
+Suite: Packet parser
+  Test: parser_test_arp ...passed
+  Test: parser_test_ipv4_icmp ...passed
+  Test: parser_test_ipv4_tcp ...passed
+  Test: parser_test_ipv4_udp ...passed
+  Test: parser_test_vlan_ipv4_udp ...passed
+  Test: parser_test_vlan_qinq_ipv4_udp ...passed
+  Test: parser_test_ipv6_icmp ...passed
+  Test: parser_test_ipv6_tcp ...passed
+  Test: parser_test_ipv6_udp ...passed
+  Test: parser_test_vlan_ipv6_udp ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      3      3    n/a      0        0
+               tests     50     48     48      0        2
+             asserts   1832   1832   1832      0      n/a
+
+Elapsed time =    2.230 seconds
+HW time counter freq: 50000000 hz
+
+pktio: setting up test interfaces pktiop0p1, pktiop1p0, pktiop2p3, pktiop3p2.
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+Using paired interfaces: pktiop0p1 pktiop1p0
+
+Suite: Packet I/O Unsegmented
+  Test: pktio_test_open ...passed
+  Test: pktio_test_lookup ...passed
+  Test: pktio_test_index ...passed
+  Test: pktio_test_print ...
+pktio
+  handle            1
+  name              pktiop0p1
+  type              socket_mmap
+  state             opened
+  mac               d6:83:c8:b8:6d:09
+  pktin maxlen      9216
+  pktout maxlen     9216
+  promisc           no
+  max input queues  1
+  max output queues 1
+
+
+pktio
+  handle            1
+  name              pktiop1p0
+  type              socket_mmap
+  state             opened
+  mac               0a:17:94:0c:81:bf
+  pktin maxlen      9216
+  pktout maxlen     9216
+  promisc           no
+  max input queues  1
+  max output queues 1
+
+passed
+  Test: pktio_test_pktio_config ...passed
+  Test: pktio_test_info ...pktio 0
+  name   pktiop0p1
+  driver socket_mmap
+pktio 1
+  name   pktiop1p0
+  driver socket_mmap
+passed
+  Test: pktio_test_pktin_queue_config_direct ...passed
+  Test: pktio_test_pktin_queue_config_sched ...passed
+  Test: pktio_test_pktin_queue_config_queue ...passed
+  Test: pktio_test_pktout_queue_config ...passed
+  Test: pktio_test_plain_queue ...passed
+  Test: pktio_test_plain_multi ...passed
+  Test: pktio_test_sched_queue ...passed
+  Test: pktio_test_sched_multi ...passed
+  Test: pktio_test_recv ...passed
+  Test: pktio_test_recv_multi ...passed
+  Test: pktio_test_recv_queue ...passed
+  Test: pktio_test_recv_tmo ...passed
+  Test: pktio_test_recv_mq_tmo ...passed
+  Test: pktio_test_recv_mtu ...passed
+  Test: pktio_test_mtu ... 9216  9216 passed
+  Test: pktio_test_promisc ...passed
+  Test: pktio_test_mac ...testing mac for pktiop0p1
+ D6:83:C8:B8:6D:9 
+ mac address set not supported for pktiop0p1!
+passed
+  Test: pktio_test_start_stop ...passed
+  Test: pktio_test_recv_on_wonly ...passed
+  Test: pktio_test_send_on_ronly ...passed
+  Test: pktio_test_plain_multi_event ...passed
+  Test: pktio_test_sched_multi_event ...passed
+  Test: pktio_test_recv_multi_event ...passed
+  Test: pktio_test_statistics_counters ...passed
+  Test: pktio_test_pktin_ts ...passedUsing paired interfaces: pktiop0p1 pktiop1p0
+
+Suite: Packet I/O Segmented
+  Test: pktio_test_plain_queue ...passed
+  Test: pktio_test_plain_multi ...passed
+  Test: pktio_test_sched_queue ...passed
+  Test: pktio_test_sched_multi ...passed
+  Test: pktio_test_recv ...passed
+  Test: pktio_test_recv_multi ...passed
+  Test: pktio_test_recv_mtu ...passedUsing paired interfaces: pktiop0p1 pktiop1p0
+
+Suite: Packet parser
+  Test: parser_test_arp ...passed
+  Test: parser_test_ipv4_icmp ...passed
+  Test: parser_test_ipv4_tcp ...passed
+  Test: parser_test_ipv4_udp ...passed
+  Test: parser_test_ipv6_icmp ...passed
+  Test: parser_test_ipv6_tcp ...passed
+  Test: parser_test_ipv6_udp ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      3      3    n/a      0        0
+               tests     50     45     45      0        5
+             asserts   2301   2301   2301      0      n/a
+
+Elapsed time =    7.650 seconds
+HW time counter freq: 50000000 hz
+
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: socket mmap skipped, enabled export ODP_PKTIO_DISABLE_SOCKET_MMAP=1.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+Using paired interfaces: pktiop0p1 pktiop1p0
+
+Suite: Packet I/O Unsegmented
+  Test: pktio_test_open ...passed
+  Test: pktio_test_lookup ...passed
+  Test: pktio_test_index ...passed
+  Test: pktio_test_print ...
+pktio
+  handle            1
+  name              pktiop0p1
+  type              socket
+  state             opened
+  mac               d6:83:c8:b8:6d:09
+  pktin maxlen      9216
+  pktout maxlen     9216
+  promisc           no
+  max input queues  1
+  max output queues 1
+
+
+pktio
+  handle            1
+  name              pktiop1p0
+  type              socket
+  state             opened
+  mac               0a:17:94:0c:81:bf
+  pktin maxlen      9216
+  pktout maxlen     9216
+  promisc           no
+  max input queues  1
+  max output queues 1
+
+passed
+  Test: pktio_test_pktio_config ...passed
+  Test: pktio_test_info ...pktio 0
+  name   pktiop0p1
+  driver socket
+pktio 1
+  name   pktiop1p0
+  driver socket
+passed
+  Test: pktio_test_pktin_queue_config_direct ...passed
+  Test: pktio_test_pktin_queue_config_sched ...passed
+  Test: pktio_test_pktin_queue_config_queue ...passed
+  Test: pktio_test_pktout_queue_config ...passed
+  Test: pktio_test_plain_queue ...passed
+  Test: pktio_test_plain_multi ...passed
+  Test: pktio_test_sched_queue ...passed
+  Test: pktio_test_sched_multi ...passed
+  Test: pktio_test_recv ...passed
+  Test: pktio_test_recv_multi ...passed
+  Test: pktio_test_recv_queue ...passed
+  Test: pktio_test_recv_tmo ...passed
+  Test: pktio_test_recv_mq_tmo ...passed
+  Test: pktio_test_recv_mtu ...passed
+  Test: pktio_test_mtu ... 9216  9216 passed
+  Test: pktio_test_promisc ...passed
+  Test: pktio_test_mac ...testing mac for pktiop0p1
+ D6:83:C8:B8:6D:9 
+ mac address set not supported for pktiop0p1!
+passed
+  Test: pktio_test_start_stop ...passed
+  Test: pktio_test_recv_on_wonly ...passed
+  Test: pktio_test_send_on_ronly ...passed
+  Test: pktio_test_plain_multi_event ...passed
+  Test: pktio_test_sched_multi_event ...passed
+  Test: pktio_test_recv_multi_event ...passed
+  Test: pktio_test_statistics_counters ...passed
+  Test: pktio_test_pktin_ts ...passedUsing paired interfaces: pktiop0p1 pktiop1p0
+
+Suite: Packet I/O Segmented
+  Test: pktio_test_plain_queue ...passed
+  Test: pktio_test_plain_multi ...passed
+  Test: pktio_test_sched_queue ...passed
+  Test: pktio_test_sched_multi ...passed
+  Test: pktio_test_recv ...passed
+  Test: pktio_test_recv_multi ...passed
+  Test: pktio_test_recv_mtu ...passedUsing paired interfaces: pktiop0p1 pktiop1p0
+
+Suite: Packet parser
+  Test: parser_test_arp ...passed
+  Test: parser_test_ipv4_icmp ...passed
+  Test: parser_test_ipv4_tcp ...passed
+  Test: parser_test_ipv4_udp ...passed
+  Test: parser_test_ipv6_icmp ...passed
+  Test: parser_test_ipv6_tcp ...passed
+  Test: parser_test_ipv6_udp ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      3      3    n/a      0        0
+               tests     50     45     45      0        5
+             asserts   2301   2301   2301      0      n/a
+
+Elapsed time =    4.240 seconds
+HW time counter freq: 50000000 hz
+
+pktio: removing test interfaces pktiop0p1, pktiop1p0, pktiop2p3, pktiop3p2
+PASS: pktio_run.sh
+running with /lava-21735/0/tests/1_odp/auto-test/distributions/distribution/odp/centos_redhat_fedora/pktio_main
+net.ipv6.conf.iotap_vald0.disable_ipv6 = 1
+net.ipv6.conf.iotap_vald1.disable_ipv6 = 1
+net.ipv6.conf.iotap_vald_br.disable_ipv6 = 1
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+Using paired interfaces: tap:iotap_vald0 tap:iotap_vald1
+
+Suite: Packet I/O Unsegmented
+  Test: pktio_test_open ...passed
+  Test: pktio_test_lookup ...passed
+  Test: pktio_test_index ...passed
+  Test: pktio_test_print ...
+pktio
+  handle            1
+  name              tap:iotap_vald0
+  type              tap
+  state             opened
+  mac               7a:79:d2:79:f7:8b
+  pktin maxlen      9216
+  pktout maxlen     9216
+  promisc           no
+  max input queues  1
+  max output queues 1
+
+
+pktio
+  handle            1
+  name              tap:iotap_vald1
+  type              tap
+  state             opened
+  mac               7a:c2:b7:b6:c2:8b
+  pktin maxlen      9216
+  pktout maxlen     9216
+  promisc           no
+  max input queues  1
+  max output queues 1
+
+passed
+  Test: pktio_test_pktio_config ...passed
+  Test: pktio_test_info ...pktio 0
+  name   tap:iotap_vald0
+  driver tap
+pktio 1
+  name   tap:iotap_vald1
+  driver tap
+passed
+  Test: pktio_test_pktin_queue_config_direct ...passed
+  Test: pktio_test_pktin_queue_config_sched ...passed
+  Test: pktio_test_pktin_queue_config_queue ...passed
+  Test: pktio_test_pktout_queue_config ...passed
+  Test: pktio_test_plain_queue ...passed
+  Test: pktio_test_plain_multi ...passed
+  Test: pktio_test_sched_queue ...passed
+  Test: pktio_test_sched_multi ...passed
+  Test: pktio_test_recv ...passed
+  Test: pktio_test_recv_multi ...passed
+  Test: pktio_test_recv_queue ...passed
+  Test: pktio_test_recv_tmo ...passed
+  Test: pktio_test_recv_mq_tmo ...passed
+  Test: pktio_test_recv_mtu ...passed
+  Test: pktio_test_mtu ... 9216  9216 passed
+  Test: pktio_test_promisc ...passed
+  Test: pktio_test_mac ...testing mac for tap:iotap_vald0
+ 7A:D9:1C:4E:16:24 passed
+  Test: pktio_test_start_stop ...passed
+  Test: pktio_test_recv_on_wonly ...passed
+  Test: pktio_test_send_on_ronly ...passed
+  Test: pktio_test_plain_multi_event ...passed
+  Test: pktio_test_sched_multi_event ...passed
+  Test: pktio_test_recv_multi_event ...passed
+  Test: pktio_test_pktin_ts ...passedUsing paired interfaces: tap:iotap_vald0 tap:iotap_vald1
+
+Suite: Packet I/O Segmented
+  Test: pktio_test_plain_queue ...passed
+  Test: pktio_test_plain_multi ...passed
+  Test: pktio_test_sched_queue ...passed
+  Test: pktio_test_sched_multi ...passed
+  Test: pktio_test_recv ...passed
+  Test: pktio_test_recv_multi ...passed
+  Test: pktio_test_recv_mtu ...passedUsing paired interfaces: tap:iotap_vald0 tap:iotap_vald1
+
+Suite: Packet parser
+  Test: parser_test_arp ...passed
+  Test: parser_test_ipv4_icmp ...passed
+  Test: parser_test_ipv4_tcp ...passed
+  Test: parser_test_ipv4_udp ...passed
+  Test: parser_test_ipv6_icmp ...passed
+  Test: parser_test_ipv6_tcp ...passed
+  Test: parser_test_ipv6_udp ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      3      3    n/a      0        0
+               tests     50     44     44      0        6
+             asserts   2116   2116   2116      0      n/a
+
+Elapsed time =   30.770 seconds
+HW time counter freq: 50000000 hz
+
+PASS: pktio_run_tap.sh
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Shared Memory
+  Test: shmem_test_odp_shm_proc ...start with pid 4016
+shmem_odp1: opening fifo: /dev/shm/0/shmem_test_fifo-4016
+shmem_odp1: reading fifo: /dev/shm/0/shmem_test_fifo-4016
+HW time counter freq: 50000000 hz
+
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+shmem_odp2: trying to grab odp_linux_shared_mem from pid 4016
+shmem_odp2.c SUCSESS
+shmem_odp1: read fifo: 83
+shmem_odp1: closing fifo: /dev/shm/0/shmem_test_fifo-4016
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      7      7      7      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+pipe found
+PASS: shmem_linux
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: ring basic
+  Test: ring_test_basic_create ...passed
+  Test: ring_test_basic_burst ...passed
+  Test: ring_test_basic_bulk ...passed
+  Test: ring_test_basic_watermark ...passed
+Suite: ring stress
+  Test: ring_test_stress_1_1_producer_consumer ...passed
+  Test: ring_test_stress_1_N_producer_consumer ...passed
+  Test: ring_test_stress_N_1_producer_consumer ...passed
+  Test: ring_test_stress_N_M_producer_consumer ...passed
+  Test: ring_test_stress_ring_list_dump ...passed
+
+Run Summary:    Type   Total     Ran  Passed Failed Inactive
+              suites       2       2     n/a      0        0
+               tests       9       9       9      0        0
+             asserts 6046231 6046231 6046231      0      n/a
+
+Elapsed time =    5.080 seconds
+HW time counter freq: 50000000 hz
+
+PASS: ring_main
+==== run pktio_ipc1 then pktio_ipc2 ====
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+ipc_pktio1 4061 run on cpu 2
+
+ODP system info
+---------------
+ODP API version: 1.17.0
+ODP impl name:   "odp-linux"
+CPU model:       UNKNOWN
+CPU freq (hz):   1400000000
+Cache line size: 64
+CPU count:       64
+
+Running ODP appl: "pktio_ipc1"
+-----------------
+Using IF:        (null)
+
+
+
+Pool info
+---------
+  pool            1
+  name            ipc_packet_pool
+  pool type       packet
+  pool shm        14
+  user area shm   0
+  num             8192
+  align           64
+  headroom        128
+  seg len         8064
+  max data len    65536
+  tailroom        0
+  block size      8768
+  uarea size      0
+  shm size        72143104
+  base addr       0xffff73cc5000
+  uarea shm size  0
+  uarea base addr (nil)
+
+pid: 4061, create IPC pktio ipc:ipktio
+pkts:  1061259, alloc  1061271, errors 0, pps  2122530, free 123930.pkts:  2150842, alloc  2150864, errors 0, pps  2179176, free 251751.pkts:  3236861, alloc  3236880, errors 0, pps  2172035, free 379022.pkts:  4323603, alloc  4323621, errors 0, pps  2173483, free 506375.pkts:  5409784, alloc  5410380, errors 0, pps  2172940, free 633925.pkts:  5409784, alloc  5417976, errors 0, pps  7596, free 633925.pkts:  5409784, alloc  5417976, errors 0, pps  0, free 633925.HW time counter freq: 50000000 hz
+
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+ipc_pktio2 4062 run on cpu 3
+pid: 4062, create IPC pktio ipc:4061:ipktio
+pid: 4062, create IPC pktio ipc:4061:ipktio
+pkts:  5409784, alloc  5417976, errors 0, pps  0, free 633925.pkts:  5409784, alloc  5417976, errors 0, pps  0, free 633925.HW time counter freq: 50000000 hz
+
+normal exit of 2 application
+First stage PASSED
+==== run pktio_ipc2 then pktio_ipc1 ====
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+ipc_pktio1 4076 run on cpu 2
+
+ODP system info
+---------------
+ODP API version: 1.17.0
+ODP impl name:   "odp-linux"
+CPU model:       UNKNOWN
+CPU freq (hz):   1400000000
+Cache line size: 64
+CPU count:       64
+
+Running ODP appl: "pktio_ipc1"
+-----------------
+Using IF:        (null)
+
+
+
+Pool info
+---------
+  pool            1
+  name            ipc_packet_pool
+  pool type       packet
+  pool shm        14
+  user area shm   0
+  num             8192
+  align           64
+  headroom        128
+  seg len         8064
+  max data len    65536
+  tailroom        0
+  block size      8768
+  uarea size      0
+  shm size        72143104
+  base addr       0xffff85b0c000
+  uarea shm size  0
+  uarea base addr (nil)
+
+pid: 4076, create IPC pktio ipc:4075:ipktio
+pid: 4076, create IPC pktio ipc:4075:ipktio
+pkts:  1028242, alloc  1028261, errors 0, pps  2056503, free 120374.pkts:  2094763, alloc  2094791, errors 0, pps  2133051, free 245493.pkts:  3159872, alloc  3159890, errors 0, pps  2130208, free 370605.pkts:  4225801, alloc  4225814, errors 0, pps  2131853, free 495611.HW time counter freq: 50000000 hz
+
+HW time counter freq: 50000000 hz
+
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+ipc_pktio2 4075 run on cpu 3
+pid: 4075, create IPC pktio ipc:ipktio
+normal exit of 2 application
+Second stage PASSED
+!!!PASSED!!!
+PASS: pktio_ipc_run.sh
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+Num of threads used = 32
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: atomic
+  Test: atomic_test_atomic_inc_dec ...passed
+  Test: atomic_test_atomic_add_sub ...passed
+  Test: atomic_test_atomic_fetch_inc_dec ...passed
+  Test: atomic_test_atomic_fetch_add_sub ...passed
+  Test: atomic_test_atomic_max_min ...passed
+  Test: atomic_test_atomic_cas_inc_dec ...passed
+  Test: atomic_test_atomic_xchg ...passed
+  Test: atomic_test_atomic_non_relaxed ...passed
+  Test: atomic_test_atomic_op_lock_free ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      9      9      9      0        0
+             asserts    325    325    325      0      n/a
+
+Elapsed time =    0.040 seconds
+HW time counter freq: 50000000 hz
+
+PASS: atomic_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+Num of threads used = 32
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: barrier
+  Test: barrier_test_memory_barrier ...passed
+  Test: barrier_test_no_barrier_functional ...passed
+  Test: barrier_test_barrier_functional ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      3      3      3      0        0
+             asserts     74     74     74      0      n/a
+
+Elapsed time =    0.150 seconds
+HW time counter freq: 50000000 hz
+
+PASS: barrier_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: buffer tests
+  Test: buffer_test_pool_alloc ...
+Pool info
+---------
+  pool            2
+  name            buffer_pool_alloc
+  pool type       buffer
+  pool shm        16
+  user area shm   0
+  num             3
+  align           64
+  headroom        0
+  seg len         1500
+  max data len    0
+  tailroom        0
+  block size      2112
+  uarea size      0
+  shm size        6336
+  base addr       0xffffb42d1000
+  uarea shm size  0
+  uarea base addr (nil)
+
+passed
+  Test: buffer_test_pool_free ...passed
+  Test: buffer_test_pool_alloc_multi ...
+Pool info
+---------
+  pool            2
+  name            buffer_pool_alloc_multi
+  pool type       buffer
+  pool shm        16
+  user area shm   0
+  num             3
+  align           64
+  headroom        0
+  seg len         1500
+  max data len    0
+  tailroom        0
+  block size      2112
+  uarea size      0
+  shm size        6336
+  base addr       0xffffb42d1000
+  uarea shm size  0
+  uarea base addr (nil)
+
+passed
+  Test: buffer_test_pool_free_multi ...passed
+  Test: buffer_test_management_basic ...
+Buffer
+  pool         1
+  addr         0xffff92906180
+  size         1500
+  type         1
+
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      5      5      5      0        0
+             asserts     49     49     49      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: buffer_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Checksum
+  Test: chksum_ones_complement_ip ...passed
+  Test: chksum_ones_complement_udp ...passed
+  Test: chksum_ones_complement_udp_long ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      3      3      3      0        0
+             asserts     18     18     18      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: chksum_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: classification basic
+  Test: classification_test_create_cos ...passed
+  Test: classification_test_destroy_cos ...passed
+  Test: classification_test_create_pmr_match ...passed
+  Test: classification_test_cos_set_queue ...passed
+  Test: classification_test_cos_set_drop ...passed
+  Test: classification_test_cos_set_pool ...passed
+  Test: classification_test_pmr_composite_create ...passed
+Suite: classification pmr tests
+  Test: classification_test_pmr_term_tcp_dport ...passed
+  Test: classification_test_pmr_term_tcp_sport ...passed
+  Test: classification_test_pmr_term_udp_dport ...passed
+  Test: classification_test_pmr_term_udp_sport ...passed
+  Test: classification_test_pmr_term_ipproto ...passed
+  Test: classification_test_pmr_term_dmac ...passed
+  Test: classification_test_pmr_pool_set ...passed
+  Test: classification_test_pmr_queue_set ...passed
+  Test: classification_test_pmr_term_daddr ...passed
+  Test: classification_test_pmr_term_ipv6saddr ...passed
+  Test: classification_test_pmr_term_ipv6daddr ...passed
+  Test: classification_test_pmr_term_packet_len ...passed
+  Test: classification_test_pmr_term_vlan_id_0 ...passed
+  Test: classification_test_pmr_term_vlan_id_x ...passed
+  Test: classification_test_pmr_term_eth_type_0 ...passed
+  Test: classification_test_pmr_term_eth_type_x ...passed
+  Test: classification_test_pktin_classifier_flag ...passed
+Suite: classification tests
+  Test: classification_test_pktio_set_skip ...passed
+  Test: classification_test_pktio_set_headroom ...passed
+  Test: classification_test_pktio_configure ...passed
+  Test: classification_test_pktio_test ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      3      3    n/a      0        0
+               tests     28     28     28      0        0
+             asserts    676    676    676      0      n/a
+
+Elapsed time =    0.030 seconds
+HW time counter freq: 50000000 hz
+
+PASS: classification_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Cpumask
+  Test: cpumask_test_odp_cpumask_to_from_str ...passed
+  Test: cpumask_test_odp_cpumask_equal ...passed
+  Test: cpumask_test_odp_cpumask_zero ...passed
+  Test: cpumask_test_odp_cpumask_set ...passed
+  Test: cpumask_test_odp_cpumask_clr ...passed
+  Test: cpumask_test_odp_cpumask_isset ...passed
+  Test: cpumask_test_odp_cpumask_count ...passed
+  Test: cpumask_test_odp_cpumask_and ...passed
+  Test: cpumask_test_odp_cpumask_or ...passed
+  Test: cpumask_test_odp_cpumask_xor ...passed
+  Test: cpumask_test_odp_cpumask_copy ...passed
+  Test: cpumask_test_odp_cpumask_first ...passed
+  Test: cpumask_test_odp_cpumask_last ...passed
+  Test: cpumask_test_odp_cpumask_next ...passed
+  Test: cpumask_test_odp_cpumask_setall ...passed
+  Test: cpumask_test_odp_cpumask_def_control ...passed
+  Test: cpumask_test_odp_cpumask_def_worker ...passed
+  Test: cpumask_test_odp_cpumask_def ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     18     18     18      0        0
+             asserts   3416   3416   3416      0      n/a
+
+Elapsed time =    0.010 seconds
+HW time counter freq: 50000000 hz
+
+PASS: cpumask_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: odp_crypto_sync_inp
+  Test: crypto_test_enc_alg_null ...passed
+  Test: crypto_test_dec_alg_null ...passed
+  Test: crypto_test_enc_alg_3des_cbc ...passed
+  Test: crypto_test_dec_alg_3des_cbc ...passed
+  Test: crypto_test_enc_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_cbc ...passed
+  Test: crypto_test_dec_alg_aes_cbc ...passed
+  Test: crypto_test_enc_alg_aes_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_ctr ...passed
+  Test: crypto_test_dec_alg_aes_ctr ...passed
+  Test: crypto_test_enc_alg_aes_ctr_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_ctr_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_gcm ...passed
+  Test: crypto_test_enc_alg_aes_gcm_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_gcm ...passed
+  Test: crypto_test_dec_alg_aes_gcm_ovr_iv ...passed
+  Test: crypto_test_gen_alg_hmac_md5 ...passed
+  Test: crypto_test_check_alg_hmac_md5 ...passed
+  Test: crypto_test_gen_alg_hmac_sha1 ...passed
+  Test: crypto_test_check_alg_hmac_sha1 ...passed
+  Test: crypto_test_gen_alg_hmac_sha256 ...passed
+  Test: crypto_test_check_alg_hmac_sha256 ...passed
+  Test: crypto_test_gen_alg_hmac_sha512 ...passed
+  Test: crypto_test_check_alg_hmac_sha512 ...passed
+  Test: crypto_test_gen_alg_aes_gmac ...passed
+  Test: crypto_test_check_alg_aes_gmac ...passed
+Suite: odp_crypto_async_inp
+  Test: crypto_test_enc_alg_null ...passed
+  Test: crypto_test_dec_alg_null ...passed
+  Test: crypto_test_enc_alg_3des_cbc ...passed
+  Test: crypto_test_dec_alg_3des_cbc ...passed
+  Test: crypto_test_enc_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_cbc ...passed
+  Test: crypto_test_dec_alg_aes_cbc ...passed
+  Test: crypto_test_enc_alg_aes_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_ctr ...passed
+  Test: crypto_test_dec_alg_aes_ctr ...passed
+  Test: crypto_test_enc_alg_aes_ctr_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_ctr_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_gcm ...passed
+  Test: crypto_test_enc_alg_aes_gcm_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_gcm ...passed
+  Test: crypto_test_dec_alg_aes_gcm_ovr_iv ...passed
+  Test: crypto_test_gen_alg_hmac_md5 ...passed
+  Test: crypto_test_check_alg_hmac_md5 ...passed
+  Test: crypto_test_gen_alg_hmac_sha1 ...passed
+  Test: crypto_test_check_alg_hmac_sha1 ...passed
+  Test: crypto_test_gen_alg_hmac_sha256 ...passed
+  Test: crypto_test_check_alg_hmac_sha256 ...passed
+  Test: crypto_test_gen_alg_hmac_sha512 ...passed
+  Test: crypto_test_check_alg_hmac_sha512 ...passed
+  Test: crypto_test_gen_alg_aes_gmac ...passed
+  Test: crypto_test_check_alg_aes_gmac ...passed
+Suite: odp_crypto_packet_sync_inp
+  Test: crypto_test_enc_alg_null ...passed
+  Test: crypto_test_dec_alg_null ...passed
+  Test: crypto_test_enc_alg_3des_cbc ...passed
+  Test: crypto_test_dec_alg_3des_cbc ...passed
+  Test: crypto_test_enc_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_cbc ...passed
+  Test: crypto_test_dec_alg_aes_cbc ...passed
+  Test: crypto_test_enc_alg_aes_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_ctr ...passed
+  Test: crypto_test_dec_alg_aes_ctr ...passed
+  Test: crypto_test_enc_alg_aes_ctr_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_ctr_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_gcm ...passed
+  Test: crypto_test_enc_alg_aes_gcm_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_gcm ...passed
+  Test: crypto_test_dec_alg_aes_gcm_ovr_iv ...passed
+  Test: crypto_test_gen_alg_hmac_md5 ...passed
+  Test: crypto_test_check_alg_hmac_md5 ...passed
+  Test: crypto_test_gen_alg_hmac_sha1 ...passed
+  Test: crypto_test_check_alg_hmac_sha1 ...passed
+  Test: crypto_test_gen_alg_hmac_sha256 ...passed
+  Test: crypto_test_check_alg_hmac_sha256 ...passed
+  Test: crypto_test_gen_alg_hmac_sha512 ...passed
+  Test: crypto_test_check_alg_hmac_sha512 ...passed
+  Test: crypto_test_gen_alg_aes_gmac ...passed
+  Test: crypto_test_check_alg_aes_gmac ...passed
+Suite: odp_crypto_packet_async_inp
+  Test: crypto_test_enc_alg_null ...passed
+  Test: crypto_test_dec_alg_null ...passed
+  Test: crypto_test_enc_alg_3des_cbc ...passed
+  Test: crypto_test_dec_alg_3des_cbc ...passed
+  Test: crypto_test_enc_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_cbc ...passed
+  Test: crypto_test_dec_alg_aes_cbc ...passed
+  Test: crypto_test_enc_alg_aes_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_ctr ...passed
+  Test: crypto_test_dec_alg_aes_ctr ...passed
+  Test: crypto_test_enc_alg_aes_ctr_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_ctr_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes_gcm ...passed
+  Test: crypto_test_enc_alg_aes_gcm_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes_gcm ...passed
+  Test: crypto_test_dec_alg_aes_gcm_ovr_iv ...passed
+  Test: crypto_test_gen_alg_hmac_md5 ...passed
+  Test: crypto_test_check_alg_hmac_md5 ...passed
+  Test: crypto_test_gen_alg_hmac_sha1 ...passed
+  Test: crypto_test_check_alg_hmac_sha1 ...passed
+  Test: crypto_test_gen_alg_hmac_sha256 ...passed
+  Test: crypto_test_check_alg_hmac_sha256 ...passed
+  Test: crypto_test_gen_alg_hmac_sha512 ...passed
+  Test: crypto_test_check_alg_hmac_sha512 ...passed
+  Test: crypto_test_gen_alg_aes_gmac ...passed
+  Test: crypto_test_check_alg_aes_gmac ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      4      4    n/a      0        0
+               tests    112    112    112      0        0
+             asserts  13540  13540  13540      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: crypto_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Errno
+  Test: errno_test_odp_errno_sunny_day ...odp_errno Success
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      2      2      2      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: errno_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Event
+  Test: event_test_free ...passed
+  Test: event_test_free_multi ...passed
+  Test: event_test_free_multi_mixed ...passed
+  Test: event_test_type_multi ...passed
+  Test: event_test_filter_packet ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      5      5      5      0        0
+             asserts    352    352    352      0      n/a
+
+Elapsed time =    0.010 seconds
+HW time counter freq: 50000000 hz
+
+PASS: event_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Hash
+  Test: hash_test_crc32c ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      3      3      3      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: hash_main
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Init
+  Test: init_test_odp_init_global ...HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      2      2      2      0      n/a
+
+Elapsed time =    0.010 seconds
+PASS: init_main_ok
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Init
+  Test: init_test_odp_init_global_replace_abort ...HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      2      2      2      0      n/a
+
+Elapsed time =    0.020 seconds
+PASS: init_main_abort
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Init
+  Test: init_test_odp_init_global_replace_log ...HW time counter freq: 50000000 hz
+
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      3      3      3      0      n/a
+
+Elapsed time =    0.020 seconds
+PASS: init_main_log
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: IPsec-in
+  Test: ipsec_test_capability ...passed
+  Test: test_in_ipv4_rfc3602_5_esp ...passed
+  Test: test_in_ipv4_rfc3602_6_esp ...passed
+  Test: test_in_ipv4_rfc3602_7_esp ...passed
+  Test: test_in_ipv4_rfc3602_8_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_2_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_3_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_4_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_15_esp ...passed
+  Test: test_in_ipv4_ah_sha256 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv4_notun ...passed
+  Test: test_in_ipv4_esp_null_sha256 ...passed
+  Test: test_in_ipv4_esp_aes_cbc_null ...passed
+  Test: test_in_ipv4_esp_aes_cbc_sha256 ...passed
+  Test: test_in_ipv4_esp_aes_ctr_null ...passed
+  Test: test_in_ipv4_ah_sha256_lookup ...passed
+  Test: test_in_ipv4_esp_null_sha256_lookup ...passed
+  Test: test_in_ipv4_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv4_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv4_esp_udp_null_sha256 ...passed
+  Test: test_in_ipv4_esp_udp_null_sha256_lookup ...passed
+  Test: test_in_ipv4_ah_sha256_noreplay ...passed
+  Test: test_in_ipv4_ah_sha256_replay ...passed
+  Test: test_in_ipv4_esp_null_sha256_noreplay ...passed
+  Test: test_in_ipv4_esp_null_sha256_replay ...passed
+  Test: test_in_ipv4_ah_esp_pkt ...passed
+  Test: test_in_ipv4_esp_ah_pkt ...passed
+  Test: test_in_ipv4_ah_esp_pkt_lookup ...passed
+  Test: test_in_ipv4_esp_ah_pkt_lookup ...passed
+  Test: test_in_ipv4_ah_sha256_bad1 ...passed
+  Test: test_in_ipv4_ah_sha256_bad2 ...passed
+  Test: test_in_ipv4_esp_null_sha256_bad1 ...passed
+  Test: test_in_ipv4_ah_aes_gmac_128 ...passed
+  Test: test_in_ipv4_esp_null_aes_gmac_128 ...passed
+  Test: test_in_ipv6_ah_sha256 ...passed
+  Test: test_in_ipv6_ah_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv6_ah_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv6_esp_null_sha256 ...passed
+  Test: test_in_ipv6_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv6_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv6_esp_udp_null_sha256 ...passed
+  Test: test_in_ipv6_esp_udp_null_sha256_lookup ...passed
+Suite: IPsec-out
+  Test: ipsec_test_capability ...passed
+  Test: test_out_ipv4_ah_sha256 ...passed
+  Test: test_out_ipv4_ah_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv4_ah_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv4_esp_null_sha256 ...passed
+  Test: test_out_ipv4_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv4_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv4_esp_udp_null_sha256 ...passed
+  Test: test_out_ipv4_esp_aes_cbc_null ...passed
+  Test: test_out_ipv4_esp_aes_cbc_sha256 ...passed
+  Test: test_out_ipv4_esp_aes_ctr_null ...passed
+  Test: test_out_ipv4_esp_aes_gcm128 ...passed
+  Test: test_out_ipv4_ah_aes_gmac_128 ...passed
+  Test: test_out_ipv4_esp_null_aes_gmac_128 ...passed
+  Test: test_out_ipv4_ah_sha256_frag_check ...passed
+  Test: test_out_ipv4_ah_sha256_frag_check_2 ...passed
+  Test: test_out_ipv4_esp_null_sha256_frag_check ...passed
+  Test: test_out_ipv4_esp_null_sha256_frag_check_2 ...passed
+  Test: test_out_ipv6_ah_sha256 ...passed
+  Test: test_out_ipv6_ah_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv6_ah_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv6_esp_null_sha256 ...passed
+  Test: test_out_ipv6_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv6_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv6_esp_udp_null_sha256 ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      2      2    n/a      0        0
+               tests     69     69     69      0        0
+             asserts   1727   1727   1727      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: ipsec_sync
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: IPsec-in
+  Test: ipsec_test_capability ...passed
+  Test: test_in_ipv4_rfc3602_5_esp ...passed
+  Test: test_in_ipv4_rfc3602_6_esp ...passed
+  Test: test_in_ipv4_rfc3602_7_esp ...passed
+  Test: test_in_ipv4_rfc3602_8_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_2_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_3_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_4_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_15_esp ...passed
+  Test: test_in_ipv4_ah_sha256 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv4_notun ...passed
+  Test: test_in_ipv4_esp_null_sha256 ...passed
+  Test: test_in_ipv4_esp_aes_cbc_null ...passed
+  Test: test_in_ipv4_esp_aes_cbc_sha256 ...passed
+  Test: test_in_ipv4_esp_aes_ctr_null ...passed
+  Test: test_in_ipv4_ah_sha256_lookup ...passed
+  Test: test_in_ipv4_esp_null_sha256_lookup ...passed
+  Test: test_in_ipv4_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv4_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv4_esp_udp_null_sha256 ...passed
+  Test: test_in_ipv4_esp_udp_null_sha256_lookup ...passed
+  Test: test_in_ipv4_ah_sha256_noreplay ...passed
+  Test: test_in_ipv4_ah_sha256_replay ...passed
+  Test: test_in_ipv4_esp_null_sha256_noreplay ...passed
+  Test: test_in_ipv4_esp_null_sha256_replay ...passed
+  Test: test_in_ipv4_ah_esp_pkt ...passed
+  Test: test_in_ipv4_esp_ah_pkt ...passed
+  Test: test_in_ipv4_ah_esp_pkt_lookup ...passed
+  Test: test_in_ipv4_esp_ah_pkt_lookup ...passed
+  Test: test_in_ipv4_ah_sha256_bad1 ...passed
+  Test: test_in_ipv4_ah_sha256_bad2 ...passed
+  Test: test_in_ipv4_esp_null_sha256_bad1 ...passed
+  Test: test_in_ipv4_ah_aes_gmac_128 ...passed
+  Test: test_in_ipv4_esp_null_aes_gmac_128 ...passed
+  Test: test_in_ipv6_ah_sha256 ...passed
+  Test: test_in_ipv6_ah_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv6_ah_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv6_esp_null_sha256 ...passed
+  Test: test_in_ipv6_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv6_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv6_esp_udp_null_sha256 ...passed
+  Test: test_in_ipv6_esp_udp_null_sha256_lookup ...passed
+Suite: IPsec-out
+  Test: ipsec_test_capability ...passed
+  Test: test_out_ipv4_ah_sha256 ...passed
+  Test: test_out_ipv4_ah_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv4_ah_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv4_esp_null_sha256 ...passed
+  Test: test_out_ipv4_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv4_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv4_esp_udp_null_sha256 ...passed
+  Test: test_out_ipv4_esp_aes_cbc_null ...passed
+  Test: test_out_ipv4_esp_aes_cbc_sha256 ...passed
+  Test: test_out_ipv4_esp_aes_ctr_null ...passed
+  Test: test_out_ipv4_esp_aes_gcm128 ...passed
+  Test: test_out_ipv4_ah_aes_gmac_128 ...passed
+  Test: test_out_ipv4_esp_null_aes_gmac_128 ...passed
+  Test: test_out_ipv4_ah_sha256_frag_check ...passed
+  Test: test_out_ipv4_ah_sha256_frag_check_2 ...passed
+  Test: test_out_ipv4_esp_null_sha256_frag_check ...passed
+  Test: test_out_ipv4_esp_null_sha256_frag_check_2 ...passed
+  Test: test_out_ipv6_ah_sha256 ...passed
+  Test: test_out_ipv6_ah_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv6_ah_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv6_esp_null_sha256 ...passed
+  Test: test_out_ipv6_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv6_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv6_esp_udp_null_sha256 ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      2      2    n/a      0        0
+               tests     69     69     69      0        0
+             asserts   2240   2240   2240      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: ipsec_async
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: IPsec-in
+  Test: ipsec_test_capability ...passed
+  Test: test_in_ipv4_rfc3602_5_esp ...passed
+  Test: test_in_ipv4_rfc3602_6_esp ...passed
+  Test: test_in_ipv4_rfc3602_7_esp ...passed
+  Test: test_in_ipv4_rfc3602_8_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_2_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_3_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_4_esp ...passed
+  Test: test_in_ipv4_mcgrew_gcm_15_esp ...passed
+  Test: test_in_ipv4_ah_sha256 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv4_ah_sha256_tun_ipv4_notun ...passed
+  Test: test_in_ipv4_esp_null_sha256 ...passed
+  Test: test_in_ipv4_esp_aes_cbc_null ...passed
+  Test: test_in_ipv4_esp_aes_cbc_sha256 ...passed
+  Test: test_in_ipv4_esp_aes_ctr_null ...passed
+  Test: test_in_ipv4_ah_sha256_lookup ...passed
+  Test: test_in_ipv4_esp_null_sha256_lookup ...passed
+  Test: test_in_ipv4_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv4_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv4_esp_udp_null_sha256 ...passed
+  Test: test_in_ipv4_esp_udp_null_sha256_lookup ...passed
+  Test: test_in_ipv4_ah_sha256_noreplay ...passed
+  Test: test_in_ipv4_ah_sha256_replay ...passed
+  Test: test_in_ipv4_esp_null_sha256_noreplay ...passed
+  Test: test_in_ipv4_esp_null_sha256_replay ...passed
+  Test: test_in_ipv4_ah_esp_pkt ...passed
+  Test: test_in_ipv4_esp_ah_pkt ...passed
+  Test: test_in_ipv4_ah_esp_pkt_lookup ...passed
+  Test: test_in_ipv4_esp_ah_pkt_lookup ...passed
+  Test: test_in_ipv4_ah_sha256_bad1 ...passed
+  Test: test_in_ipv4_ah_sha256_bad2 ...passed
+  Test: test_in_ipv4_esp_null_sha256_bad1 ...passed
+  Test: test_in_ipv4_ah_aes_gmac_128 ...passed
+  Test: test_in_ipv4_esp_null_aes_gmac_128 ...passed
+  Test: test_in_ipv6_ah_sha256 ...passed
+  Test: test_in_ipv6_ah_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv6_ah_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv6_esp_null_sha256 ...passed
+  Test: test_in_ipv6_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_in_ipv6_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_in_ipv6_esp_udp_null_sha256 ...passed
+  Test: test_in_ipv6_esp_udp_null_sha256_lookup ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     44     44     44      0        0
+             asserts   1522   1522   1522      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: ipsec_inline_in
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: IPsec-out
+  Test: ipsec_test_capability ...passed
+  Test: test_out_ipv4_ah_sha256 ...passed
+  Test: test_out_ipv4_ah_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv4_ah_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv4_esp_null_sha256 ...passed
+  Test: test_out_ipv4_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv4_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv4_esp_udp_null_sha256 ...passed
+  Test: test_out_ipv4_esp_aes_cbc_null ...passed
+  Test: test_out_ipv4_esp_aes_cbc_sha256 ...passed
+  Test: test_out_ipv4_esp_aes_ctr_null ...passed
+  Test: test_out_ipv4_esp_aes_gcm128 ...passed
+  Test: test_out_ipv4_ah_aes_gmac_128 ...passed
+  Test: test_out_ipv4_esp_null_aes_gmac_128 ...passed
+  Test: test_out_ipv4_ah_sha256_frag_check ...passed
+  Test: test_out_ipv4_ah_sha256_frag_check_2 ...passed
+  Test: test_out_ipv4_esp_null_sha256_frag_check ...passed
+  Test: test_out_ipv4_esp_null_sha256_frag_check_2 ...passed
+  Test: test_out_ipv6_ah_sha256 ...passed
+  Test: test_out_ipv6_ah_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv6_ah_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv6_esp_null_sha256 ...passed
+  Test: test_out_ipv6_esp_null_sha256_tun_ipv4 ...passed
+  Test: test_out_ipv6_esp_null_sha256_tun_ipv6 ...passed
+  Test: test_out_ipv6_esp_udp_null_sha256 ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     25     25     25      0        0
+             asserts    813    813    813      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: ipsec_inline_out
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+Num of threads used = 32
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: nolocking
+  Test: lock_test_no_lock_functional ...passed
+Suite: spinlock
+  Test: lock_test_spinlock_api ...passed
+  Test: lock_test_spinlock_functional ...passed
+Suite: spinlock_recursive
+  Test: lock_test_spinlock_recursive_api ...passed
+  Test: lock_test_spinlock_recursive_functional ...passed
+Suite: ticketlock
+  Test: lock_test_ticketlock_api ...passed
+  Test: lock_test_ticketlock_functional ...passed
+Suite: rwlock
+  Test: lock_test_rwlock_api ...passed
+  Test: lock_test_rwlock_functional ...passed
+Suite: rwlock_recursive
+  Test: lock_test_rwlock_recursive_api ...passed
+  Test: lock_test_rwlock_recursive_functional ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      6      6    n/a      0        0
+               tests     11     11     11      0        0
+             asserts    838    838    838      0      n/a
+
+Elapsed time =   26.440 seconds
+HW time counter freq: 50000000 hz
+
+PASS: lock_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Pool info
+---------
+  pool            1
+  name            packet_pool
+  pool type       packet
+  pool shm        14
+  user area shm   15
+  num             300
+  align           64
+  headroom        128
+  seg len         8064
+  max data len    65536
+  tailroom        0
+  block size      8768
+  uarea size      64
+  shm size        2656704
+  base addr       0xffff78748000
+  uarea shm size  19200
+  uarea base addr 0xffff99eb0000
+
+
+Suite: packet tests
+  Test: packet_test_alloc_free ...passed
+  Test: packet_test_alloc_free_multi ...passed
+  Test: packet_test_free_sp ...passed
+  Test: packet_test_alloc_segmented ...passed
+  Test: packet_test_basic_metadata ...passed
+  Test: packet_test_debug ...
+
+Packet Buffer
+  pool         1
+  addr         0xffff78748280
+  size         8064
+  type         2
+  input_flags  0x0
+  error_flags  0x0
+  output_flags 0x0
+  l2_offset    0
+  l3_offset    65535
+  l4_offset    65535
+  frame_len    512
+  input        0
+  headroom     128
+  tailroom     7552
+  num_segs     1
+    seg_len    512   seg_data 0xffff78748280 ref_cnt 0
+
+Packet
+------
+  pool index    1
+  buf index     0
+  segcount      1
+  data len      512
+  data ptr      0xffff78748280
+  print offset  0
+  print length  100
+  00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
+  10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f
+  20 21 22 23 24 25 26 27 28 29 2a 2b 2c 2d 2e 2f
+  30 31 32 33 34 35 36 37 38 39 3a 3b 3c 3d 3e 3f
+  40 41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e 4f
+  50 51 52 53 54 55 56 57 58 59 5a 5b 5c 5d 5e 5f
+  60 61 62 63
+
+Packet
+------
+  pool index    1
+  buf index     0
+  segcount      1
+  data len      512
+  data ptr      0xffff78748280
+  print offset  14
+  print length  20
+  0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d
+  1e 1f 20 21
+
+passed
+  Test: packet_test_segments ...passed
+  Test: packet_test_length ...passed
+  Test: packet_test_prefetch ...passed
+  Test: packet_test_headroom ...passed
+  Test: packet_test_tailroom ...passed
+  Test: packet_test_context ...passed
+  Test: packet_test_event_conversion ...passed
+  Test: packet_test_layer_offsets ...passed
+  Test: packet_test_segment_last ...passed
+  Test: packet_test_in_flags ...passed
+  Test: packet_test_error_flags ...passed
+  Test: packet_test_add_rem_data ...passed
+  Test: packet_test_copy ...passed
+  Test: packet_test_copydata ...passed
+  Test: packet_test_concatsplit ...passed
+  Test: packet_test_concat_small ...passed
+  Test: packet_test_concat_extend_trunc ...passed
+  Test: packet_test_extend_small ...passed
+  Test: packet_test_extend_large ...passed
+  Test: packet_test_extend_mix ...passed
+  Test: packet_test_extend_ref ...passed
+  Test: packet_test_align ...passed
+  Test: packet_test_offset ...passed
+  Test: packet_test_ref ...
+
+Packet Buffer
+  pool         1
+  addr         0xffff7877fd00
+  size         8064
+  type         2
+  input_flags  0xd9feff8
+  error_flags  0x0
+  output_flags 0x0
+  l2_offset    2
+  l3_offset    16
+  l4_offset    30
+  frame_len    1536
+  input        0
+  headroom     128
+  tailroom     7552
+  num_segs     3
+    seg_len    512   seg_data 0xffff7877fd00 ref_cnt 0
+    seg_len    512   seg_data 0xffff78777400 ref_cnt 2L(0)
+    seg_len    512   seg_data 0xffff7878ecc0 ref_cnt 3L(2)
+
+Packet
+------
+  pool index    1
+  buf index     26
+  segcount      3
+  data len      1536
+  data ptr      0xffff7877fd00
+  print offset  0
+  print length  100
+  00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
+  10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f
+  20 21 22 23 24 25 26 27 28 29 2a 2b 2c 2d 2e 2f
+  30 31 32 33 34 35 36 37 38 39 3a 3b 3c 3d 3e 3f
+  40 41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e 4f
+  50 51 52 53 54 55 56 57 58 59 5a 5b 5c 5d 5e 5f
+  60 61 62 63
+
+Packet
+------
+  pool index    1
+  buf index     26
+  segcount      3
+  data len      1536
+  data ptr      0xffff7877fd00
+  print offset  14
+  print length  20
+  0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d
+  1e 1f 20 21
+
+passed
+  Test: packet_test_parse ...passed
+
+Run Summary:    Type   Total     Ran  Passed Failed Inactive
+              suites       1       1     n/a      0        0
+               tests      31      31      31      0        0
+             asserts 1283530 1283530 1283530      0      n/a
+
+Elapsed time =    0.040 seconds
+HW time counter freq: 50000000 hz
+
+PASS: packet_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Pool tests
+  Test: pool_test_create_destroy_buffer ...passed
+  Test: pool_test_create_destroy_packet ...passed
+  Test: pool_test_create_destroy_timeout ...passed
+  Test: pool_test_alloc_packet ...passed
+  Test: pool_test_alloc_packet_subparam ...passed
+  Test: pool_test_info_packet ...passed
+  Test: pool_test_lookup_info_print ...
+Pool info
+---------
+  pool            1
+  name            pool_for_lookup_test
+  pool type       buffer
+  pool shm        14
+  user area shm   0
+  num             1000
+  align           64
+  headroom        0
+  seg len         1500
+  max data len    0
+  tailroom        0
+  block size      2112
+  uarea size      0
+  shm size        2112000
+  base addr       0xffff5e447000
+  uarea shm size  0
+  uarea base addr (nil)
+
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      7      7      7      0        0
+             asserts   1032   1032   1032      0      n/a
+
+Elapsed time =    0.020 seconds
+HW time counter freq: 50000000 hz
+
+PASS: pool_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Queue
+  Test: queue_test_capa ...passed
+  Test: queue_test_mode ...passed
+  Test: queue_test_param ...passed
+  Test: queue_test_info ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      4      4      4      0        0
+             asserts   3926   3926   3926      0      n/a
+
+Elapsed time =    0.040 seconds
+HW time counter freq: 50000000 hz
+
+PASS: queue_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Random
+  Test: random_test_get_size ...passed
+  Test: random_test_kind ...passed
+  Test: random_test_repeat ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      3      3      3      0        0
+             asserts      7      7      7      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: random_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Scheduler
+  Test: scheduler_test_wait_time ...1..2..3..4..5..passed
+  Test: scheduler_test_num_prio ...passed
+  Test: scheduler_test_queue_destroy ...passed
+  Test: scheduler_test_groups ...passed
+  Test: scheduler_test_pause_resume ...passed
+  Test: scheduler_test_parallel ...Thread 4 ends, elapsed time = 2650us
+Thread 13 ends, elapsed time = 2674us
+Thread 6 ends, elapsed time = 2718us
+Thread 14 ends, elapsed time = 2786us
+Thread 16 ends, elapsed time = 2799us
+Thread 5 ends, elapsed time = 2863us
+Thread 8 ends, elapsed time = 2889us
+Thread 7 ends, elapsed time = 2917us
+Thread 10 ends, elapsed time = 2945us
+Thread 2 ends, elapsed time = 2966us
+Thread 12 ends, elapsed time = 3055us
+Thread 1 ends, elapsed time = 3169us
+Thread 9 ends, elapsed time = 3214us
+Thread 3 ends, elapsed time = 4302us
+Thread 15 ends, elapsed time = 4472us
+Thread 11 ends, elapsed time = 4509us
+Thread 19 ends, elapsed time = 7093us
+Thread 29 ends, elapsed time = 7211us
+Thread 28 ends, elapsed time = 7604us
+Thread 25 ends, elapsed time = 7709us
+Thread 22 ends, elapsed time = 8212us
+Thread 18 ends, elapsed time = 8421us
+Thread 31 ends, elapsed time = 8651us
+Thread 21 ends, elapsed time = 8820us
+Thread 23 ends, elapsed time = 9276us
+Thread 30 ends, elapsed time = 9348us
+Thread 32 ends, elapsed time = 9583us
+Thread 27 ends, elapsed time = 9628us
+Thread 17 ends, elapsed time = 9780us
+Thread 26 ends, elapsed time = 9919us
+Thread 24 ends, elapsed time = 9985us
+Thread 20 ends, elapsed time = 9995us
+passed
+  Test: scheduler_test_atomic ...Thread 10 ends, elapsed time = 2427us
+Thread 1 ends, elapsed time = 2447us
+Thread 5 ends, elapsed time = 2558us
+Thread 4 ends, elapsed time = 2587us
+Thread 9 ends, elapsed time = 2636us
+Thread 14 ends, elapsed time = 2733us
+Thread 13 ends, elapsed time = 2806us
+Thread 8 ends, elapsed time = 2814us
+Thread 6 ends, elapsed time = 2815us
+Thread 2 ends, elapsed time = 2841us
+Thread 3 ends, elapsed time = 3069us
+Thread 16 ends, elapsed time = 3094us
+Thread 7 ends, elapsed time = 3221us
+Thread 11 ends, elapsed time = 3461us
+Thread 15 ends, elapsed time = 3454us
+Thread 12 ends, elapsed time = 3526us
+Thread 30 ends, elapsed time = 5175us
+Thread 17 ends, elapsed time = 5430us
+Thread 26 ends, elapsed time = 5662us
+Thread 18 ends, elapsed time = 5733us
+Thread 32 ends, elapsed time = 5757us
+Thread 25 ends, elapsed time = 5901us
+Thread 27 ends, elapsed time = 5951us
+Thread 29 ends, elapsed time = 6068us
+Thread 28 ends, elapsed time = 6131us
+Thread 31 ends, elapsed time = 6144us
+Thread 20 ends, elapsed time = 6238us
+Thread 19 ends, elapsed time = 6583us
+Thread 24 ends, elapsed time = 6603us
+Thread 23 ends, elapsed time = 6701us
+Thread 22 ends, elapsed time = 6708us
+Thread 21 ends, elapsed time = 6656us
+passed
+  Test: scheduler_test_ordered ...Thread 5 ends, elapsed time = 10279us
+Thread 1 ends, elapsed time = 10374us
+Thread 7 ends, elapsed time = 10487us
+Thread 3 ends, elapsed time = 10588us
+Thread 6 ends, elapsed time = 10623us
+Thread 8 ends, elapsed time = 10691us
+Thread 9 ends, elapsed time = 10735us
+Thread 2 ends, elapsed time = 10776us
+Thread 11 ends, elapsed time = 10857us
+Thread 4 ends, elapsed time = 10918us
+Thread 12 ends, elapsed time = 11002us
+Thread 14 ends, elapsed time = 11052us
+Thread 13 ends, elapsed time = 11070us
+Thread 15 ends, elapsed time = 11170us
+Thread 10 ends, elapsed time = 11327us
+Thread 16 ends, elapsed time = 11224us
+Thread 21 ends, elapsed time = 12948us
+Thread 17 ends, elapsed time = 13068us
+Thread 28 ends, elapsed time = 13086us
+Thread 19 ends, elapsed time = 13098us
+Thread 25 ends, elapsed time = 13109us
+Thread 24 ends, elapsed time = 13214us
+Thread 23 ends, elapsed time = 13226us
+Thread 27 ends, elapsed time = 13239us
+Thread 18 ends, elapsed time = 13188us
+Thread 26 ends, elapsed time = 13183us
+Thread 31 ends, elapsed time = 13279us
+Thread 20 ends, elapsed time = 13289us
+Thread 22 ends, elapsed time = 13265us
+Thread 29 ends, elapsed time = 13172us
+Thread 30 ends, elapsed time = 13241us
+Thread 32 ends, elapsed time = 13293us
+passed
+  Test: scheduler_test_chaos ...Thread 2 ends, elapsed time = 8995us
+Thread 1 ends, elapsed time = 9105us
+Thread 14 ends, elapsed time = 9443us
+Thread 5 ends, elapsed time = 9462us
+Thread 13 ends, elapsed time = 9592us
+Thread 6 ends, elapsed time = 9615us
+Thread 9 ends, elapsed time = 9647us
+Thread 8 ends, elapsed time = 9833us
+Thread 3 ends, elapsed time = 9876us
+Thread 10 ends, elapsed time = 9903us
+Thread 7 ends, elapsed time = 9963us
+Thread 16 ends, elapsed time = 10010us
+Thread 4 ends, elapsed time = 10155us
+Thread 15 ends, elapsed time = 10197us
+Thread 11 ends, elapsed time = 10298us
+Thread 12 ends, elapsed time = 10418us
+Thread 21 ends, elapsed time = 11961us
+Thread 25 ends, elapsed time = 12088us
+Thread 29 ends, elapsed time = 12151us
+Thread 17 ends, elapsed time = 12198us
+Thread 22 ends, elapsed time = 12255us
+Thread 28 ends, elapsed time = 12339us
+Thread 26 ends, elapsed time = 12390us
+Thread 18 ends, elapsed time = 12447us
+Thread 24 ends, elapsed time = 12473us
+Thread 30 ends, elapsed time = 12487us
+Thread 32 ends, elapsed time = 12509us
+Thread 27 ends, elapsed time = 12573us
+Thread 20 ends, elapsed time = 12516us
+Thread 31 ends, elapsed time = 12505us
+Thread 19 ends, elapsed time = 12557us
+Thread 23 ends, elapsed time = 12569us
+passed
+  Test: scheduler_test_1q_1t_n ...passed
+  Test: scheduler_test_1q_1t_a ...passed
+  Test: scheduler_test_1q_1t_o ...passed
+  Test: scheduler_test_mq_1t_n ...passed
+  Test: scheduler_test_mq_1t_a ...passed
+  Test: scheduler_test_mq_1t_o ...passed
+  Test: scheduler_test_mq_1t_prio_n ...passed
+  Test: scheduler_test_mq_1t_prio_a ...passed
+  Test: scheduler_test_mq_1t_prio_o ...passed
+  Test: scheduler_test_mq_mt_prio_n ...passed
+  Test: scheduler_test_mq_mt_prio_a ...passed
+  Test: scheduler_test_mq_mt_prio_o ...passed
+  Test: scheduler_test_1q_mt_a_excl ...passed
+  Test: scheduler_test_multi_1q_1t_n ...passed
+  Test: scheduler_test_multi_1q_1t_a ...passed
+  Test: scheduler_test_multi_1q_1t_o ...passed
+  Test: scheduler_test_multi_mq_1t_n ...passed
+  Test: scheduler_test_multi_mq_1t_a ...passed
+  Test: scheduler_test_multi_mq_1t_o ...passed
+  Test: scheduler_test_multi_mq_1t_prio_n ...passed
+  Test: scheduler_test_multi_mq_1t_prio_a ...passed
+  Test: scheduler_test_multi_mq_1t_prio_o ...passed
+  Test: scheduler_test_multi_mq_mt_prio_n ...passed
+  Test: scheduler_test_multi_mq_mt_prio_a ...passed
+  Test: scheduler_test_multi_mq_mt_prio_o ...passed
+  Test: scheduler_test_multi_1q_mt_a_excl ...passed
+
+Run Summary:    Type   Total     Ran  Passed Failed Inactive
+              suites       1       1     n/a      0        0
+               tests      35      35      35      0        0
+             asserts 6107839 6107839 6107839      0      n/a
+
+Elapsed time =  136.690 seconds
+HW time counter freq: 50000000 hz
+
+PASS: scheduler_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Std C library
+  Test: std_clib_test_memcpy ...passed
+  Test: std_clib_test_memset ...passed
+  Test: std_clib_test_memcmp ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      3      3      3      0        0
+             asserts     59     59     59      0      n/a
+
+Elapsed time =    0.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: std_clib_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: thread
+  Test: thread_test_odp_cpu_id ...passed
+  Test: thread_test_odp_thread_id ...passed
+  Test: thread_test_odp_thread_count ...passed
+  Test: thread_test_odp_thrmask_to_from_str ...passed
+  Test: thread_test_odp_thrmask_equal ...passed
+  Test: thread_test_odp_thrmask_zero ...passed
+  Test: thread_test_odp_thrmask_set ...passed
+  Test: thread_test_odp_thrmask_clr ...passed
+  Test: thread_test_odp_thrmask_isset ...passed
+  Test: thread_test_odp_thrmask_count ...passed
+  Test: thread_test_odp_thrmask_and ...passed
+  Test: thread_test_odp_thrmask_or ...passed
+  Test: thread_test_odp_thrmask_xor ...passed
+  Test: thread_test_odp_thrmask_copy ...passed
+  Test: thread_test_odp_thrmask_first ...passed
+  Test: thread_test_odp_thrmask_last ...passed
+  Test: thread_test_odp_thrmask_next ...passed
+  Test: thread_test_odp_thrmask_worker ...passed
+  Test: thread_test_odp_thrmask_control ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     19     19     19      0        0
+             asserts   3416   3416   3416      0      n/a
+
+Elapsed time =    0.010 seconds
+HW time counter freq: 50000000 hz
+
+PASS: thread_main
+running with time_main: 
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Time
+  Test: time_test_constants ...passed
+  Test: time_test_local_res ...passed
+  Test: time_test_local_conversion ...passed
+  Test: time_test_monotony ...passed
+  Test: time_test_local_cmp ...passed
+  Test: time_test_local_diff ...passed
+  Test: time_test_local_sum ...passed
+  Test: time_test_local_wait_until ...passed
+  Test: time_test_wait_ns ...passed
+  Test: time_test_local_accuracy ...passed
+  Test: time_test_global_res ...passed
+  Test: time_test_global_conversion ...passed
+  Test: time_test_global_cmp ...passed
+  Test: time_test_global_diff ...passed
+  Test: time_test_global_sum ...passed
+  Test: time_test_global_wait_until ...passed
+  Test: time_test_global_accuracy ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     17     17     17      0        0
+             asserts     86     86     86      0      n/a
+
+Elapsed time =   39.950 seconds
+HW time counter freq: 50000000 hz
+
+PASS: time.sh
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Timer
+  Test: timer_test_timeout_pool_alloc ...
+Pool info
+---------
+  pool            1
+  name            timeout_pool_alloc
+  pool type       timeout
+  pool shm        14
+  user area shm   0
+  num             3
+  align           64
+  headroom        0
+  seg len         0
+  max data len    0
+  tailroom        0
+  block size      576
+  uarea size      0
+  shm size        1728
+  base addr       0xffffa72c8000
+  uarea shm size  0
+  uarea base addr (nil)
+
+passed
+  Test: timer_test_timeout_pool_free ...
+Pool info
+---------
+  pool            1
+  name            timeout_pool_free
+  pool type       timeout
+  pool shm        14
+  user area shm   0
+  num             1
+  align           64
+  headroom        0
+  seg len         0
+  max data len    0
+  tailroom        0
+  block size      576
+  uarea size      0
+  shm size        576
+  base addr       0xffffa72c8000
+  uarea shm size  0
+  uarea base addr (nil)
+
+passed
+  Test: timer_test_odp_timer_cancel ...passed
+  Test: timer_test_odp_timer_all ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      4      4      4      0        0
+             asserts  73722  73722  73722      0      n/a
+
+Elapsed time =    3.860 seconds
+HW time counter freq: 50000000 hz
+
+PASS: timer_main
+running with traffic_mngr_main: 
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+No interfaces specified, using default "loop".
+
+Suite: traffic_mngr tests
+  Test: traffic_mngr_test_capabilities ...passed
+  Test: traffic_mngr_test_tm_create ...passed
+  Test: traffic_mngr_test_shaper_profile ...passed
+  Test: traffic_mngr_test_sched_profile ...passed
+  Test: traffic_mngr_test_threshold_profile ...passed
+  Test: traffic_mngr_test_wred_profile ...passed
+  Test: traffic_mngr_test_shaper ...passed
+  Test: traffic_mngr_test_scheduler ...passed
+  Test: traffic_mngr_test_thresholds ...passed
+  Test: traffic_mngr_test_byte_wred ...passed
+  Test: traffic_mngr_test_pkt_wred ...passed
+  Test: traffic_mngr_test_query ...passed
+  Test: traffic_mngr_test_marking ...passed
+  Test: traffic_mngr_test_fanin_info ...passed
+  Test: traffic_mngr_test_destroy ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     15     15     15      0        0
+             asserts   9978   9978   9978      0      n/a
+
+Elapsed time =    4.160 seconds
+HW time counter freq: 50000000 hz
+
+PASS: traffic_mngr.sh
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: Shared Memory
+  Test: shmem_test_basic ...Thread 1 starts
+Thread 2 starts
+Thread 3 starts
+Thread 4 starts
+Thread 5 starts
+Thread 6 starts
+Thread 7 starts
+Thread 8 starts
+Thread 9 starts
+Thread 10 starts
+Thread 11 starts
+Thread 12 starts
+Thread 13 starts
+Thread 14 starts
+Thread 15 starts
+Thread 16 starts
+Thread 17 starts
+Thread 18 starts
+Thread 19 starts
+Thread 20 starts
+Thread 21 starts
+Thread 22 starts
+Thread 23 starts
+Thread 24 starts
+Thread 25 starts
+Thread 26 starts
+Thread 27 starts
+Thread 28 starts
+Thread 29 starts
+Thread 30 starts
+Thread 31 starts
+Thread 32 starts
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+ishm blocks allocated at: Memory allocation status:
+    name                      flag len        user_len seq ref start        fd  file
+ 0  odp_thread_globals        ..N  0x1000     1936     1   1  ffff9804d000 3  
+ 1  _odp_pool_table           ..N  0x80f000   8446016  1   1  ffff7715f000 4  
+ 2  odp_queues                ..N  0x40000    262144   1   1  ffff7711f000 5  
+ 3  odp_scheduler             ..N  0x14b000   1354176  1   1  ffff76fd4000 6  
+ 4  odp_pktio_entries         S.N  0x4cd000   5029952  1   1  ffff77a00000 7  
+ 5  crypto_pool               ..N  0x3000     11608    1   1  ffff98047000 8  
+ 6  shm_odp_cos_tbl           ..N  0x5000     20480    1   1  ffff76fcf000 9  
+ 7  shm_odp_pmr_tbl           ..N  0x1c000    114688   1   1  ffff76fb3000 10 
+ 8  shm_odp_cls_queue_grp_tbl ..N  0x4000     16384    1   1  ffff76faf000 11 
+ 9  pool_ring_0               ..N  0x401000   4194432  1   1  ffff76bae000 12 
+10  ipsec_status_pool         ..N  0x100000   1048576  1   1  ffff76aae000 13 
+11  ipsec_sa_table            ..N  0x1000     1600     1   1  ffff98046000 14 
+12  test_shmem                ..N  0x2000     4120     7   1  ffff98044000 15 
+
+ishm virtual space:
+  0xffff77a00000 - 0xffff77eccfff: ALLOCATED by block:4
+  0xffff77ecd000 - 0xffff979fffff: NOT ALLOCATED
+ishm: 2 fragment used. 255 fragments unused. (total=257)
+
+
+SHM block info
+--------------
+ name:       test_shmem
+ file:       
+ expt:       
+ user_flags: 0x0
+ flags:      0x0
+ user_len:   4120
+ start:      0xffff98044000
+ len:        8192
+ page type:  normal
+ seq:        7
+ refcnt:     1
+
+passed
+  Test: shmem_test_reserve_after_fork ...Thread 1 starts
+Thread 2 starts
+Thread 3 starts
+Thread 4 starts
+In thread: Block index: 0 mapped at ffff97b90000
+Thread 6 starts
+Thread 5 starts
+In thread: Block index: 1 mapped at ffff97b8c000
+Thread 7 starts
+Thread 8 starts
+In thread: Block index: 4 mapped at ffff97b87000
+In thread: Block index: 6 mapped at ffff97b86000
+In thread: Block index: 3 mapped at ffff97b8b000
+Thread 9 starts
+In thread: Block index: 7 mapped at ffff97b82000
+Thread 11 starts
+Thread 14 starts
+Thread 13 starts
+Thread 10 starts
+Thread 12 starts
+Thread 15 starts
+In thread: Block index: 2 mapped at ffff74a6a000
+In thread: Block index: 8 mapped at ffff709e2000
+Thread 19 starts
+Thread 17 starts
+Thread 16 starts
+Thread 18 starts
+Thread 20 starts
+In thread: Block index: 5 mapped at ffff72a26000
+In thread: Block index: 9 mapped at ffff6e9d5000
+Thread 21 starts
+Thread 24 starts
+Thread 23 starts
+Thread 22 starts
+In thread: Block index: 13 mapped at ffff6f1d7000
+In thread: Block index: 15 mapped at ffff6b94e000
+Thread 27 starts
+Thread 26 starts
+Thread 25 starts
+Thread 28 starts
+In thread: Block index: 10 mapped at ffff6f9dc000
+Thread 30 starts
+Thread 29 starts
+Thread 31 starts
+Thread 32 starts
+In thread: Block index: 19 mapped at ffff6a107000
+In thread: Block index: 22 mapped at ffff690bb000
+In thread: Block index: 20 mapped at ffff690c0000
+In thread: Block index: 23 mapped at ffff6907b000
+In thread: Block index: 25 mapped at ffff69077000
+In thread: Block index: 21 mapped at ffff690bf000
+In thread: Block index: 14 mapped at ffff6c991000
+In thread: Block index: 28 mapped at ffff69073000
+In thread: Block index: 18 mapped at ffff69100000
+In thread: Block index: 31 mapped at ffff6902e000
+In thread: Block index: 30 mapped at ffff69032000
+In thread: Block index: 29 mapped at ffff69033000
+In thread: Block index: 17 mapped at ffff6c150000
+In thread: Block index: 16 mapped at ffff69902000
+In thread: Block index: 27 mapped at ffff68fed000
+In thread: Block index: 24 mapped at ffff68fec000
+In thread: Block index: 12 mapped at ffff97b81000
+In thread: Block index: 26 mapped at ffff68fee000
+In thread: Block index: 11 mapped at ffff6a90c000
+In main Block index: 0 mapped at ffff97b90000
+In main Block index: 1 mapped at ffff97b8c000
+In main Block index: 2 mapped at ffff74a6a000
+In main Block index: 3 mapped at ffff97b8b000
+In main Block index: 4 mapped at ffff97b87000
+In main Block index: 5 mapped at ffff72a26000
+In main Block index: 6 mapped at ffff97b86000
+In main Block index: 7 mapped at ffff97b82000
+In main Block index: 8 mapped at ffff709e2000
+In main Block index: 9 mapped at ffff6e9d5000
+In main Block index: 10 mapped at ffff6f9dc000
+In main Block index: 11 mapped at ffff6a90c000
+In main Block index: 12 mapped at ffff97b81000
+In main Block index: 13 mapped at ffff6f1d7000
+In main Block index: 14 mapped at ffff6c991000
+In main Block index: 15 mapped at ffff6b94e000
+In main Block index: 16 mapped at ffff69902000
+In main Block index: 17 mapped at ffff6c150000
+In main Block index: 18 mapped at ffff69100000
+In main Block index: 19 mapped at ffff6a107000
+In main Block index: 20 mapped at ffff690c0000
+In main Block index: 21 mapped at ffff690bf000
+In main Block index: 22 mapped at ffff690bb000
+In main Block index: 23 mapped at ffff6907b000
+In main Block index: 24 mapped at ffff68fec000
+In main Block index: 25 mapped at ffff69077000
+In main Block index: 26 mapped at ffff68fee000
+In main Block index: 27 mapped at ffff68fed000
+In main Block index: 28 mapped at ffff69073000
+In main Block index: 29 mapped at ffff69033000
+In main Block index: 30 mapped at ffff69032000
+In main Block index: 31 mapped at ffff6902e000
+passed
+  Test: shmem_test_singleva_after_fork ...Thread 1 starts
+Thread 2 starts
+Thread 3 starts
+Thread 4 starts
+In thread: Block index: 0 mapped at ffff77ecd000
+In thread: Block index: 1 mapped at ffff77ece000
+In thread: Block index: 3 mapped at ffff77f12000
+Thread 7 starts
+Thread 6 starts
+Thread 5 starts
+Thread 8 starts
+Thread 9 starts
+In thread: Block index: 4 mapped at ffff77f13000
+In thread: Block index: 2 mapped at ffff77ed2000
+Thread 11 starts
+Thread 10 starts
+Thread 12 starts
+In thread: Block index: 10 mapped at ffff77f9c000
+In thread: Block index: 5 mapped at ffff77f17000
+In thread: Block index: 9 mapped at ffff77fa0000
+In thread: Block index: 7 mapped at ffff77f58000
+In thread: Block index: 6 mapped at ffff77f57000
+Thread 13 starts
+Thread 16 starts
+Thread 14 starts
+Thread 15 starts
+In thread: Block index: 11 mapped at ffff77fa1000
+In thread: Block index: 15 mapped at ffff78026000
+In thread: Block index: 12 mapped at ffff77fe1000
+In thread: Block index: 8 mapped at ffff77f5c000
+In thread: Block index: 13 mapped at ffff77fe2000
+Thread 22 starts
+Thread 18 starts
+Thread 21 starts
+Thread 17 starts
+Thread 23 starts
+Thread 19 starts
+Thread 20 starts
+Thread 24 starts
+In thread: Block index: 16 mapped at ffff78027000
+In thread: Block index: 14 mapped at ffff77fe6000
+In thread: Block index: 17 mapped at ffff7802b000
+Thread 26 starts
+Thread 25 starts
+Thread 27 starts
+Thread 28 starts
+Thread 30 starts
+Thread 29 starts
+In thread: Block index: 18 mapped at ffff7806b000
+In thread: Block index: 22 mapped at ffff780b0000
+In thread: Block index: 19 mapped at ffff780ac000
+Thread 31 starts
+Thread 32 starts
+In thread: Block index: 24 mapped at ffff780f5000
+In thread: Block index: 30 mapped at ffff7813f000
+In thread: Block index: 20 mapped at ffff7806c000
+In thread: Block index: 27 mapped at ffff780fa000
+In thread: Block index: 23 mapped at ffff780b5000
+In thread: Block index: 21 mapped at ffff780b4000
+In thread: Block index: 25 mapped at ffff780f6000
+In thread: Block index: 31 mapped at ffff78180000
+In thread: Block index: 28 mapped at ffff7813b000
+In thread: Block index: 26 mapped at ffff780fb000
+In thread: Block index: 29 mapped at ffff78140000
+passed
+  Test: shmem_test_stress ...passed
+
+Run Summary:    Type   Total     Ran  Passed Failed Inactive
+              suites       1       1     n/a      0        0
+               tests       4       4       4      0        0
+             asserts 1882180 1882180 1882180      0      n/a
+
+Elapsed time =   50.250 seconds
+HW time counter freq: 50000000 hz
+
+PASS: shmem_main
+HW time counter freq: 50000000 hz
+
+PKTIO: initialized loop interface.
+PKTIO: initialized ipc interface.
+PKTIO: initialized socket mmap, use export ODP_PKTIO_DISABLE_SOCKET_MMAP=1 to disable.
+PKTIO: initialized socket mmsg,use export ODP_PKTIO_DISABLE_SOCKET_MMSG=1 to disable.
+	ODP API version: 1.17.0
+	ODP implementation name:    "odp-linux"
+	ODP implementation version: "odp-linux" 1.17.0-0 (v1.17.0) 1.17.0.0
+
+
+     CUnit - A unit testing framework for C - Version 2.1-2
+     http://cunit.sourceforge.net/
+
+
+Suite: System Info
+  Test: system_test_odp_version_numbers ...passed
+  Test: system_test_odp_cpu_count ...passed
+  Test: system_test_odp_sys_cache_line_size ...passed
+  Test: system_test_odp_cpu_model_str ...passed
+  Test: system_test_odp_cpu_model_str_id ...passed
+  Test: system_test_odp_sys_page_size ...passed
+  Test: system_test_odp_sys_huge_page_size ...passed
+  Test: system_test_odp_sys_huge_page_size_all ...passed
+  Test: system_test_odp_cpu_hz_max ...passed
+  Test: system_test_odp_cpu_hz_max_id ...passed
+  Test: system_test_odp_cpu_cycles ...passed
+  Test: system_test_odp_cpu_cycles_max ...passed
+  Test: system_test_odp_cpu_cycles_resolution ...passed
+  Test: system_test_odp_cpu_cycles_diff ...wrap was not detected...passed
+  Test: system_test_info_print ...
+
+Calling system info print...
+
+ODP system info
+---------------
+ODP API version: 1.17.0
+ODP impl name:   "odp-linux"
+CPU model:       UNKNOWN
+CPU freq (hz):   1400000000
+Cache line size: 64
+CPU count:       64
+
+...done. passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     17     15     15      0        2
+             asserts   1196   1196   1196      0      n/a
+
+Elapsed time =   17.000 seconds
+HW time counter freq: 50000000 hz
+
+PASS: system_main
+TEST RESULT: 35 tests passed, 0 skipped, 0 failed
