@@ -7,6 +7,7 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
+        - mahongxin
         - database
         - mysql 
     os:
