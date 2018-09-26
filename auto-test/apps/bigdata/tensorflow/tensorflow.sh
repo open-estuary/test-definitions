@@ -35,14 +35,14 @@ case $distro in
     pkgs="wget python-pip python-dev gcc vim expect"
     install_deps "$pkgs"
     mkdir -p /usr/share/tensorflow
-    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl ~/usr/share/tensorflow
+    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl /usr/share/tensorflow
     print_info $? install-tensorflow
     ;;
     "fedora"|"opensuse")
     pkgs="wget python-pip python-devel gcc vim expect"
     install_deps "$pkgs"
     mkdir -p /usr/share/tensorflow
-    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl ~/usr/share/tensorflow
+    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl /usr/share/tensorflow
     print_info $? install-tensorflow
     ;;
 esac
@@ -119,12 +119,12 @@ case $distro in
     "ubuntu"|"debian")
     pkgs="wget python-pip python-dev gcc vim expect"
     remove_deps "$pkgs"
-    print_info $? install-tensorflow
+    print_info $? remove-tensorflow
     rm -rf /usr/share/tensorflow
     "fedora"|"opensuse")
     pkgs="wget python-pip python-devel gcc vim expect"
     rm -rf /usr/share/tensorflow
     remove_deps "$pkgs"
-    print_info $? install-tensorflow
+    print_info $? remove-tensorflow
     ;;
 esac
