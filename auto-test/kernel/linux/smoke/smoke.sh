@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # shellcheck disable=SC1091
 cd ../../../../utils
@@ -22,10 +22,9 @@ while getopts "s:h" o; do
 done
 
 install() {
-    dist_name
     # shellcheck disable=SC2154
-    case "${dist}" in
-      debian|ubuntu) install_deps "lsb-release sysstat" "${SKIP_INSTALL}"
+    case "${distro}" in
+      debian|ubuntu) install_deps "lsb-release sysstat numactl lsof pciutils usbutils dmidecode" "${SKIP_INSTALL}"
       print_info $? install-pkg
       ;;
       fedora|centos|opensuse) install_deps "lshw lsof pcp-import-iostat2pcp redhat-lsb-core numactl pciutils usbutils sysstat dmidecode" "${SKIP_INSTALL}"
