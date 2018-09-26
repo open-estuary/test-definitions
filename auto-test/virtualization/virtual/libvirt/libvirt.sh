@@ -30,14 +30,10 @@ case "${distro}" in
 	print_info $? install-package
 	;;
    centos)
-	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils"
+	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils libvirt-python virt-manager"
 	install_deps "${pkgs}"
 	print_info $? install-package
 	#添加loaler文件
-	#wget  http://120.31.149.194:18083/test_dependents/AAVMF_CODE.fd
-	wget -c http://192.168.50.122:8083/test_dependents/AAVMF_CODE.fd
-	mkdir -p /usr/share/AAVMF/
-	cp ./AAVMF_CODE.fd /usr/share/AAVMF/
 	;;
    fedora)
 	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils"
@@ -59,12 +55,12 @@ sed -i "s/#auth_unix_rw = /auth_unix_rw = /g" $LIBVIRT
 #Use non-encrypted TCP/IP sockets
 sed -i "s/#listen_tls = 0/listen_tls = 0/g" $LIBVIRT
 sed -i "s/#listen_tcp = 1/listen_tcp = 1/g" $LIBVIRT
-sed -i "s/#auth_tcp=/auth_tcp=/g" $LIBVIRT
+sed -i "s/#auth_tcp="sasl"/auth_tcp="none"/g" $LIBVIRT
 #Add root to users and groups
 sed -i "s/#user = /user = /g" /etc/libvirt/qemu.conf
 sed -i "s/#group = /group = /g" /etc/libvirt/qemu.conf
 
-service libvirtd start
+systemctl start libvirtd 
 print_info $? libvirtd_start
 
 res=`virsh -c qemu:///system list|grep "Id"|awk '{print $1}'`
@@ -113,22 +109,22 @@ virsh attach-device domain_aarch64 disk.xml
 print_info $? domain_attach-device
 
 #通过attach-disk进行磁盘热插拔
-qemu-img create -f qcow2 /home/domain/test.img 500G
-virsh attach-disk domain_aarch64 /home/domain/test.img vdb --subdriver qcow2
-print_info $? domain_attach-disk
+#qemu-img create -f qcow2 /home/domain/test.img 500G
+#virsh attach-disk domain_aarch64 /home/domain/test.img vdb --subdriver qcow2
+#print_info $? domain_attach-disk
 
 #删除热插拔
 virsh detach-device domain_aarch64 disk.xml
 print_info $? domain_detach_device
 
-virsh detach-disk domain_aarch64 /home/domain/test.img
-print_info $? domain_detach_disk
+#virsh detach-disk domain_aarch64 /home/domain/test.img
+#print_info $? domain_detach_disk
 
 #使用blkdeviotune设置虚拟机的读写速度和iops
 BLKDEV=`virsh domblklist domain_aarch64|grep "cirros-0.4.0-aarch64-disk.img"|awk '{print $1}'`
-virsh blkdeviotune domain_aarch64 $BLKDEV --read-bytes-sec 20000000 --write-bytes-sec 1000000 --total-iops-sec 30 --read-iops-sec 15 --write-iops-sec 15 --live
-res=`virsh blkdeviotune domain_aarch64 $BLKDEV|grep "total_iops_sec"|awk '{print $3}'`
-if [ "$res"x == "80"x ];then
+virsh blkdeviotune domain_aarch64 $BLKDEV --read-bytes-sec 20000000 --write-bytes-sec 1000000  --read-iops-sec 15 --write-iops-sec 15 --live
+res=`virsh blkdeviotune domain_aarch64 $BLKDEV|grep "read_iops_sec"|awk '{print $3}'`
+if [ "$res"x == "15"x ];then
         print_info 0 domain_blkdeviotune
 else
         print_info 1 domain_blkdeviotune
