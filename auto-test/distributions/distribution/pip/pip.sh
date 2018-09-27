@@ -18,7 +18,7 @@ case $distro in
     "ubuntu"|"debian")
         apt-get install python-pip -y
         ;;
-     "opensuse")
+    "opensuse")
         pkgs="python2"
         install_deps "${pkgs}" 
         ;;
@@ -84,7 +84,7 @@ case $distro in
         apt-get remove python-pip -y
         print_info $? remove-pip
         ;;
-    "opensuse"£©
+    "opensuse")
     remove_deps "${pkgs}"
     print_info $? remove-pip
     ;;
