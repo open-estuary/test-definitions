@@ -1,6 +1,6 @@
 #!/bin/bash
 #Aurthor: liucaili
-#set -x
+set -x
 
 #加载外部环境
 cd ../../../../utils
