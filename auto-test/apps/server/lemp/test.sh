@@ -27,16 +27,16 @@ case "$distro" in
     centos|fedora)
 	systemctl stop httpd.service > /dev/null 2>&1 || true
 	systemctl stop mysql
-	packages=`rpm -qa | grep -i "mysql"`
-            for package in $packages
+	packages1=`rpm -qa | grep -i "mysql"`
+            for package_a in $packages1
             do
-                yum remove -y $package
+                yum remove -y $package_a
             done
             
-	packages=`rpm -qa | grep -i "mariadb"`
-            for package in $packages
+	packages2=`rpm -qa | grep -i "mariadb"`
+            for package_b in $packages2
             do
-                yum remove -y $package
+                yum remove -y $package_b
             done
 	rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld /mysql /percona
 	userdel -r mysql
