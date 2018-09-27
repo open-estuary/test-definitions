@@ -110,7 +110,7 @@ function mysql_client(){
 }
 
 function mysql_load_data(){
-    
+     yum install wget -y
     if [ ! -d test_db ];then
          wget -c -q  http://192.168.50.122:8083/test_dependents/test_db.zip 
 

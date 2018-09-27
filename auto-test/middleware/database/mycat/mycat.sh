@@ -118,7 +118,7 @@ case $distro in
       print_info $? mycat-version
       #修改mycat所属组
       chown -R mycat.mycat /usr/local/mycat
-      print_info $? chown-mycat
+      #print_info $? chown-mycat
       ;;
 esac
 #修改此项是为了解决mycat登录失败报错：java.lang.outofmemoryerror:direct buff
