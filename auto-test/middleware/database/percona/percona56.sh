@@ -12,7 +12,7 @@
 
 function percona_install(){
     
-    yum install -y git 
+    yum install -y git wget 
     yum install -y Percona-Server-server-56
     if [ $? -ne 0  ];then
         percona_uninstall
