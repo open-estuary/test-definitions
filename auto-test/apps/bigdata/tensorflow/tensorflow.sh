@@ -1,6 +1,6 @@
 #!/bin/bash
 #Aurthor: liucaili
-#set -x
+set -x
 
 #加载外部环境
 cd ../../../../utils
@@ -34,6 +34,7 @@ case $distro in
     "ubuntu"|"debian")
     pkgs="wget python-pip python-dev gcc vim expect"
     install_deps "$pkgs"
+    sleep 18m
     mkdir -p /usr/share/tensorflow
     wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl /usr/share/tensorflow
     print_info $? install-tensorflow
@@ -41,6 +42,7 @@ case $distro in
     "fedora"|"opensuse")
     pkgs="wget python-pip python-devel gcc vim expect"
     install_deps "$pkgs"
+    sleep 18m
     mkdir -p /usr/share/tensorflow
     wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl /usr/share/tensorflow
     print_info $? install-tensorflow
