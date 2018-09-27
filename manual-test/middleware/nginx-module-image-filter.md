@@ -91,7 +91,9 @@ Remark:
        cd images/111.jpg#图片可以自己随意添加
 
     8.开始进行图片测试
-       /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf &
+        1.先停止nginx  
+	2.关闭防火墙
+        3./usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf &
 
     9.查看单板的ip地址
        ip addr
