@@ -6,6 +6,7 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
+        -  mahongxin1
         - database
         - mysql
     os:
@@ -18,7 +19,7 @@ metadata:
         centos: 20
 run:
     steps:
-        - "cd auto-test/middleware/database/mysql-connector-c++; ./mysql-connector-c++.sh; cd -"
+        - "cd auto-test/middleware/database/mysql-connector-c; ./mysql-connector-c.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
