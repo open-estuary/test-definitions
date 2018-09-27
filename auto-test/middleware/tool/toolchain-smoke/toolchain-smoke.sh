@@ -81,7 +81,7 @@ run_test_case "${command}" "${skip_list}"
       else
       print_info 1 build-essential_install
       fi ;;
-   fedora|centos) remove_deps "glibc-static" 
+   fedora|centos|opensuse) remove_deps "glibc-static" 
       if test $? -eq 0;then
       print_info 0 glibc-static_remove
       else
