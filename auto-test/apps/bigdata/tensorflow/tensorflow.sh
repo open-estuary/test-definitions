@@ -36,7 +36,7 @@ case $distro in
     install_deps "$pkgs"
     sleep 18m
     mkdir -p /usr/share/tensorflow
-    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl ~/usr/share/tensorflow
+    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl /usr/share/tensorflow
     print_info $? install-tensorflow
     ;;
     "fedora"|"opensuse")
@@ -44,7 +44,7 @@ case $distro in
     install_deps "$pkgs"
     sleep 18m
     mkdir -p /usr/share/tensorflow
-    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl ~/usr/share/tensorflow
+    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl /usr/share/tensorflow
     print_info $? install-tensorflow
     ;;
 esac
