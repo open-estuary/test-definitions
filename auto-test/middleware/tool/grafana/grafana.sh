@@ -1,49 +1,23 @@
 #!/bin/bash
+
+set -x
 cd ../../../../utils
-.            ./sys_info.sh
-.            ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
+
 cd -
 
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-LOG_FILE="${OUTPUT}/log.txt"
-SKIP_INSTALL="no"
-VERSION="4.4.1"
-SOURCE="Estuary"
-PACKAGE="grafana"
 ! check_root && error_msg "This script must be run as root"
-create_out_dir "${OUTPUT}"
-install_grafana() {
-    dist_name
-    # shellcheck disable=SC2154
-    case "${dist}" in
-      centos) 
-            install_deps "${PACKAGE}" "${SKIP_INSTALL}"
-            if test $? -eq 0;then
-               print_info 0 install
-            else
-               print_info 1 install
-                exit 1
-            fi
-            version=$(yum info ${PACKAGE} | grep "^Version" | awk '{print $3}')
-            if [ ${version} = ${VERSION} ];then
-                 print_info 0 version
-            else
-                 print_info 1 version
-                exit 1
-            fi
-            sourc=$(yum info ${PACKAGE} | grep "^From repo" | awk '{print $4}')
-            if [ ${sourc} = ${SOURCE} ];then
-                 print_info 0 repo_check
-            else
-                 print_info 1 repo_check
-                exit 1
-            fi
-            ;;
-      unknown) warn_msg "Unsupported distro: package install skipped" ;;
-    esac
-}
-install_grafana
+
+pkgs="wget curl"
+install_deps "${pkgs}"
+
+#下载并安装grafana
+wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.4-1.aarch64.rpm
+
+yum localinstall grafana-5.2.4-1.aarch64.rpm -y
+print_info $? install_grafana
+
 
 # cfgfile check
 find /etc/grafana/grafana.ini 
@@ -53,21 +27,56 @@ else
     print_info 1 cfgfile_check
 fi
 
+#启动grafana服务
 systemctl daemon-reload
-print_info $? daemon-reload
-#systemctl start grafana-server
-#systemctl status grafana-server|grep -i failed
-#if test $? -eq 0;then
-#   print_info 1 fail 
-#else
-#     print_info 0 succee
-#fi
+systemctl start grafana-server
+systemctl status grafana-server|grep "running"
+print_info $? start_grafana
  
-remove_deps "${PACKAGE}"
-if test $? -eq 0;then
-   print_info 0 remove
+
+#grafana默认使用3000端口,需打开端口
+systemctl start firewalld
+firewall-cmd --zone=public --add-port=3000/tcp --permanent
+firewall-cmd --reload
+res=`firewall-cmd --zone=public --list-ports|grep "3000/tcp"`
+if [ "$res"x != " "x ];then
+	print_info 0 add_port
 else
-     print_info 1 remove
+	print_info 1 add_port
 fi
+
+
+IFCONFIG=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
+IP=`ip a|grep ${IFCONFIG}|grep "inet "|awk '{print $2}'|cut -d '/' -f 1`
+
+#查看是否能使用浏览器访问grafana
+curl -o "output" "http://${IP}:3000/login/"
+grep 'Grafana' ./output
+print_info $? grafana_web
+
+
+#remove grafana
+package=`rpm -qa|grep "grafana"`
+yum remove $package -y
+print_info $? remove_grafana
+
+
+rm -rf grafana-5.2.4-1.aarch64.rpm
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
 
 
