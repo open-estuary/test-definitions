@@ -8,7 +8,7 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 
-version="4.16.0"
+version="4.18.7"
 
 # Check the version 
 vers=`uname -r|cut -b 1-6`

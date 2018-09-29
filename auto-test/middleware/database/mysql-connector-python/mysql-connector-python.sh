@@ -32,13 +32,26 @@ case "${distro}" in
 	print_info $? install_mysql_python
 
         ;;
-    ubuntu|debian)
-        apt-get remove --purge mysql-server -y
+    debian)
+	./test.sh
+	print_info $? delete_package
+	apt-get remove --purge mysql-server
         pkgs="mysql-server mysql-client python python-pip expect"
-	pip install mysql-connector-python
         install_deps "${pkgs}"
 	print_info $? install-mysql-community
+	pip install mysql-connector-python
 	;;
+    ubuntu)
+	./test.sh
+	print_info $? delete_package
+	apt-get remove --purge mysql-server
+	#dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
+	pkgs="mysql-server python python-pip expect"
+	install_deps "${pkgs}"
+        print_info $? install-mysql-community
+        pip install mysql-connector-python
+	;;
+
 esac
 
 ##################### the testing step ###########################
@@ -47,8 +60,58 @@ systemctl start mysql
 print_info $? start-mysqld
 
 #给root用户添加密码
-mysqladmin -u root password "root"
-print_info $? set-root-pwd
+case "${distro}" in
+    centos)
+	mysqladmin -u root password "root"
+	print_info $? set-root-pwd
+	;;
+    debian)
+	EXPECT=$(which expect)
+	$EXPECT << EOF
+	set timeout 100
+	spawn mysql -uroot -p
+	expect "password:"
+	send "root\r"
+	expect ">"
+	send "use mysql;\r"
+	expect ">"
+	send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
+	expect "OK"
+	send "FLUSH PRIVILEGES;\r"
+	expect "OK"
+	send "exit\r"
+	expect eof
+EOF
+	systemctl restart mysql
+	print_info $? set-root-pwd
+	;;
+    ubuntu)
+        EXPECT=$(which expect)
+        $EXPECT << EOF
+        set timeout 100
+        spawn mysql -uroot -p
+        expect "password:"
+        send "root\r"
+        expect ">"
+        send "use mysql;\r"
+        expect ">"
+        send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+        expect "OK"
+        send "update mysql.user set authentication_string=password('root') where user='root' and Host = 'localhost';\r"
+        expect "OK"
+        send "FLUSH PRIVILEGES;\r"
+        expect "OK"
+        send "exit\r"
+        expect eof
+EOF
+        systemctl restart mysql
+        print_info $? set-root-pwd
+        ;;
+
+esac
+
+
+
 
 #Determine if the file exists
 if !  test  -f "test.py" ;then
@@ -115,11 +178,16 @@ case "${distro}" in
         remove_deps "${pkgs1}"
         print_info $? remove-mysql
         ;;
-    ubuntu|debian)
-        apt-get remove --purge mysql-server -y
-        apt-get remove mysql-client -y
-	pip uninstall mysql-connector-python -y
+    debian)
+	./test.sh
+	apt-get remove --purge mysql-server
         print_info $? remove-mysql
+	;;
+    ubuntu)
+    	./test.sh
+   	apt-get remove --purge mysql-server
+	#dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
+	print_info $? remove-mysql
         ;;
 esac
 

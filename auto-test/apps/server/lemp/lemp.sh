@@ -8,14 +8,20 @@ set -x
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sh-test-lib
 
+
 case "$distro" in
     debian)
-	apt-get install mysql-server -y
+	#清理环境
+	./test.sh
+	apt-get remove --purge mysql-server
+	
+	#安装包
+	apt-get install mysql-server mysql-client -y
 	pkgs="nginx php-mysql php-fpm curl"
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
-	systemctl stop apache2 > /dev/null 2>&1 || true
 	
+	#修改配置文件
 	# Configure PHP.
 	cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
@@ -29,14 +35,19 @@ case "$distro" in
 	;;
         
     ubuntu)
+	#清理环境
+	./test.sh
+	apt-get remove --purge mysql-server
 	echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
 	echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
-	apt-get install mysql-server -y
+	
+	#安装包
+	apt-get install mysql-server mysql-client -y
 	pkgs="nginx php php-mysql php-common libapache2-mod-php curl php7.2-fpm"
         install_deps "${pkgs}"
         print_info $? install-pkgs
-        systemctl stop apache2 > /dev/null 2>&1 || true
-	
+        
+	#修改配置文件
 	# Configure PHP.
 	cp /etc/php/7.2/fpm/php.ini /etc/php/7.2/fpm/php.ini.bak
 	sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/fpm/php.ini
@@ -49,12 +60,13 @@ case "$distro" in
         systemctl start mysql
 	;;
     centos)
-        # x86_64 nginx package can be installed from epel repo. However, epel
-        # project doesn't support ARM arch yet. RPB repo should provide nginx.
-        yum remove -y `rpm -qa | grep -i mysql`
-        yum remove -y `rpm -qa | grep -i alisql`
-        yum remove -y `rpm -qa | grep -i percona`
-        yum remove -y `rpm -qa | grep -i mariadb`
+	#清理环境
+	./test.sh
+        #yum remove -y `rpm -qa | grep -i mysql`
+        #yum remove -y `rpm -qa | grep -i alisql`
+        #yum remove -y `rpm -qa | grep -i percona`
+        #yum remove -y `rpm -qa | grep -i mariadb`
+
         pkgs="curl nginx mysql-community-server php php-mysql php-fpm"
 	install_deps "${pkgs}"
         print_info $? install-pkgs
@@ -65,7 +77,7 @@ case "$distro" in
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php.ini
         sed -i "s/doc_root =/doc_root=\/usr\/share\/nginx\/html/" /etc/php.ini
         # Configure NGINX for PHP.
-	cp /etc/nginx/nginx.conf.default /etc/nginx/nginx.conf.default.bak
+	cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
         cp ../../../../utils/centos-nginx.conf /etc/nginx/conf.d/default.conf
         
 	systemctl start php-fpm
@@ -73,10 +85,13 @@ case "$distro" in
 	systemctl start mysql
      	;;
     fedora)
+	#清理环境
+	./test.sh
+	
+	#安装包
 	pkgs="curl nginx mariadb-server php php-mysqlnd php-fpm"
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql	
-	systemctl stop httpd.service > /dev/null 2>&1 || true
 
 	# Configure PHP.
 	cp /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.conf.bak
@@ -102,7 +117,35 @@ grep 'Test Page for the Nginx HTTP Server' ./output
 print_info $? test-nginx-server
 
 # Test MySQL.
-mysqladmin -u root password lxmptest
+case "${distro}" in
+    centos|fedora)
+	mysqladmin -u root password lxmptest
+	print_info $? set-root-pwd
+        ;;
+    ubuntu)
+        EXPECT=$(which expect)
+        $EXPECT << EOF
+        set timeout 100
+        spawn mysql -uroot -p
+        expect "password:"
+        send "lxmptest\r"
+        expect ">"
+        send "use mysql;\r"
+        expect ">"
+	send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+	expect "OK"
+        send "UPDATE user SET authentication_string=PASSWORD('lxmptest') where USER='root';\r"
+        expect "OK"
+        send "FLUSH PRIVILEGES;\r"
+        expect "OK"
+        send "exit\r"
+        expect eof
+EOF
+        print_info $? set-root-pwd
+        ;;
+esac
+
+#mysqladmin -u root password lxmptest
 mysql --user='root' --password='lxmptest' -e 'show databases'
 print_info $? mysql-show-databases
 
@@ -183,11 +226,13 @@ rpm -e --nodeps curl
 #remove packges
 case "${distro}" in
     ubuntu|debian)
+	./test.sh
 	apt-get remove --purge mysql-sever -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;
     centos|fedora)
+	./test.sh
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;

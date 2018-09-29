@@ -94,25 +94,25 @@ elif [ "${TEST_SUITE}" = "TESTS" ]; then
 fi
 case $distro in
     "centos")
-        yum remove git golang device-mapper-devel -y
+        yum remove golang device-mapper-devel -y
         print_info $? remove-pkg
         ;;
     "ubuntu"|"debian")
 	if [ "${Codename}" = "jessie" ]; then
-           remove_deps "git libdevmapper-dev"
+           remove_deps "libdevmapper-dev"
 	   remove_deps "-t jessie-backports golang"
 	   print_info $? remove-pkgs
         else
-	   remove_deps "git golang libdevmapper-dev"
+	   remove_deps "golang libdevmapper-dev"
 	   print_info $? remove-pkgs
        fi
        ;;
     "fedora")
-        dnf remove git golang device-mapper-devel -y
+        dnf remove golang device-mapper-devel -y
 	print_info $? remove-pkg
        ;;
     "opensuse")
-        remove_deps "git go device-mapper-devel"
+        remove_deps "go device-mapper-devel"
         print_info $? remove-pkgs
        ;;
 

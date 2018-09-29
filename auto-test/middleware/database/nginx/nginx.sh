@@ -8,15 +8,27 @@
 #
 #================================================================*/
 
+set -x
+
+cd ../../../../utils
+source ./sys_info.sh
+source ./sh-test-lib
+cd -
+
+! check_root && error_msg "Please run this script as root."
+
+pkgs="curl"
+install_deps "${pkgs}"
+
 function nginx_install(){
 case "${distro}" in
     centos|fedora)
-	pkgs="curl nginx php php-fpm"
+	pkgs="nginx php php-fpm"
 	install_deps "${pkgs}"
 	print_info $? "install_nginx_php"
 	;;
     debian|ubuntu)
-	pkgs="curl nginx php-fpm"
+	pkgs="nginx php-fpm"
         install_deps "${pkgs}"
         print_info $? "install_nginx_php"
         ;;
@@ -119,9 +131,9 @@ esac
 
 function nginx_base_fun(){
 
-    curl localhost:80 | grep "Welcome to nginx"
+    curl localhost:80 | grep "Welcome to"
     print_info $? "nginx_can_normal_access"
-    
+systemctl start php-fpm    
 }
 
 

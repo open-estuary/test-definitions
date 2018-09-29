@@ -17,18 +17,22 @@ outDebugInfo
 function memcached_install(){
 case $distro in
     "centos"|"fedora")
-	pkgs="memcached libevent python2-pip nmap-ncat python"
+	yum install python -y
+    	pkgs="memcached libevent python2-pip nmap-ncat"
 	install_deps "${pkgs}"
         pip install -q python-memcached
 	print_info $? install_pkgs	
         ;;
     "ubuntu"|"debian")
-	pkgs="memcached libevent-dev python"
+	apt-get install python -y
+	pkgs="memcached libevent-dev python-pip"
         install_deps "${pkgs}"
+	pip install -q python-memcached
         print_info $? install_pkgs
 	;;
     "opensuse")
-	pkgs="memcached libevent-2_1-8 python"
+	zypper install -y python
+	pkgs="memcached libevent-2_1-8"
 	install_deps "${pkgs}" 
         print_info $? install_pkgs
         ;;

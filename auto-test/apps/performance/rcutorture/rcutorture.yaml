@@ -18,6 +18,9 @@ metadata:
     totalcase:
         centos: 5
         fedora: 5
+        ubuntu: 5
+        debian: 5
+        opensuse: 5
 params:
     SKIP_INSTALL: "false"
     TORTURE_TIME: 600

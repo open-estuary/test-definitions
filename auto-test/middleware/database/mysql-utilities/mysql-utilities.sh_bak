@@ -77,10 +77,10 @@ mysqldiff --server1=root:root@localhost --server2=root:root@localhost db1:db2 | 
 cat out.log | grep 'Compare failed'
 print_info $? diff-different-db
 
-#timeout 5m mysqlserverclone --server=root:root@localhost --new-data=/tmp/data/ \
-#	--new-port=3310 --new-id=3310 --root-password=3310 --user=mysql -vvv | tee out.log
-#cat out.log | grep 'done'
-#print_info $? clone-server-3310
+timeout 5m mysqlserverclone --server=root:root@localhost --new-data=/tmp/data/ \
+	--new-port=3310 --new-id=3310 --root-password=3310 --user=mysql -vvv | tee out.log
+cat out.log | grep 'done'
+print_info $? clone-server-3310
 
 ps -ef | grep 3310
 print_info $? check-server-3310

@@ -78,7 +78,7 @@ print_info $? ping-gateway
 run "curl http://192.168.50.122:8083/test_dependents/lmbench3.tar.gz -o lmbench3" "download-a-file"
 print_info $? curl
 
-rm -rf lmbench3.tar.gz 
+rm -rf lmbench3
 
 case $distro in
     "opensuse")

@@ -3,6 +3,7 @@
 set -x
 cd ../../../../utils
 . ./sys_info.sh
+. ./sh-test-lib
 cd -
 if [ `whoami` != 'root' ]; then
     echo "You must be the superuser to run this script" >$2
@@ -10,6 +11,7 @@ if [ `whoami` != 'root' ]; then
 fi
 case $distro in
     "ubuntu")
+        apt-get install dnsutils dig -y;
         apt-get install bind9 -y;
         print_info $? install-dns
         ;;

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (C) 2017-12-28.
 #search engine
 # Author: mahongxin <hongxin_228@163.com>
@@ -16,22 +16,23 @@ case $distro in
     print_info $? install-jmeter
     ;;
     debian|ubuntu)
-    install_deps "jmeter openjdk-8-jdk"
+    install_deps "nginx jmeter openjdk-8-jdk"
     jm=jmeter
     print_info $? install-jmeter
     ;;
     fedora)
-    install_deps "jmeters"
+    install_deps "java-1.8.0-openjdk jmeters"
     jm=jmeters
     print_info $? install-jmeter
     ;;
 esac
-Check_Version "3.3"
+jmeter -v 
 print_info $? jmeter-version
 
-Check_Repo "Estuary"
-print_info $? jmeter-repo
-if [ `which java` eq 0 ];then
+#Check_Repo "Estuary"
+#print_info $? jmeter-repo
+which java
+if [ $? eq 0 ];then
 	install_deps "java"
 	print_info $? install-java
 fi
@@ -49,8 +50,8 @@ print_info $? restart-web-server
 $jm -v
 print_info $? jmeter-deploy
 
-./${jm}  -n -t my_test.jmx -l test.jtl 2>&1 | tee jmeter.log
-# ${jm} -n -t /opt/jmeter/bin/examples/CSVSample.jmx -l result.csv -j log.log
+${jm}  -n -t my_test.jmx -l test.jtl 2>&1 | tee jmeter.log
+${jm} -n -t /opt/jmeter/bin/examples/CSVSample.jmx -l result.csv -j log.log
 print_info $? run-jmeter
 
 cat result.csv | grep false

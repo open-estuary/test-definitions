@@ -24,8 +24,15 @@ esac
 chmod 777 /etc/named.conf
 sed -i 's/127.0.0.1/any/g' /etc/named.conf
 sed -i 's/localhost/any/g' /etc/named.conf
+
+cat /etc/named.rfc1912.zones|grep "example.com.zone"
+if [ $? -eq 0 ];then
 sed -i '42a zone "example.com" IN\{ \ntype master; \nfile "example.com.zone";\n\};\
 zone "realhostip.com" IN \{ \ntype master; \nfile "named.realhostip.com";\n\};' /etc/named.rfc1912.zones
+
+else
+echo 000
+fi
 cp -p /var/named/named.localhost /var/named/example.com.zone
 
 cat << EOF > /var/named/example.com.zone
@@ -60,7 +67,7 @@ cat << EOF >> /var/named/named.realhostip.com
 192-168-1-80  IN A       192.168.1.80
 EOF
 chmod 777 /var/named/named.realhostip.com
-board_ip=`ip addr |grep "inet 192"|cut -c10-22|head -1`
+board_ip=`ip addr |grep "inet 192"|cut -c10-22|sed "s#/.*##g"|head -1`
 sed -i "2i\\nameserver ${board_ip}" /etc/resolv.conf
 systemctl restart named.service
 print_info $? restart-dns

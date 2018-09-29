@@ -3,8 +3,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "grafana 可视化的工具."
     maintainer:
-        - shuangchengchen@qq.com
-        - fyuanz_2010@163.com
+        - 1136920311@qq.com
     os:
         - centos
     scope:

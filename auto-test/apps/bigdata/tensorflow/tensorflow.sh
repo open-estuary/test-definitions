@@ -121,12 +121,12 @@ case $distro in
     "ubuntu"|"debian")
     pkgs="wget python-pip python-dev gcc vim expect"
     remove_deps "$pkgs"
-    print_info $? install-tensorflow
+    print_info $? remove-tensorflow
     rm -rf /usr/share/tensorflow
     "fedora"|"opensuse")
     pkgs="wget python-pip python-devel gcc vim expect"
     rm -rf /usr/share/tensorflow
     remove_deps "$pkgs"
-    print_info $? install-tensorflow
+    print_info $? remove-tensorflow
     ;;
 esac

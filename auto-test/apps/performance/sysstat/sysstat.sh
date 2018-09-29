@@ -55,7 +55,14 @@ install() {
 #######################  testing the step ##########################
 sysstat_test() {
 #收集1秒之内的10次动态信息到指定文件
-    /usr/lib64/sa/sadc  1 10 sa00
+case $distro in
+   "centos"|"opensuse"|"fedora")    
+   /usr/lib64/sa/sadc  1 10 sa00
+   ;;
+   "ubuntu"|"debian")
+   /usr/lib/sysstat/sadc 1 10 sa00
+   ;;
+esac
 #通过sar工具查看系统状态
     sar -f sa00 
     print_info $? sar-cpu

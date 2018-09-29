@@ -25,7 +25,9 @@ case $distro in
          print_info $? install-netperf
          ;;
      "fedora"|"opensuse"|"debian")
-         wget -c "https://codeload.github.com/HewlettPackard/netperf/tar.gz/netperf-2.5.0" -O netperf-2.5.0.tar.gz
+         pkgs="wget make gcc"
+         install_deps "${pkgs}"
+         wget http://htsat.vicp.cc:804/liubeijie/netperf-2.5.0.tar.gz
          tar -zxvf netperf-2.5.0.tar.gz
          cd netperf-netperf-2.5.0
          ./configure -build=alpha

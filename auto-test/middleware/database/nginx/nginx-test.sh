@@ -22,11 +22,10 @@ source ./nginx.sh
 outDebugInfo
 
 nginx_install
-nginx_start 
+nginx_php_configure
+nginx_php_start
+nginx_php_stop
+nginx_remove
+ 
 nginx_base_fun
 
-test_geoip_mod 
-
-nginx_stop 
-
-nginx_remove

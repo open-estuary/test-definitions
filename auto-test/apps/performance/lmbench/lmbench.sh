@@ -5,6 +5,7 @@ set -x
 cd ../../../../utils
 source ./sh-test-lib
 source ./sys_info.sh
+cd -
 
 ! check_root && error_msg "Please run this script as root."
 
@@ -13,24 +14,25 @@ url=`pwd`
 
 case "${distro}" in
     centos|fedora)
-	pkgs="expect wget gcc-c++ gcc"
+	pkgs="make expect wget gcc-c++ gcc"
 	install_deps "${pkgs}"
 	print_info $? install-package
 	;;
     ubuntu|debian)
-	pkgs="expect wget g++ gcc"
+	pkgs="make expect wget g++ gcc"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
     opensuse)
-	pkgs="expect wget gcc"
+	pkgs="make expect wget gcc"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
 
 esac
 
-wget http://120.31.149.194:18083/test_dependents/lmbench3.tar.gz
+wget ${ci_http_addr}/test_dependents/lmbench3.tar.gz
+#wget http://120.31.149.194:18083/test_dependents/lmbench3.tar.gz
 if [ $? -eq 0 ];then
 	info_msg "download pass"
 else
