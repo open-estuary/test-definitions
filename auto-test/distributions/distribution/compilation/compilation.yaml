@@ -9,7 +9,6 @@ metadata:
         -distribution
     os:
         - centos
-        - ubuntu
         - fedora
         - debian
         - opensuse

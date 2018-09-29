@@ -10,7 +10,6 @@ metadata:
     os:
         - centos
         - ubuntu
-        - debian
         - fedora
         - opensuse
     devices:
