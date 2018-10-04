@@ -123,6 +123,7 @@ case $distro in
     remove_deps "$pkgs"
     print_info $? remove-tensorflow
     rm -rf /usr/share/tensorflow
+    ;;
     "fedora"|"opensuse")
     pkgs="wget python-pip python-devel gcc vim expect"
     rm -rf /usr/share/tensorflow
