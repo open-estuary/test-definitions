@@ -8,7 +8,6 @@ metadata:
         - tool
     os:
         - centos
-        - ubuntu
         - debian
         - fedora
     devices:

@@ -8,10 +8,8 @@ metadata:
     scope:
         - lamp
     os:
-        - centos
         - ubuntu
         - fedora
-        - debian
     devices:
         - d05
         - d03
