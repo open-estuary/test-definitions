@@ -10,8 +10,6 @@ metadata:
         - hadoop
     os:
         - centos
-        - ubuntu
-        - debian
         - fedora
     devices:
         - d03
@@ -21,7 +19,6 @@ metadata:
     totalcase:
         centos: 36
         ubuntu: 36
-        debian: 36
         fedora: 36
 run:
     steps:
