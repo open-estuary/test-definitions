@@ -97,11 +97,13 @@ docker run -d -p 32769:3306 --name mysql -v /root/mysql_data:/u01/my3306/data op
 print_info $? docker-run-mysql
 
 #查看正在运行的容器
-container_id=$(docker ps | grep -v IMAGE | awk '{print $1}')
-if [ "$container_id"x != ""x ]; then
-    print_info 0 docker-ps
-else
-    print_info 1 docker-ps
+if [ "$distro" != "fedora" ];then
+    container_id=$(docker ps | grep -v IMAGE | awk '{print $1}')
+    if [ "$container_id"x != ""x ]; then
+        print_info 0 docker-ps
+    else
+        print_info 1 docker-ps
+    fi
 fi
 
 
@@ -154,11 +156,13 @@ do
 done
 
 #删除镜像文件
-for i in ${images}
-do
-    docker rmi $i
-    print_info $? docker-rmi-$i
-done
+if [ "$distro" != "fedora" ];then
+    for i in ${images}
+    do
+        docker rmi $i
+        print_info $? docker-rmi-$i
+    done
+fi
 
 ####################  environment  restore ##############
 rm -rf docker.tar.gz

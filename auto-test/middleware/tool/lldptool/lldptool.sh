@@ -29,7 +29,9 @@ esac
 
 
 # run the lldp daemon
-lldpad -d
+if [ "$distro" != "debian" ];then	
+    lldpad -d
+fi
 print_info $? lldp
 
 # run the script
