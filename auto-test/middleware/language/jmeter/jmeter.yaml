@@ -14,7 +14,6 @@ metadata:
         - centos
         - ubuntu
         - debian
-        - fedora
     devices:
         - d05
         - d03
@@ -23,7 +22,6 @@ metadata:
         centos: 9
         ubuntu: 9
         debian: 9
-        fedora: 9
 
 run:
     steps:

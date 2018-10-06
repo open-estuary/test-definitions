@@ -11,9 +11,6 @@ metadata:
         - tensorflow
     os:
         - centos
-        - fedora
-        - debian
-        - opensuse
     devices:
         - d03
         - d05
@@ -23,7 +20,6 @@ metadata:
         ubuntu: 17
         fedora: 17
         debian: 17
-        opensuse: 17
 
 run:
     steps:

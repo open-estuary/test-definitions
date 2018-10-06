@@ -9,6 +9,7 @@ metadata:
         - database
         - percona 
     os:
+        - centos
     devices:
         - d03
         - d05

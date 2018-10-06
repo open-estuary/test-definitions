@@ -11,15 +11,13 @@ metadata:
     os:
         - centos
         - ubuntu
-        - fedora
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 3
-        ubuntu: 3
-        fedora: 3
+        centos: 14
+        ubuntu: 13
 
 run:
     steps:
