@@ -44,7 +44,7 @@ echo 'addn-hosts=/etc/dnsmasq.hosts' >> /etc/dnsmasq.conf
 
 #Start the service
 case $distro in
-    "centos"|"fedora"|"opensuse")
+    "centos"|"fedora")
 	systemctl start dnsmasq
       	print_info $? start-dnsmasq
     	  ;;

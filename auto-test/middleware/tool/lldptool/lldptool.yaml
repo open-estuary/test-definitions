@@ -9,7 +9,6 @@ metadata:
         - tool 
     os:
         - centos
-        - opensuse
         - fedora
         - debian
     devices:
@@ -18,7 +17,6 @@ metadata:
     level: 1
     totalcase:
         centos: 6
-        opensuse: 6
         ubuntu: 6
         fedora: 6
         debian: 6
