@@ -22,7 +22,7 @@ metadata:
         ubuntu: 5
         fedora: 5
         debian: 5
-        opensuse: 5
+        opensuse: 4
 
 run:
     steps:
