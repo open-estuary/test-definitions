@@ -8,20 +8,15 @@ metadata:
     scope:
         -distribution
     os:
-        - centos
         - fedora
         - debian
-        - opensuse
     devices:
         - d05
         - d03
     level: 1
     totalcase:
-        centos: 6
-        ubuntu: 6
         debian: 6
         fedora: 6
-        opensuse: 6
 run:
     steps:
         - "cd auto-test/distributions/distribution/compilation; ./compilation.sh; cd -"
