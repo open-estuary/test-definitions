@@ -11,7 +11,6 @@ metadata:
         - ubuntu
         - fedora
         - debian
-        - opensuse
     scope:
         - linux
         - smoke
@@ -24,7 +23,6 @@ metadata:
         ubuntu: 29
         fedora: 29
         debian: 29
-        opensuse: 29
 
 run:
     steps:
