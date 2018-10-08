@@ -9,7 +9,6 @@ metadata:
         - performance
     os:
         - centos
-        - ubuntu
         - fedora
         - opensuse
     devices:
@@ -18,8 +17,6 @@ metadata:
     level: 1
     totalcase:
         centos: 18
-        ubuntu: 18
-        debian: 18
         fedora: 18
         opensuse: 18
 run:
