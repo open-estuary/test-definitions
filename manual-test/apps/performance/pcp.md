@@ -7,15 +7,26 @@ Date: 2018-1-8 15:38:05
 Categories: Estuary Documents
 Remark:
 ---
-
+# Dependency
+```
+     关闭防火墙
+	systemctl stop firewalld
+	firewall-cmd --state #查看默认防火墙状态（关闭后显示not running，开启后显示running）
 ---
 # Test
 ```bash
      (1)安装所需要的安装包
        
-　　　    yum install pcp pcp-system-tools
+	$ yum install pcp pcp-system-tools
+	$ systemctl enable pmcd 
+	$ systemctl start pmcd 
+	$ systemctl enable pmlogger 
+	$ systemctl start pmlogger
+	$ cd /var/lib/pcp/pmdas/proc
+	$ ./Install
+	
        
-     (2)下载iozone安装包
+     (2)查看pcp路径
 　　　    rpm -ql pcp-system-tools
 
      (3)pmatop
@@ -91,7 +102,7 @@ Mem:      33417024    9099904   24317120          0       3008     478144
 -/+ buffers/cache:    8618752   24798272
 Swap      16711616          0   16711616
 
-    (10)usr/libexec/pcp/bin/pcp-mpstat
+    (10)/usr/libexec/pcp/bin/pcp-mpstat
 [root@k8s-node-1 bin]# ./pcp-mpstat 
 Linux  4.12.0-estuary.3.aarch64  (k8s-node-1)  01/09/18  aarch64    (16 CPU)
 
