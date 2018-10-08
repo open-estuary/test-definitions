@@ -15,7 +15,7 @@ metadata:
         - d03
         - d05
 
-    level: 1
+    level: 5
     totalcase:
         centos: 36
         ubuntu: 36
