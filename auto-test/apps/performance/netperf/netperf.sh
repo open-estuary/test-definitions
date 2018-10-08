@@ -1,20 +1,31 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (C) 2017-8-30, Linaro Limited.
 # Author: mahongxin <hongxin_228@163.com>
 ##Netperf是一种网络性能的测量工具，主要针对基于TCP或UDP的传输
 
 set -x
+<<<<<<< HEAD
+#加载外部文件
+=======
 
 #####加载外部文件################
+>>>>>>> c3e2df2a8076c02b07db756a80201ca83ccca61c
 cd ../../../../utils
 source ./sys_info.sh
 source ./sh-test-lib
 cd -
 
+<<<<<<< HEAD
+#检查用户权限
+! check_root && error_msg "Please run this script as root."
+
+#环境准备
+=======
 #############################  Test user id       #########################
 ! check_root && error_msg "Please run this script as root."
 
 ######################## Environmental preparation   ######################
+>>>>>>> c3e2df2a8076c02b07db756a80201ca83ccca61c
 case $distro in
     "centos")
         yum install netperf -y
