@@ -2,7 +2,7 @@
 Ftrace.md - ftrace是内核内置的跟踪器,可用于跟踪内核函数调用,中断延迟,调度延迟, 系统调用等,在debugfs下使用文本命令交互,很合适内核开发者使用  
  
 Hardware platform: D05 D03  
-Software Platform: CentOS Ubuntu Debian 
+Software Platform: CentOS Ubuntu Debian Fedora Opensuse
 Author: Chen Shuangsheng <chenshuangsheng@huawei.com>  
 Date: 2017-10-31 10:38:05  
 Categories: Estuary Documents  
