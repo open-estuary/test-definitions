@@ -9,7 +9,6 @@ metadata:
         - python
     os:
         - centos
-        - ubuntu
         - fedora
         - debian
         - opensuse
@@ -19,10 +18,9 @@ metadata:
     level: 1
     totalcase:
         centos: 25
-        ubuntu: 25
         fedora: 25
         debian: 25
-        opensuse: 25
+        opensuse: 24
 
 run:
     steps:
