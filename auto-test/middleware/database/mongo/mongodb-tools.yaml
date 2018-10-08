@@ -9,14 +9,12 @@ metadata:
         - database
         - mongodb
     os:
-        - centos
         - ubuntu
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 14
         ubuntu: 13
 
 run:
