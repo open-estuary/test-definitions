@@ -2,8 +2,8 @@
 #!/bin/sh 
 set -x
 cd ../../../../utils
-    .        ./sys_info.sh
-             ./sh-test-lib
+.        ./sys_info.sh
+.        ./sh-test-lib
 cd -
 
 if [ `whoami` != 'root' ] ; then
@@ -13,27 +13,27 @@ fi
 
 version="6.2.1"
 from_repo="Estuary"
-package="devtoolset-6-gcc"
-
-for P in ${package};do
-    echo "$P install"
 case $distro in
-    "centos" )
-         yum install -y $P 
+    "centos")
+         pkgs="devtoolset-6-gcc"
+         install_deps "${pkgs}" 
          print_info $? devtoolset-6-gcc
          ;;
+    *)
+     exit 1
+        ;;
  esac
 
 # Check the package version && source
-from=$(yum info $P | grep "From repo" | awk '{print $4}')
+from=$(yum info ${pkgs} | grep "From repo" | awk '{print $4}')
 if [ "$from" = "$from_repo"  ];then
       print_info 0 repo_check
 else
     rmflag=1
     if [ "$from" != "Estuary"  ];then
-        yum remove -y $P
-        yum install -y $P
-        from=$(yum info $P | grep "From repo" | awk '{print $4}')
+        yum remove -y ${pkgs}
+        yum install -y ${pkgs}
+        from=$(yum info ${pkgs} | grep "From repo" | awk '{print $4}')
         if [ "$from" = "$from_repo"   ];then
                print_info 0 repo_check
         else
@@ -42,14 +42,18 @@ else
     fi
 fi
 
-vers=$(yum info $P | grep "Version" | awk '{print $3}')
+vers=$(yum info ${pkgs} | grep "Version" | awk '{print $3}')
 if [ "$vers" = "$version"   ];then
       print_info 0 version
 else
       print_info 1 version
 fi
-done
 
-# Remove package
-yum remove -y $P
-print_info $? remove
+######################  environment  restore ##########################
+
+case $distro in
+       "centos") 
+                 remove_deps "${pkgs}"
+                 print_info $? remove-package    
+         ;;
+esac

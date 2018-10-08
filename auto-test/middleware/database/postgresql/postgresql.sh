@@ -5,12 +5,15 @@ basedir=$(cd `dirname $0`; pwd)
 cd $basedir
 
 . ../../../../utils/sh-test-lib
-outDebugInfo
-
-install_deps postgresql
-install_deps postgresql-server
-
-
+. ../../../../utils/sys_info.sh
+case $distro in
+   centos|fedora|opensuse)
+   pkgs="postgresql postgresql-server"
+   #install_deps postgresql
+   install_deps "${pkgs}"
+   print_info $? install-postgresql
+   ;;
+esac
 lava_path=`pwd`/lava*/bin 
 
 
@@ -22,7 +25,7 @@ else
     exit 1
 fi
 version=`postgres -V`
-if [ x"$version" == x"postgres (PostgreSQL) 9.2.23" ];then
+if [ x"$version" == x"postgres (PostgreSQL) 9.2.24" ];then
     lava-test-case "postgresql_version" --result pass
 else
     lava-test-case "postgresql_version" --result fail
@@ -52,6 +55,7 @@ su -l  postgres <<-EOF
         lava-test-case "postgresql_init" --result fail
     fi
     pg_ctl -D data -l logfile start;
+    sleep 5
     if [ -f logfile ];then
         grep -i -E  "fatal|error" logfile
 	
@@ -163,17 +167,10 @@ su -l  postgres <<-EOF
     else 
         lava-test-case "postgresql_stop" --result fail
     fi
-    set +x
     exit
 EOF
 
-yum remove -y postgresql postgresql-server
-if [ -z `which postgres` ];then
-    lava-test-case "postgresql_uninstall" --result pass
-else
-    lava-test-case "postgresql_uninstall" --result fail
-fi
+remove_deps "${pkgs}" 
+print_info $? remove-pkgs
 
-set +x  
-exit
 

@@ -6,16 +6,20 @@
 # shellcheck disable=SC1091
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
+
+#变量赋初值
 OUTPUT="$(pwd)/output"
 TEST_SUITE="BENCHMARKS"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/dsbench.txt"
 
+#定义函数说明这个脚本的用法
 usage() {
     echo "Usage: $0 [-t <benchmarks|tests>] [-s <true|false>]" 1>&2
     exit 1
 }
 
+#可选参数
 while getopts "t:s:h" o; do
   case "$o" in
     t) TEST_SUITE="${OPTARG}" ;;
@@ -24,6 +28,7 @@ while getopts "t:s:h" o; do
   esac
 done
 
+#执行函数得到发行版的名字
 dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
@@ -48,19 +53,25 @@ case "${dist}" in
        print_info $? install-pkgs
         ;;
 esac
-
+#检查是不是root，不是root用户的话，则输出错误日志
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
 mkdir -p "${OUTPUT}/golang"
 cd "${OUTPUT}"
 export GOPATH="${OUTPUT}/golang"
+
+#clone源码
 git clone https://github.com/dmcgowan/dsdbench
 print_info $? down-dsdbench
 cd dsdbench
+
+#cp目录
 cp -r vendor/ "${GOPATH}/src"
 
+#如果是测试benchmark
 if [ "${TEST_SUITE}" = "BENCHMARKS" ]; then
     # Run benchmarks.
+    
     DOCKER_GRAPHDRIVER=overlay2 go test -run=NONE -v -bench . \
         | tee "${LOG_FILE}"
     print_info $? dock-bench
@@ -86,7 +97,23 @@ case $distro in
         yum remove git golang device-mapper-devel -y
         print_info $? remove-pkg
         ;;
-    "ubuntu")
-        apt-get remove git golang device-mapper-devel -y
-        print_info $? remove-pkg
+    "ubuntu"|"debian")
+	if [ "${Codename}" = "jessie" ]; then
+           remove_deps "git libdevmapper-dev"
+	   remove_deps "-t jessie-backports golang"
+	   print_info $? remove-pkgs
+        else
+	   remove_deps "git golang libdevmapper-dev"
+	   print_info $? remove-pkgs
+       fi
+       ;;
+    "fedora")
+        dnf remove git golang device-mapper-devel -y
+	print_info $? remove-pkg
+       ;;
+    "opensuse")
+        remove_deps "git go device-mapper-devel"
+        print_info $? remove-pkgs
+       ;;
+
 esac

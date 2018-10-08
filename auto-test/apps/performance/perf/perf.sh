@@ -52,15 +52,15 @@ perf list |grep hisi*
 print_info $? hisi_*
 
 # check the hisi_ddrc* perf
-perf stat -a -e hisi_ddrc0_7/flux_read/ sleep 9
+perf stat -a -e hisi_ddrc0_7/flux_read/ -i 200 sleep 9s &
 print_info $? hisi_ddrc*
 
 # check the hisi_l3c* perf
-perf stat -a -e hisi_l3c3_7/read_hit/ sleep 9
+perf stat -a -e hisi_l3c3_7/read_hit/ -i 200 sleep 9s &
 print_info $P hisi_l3c*
 
 # check the hisi_mn* perf
-perf stat -a -e hisi_mn_7/dvm_op_req/ sleep 9
+perf stat -a -e hisi_mn_7/dvm_op_req/ -i 200 sleep 9s &
 print_info $? hisi_mn*
 
 # remove the perf package

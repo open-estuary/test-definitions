@@ -1,27 +1,33 @@
 #!/bin/bash
 # Copyright (C) 2017-8-30, Linaro Limited.
-#netperf is a network performance measurement tool,mainly for TCP or UDP transmission
 # Author: mahongxin <hongxin_228@163.com>
+##Netperf是一种网络性能的测量工具，主要针对基于TCP或UDP的传输
 
 set -x
+<<<<<<< HEAD
 #加载外部文件
+=======
+
+#####加载外部文件################
+>>>>>>> c3e2df2a8076c02b07db756a80201ca83ccca61c
 cd ../../../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
+<<<<<<< HEAD
 #检查用户权限
 ! check_root && error_msg "Please run this script as root."
 
 #环境准备
+=======
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
+
+######################## Environmental preparation   ######################
+>>>>>>> c3e2df2a8076c02b07db756a80201ca83ccca61c
 case $distro in
     "centos")
-        # wget http://htsat.vicp.cc:804/netperf-2.7.0.tar.gz
-        # tar xf netperf-2.7.0.tar.gz
-        # cd netperf-2.7.0
-        # ./configure --build=aarch64-unknown-linux-gnu
-        # make
-        # make install
         yum install netperf -y
         print_info $? install-netperf
          ;;
@@ -29,22 +35,38 @@ case $distro in
          apt-get install netperf -y
          print_info $? install-netperf
          ;;
+     "fedora"|"opensuse"|"debian")
+         pkgs="wget make gcc"
+         install_deps "${pkgs}"
+         wget http://htsat.vicp.cc:804/liubeijie/netperf-2.5.0.tar.gz
+         tar -zxvf netperf-2.5.0.tar.gz
+         cd netperf-netperf-2.5.0
+         ./configure -build=alpha
+         make
+         make install
+	 cd -
+	 print_info $? install-netperf
+         ;;
 esac
 
-#Test 'netperf start server'
+#######################  testing the step ###########################
+#测试能否成功启动netserver
 echo "Performing netperf start server test..."
 TCID="netperf-server-start"
 netserver &
+#计算netserver进程的行数
 count=`ps -ef | grep netserver | grep -v "grep"| wc -l`
+#计算结果大于0就pass
 if [ ${count} -gt 0 ]; then
-    #echo "$TCID : pass"
-    lava-test-case $TCID --result pass
+    print_info $? $TCID
 else
-    #echo "$TCID : fail"
-    lava-test-case $TCID --result fail
+    print_info $? $TCID
 fi
 
-# Test 'netperf client'
+#测试 网络带宽是否成功
+#-H 主机名或IP 指定运行netserver的服务器的IP
+#-l 测试时长 指定测试的时间长度，单位为秒
+#-m 发送消息大小 单位为bytes
 echo "Performing netperf client test..."
 TCID1="netperf-64-test"
 TCID2="netperf-1024-test"
@@ -53,20 +75,18 @@ netperf -H 127.0.0.1 -l 60 -- -m 1024 2>&1 |tee netperf-client1024.log
 throu1=`grep -Po "Throughput" netperf-client64.log`
 throu2=`grep -Po "Throughput" netperf-client1024.log`
 if [ "$throu1" != "" ] ; then
-    #echo "$TCID1 : ass"
-   # grep -A 1 'tcp_bw:' qperf-client.log |tail -1
-    lava-test-case $TCID1 --result pass
+    print_info $? $TCID1
 else
-    #echo "$TCID : fail"
-    lava-test-case $TCID1 --result fail
+   print_info $? $TCID1
 fi
 
 if [ "$throu2" != "" ] ; then
-   # grep -A 1 'tcp_lat:' qperf-client.log |tail -1
-    lava-test-case $TCID2 --result pass
+   print_info $? $TCID2
 else
-    lava-test-case $TCID2 --result fail
+    print_info $? $TCID2
 fi
+
+######################  environment  restore ##########################
 rm netperf-client64.log
 rm netperf-client1024.log
 case $distro in
@@ -78,5 +98,11 @@ case $distro in
         apt-get remove netperf -y
         print_info $? remove-netperf
         ;;
+    "fedora"|"debian"|"opensuse")
+	rm -rf netperf-netperf-2.5.0
+	rm -f netperf-2.5.0.tar.gz
+	print_info $? remove-netperf
+	;;
+
 esac
 

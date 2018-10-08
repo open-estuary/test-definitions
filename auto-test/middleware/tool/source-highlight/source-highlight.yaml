@@ -19,10 +19,10 @@
     level: 1
     totalcase:
         centos: 4
-        debian: 
-        ubuntu:
-        fedora:
-        opensuse:        
+        debian: 3 
+        ubuntu: 3
+        fedora: 4
+        opensuse: 4        
 run:
     steps:
         - "cd auto-test/middleware/tool/source-highlight; ./source-highlight.sh; cd -"

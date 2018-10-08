@@ -1,36 +1,51 @@
+#!/bin/sh
+##Author:fangyuanzheng<fyuanz_2010@163.com>
+##lttng-ust是用户空间跟踪库，测试点是检查包的版本和源
 
-#!/bin/sh 
+#####加载外部文件################ 
 cd ../../../../utils
-    .        ./sys_info.sh
-    .        ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
 
+#############################  Test user id       #########################
+! check_root && error_msg "Please run this script as root."
+
+######################## Environmental preparation   ######################
 version="2.4.1"
 from_repo="epel"
-package="lttng-ust"
-for P in ${package};do
-    echo "$P install"
 case $distro in
-    "centos" )
-         yum install -y $P 
+    "centos")
+         package="lttng-ust"
+         install_deps "${package}" 
          print_info $? lttng-ust
          ;;
- esac
+    "ubuntu"|"debian"|"opensuse")
+         package="liblttng-ust0"
+         install_deps "${package}"
+         print_info $? lttng-ust
+         ;;
+    "fedora")
+	 package="lttng-ust.aarch64"
+	 install_deps "${package}"
+         print_info $? lttng-ust
+	 ;;
 
+
+ esac
+#######################  testing the step ###########################
 # Check the package version && source
-from=$(yum info $P | grep "From repo" | awk '{print $4}')
+case $distro in
+     "centos")
+from=$(yum info $package | grep "From repo" | awk '{print $4}')
 if [ "$from" = "$from_repo"  ];then
       print_info 0 repo_check
 else
     rmflag=1
     if [ "$from" != "Estuary"  ];then
-        yum remove -y $P
-        yum install -y $P
-        from=$(yum info $P | grep "From repo" | awk '{print $4}')
+        yum remove -y $package
+        yum install -y $package
+        from=$(yum info $package | grep "From repo" | awk '{print $4}')
         if [ "$from" = "$from_repo"   ];then
             print_info 0 repo_check
         else
@@ -39,14 +54,45 @@ else
     fi
 fi
 
-vers=$(yum info $P | grep "Version" | awk '{print $3}')
+vers=$(yum info $package | grep "Version" | awk '{print $3}')
 if [ "$vers" = "$version"   ];then
       print_info 0 version
 else
      print_info 1 version
 fi
-done
+;;
+     "ubuntu")
+from=$(apt show $package |grep Source |awk '{print $2}')
+print_info $? $from
+vers=$(apt show $package | grep "Version" | awk '{print $2}')
+print_info $? $vers
+;;     
+     "debian")
+from=$(apt show $package |grep Source |awk '{print $2}'|head -1)
+print_info $? $from
+vers=$(apt show $package | grep "Version" | awk '{print $2}')
+print_info $? $vers
+;;
+     "opensuse")
+from=$(zypper info $package |grep "Repo"|awk '{print $3}')
+print_info $? $from
+vers=$(zypper info $package | grep "Version" | awk '{print $3}')
+print_info $? $vers
+;;
 
+     "fedora")
+from=$(yum info $package |grep "Repo" |awk '{print $3}')
+print_info $? $from
+vers=$(yum info $package | grep "Version" | awk '{print $3}')
+print_info $? $vers
+;;
+
+esac
+######################  environment  restore ##########################
 # Remove package
-yum remove -y $P
-print_info $? remove
+case $distro in
+     "centos"|"ubuntu"|"fedora"|"debian"|"opensuse")
+     remove_deps "${package}"
+     print_info $? remove_lttng-ust
+;;
+esac

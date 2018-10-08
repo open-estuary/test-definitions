@@ -166,8 +166,8 @@ case ${dirtro} in
 esac
 print_info $? http-bind-port
 
-curl http://localhost:12345 | grep '404'
-print_info $? http-server
+#curl http://localhost:12345 | grep '404'
+#print_info $? http-server
 
 kill -9 $(pidof http)
 print_info $? kill-go-http

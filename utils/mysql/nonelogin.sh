@@ -5,7 +5,7 @@ EXPECT=$(which expect)
 $EXPECT << EOF | tee out.log
 set timeout 500
 spawn mysql
-expect "mysql>"
+expect ">"
 send "show databases;\r"
 expect "mysql"
 send "exit\r"

@@ -18,17 +18,13 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 5
-        ubuntu: 5
-        debian: 5
-        fedora: 5
-        opensuse: 5
+        centos: 4
+        ubuntu: 4
+        debian: 4
+        fedora: 4
+        opensuse: 4
 run:
     steps:
-        - "cd auto-test/distributions/distribution/dns; ./debian_dns.sh; cd -"
-        - "cd auto-test/distributions/distribution/dns; ./ubuntu_dns.sh; cd -"
-        - "cd auto-test/distributions/distribution/dns; ./opensuse_dns.sh; cd -"
-        - "cd auto-test/distributions/distribution/dns; ./fedora_dns.sh; cd -"
         - "cd auto-test/distributions/distribution/dns; ./dns.sh; cd -"
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

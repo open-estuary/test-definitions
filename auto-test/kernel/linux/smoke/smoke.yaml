@@ -14,6 +14,7 @@ metadata:
         - opensuse
     scope:
         - linux
+        - smoke
     devices:
         - d03
         - d05
