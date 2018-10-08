@@ -1,22 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (C) 2017-8-30, Linaro Limited.
 #netperf is a network performance measurement tool,mainly for TCP or UDP transmission
 # Author: mahongxin <hongxin_228@163.com>
 
 set -x
-
+#加载外部文件
 cd ../../../../utils
 . ./sys_info.sh
 . ./sh-test-lib
 cd -
 
-# Test user id
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
-#name=`uname -a | awk '{print $2}'`
-#distro=`cat /etc/redhat-release | cut -b 1-6`
+#检查用户权限
+! check_root && error_msg "Please run this script as root."
+
+#环境准备
 case $distro in
     "centos")
         # wget http://htsat.vicp.cc:804/netperf-2.7.0.tar.gz
