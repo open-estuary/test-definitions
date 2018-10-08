@@ -8,7 +8,6 @@ metadata:
     scope:
         -distribution
     os:
-        - centos
         - ubuntu
         - debian
         - opensuse
@@ -18,7 +17,6 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 6
         ubuntu: 6
         debian: 6
         opensuse: 6

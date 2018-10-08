@@ -150,8 +150,8 @@ print_info $? python-re
 print_info $? python-thread
 
 # 测试python解析xml
-./xml-test.py
-print_info $? python-xml
+#./xml-test.py
+#print_info $? python-xml
 
 # 测试python解析json
 ./json-test.py
