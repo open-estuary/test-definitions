@@ -17,9 +17,9 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 19
-        fedora: 19
-        opensuse: 19
+        centos: 18
+        fedora: 18
+        opensuse: 18
 run:
     steps:
         - "cd auto-test/middleware/database/postgresql; ./postgresql.sh; cd -"
