@@ -20,9 +20,9 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 27
-        ubuntu: 27
-        debian: 27
+        centos: 26
+        ubuntu: 26
+        debian: 26
 
 run:
     steps:

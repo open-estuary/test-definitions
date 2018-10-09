@@ -10,7 +10,6 @@ metadata:
     os:
         - centos
         - ubuntu
-        - debian
         - fedora
         - opensuse
 
@@ -21,7 +20,6 @@ metadata:
     totalcase: 
        centos: 1
        ubuntu: 1
-       debian: 1
        fedora: 1
        opensuse: 1
 run:

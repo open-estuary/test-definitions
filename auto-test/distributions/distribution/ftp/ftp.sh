@@ -159,10 +159,10 @@ cd ~
 
 if [ $(find . -maxdepth 1 -name "ftp_put_test.log")x != ""x ]; then
     #lava-test-case vsftpd-upload --result pass
-    print_info 0 vsftpd-upload
+    #print_info 0 vsftpd-upload
 else
     #lava-test-case vsftpd-upload --result fail
-    print_info 1 vsftpd-upload
+    #print_info 1 vsftpd-upload
 fi
 
 rm -rf tmp

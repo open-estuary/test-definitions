@@ -20,9 +20,9 @@ metadata:
     level: 1
     totalcase:
         centos: 29
-        ubuntu: 29
-        fedora: 29
-        debian: 29
+        ubuntu: 28
+        fedora: 28
+        debian: 28
 
 run:
     steps:

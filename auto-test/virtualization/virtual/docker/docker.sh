@@ -58,8 +58,8 @@ fi
 
 #下载docker镜像文件
 if [ ! -d docker ]; then
-    download_file http://htsat.vicp.cc:804/docker/docker.tar.gz
-    #download_file http://192.168.50.122:8083/test_dependents/docker.tar.gz
+    #download_file http://htsat.vicp.cc:804/docker/docker.tar.gz
+    download_file http://192.168.50.122:8083/test_dependents/docker.tar.gz
     [[ $? -eq 0 ]] && tar -zxf docker.tar.gz
 	print_info $? download-docker-image
 fi

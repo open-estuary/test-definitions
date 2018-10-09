@@ -31,7 +31,7 @@ case $HOST in
         pkgs="wget tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau"
         install_deps "${pkgs}" 
-        print_info $? install-dependent-packages
+        #print_info $? install-dependent-packages
         pkgs="curl nginx"
         install_deps "${pkgs}"
 	print_info $? install-nginx
@@ -45,7 +45,7 @@ case $HOST in
         apt-get install libjemalloc-dev libonig-dev libcurl3 libgoogle-glog-dev libtbb-dev libfreetype6-dev libjpeg-turbo8-dev libvpx-dev libxslt1-dev \
         libmagickwand-dev libc-client2007e-dev libmemcached-dev libmcrypt-dev libpq-dev libboost-dev libboost-filesystem-dev libboost-program-options-dev \
         libboost-regex-dev libboost-system-dev libboost-thread-dev libboost-context-dev -y
-        print_info $? install-dependent-packages
+        #print_info $? install-dependent-packages
         apt-get install -y curl nginx
 		print_info $? install-nginx
     ;;
