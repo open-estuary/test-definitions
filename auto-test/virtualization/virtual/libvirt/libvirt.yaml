@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - ding_yu1@hoperun.com
     scope:
-        - virtualization
+        - virtual
         - libvirt
     os:
         - ubuntu
