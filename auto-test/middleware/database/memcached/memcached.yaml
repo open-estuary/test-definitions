@@ -10,7 +10,6 @@ metadata:
     os:
         - centos
         - ubuntu
-        - fedora
         - debian
         - opensuse
     devices:
@@ -20,7 +19,6 @@ metadata:
     totalcase:
         centos: 8
         ubuntu: 8
-        fedora: 8
         debian: 8
         opensuse: 7
 
