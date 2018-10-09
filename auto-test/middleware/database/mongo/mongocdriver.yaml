@@ -17,7 +17,7 @@ metadata:
     level: 1
     totalcase:
         centos: 23
-        fedora: 23
+        fedora: 22
 run:
     steps:
         - "cd auto-test/middleware/database/mongo; ./mongocdriver-test.sh; cd -"
