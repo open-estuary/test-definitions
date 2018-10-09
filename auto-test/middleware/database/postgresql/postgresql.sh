@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#set -x
+set -x
 basedir=$(cd `dirname $0`; pwd)
 cd $basedir
 
