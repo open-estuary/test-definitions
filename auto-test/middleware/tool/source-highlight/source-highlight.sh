@@ -60,12 +60,12 @@ install_source-highlight() {
                 exit 1
             fi
             VERSION="3.1.8-1.2"
-            version=$( apt-show-versions ${PACKAGE} | grep "source-highlight" | awk '{print $2}')
-            if [ ${version} = ${VERSION} ];then
-                 print_info 0 version
-            else
-                 print_info 1 version
-            fi
+            #version=$( apt-show-versions ${PACKAGE} | grep "source-highlight" | awk '{print $2}')
+            #if [ ${version} = ${VERSION} ];then
+             #    print_info 0 version
+            #else
+             #    print_info 1 version
+            #fi
         ;;
       "debian") 
             install_deps "${PACKAGE}" "${SKIP_INSTALL}"
