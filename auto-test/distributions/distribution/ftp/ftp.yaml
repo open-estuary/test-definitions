@@ -21,7 +21,7 @@ metadata:
         centos: 7
         ubuntu: 7
         opensuse: 7
-        fedora: 7
+        fedora: 6
         debian: 7
 run:
     steps:
