@@ -40,8 +40,8 @@ function mongo_c_driver_base(){
     gcc -o hello_mongoc hello_mongoc.c -I${mpath} -I${bpath} -lmongoc-1.0 -lbson-1.0
     print_info $? "mongoCDriver_compile_with_dynamic_library"
 
-    ./hello_mongoc | grep ok
-    print_info $? "mongoCDriver_exec_hello_mongoc"
+  #  ./hello_mongoc | grep ok
+  #  print_info $? "mongoCDriver_exec_hello_mongoc"
     
 
     
