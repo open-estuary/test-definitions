@@ -61,11 +61,9 @@ cd "${OUTPUT}"
 export GOPATH="${OUTPUT}/golang"
 
 #clone源码
-if [ "${dist}" != "ubuntu" ];then
-git clone https://github.com/dmcgowan/dsdbench
-print_info $? down-dsdbench
-cd dsdbench
-fi
+#git clone https://github.com/dmcgowan/dsdbench
+#print_info $? down-dsdbench
+#cd dsdbench
 #cp目录
 cp -r vendor/ "${GOPATH}/src"
 
