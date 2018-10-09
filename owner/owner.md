@@ -8,9 +8,9 @@ Introduction : The developer and tester of each module
 |  | server | 汪育 | 丁玉 |
 |  | stress | 汪育 | 王思思 |
 |  | website | 房元政 | 薛星 |
-|  | e-commerce | zhouxingchen | 薛星 |
+|  | e-commerce | 周星辰 | 薛星 |
 |  | bigdata | 汪育 | 马红新 |
-| bootloaders | uefi | 黄鸣 | 薛星 |
+| bootloaders | uefi | 黄明 | 薛星 |
 | distributions | distribution | 林文凯 | 王思思 |
 |  | build | 林文凯 | 刘北洁 |
 |  | deploy | 林文凯 | 刘北洁 |
