@@ -59,7 +59,7 @@ su -l  postgres <<-EOF
     if [ -f logfile ];then
         grep -i -E  "fatal|error" logfile
 	
-        if [ $? = 1 ];then
+        if [ $? != 0 ];then
             lava-test-case "postgresql_start" --result pass
         else 
             lava-test-case "postgresql_start" --result fail
