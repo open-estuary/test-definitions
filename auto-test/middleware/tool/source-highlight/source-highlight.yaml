@@ -20,7 +20,7 @@
     totalcase:
         centos: 4
         debian: 3 
-        ubuntu: 3
+        ubuntu: 2
         fedora: 4
         opensuse: 4        
 run:
