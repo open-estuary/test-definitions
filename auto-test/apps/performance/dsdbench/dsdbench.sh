@@ -1,5 +1,5 @@
 #!/bin/sh 
-
+set -x
 # This test script run docker storage driver benchmarks and tests.
 # Test suite source https://github.com/dmcgowan/dsdbench
 
@@ -61,10 +61,11 @@ cd "${OUTPUT}"
 export GOPATH="${OUTPUT}/golang"
 
 #clone源码
+if [ "${dist}" != "ubuntu" ];then
 git clone https://github.com/dmcgowan/dsdbench
 print_info $? down-dsdbench
 cd dsdbench
-
+fi
 #cp目录
 cp -r vendor/ "${GOPATH}/src"
 
