@@ -12,7 +12,6 @@ metadata:
         - centos
         - ubuntu
         - debian
-        - fedora
         - opensuse
     devices:
         - d05
@@ -22,7 +21,6 @@ metadata:
         centos: 16
         ubuntu: 16
         debian: 16
-        fedora: 16
         opensuse: 16
 run:
     steps:
