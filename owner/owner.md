@@ -4,12 +4,12 @@ Introduction : The developer and tester of each module
 ```
 | Level | Modules | Developer | Tester |
 | :-: | :-: | :-: | :-: |
-| apps | performance | wangyu | dingyu |
-|  | server | wangyu | dingyu |
-|  | stress | wangyu | wangsisi |
-|  | website | fangyuanzheng | xuexing |
-|  | e-commerce | zhouxingchen | xuexing |
-|  | bigdata | wangyu | mahongxin |
+| apps | performance | wangyu | 丁玉 |
+|  | server | wangyu | 丁玉 |
+|  | stress | wangyu | 王思思 |
+|  | website | fangyuanzheng | 薛星 |
+|  | e-commerce | zhouxingchen | 薛星 |
+|  | bigdata | wangyu | 马红新 |
 | bootloaders | uefi | huangming | xuexing |
 | distributions | distribution | linwenkai | wangsisi |
 |  | build | linwenkai | liubeijie |
