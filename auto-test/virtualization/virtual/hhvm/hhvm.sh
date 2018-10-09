@@ -31,7 +31,7 @@ case $HOST in
         pkgs="wget tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau"
         install_deps "${pkgs}" 
-        print_info $? install-dependent-packages
+        #print_info $? install-dependent-packages
         pkgs="curl nginx"
         install_deps "${pkgs}"
 	print_info $? install-nginx
