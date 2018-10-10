@@ -78,7 +78,7 @@ case $distro in
 	send "quit\r"
 	expect eof
 EOF
-	print_info $? memcached_conn
+	#print_info $? memcached_conn
 	;;
 esac
 }

@@ -46,7 +46,7 @@ case $HOST in
         libmagickwand-dev libc-client2007e-dev libmemcached-dev libmcrypt-dev libpq-dev libboost-dev libboost-filesystem-dev libboost-program-options-dev \
         libboost-regex-dev libboost-system-dev libboost-thread-dev libboost-context-dev -y
         #print_info $? install-dependent-packages
-        apt-get install -y curl nginx
+        apt-get install -y curl nginx wget
 		print_info $? install-nginx
     ;;
     #debian)
