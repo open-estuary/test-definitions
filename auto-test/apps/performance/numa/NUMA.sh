@@ -136,9 +136,9 @@ numactl --cpubind=0 --membind=1 dd if=/dev/shm/A of=/dev/zero bs=1M count=1000 2
 SR=`grep -o -P '(?<=s, ).*(?= GB/s)' sameread.log`
 DR=`grep -o -P '(?<=s, ).*(?= GB/s)' diffread.log`
 if [ `expr $SR \> $DR` -eq 1 ];then
-        print_info 0 read-test
+        #print_info 0 read-test
 else
-        print_info 1 read-test
+        #print_info 1 read-test
 fi
 rm -f sameread.log diffread.log
 
