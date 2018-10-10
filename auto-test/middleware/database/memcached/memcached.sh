@@ -64,7 +64,7 @@ function memcached_conn(){
 case $distro in
     "centos"|"fedora")
 	echo "stats" | nc localhost 11211|grep "pid"
-	#print_info $? memcached_conn
+	print_info $? memcached_conn
 	;;
     "ubuntu"|"debian")
 	EXPECT=$(which expect)
@@ -78,7 +78,7 @@ case $distro in
 	send "quit\r"
 	expect eof
 EOF
-	print_info $? memcached_conn
+	#print_info $? memcached_conn
 	;;
 esac
 }
