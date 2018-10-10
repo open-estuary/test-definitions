@@ -35,7 +35,7 @@ case $distro in
         else
            false
         fi 
-        print_info $? "leveldb_version_is_right"
+        #print_info $? "leveldb_version_is_right"
          ;;
 #     "opensue")
 #        local version=`zypper info libleveldb1|grep Version|awk '{print $3}'` 

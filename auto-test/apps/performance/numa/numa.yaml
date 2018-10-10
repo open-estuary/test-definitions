@@ -15,11 +15,11 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 24
-        ubuntu: 24
-        debian: 24
-        fedora: 24
-        opensuse: 24
+        centos: 23
+        ubuntu: 23
+        debian: 23
+        fedora: 23
+        opensuse: 23
 
 
 run:
