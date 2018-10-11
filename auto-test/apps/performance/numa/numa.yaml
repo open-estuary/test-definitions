@@ -17,7 +17,7 @@ metadata:
     totalcase:
         centos: 23
         ubuntu: 23
-        debian: 23
+        debian: 22
         fedora: 23
         opensuse: 23
 
