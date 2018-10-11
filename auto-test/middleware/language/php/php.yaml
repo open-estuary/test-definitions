@@ -11,7 +11,6 @@ metadata:
     scope:
         - php
     os:
-        - centos
         - debian
         - ubuntu
         - fedora
@@ -21,7 +20,6 @@ metadata:
     level: 1
     totalcase:
         debian: 28
-        centos: 28
         ubuntu: 28
         fedora: 28
 run:
