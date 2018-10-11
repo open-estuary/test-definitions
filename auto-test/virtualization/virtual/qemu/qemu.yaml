@@ -9,7 +9,6 @@ metadata:
         - virtualization
     os:
         - centos
-        - ubuntu
         - debian
         - fedora
         - opensuse
@@ -19,7 +18,6 @@ metadata:
     level: 1
     totalcase:
         centos: 3
-        ubuntu: 3
         fedora: 3
         debian: 3
         opensuse: 3
