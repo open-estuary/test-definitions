@@ -18,8 +18,8 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 7
-        ubuntu: 7
+        centos: 8
+        ubuntu: 8
         debian: 7
         opensuse: 7
         fedora: 7

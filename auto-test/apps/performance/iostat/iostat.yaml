@@ -16,7 +16,7 @@ metadata:
         - d03
     level: 1
     totalcase:
-        debian: 8
+        debian: 10
         centos: 10
         ubuntu: 9
 run:

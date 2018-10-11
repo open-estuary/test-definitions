@@ -20,7 +20,7 @@ metadata:
     level: 1
     totalcase:
         centos: 9
-        ubuntu: 9
+        ubuntu: 11
         debian: 9
 
 run:
