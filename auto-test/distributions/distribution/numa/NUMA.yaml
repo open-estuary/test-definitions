@@ -18,7 +18,7 @@ metadata:
     level: 1
     totalcase:
         centos: 7
-        ubuntu: 7
+        ubuntu: 9
         debian: 7
         fedora: 7
         opensuse: 7
