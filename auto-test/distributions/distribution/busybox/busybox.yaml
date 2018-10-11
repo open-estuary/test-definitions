@@ -16,7 +16,6 @@ metadata:
         - d03
     level: 1
     totalcase:
-        ubuntu: 14
         debian: 14
         fedora: 14
         opensuse: 14
