@@ -17,7 +17,7 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 4
+        centos: 5
         debian: 4
         opensuse: 4
         fedora: 4
