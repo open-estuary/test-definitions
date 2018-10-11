@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 set -x
 cd ../../../../utils
-   . ./sys_info.sh
-   . ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
 #. ../../../lib/sh-test-lib
@@ -35,17 +35,17 @@ CONCURENT=100
 # systemctl available on Debian 8, CentOS 7 and newer releases.
 # shellcheck disable=SC2154
 case "${distro}" in
-    debian)
+    debian|ubuntu|opensuse)
         # Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
 
-        pkgs="nginx apache2-utils"
+        pkgs="nginx apache2-utils apache2"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         print_info $? install-pkgs
         systemctl restart nginx
         print_info $? start-nginx
         ;;
-    centos)
+    centos|fedora)
         # x86_64 nginx package can be installed from epel repo. However, epel
         # project doesn't support ARM arch yet. RPB repo should provide nginx.
         [ "$(uname -m)" = "x86_64" ] && install_deps "epel-release" "${SKIP_INSTALL}"

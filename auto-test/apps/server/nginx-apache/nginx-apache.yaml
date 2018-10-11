@@ -9,12 +9,20 @@ metadata:
         - server
     os:
         - centos
+        - ubuntu
+        - debian
+        - fedora
+        - opensuse
     devices:
         - d05
         - d03
     level: 1
     totalcase:
         centos: 13
+        ubuntu: 13
+        debian: 13
+        fedora: 13
+        opensuse: 13
 run:
     steps:
         - "cd auto-test/apps/server/nginx-apache; ./nginx-apache.sh; cd - "
