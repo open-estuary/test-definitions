@@ -1,7 +1,7 @@
 ---
 elasticsearch.md - 测试v500对elasticsearch的兼容性及其基本功能
-Hardware platform: D05，D03
-Software Platform: CentOS
+Hardware platform: D05，D06
+Software Platform: CentOS Ubuntu Debian Fedora openSUSE
 Author: Liu Caili <meili760628705@163.com>  
 Date: 2017-11-09 15:31
 Categories: Estuary Documents  
@@ -13,19 +13,14 @@ Remark:
 ```
     (1)已安装jdk
 
-	1)yum install java-1.8.0-openjdk
+	1)
+	centos/fedora: yum install java-1.8.0-openjdk
+	opensuse: zypper install java-1_8_0-openjdk
+	ubuntu/debian: apt install openjdk-8-jdk
 
 	2)java -version
 
-    (2)添加estuary软件包源
-
-       1)sudo wget -O /etc/yum.repos.d/estuary.repo  (https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo)
-
-       2)sudo chmod +r /etc/yum.repos.d/estuary.repo
-
-       3)sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
-
-       4)yum clean dbcache
+    (2)添加estuary软件包源(#如有,则不需添加)
 
 ```
 #Test

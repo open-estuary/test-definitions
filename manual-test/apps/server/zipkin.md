@@ -1,7 +1,7 @@
 ---
 zipkin-spingboot.md - zipkin 是一个开放源代码分布式的跟踪系统,本用例是基于CentOS搭建基于 ZIPKIN 的数据追踪系统
-Hardware platform: D05 D03
-Software Platform: CentOS 
+Hardware platform: D05 D06
+Software Platform: CentOS Ubuntu Debian Fedora openSUSE 
 Author: mahongxin <hongxin_228@163.com>
 Date: 2018-1-19 15:38:05
 Categories: Estuary Documents
@@ -12,7 +12,9 @@ Remark:
 ```bash
     =======================配置 Java 环境==================================
     (1)安装　jdk 
-        yum install java-1.8.0-openjdk.aarch64
+	centos/fedora: yum install java-1.8.0-openjdk.aarch64 -y
+	opensuse: zypper install -y java-1_8_0-openjdk
+	ubuntu/debian: apt install openjdk-8-jdk -y
 
     =======================安装Zipkin======================================
     (2)新建目录:  mkdir -p /data/release/zipkin && cd "$_"
@@ -25,16 +27,22 @@ Remark:
 
     ==================配置MySQL作为数据持久化方案=============================
     (6)安装 MySQL
-	yum install mysql-community-server -y
+	centos: yum install mysql-community-server -y
+	fedora: yum install community-mysql-server -y
+	opensuse: zypper install -y mariadb
+	ubuntu/debian: apt install mysql-server
 
     (7)启动 MySQL 服务(mysql默认密码是root,如果没有需设置密码)
-	systemctl start mysqld.service
-
+	centos/fedora/ubuntu/debian: systemctl start mysql(mysqld)
+	opensuse: systemctl start mariadb
+	
     (8)初始化Zipkin数据库
 	/data/release/zipkin 目录下创建 zipkin_init.sql(参考文件放在107 web服务器上)
 
     (9)登录MySQL
-	mysql -u root --password='root'
+	centos/ubuntu/debian:	mysql -u root --password='root'(#有初始密码)
+	oppensuse/fedora: mysqladmin -u root password "root"(#设置密码) 
+		   mysql -u root --password='root' (#登录mySQL)
 
     (10)创建Zipkin数据库
 	create database zipkin;
@@ -53,8 +61,7 @@ Remark:
 
 ===================创建具有数据上报能力的Demo===============================
     (14)搭建 NodeJS 环境
-	1)curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
-	2)yum install nodejs -y
+	yum install nodejs -y
 
     (15)创建Demo目录
 	mkdir -p /data/release/service_a && cd "$_"

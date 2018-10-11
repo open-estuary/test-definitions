@@ -15,8 +15,6 @@ Remark:
 
        yum install java-1.8.0-openjdk.aarch64
 
-       yum install maven-archiver.noarch
-
        yum install micro-service-api.aarch64
 
     (2)查找到eureka安装的路径
@@ -86,8 +84,6 @@ eureka-client/
 　　　　http://ip:5555/cloud-client页面出现hello表示路由成
 
     (13)卸载安装包
-　      yum remove micro-service-zipkin.aarch64
         yum remove java-1.8.0-openjdk.aarch64
-        yum remove maven-archiver.noarch
         yum remove micro-service-api.aarch64
 ```
