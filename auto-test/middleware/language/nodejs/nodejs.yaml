@@ -20,6 +20,7 @@ metadata:
         centos: 9
         opensuse: 9
         fedora: 9
+        ubuntu：17
 
 
 run:
