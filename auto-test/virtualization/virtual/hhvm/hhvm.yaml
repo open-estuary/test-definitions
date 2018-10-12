@@ -22,7 +22,7 @@ metadata:
         ubuntu: 8
         debian: 8
         opensuse: 7
-        fedora: 7
+        fedora: 8
 
 
 run:
