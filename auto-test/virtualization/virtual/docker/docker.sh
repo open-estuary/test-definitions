@@ -12,19 +12,19 @@ cd -
 
 case "$distro" in
     centos|fedora|opensuse)
-	pkgs="make wget docker"
+	pkgs="make docker"
 	install_deps "${pkgs}"
 	print_info $? install-docker
     	;;
     ubuntu)
-	pkgs="make wget docker docker.io"
+	pkgs="make docker docker.io"
 	install_deps "${pkgs}"
 	print_info $? install-docker
 	;;
     debian)
 	apt-get update
 	#安装软件包
-        pkgs="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make wget"
+        pkgs="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make "
 	install_deps "${pkgs}"
 	#添加官方GPG key: 
 	curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
