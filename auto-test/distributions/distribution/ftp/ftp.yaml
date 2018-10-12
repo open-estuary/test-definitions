@@ -20,9 +20,9 @@ metadata:
     totalcase:
         centos: 5
         ubuntu: 5
-        opensuse: 6
-        fedora: 6
-        debian: 6
+        opensuse: 5
+        fedora: 5
+        debian: 5
 run:
     steps:
         - "cd auto-test/distributions/distribution/ftp; ./ftp.sh; cd -"
