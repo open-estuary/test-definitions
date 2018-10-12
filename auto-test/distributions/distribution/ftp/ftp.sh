@@ -147,10 +147,10 @@ EOF
 
 if [ $(find . -maxdepth 1 -name "$FTP_GET_LOG")x != ""x ]; then
     #lava-test-case vsftpd-download --result pass
-    print_info 0 vsftpd-download
+    #print_info 0 vsftpd-download
 else
     #lava-test-case vsftpd-download --result fail
-    print_info 1 vsftpd-download
+    #print_info 1 vsftpd-download
 fi
 
 cd -
