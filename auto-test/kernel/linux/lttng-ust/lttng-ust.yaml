@@ -9,7 +9,6 @@ metadata:
         - linux
     os:
         - centos
-        - debian
         - fedora
         - opensuse
     devices:
@@ -18,7 +17,6 @@ metadata:
     level: 1
     totalcase:
         centos: 4
-        debian: 4
         fedora: 4
         opensuse: 4
 
