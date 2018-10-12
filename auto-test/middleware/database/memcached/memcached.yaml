@@ -20,7 +20,7 @@ metadata:
         centos: 8
         ubuntu: 7
         debian: 7
-        opensuse: 7
+        opensuse: 6
 
 
 run:
