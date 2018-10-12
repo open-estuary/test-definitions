@@ -16,7 +16,7 @@ metadata:
     level: 1
     totalcase:
         centos: 12
-        fedora: 12
+        fedora: 13
 run:
     steps:
         - "cd auto-test/apps/server/lemp; ./lemp.sh; cd - "

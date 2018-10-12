@@ -20,9 +20,9 @@ metadata:
     totalcase:
         centos: 8
         ubuntu: 8
-        debian: 7
+        debian: 8
         opensuse: 7
-        fedora: 7
+        fedora: 8
 
 
 run:

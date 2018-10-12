@@ -130,7 +130,7 @@ function percona_start_stop_test(){
     else
         true
     fi
-    print_info $? "mysql_use_mysqladmin_to_stop_server"
+   # print_info $? "mysql_use_mysqladmin_to_stop_server"
 
 }
 

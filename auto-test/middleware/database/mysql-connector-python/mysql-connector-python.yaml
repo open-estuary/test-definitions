@@ -20,7 +20,6 @@ metadata:
     totalcase:
         centos: 17
         ubuntu: 16
-        debian: 16
 
 run:
     steps:

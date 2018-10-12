@@ -10,7 +10,6 @@ metadata:
     os:
         - centos
         - debian
-        - fedora
         - opensuse
     devices:
         - d03
@@ -18,8 +17,7 @@ metadata:
     level: 1
     totalcase:
         centos: 3
-        fedora: 3
-        debian: 3
+        debian: 1
         opensuse: 3
 
 run:
