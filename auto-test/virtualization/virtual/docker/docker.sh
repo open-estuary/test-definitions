@@ -12,19 +12,19 @@ cd -
 
 case "$distro" in
     centos|fedora|opensuse)
-	pkgs="make docker"
+	pkgs="make docker wget"
 	install_deps "${pkgs}"
 	print_info $? install-docker
     	;;
     ubuntu)
-	pkgs="make docker docker.io"
+	pkgs="wget make docker docker.io"
 	install_deps "${pkgs}"
 	print_info $? install-docker
 	;;
     debian)
 	apt-get update
 	#安装软件包
-        pkgs="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make "
+        pkgs="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make wget"
 	install_deps "${pkgs}"
 	#添加官方GPG key: 
 	curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
@@ -171,13 +171,20 @@ rm -rf upload
 rm -rf rm -rf /var/lib/docker
 
 case "${distro}" in
-    centos|ubuntu|fedora|opensuse)
-	remove_deps "${pkgs}"
+    centos|fedora|opensuse)
+        pkgs_re="make docker"
+	remove_deps "${pkgs_re}"
+	print_info $? remove_docker
+	;;
+    ubuntu)
+        pkgs_re="make docker docker.io"
+	remove_deps "${pkgs_re}"
 	print_info $? remove_docker
 	;;
     debian)
+        pkgs_re="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make"
 	apt-get purge docker-ce -y
-	remove_deps "${pkgs}"
+	remove_deps "${pkgs_re}"
         print_info $? remove_docker
 	;;
 esac
