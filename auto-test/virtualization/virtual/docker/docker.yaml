@@ -18,7 +18,7 @@ metadata:
     level: 1
     totalcase:
         centos: 22
-        fedora: 19
+        fedora: 13
         opensuse: 22
 
 run:
