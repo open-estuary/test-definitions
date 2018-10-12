@@ -43,7 +43,7 @@ case "${distro}" in
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         print_info $? install-pkgs
         systemctl restart nginx
-        print_info $? start-nginx
+        #print_info $? start-nginx
         ;;
     centos|fedora)
         # x86_64 nginx package can be installed from epel repo. However, epel
