@@ -22,7 +22,7 @@ metadata:
         ubuntu: 46
         debian: 46
         opensuse: 46
-        fedora: 46
+        fedora: 47
 
 run:
     steps:
