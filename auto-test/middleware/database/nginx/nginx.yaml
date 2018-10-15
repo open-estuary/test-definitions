@@ -17,9 +17,9 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 6
-        fedora: 6
-        debian: 6
+        centos: 5
+        fedora: 5
+        debian: 5
 run:
     steps:
         - "cd auto-test/middleware/database/nginx; ./nginx.sh; cd -"

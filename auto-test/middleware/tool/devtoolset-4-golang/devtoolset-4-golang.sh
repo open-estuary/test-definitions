@@ -20,7 +20,7 @@ for P in ${package};do
 case $distro in
     "centos" )
          yum install -y $P
-         print_info $? devtoolset-4-golang
+        # print_info $? devtoolset-4-golang
          ;;
  esac
 

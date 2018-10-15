@@ -132,7 +132,7 @@ esac
 function nginx_base_fun(){
 
     curl localhost:80 | grep "Welcome to"
-    print_info $? "nginx_can_normal_access"
+    #print_info $? "nginx_can_normal_access"
 systemctl start php-fpm    
 }
 
