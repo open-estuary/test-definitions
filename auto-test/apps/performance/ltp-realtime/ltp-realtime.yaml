@@ -8,7 +8,6 @@ metadata:
     scope:
         - performance
     os:
-        - centos
         - fedora
         - opensuse
     devices:
@@ -16,7 +15,6 @@ metadata:
         - d03
     level: 5
     totalcase:
-        centos: 18
         fedora: 18
         opensuse: 18
 run:
