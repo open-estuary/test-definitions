@@ -10,7 +10,6 @@ metadata:
     os:
         - ubuntu
         - debian
-        - opensuse
         - fedora
     devices:
         - d05
@@ -19,7 +18,6 @@ metadata:
     totalcase:
         ubuntu: 7
         debian: 6
-        opensuse: 6
         fedora: 6
 run:
     steps:
