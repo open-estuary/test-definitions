@@ -8,10 +8,11 @@ metadata:
         - centos
     scope:
         - tool
+        - test
     devices:
         - d03
         - d05
-    level: 1
+    level: 5
     totalcase:
         centos: 6
 
