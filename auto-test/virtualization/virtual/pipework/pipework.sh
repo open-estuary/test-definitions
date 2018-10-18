@@ -21,7 +21,7 @@ print_info $? pipework-help
 systemctl start docker
 
 docker pull centos
-print_info $? docker-pull-centos
+#print_info $? docker-pull-centos
 
 docker run -idt  --net=none --name test1  centos /bin/bash
 print_info $? docker-run-centos
