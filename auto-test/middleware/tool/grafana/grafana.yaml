@@ -8,6 +8,7 @@ metadata:
         - centos
     scope:
         - tool
+        - test
     devices:
         - d03
         - d05
