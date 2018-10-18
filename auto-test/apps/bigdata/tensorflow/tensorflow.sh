@@ -51,7 +51,7 @@ esac
 
 #更新pip
 pip install --upgrade pip
-print_info $? upgrade-pip
+#print_info $? upgrade-pip
 
 #安装tensorflow
 whl=`ls /usr/share/tensorflow`
