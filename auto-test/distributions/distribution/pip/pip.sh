@@ -37,7 +37,7 @@ case $distro in
     "ubuntu"|"debian")
         apt-get remove python-pip -y
         ;;
-    "opensuse"£©
+    "opensuse")
     remove_deps "${pkgs}"
     ;;
 esac
