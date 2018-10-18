@@ -159,7 +159,7 @@ done
 if [ "$distro" != "fedora" ];then
     for i in ${images}
     do
-        docker -f rmi $i
+        docker rmi -f $i
         print_info $? docker-rmi-$i
     done
 fi
