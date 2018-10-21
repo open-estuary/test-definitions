@@ -81,7 +81,7 @@ if [ ! -d ${INSTALLDIR}/etc/hhvm ];then
 fi
 pwd
 tar -xzvf ./hhvm-3.17.3-centos.aarch64.tar.gz
-print_info $? unzip-hhvm-file
+#print_info $? unzip-hhvm-file
 
 r1=`cp -fr ./bin/* $INSTALLDIR/bin`
 r2=`cp -fr ./hhvm/config.hdf $INSTALLDIR/etc/hhvm`
