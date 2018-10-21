@@ -46,11 +46,11 @@ echo 'addn-hosts=/etc/dnsmasq.hosts' >> /etc/dnsmasq.conf
 case $distro in
     "centos"|"fedora")
 	systemctl start dnsmasq
-      	print_info $? start-dnsmasq
+      	#print_info $? start-dnsmasq
     	  ;;
     "ubuntu"|"debian")
 	service dnsmasq start
-	print_info $? start-dnsmasq
+	#print_info $? start-dnsmasq
 	      ;;
 esac
 
