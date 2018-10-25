@@ -10,7 +10,6 @@ metadata:
         - docker
     os:
         - centos
-        - fedora
         - opensuse
     devices:
         - d03
@@ -18,7 +17,6 @@ metadata:
     level: 1
     totalcase:
         centos: 22
-        fedora: 13
         opensuse: 22
 
 run:
