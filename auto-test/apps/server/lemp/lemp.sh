@@ -119,16 +119,16 @@ print_info $? test-nginx-server
 # Test MySQL.
 case "${distro}" in
     centos|fedora)
-	mysqladmin -u root password lxmptest
+	mysqladmin -u root password root
 	print_info $? set-root-pwd
         ;;
-    ubuntu)
+    ubuntu|debian)
         EXPECT=$(which expect)
         $EXPECT << EOF
         set timeout 100
         spawn mysql -uroot -p
         expect "password:"
-        send "lxmptest\r"
+        send "root\r"
         expect ">"
         send "use mysql;\r"
         expect ">"
@@ -146,7 +146,32 @@ EOF
 esac
 
 #mysqladmin -u root password lxmptest
-mysql --user='root' --password='lxmptest' -e 'show databases'
+case "${distro}" in
+    ubuntu|debian)
+	$EXPECT << EOF
+	set timeout 100
+	spawn mysql -uroot -p
+	expect "password:"
+	send "lxmptest\r"
+	expect ">"
+	send "use mysql;\r"
+	expect ">"
+	send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+        expect "OK"
+	send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
+	expect "OK"
+	send "FLUSH PRIVILEGES;\r"
+	expect "OK"
+	send "exit\r"
+	expect eof	
+EOF
+	;;
+esac
+
+
+
+
+mysql --user='root' --password='root' -e 'show databases'
 print_info $? mysql-show-databases
 
 # Test PHP.
@@ -186,7 +211,7 @@ print_info $? php-delete-record
 
 # Cleanup.
 # Delete myDB for the next run.
-mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
+mysql --user='root' --password='root' -e 'DROP DATABASE myDB'
 print_info $? delete-myDB
 
 #stop php,mysql and nginx service
