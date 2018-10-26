@@ -10,10 +10,9 @@ metadata:
         - liu_caili@hoperun.com
     scope:
         - database
-        - mysql
+        - mysql-community
     os:
         - centos
-        - ubuntu
         - debian
     devices:
         - d03
