@@ -28,7 +28,8 @@ print_info $? start-mysqld
 
 mysqladmin -u root password "root"
 print_info $? set-root-pwd
-
+#转码
+echo "export LC_ALL=C" >> /etc/profile
 cd mysql
 echo "now create db1,db2 and compare them"
 ./createdb.sh db1
