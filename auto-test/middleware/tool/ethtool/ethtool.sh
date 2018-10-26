@@ -59,7 +59,7 @@ ethtool -s $IFCONFIG autoneg on
 print_info $? autoneg
 
 # Remove package
-remove_deps "ethtool"
-print_info $? remove
+#remove_deps "ethtool"
+#print_info $? remove
 
 
