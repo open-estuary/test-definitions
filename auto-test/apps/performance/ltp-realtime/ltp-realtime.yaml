@@ -15,8 +15,8 @@ metadata:
         - d03
     level: 1
     totalcase:
-        fedora: 18
-        opensuse: 18
+        fedora: 17
+        opensuse: 17
 run:
     steps:
         - "cd auto-test/apps/performance/ltp-realtime; ./ltp-realtime.sh; cd - "
