@@ -9,7 +9,6 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - database
         - mysql-community
     os:
         - centos
