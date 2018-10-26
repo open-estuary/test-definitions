@@ -29,7 +29,7 @@ print_info $? start-mysqld
 mysqladmin -u root password "root"
 print_info $? set-root-pwd
 #转码
-echo "export LC_ALL=C" >> /etc/profile
+#echo "export LC_ALL=C" >> /etc/profile
 cd mysql
 echo "now create db1,db2 and compare them"
 ./createdb.sh db1
@@ -90,10 +90,10 @@ mysqlserverinfo --server=root:root@localhost --format=grid -vvv  --show-defaults
 cat out.log | grep 'done'
 print_info $? single-server-info
 
-mysqlserverinfo --server=root:root@localhost  -d --format=vertical --show-defaults \
-   	--no-headers  --server=root:3310@localhost:3310 --show-servers | tee out.log
-cat out.log | grep 'done'
-print_info $? all-server-info
+#mysqlserverinfo --server=root:root@localhost  -d --format=vertical --show-defaults \
+ #  	--no-headers  --server=root:3310@localhost:3310 --show-servers | tee out.log
+#cat out.log | grep 'done'
+#print_info $? all-server-info
 
 mysqldiskusage --server=root:root@localhost --all | tee out.log
 cat out.log | grep 'done'
