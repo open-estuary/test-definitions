@@ -22,7 +22,7 @@ metadata:
         fedora: 13
         ubuntu: 13
         debian: 13
-        opensuse: 13
+        opensuse: 9
 run:
     steps:
         - "cd auto-test/kernel/linux/slabtop; ./slabtop.sh; cd -"
