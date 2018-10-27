@@ -20,8 +20,8 @@ metadata:
     totalcase:
         centos: 12
         ubuntu: 12
-        debian: 11
-        fedora: 12
+        debian: 10
+        fedora: 11
         opensuse: 10
 run:
     steps:
