@@ -19,7 +19,7 @@ metadata:
         ubuntu: 23
         debian: 22
         fedora: 23
-        opensuse: 23
+        opensuse: 15
 
 
 run:
