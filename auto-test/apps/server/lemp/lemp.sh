@@ -193,8 +193,8 @@ print_info $? php-delete-record
 
 # Cleanup.
 # Delete myDB for the next run.
-mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
-print_info $? delete-myDB
+#mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
+#print_info $? delete-myDB
 
 #stop php,mysql and nginx service
 case "${distro}" in
