@@ -18,7 +18,7 @@
         - d05
     level: 1
     totalcase:
-        centos: 4
+        centos: 2
         debian: 3 
         ubuntu: 2
         fedora: 4
