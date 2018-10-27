@@ -22,7 +22,7 @@ metadata:
         centos: 4
         fedora: 4
         debian: 4
-        ubuntu: 4
+        ubuntu: 1
         opensuse: 4
 run:
     steps:

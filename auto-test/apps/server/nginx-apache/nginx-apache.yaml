@@ -20,9 +20,9 @@ metadata:
     totalcase:
         centos: 12
         ubuntu: 12
-        debian: 11
-        fedora: 12
-        opensuse: 12
+        debian: 10
+        fedora: 11
+        opensuse: 10
 run:
     steps:
         - "cd auto-test/apps/server/nginx-apache; ./nginx-apache.sh; cd - "
