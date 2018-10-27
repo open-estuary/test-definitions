@@ -14,7 +14,7 @@ metadata:
         - d03
     level: 1
     totalcase:
-        fedora: 13
+        fedora: 12
 run:
     steps:
         - "cd auto-test/apps/server/lemp; ./lemp.sh; cd - "
