@@ -20,7 +20,7 @@ case $distro in
      yum install wget -y
      yum install CUnit-devel.aarch64 -y
      yum install libatomic.aarch64 -y
-     print_info $? install-pkgs
+     #print_info $? install-pkgs
      wget http://192.168.50.122:8083/test_dependents/centos_odp.tar.gz
      tar xf centos_odp.tar.gz
      grep "_test" odp_centos.log > 1.log
@@ -31,7 +31,7 @@ case $distro in
  "ubuntu")
      apt-get install libcunit1-dev -y
      apt-get install wget -y
-     print_info $? install-pkgs
+     #print_info $? install-pkgs
      wget http://192.168.50.122:8083/test_dependents/debian_odp.tar.gz
      tar xf debian_odp.tar.gz
      #./debian_ubuntu/run-test.sh > odp.log

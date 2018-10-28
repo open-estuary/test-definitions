@@ -13,7 +13,6 @@ metadata:
     os:
         - debian
         - ubuntu
-        - fedora
     devices:
         - d03
         - d05
@@ -21,7 +20,6 @@ metadata:
     totalcase:
         debian: 27
         ubuntu: 27
-        fedora: 27
 run:
     steps:
         - "cd auto-test/middleware/language/php; ./phptest.sh; cd -"
