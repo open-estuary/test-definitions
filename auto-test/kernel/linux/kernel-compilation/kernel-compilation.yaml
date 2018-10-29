@@ -14,7 +14,7 @@ metadata:
         - debian
         - opensuse
     scope:
-        - linux
+        - kernel-compilation
     devices:
         - d03
         - d05
