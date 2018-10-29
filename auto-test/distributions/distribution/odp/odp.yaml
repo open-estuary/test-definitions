@@ -16,7 +16,7 @@ metadata:
     level: 1
     totalcase:
         centos: 632
-        ubuntu: 633
+        ubuntu: 632
 
 params:
     # Test if lshw able to report the classes pre-defined in ${CLASSES}.
