@@ -21,7 +21,7 @@ metadata:
         ubuntu: 13
         fedora: 13
         debian: 13
-        opensuse: 13 
+        opensuse: 12 
 
 run:
     steps:
