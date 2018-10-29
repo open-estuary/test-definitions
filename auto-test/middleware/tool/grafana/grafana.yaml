@@ -7,7 +7,7 @@ metadata:
     os:
         - centos
     scope:
-        - tool
+        - grafana
     devices:
         - d03
         - d05
