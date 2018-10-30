@@ -8,7 +8,7 @@ metadata:
         - wang_sisi@hoperun.com
         - yuanz_2010@163.com
     scope:
-        - tool
+        - bazel
     os:
         - centos
     devices:
