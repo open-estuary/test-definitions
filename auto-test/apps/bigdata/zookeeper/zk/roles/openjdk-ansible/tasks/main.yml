@@ -1,0 +1,10 @@
+---
+# tasks file for openjdk-ansible
+#
+
+
+- include: install.yml 
+  tags: install  
+
+
+
