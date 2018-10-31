@@ -13,6 +13,7 @@ metadata:
     os:
         - debian
         - ubuntu
+        - centos
     devices:
         - d03
         - d05
