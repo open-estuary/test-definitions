@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - shuangshengchen@qq.com
     scope:
-        - liubeijie
+        - performance
     os:
         - centos
         - opensuse
