@@ -86,12 +86,12 @@ Remark:
         index  index.html index.htm;
         }
       location /user/ {
-        perl pkg_name::process;/usr/local/nginx/conf/html/user user下面的所有请求都交给tes.pm处理
+        perl pkg_name::process;          #/usr/local/nginx/conf/html/user user下面的所有请求都交给tes.pm处理
         }
 
       #error_page  404              /404.html
 
-    7.新建images测试文件夹并在文件夹里面放一个jpg格式的文件
+    7.新建user测试文件夹并在文件夹里面放一个test.pm文件
 
       mkdir /usr/local/nginx/html/user/
 
@@ -119,7 +119,7 @@ Remark:
     _END_
 
 
-    9.开始进行图片测试
+    9.开始进行perl测试
 
        /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf &
 

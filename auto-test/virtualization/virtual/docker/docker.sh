@@ -12,12 +12,12 @@ cd -
 
 case "$distro" in
     centos|fedora|opensuse)
-	pkgs="make wget docker"
+	pkgs="make docker wget"
 	install_deps "${pkgs}"
 	print_info $? install-docker
     	;;
     ubuntu)
-	pkgs="make wget docker docker.io"
+	pkgs="wget make docker docker.io"
 	install_deps "${pkgs}"
 	print_info $? install-docker
 	;;
@@ -58,8 +58,8 @@ fi
 
 #下载docker镜像文件
 if [ ! -d docker ]; then
-    download_file http://htsat.vicp.cc:804/docker/docker.tar.gz
-    #download_file http://192.168.50.122:8083/test_dependents/docker.tar.gz
+    #download_file http://htsat.vicp.cc:804/docker/docker.tar.gz
+    download_file http://192.168.50.122:8083/test_dependents/docker.tar.gz
     [[ $? -eq 0 ]] && tar -zxf docker.tar.gz
 	print_info $? download-docker-image
 fi
@@ -97,11 +97,13 @@ docker run -d -p 32769:3306 --name mysql -v /root/mysql_data:/u01/my3306/data op
 print_info $? docker-run-mysql
 
 #查看正在运行的容器
-container_id=$(docker ps | grep -v IMAGE | awk '{print $1}')
-if [ "$container_id"x != ""x ]; then
-    print_info 0 docker-ps
-else
-    print_info 1 docker-ps
+if [ "$distro" != "fedora" ];then
+    container_id=$(docker ps | grep -v IMAGE | awk '{print $1}')
+    if [ "$container_id"x != ""x ]; then
+        print_info 0 docker-ps
+    else
+        print_info 1 docker-ps
+    fi
 fi
 
 
@@ -154,11 +156,13 @@ do
 done
 
 #删除镜像文件
-for i in ${images}
-do
-    docker rmi $i
-    print_info $? docker-rmi-$i
-done
+if [ "$distro" != "fedora" ];then
+    for i in ${images}
+    do
+        docker rmi -f $i
+        print_info $? docker-rmi-$i
+    done
+fi
 
 ####################  environment  restore ##############
 rm -rf docker.tar.gz
@@ -167,13 +171,20 @@ rm -rf upload
 rm -rf rm -rf /var/lib/docker
 
 case "${distro}" in
-    centos|ubuntu|fedora|opensuse)
-	remove_deps "${pkgs}"
+    centos|fedora|opensuse)
+        pkgs_re="make docker"
+	remove_deps "${pkgs_re}"
+	print_info $? remove_docker
+	;;
+    ubuntu)
+        pkgs_re="make docker docker.io"
+	remove_deps "${pkgs_re}"
 	print_info $? remove_docker
 	;;
     debian)
+        pkgs_re="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make"
 	apt-get purge docker-ce -y
-	remove_deps "${pkgs}"
+	remove_deps "${pkgs_re}"
         print_info $? remove_docker
 	;;
 esac

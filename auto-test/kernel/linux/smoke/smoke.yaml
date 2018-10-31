@@ -11,7 +11,6 @@ metadata:
         - ubuntu
         - fedora
         - debian
-        - opensuse
     scope:
         - linux
         - smoke
@@ -20,11 +19,10 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 29
-        ubuntu: 29
-        fedora: 29
-        debian: 29
-        opensuse: 29
+        centos: 23
+        ubuntu: 23
+        fedora: 23
+        debian: 23
 
 run:
     steps:

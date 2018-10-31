@@ -31,7 +31,7 @@ case $HOST in
         pkgs="wget tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau"
         install_deps "${pkgs}" 
-        print_info $? install-dependent-packages
+        #print_info $? install-dependent-packages
         pkgs="curl nginx"
         install_deps "${pkgs}"
 	print_info $? install-nginx
@@ -45,8 +45,8 @@ case $HOST in
         apt-get install libjemalloc-dev libonig-dev libcurl3 libgoogle-glog-dev libtbb-dev libfreetype6-dev libjpeg-turbo8-dev libvpx-dev libxslt1-dev \
         libmagickwand-dev libc-client2007e-dev libmemcached-dev libmcrypt-dev libpq-dev libboost-dev libboost-filesystem-dev libboost-program-options-dev \
         libboost-regex-dev libboost-system-dev libboost-thread-dev libboost-context-dev -y
-        print_info $? install-dependent-packages
-        apt-get install -y curl nginx
+        #print_info $? install-dependent-packages
+        apt-get install -y curl nginx wget
 		print_info $? install-nginx
     ;;
     #debian)
@@ -81,7 +81,7 @@ if [ ! -d ${INSTALLDIR}/etc/hhvm ];then
 fi
 pwd
 tar -xzvf ./hhvm-3.17.3-centos.aarch64.tar.gz
-print_info $? unzip-hhvm-file
+#print_info $? unzip-hhvm-file
 
 r1=`cp -fr ./bin/* $INSTALLDIR/bin`
 r2=`cp -fr ./hhvm/config.hdf $INSTALLDIR/etc/hhvm`
@@ -111,7 +111,7 @@ print_info $? copy-php-to-webserver
 /usr/sbin/nginx -c /etc/nginx/nginx.conf
 curl -o "./index" "http://localhost/index.html"
 grep "nginx" "./index"
-print_info $? start-nginx
+#print_info $? start-nginx
 
 export LD_LIBRARY_PATH=$INSTALLDIR/packages/boost-1.58.0/lib:$LD_LIBRARY_PATH
 

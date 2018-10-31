@@ -126,8 +126,8 @@ print_info $? numastat
 run "iostat"
 print_info $? iostat
 
-run "lshw"
-print_info $? lshw
+#run "lshw"
+#print_info $? lshw
 
 run "lsof"
 print_info $? lsof

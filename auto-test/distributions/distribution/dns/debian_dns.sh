@@ -59,8 +59,8 @@ board_ip=`ifconfig |grep "inet"|cut -c14-26|head -n 1`
 sed -i "s/nameserver/# nameserver/g" /etc/resolv.conf
 sed -i "1i nameserver ${board_ip}" /etc/resolv.conf
 service bind9 restart
-host www.tonv.my
-print_info $? forward-dns
+#host www.tonv.my
+#print_info $? forward-dns
 host 192.168.1.70 2>&1 | tee -a dig.log
 print_info $? reverse-dns
 #throu = `grep -Po "192.168.1.70" nfs.log`

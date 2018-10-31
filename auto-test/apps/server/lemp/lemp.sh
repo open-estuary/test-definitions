@@ -176,43 +176,52 @@ print_info $? mysql-show-databases
 
 # Test PHP.
 curl -o "output" "http://localhost/info.php"
+sleep 5
 grep 'PHP Version' ./output
 print_info $? test-phpinfo
 
 # PHP Connect to MySQL.
 curl -o "output" "http://localhost/connect-db.php"
+sleep 5
 grep 'Connected successfully' ./output
 print_info $? php-connect-db
 
 # PHP Create a MySQL Database.
 curl -o "output" "http://localhost/create-db.php"
+sleep 5
 grep 'Database created successfully' ./output
 print_info $? php-create-db
 
 # PHP Create MySQL table.
 curl -o "output" "http://localhost/create-table.php"
+sleep 5
 grep 'Table MyGuests created successfully' ./output
 print_info $? php-create-table
 
 # PHP add record to MySQL table.
 curl -o "output" "http://localhost/add-record.php"
+sleep 5
 grep 'New record created successfully' ./output
 print_info $? php-create-recoard
 
 # PHP select record from MySQL table.
 curl -o "output" "http://localhost/select-record.php"
+sleep 5
 grep 'id: 1 - Name: John Doe' ./output
 print_info $? php-select-record
 
 # PHP delete record from MySQL table.
 curl -o "output" "http://localhost/delete-record.php"
+sleep 5
 grep 'Record deleted successfully' ./output
 print_info $? php-delete-record
 
 # Cleanup.
 # Delete myDB for the next run.
+
 mysql --user='root' --password='root' -e 'DROP DATABASE myDB'
 print_info $? delete-myDB
+
 
 #stop php,mysql and nginx service
 case "${distro}" in

@@ -25,7 +25,7 @@ function close_firewall_seLinux(){
     else
         false
     fi
-    print_info $? "closed_seLinux"
+   # print_info $? "closed_seLinux"
 
     systemctl stop firewalld.service
     print_info $? "stop_firewall"

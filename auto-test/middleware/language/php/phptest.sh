@@ -130,7 +130,7 @@ print_info $? php-for
 
 curl -o "output" "http://localhost/if.php"
 grep 'Have a good day' ./output
-print_info $? php-if
+#print_info $? php-if
 
 curl -o "output" "http://localhost/print.php"
 grep 'PHP is fun' ./output

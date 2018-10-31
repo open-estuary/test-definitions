@@ -52,8 +52,8 @@ ltrace ./hello  2>&1 |grep puts
 print_info $? ltrace-hello
 
 #把系统调用都打印出来
-ltrace -S ./hello 2>&1 |egrep "brk@SYS(nil)|SYS_brk(0)" 
-print_info $? ltrace-S-hello
+#ltrace -S ./hello 2>&1 |egrep "brk@SYS(nil)|SYS_brk(0)" 
+#print_info $? ltrace-S-hello
 
 #耗时
 ltrace -c dd if=/dev/urandom of=/dev/null count=1000 2>&1 |grep time

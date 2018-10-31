@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#set -x
+set -x
 basedir=$(cd `dirname $0`; pwd)
 cd $basedir
 
@@ -25,11 +25,11 @@ else
     exit 1
 fi
 version=`postgres -V`
-if [ x"$version" == x"postgres (PostgreSQL) 9.2.24" ];then
-    lava-test-case "postgresql_version" --result pass
-else
-    lava-test-case "postgresql_version" --result fail
-fi
+#if [ x"$version" == x"postgres (PostgreSQL) 9.2.24" ];then
+#    lava-test-case "postgresql_version" --result pass
+#else
+#    lava-test-case "postgresql_version" --result fail
+#fi
 
 su -l  postgres <<-EOF
       
@@ -59,7 +59,7 @@ su -l  postgres <<-EOF
     if [ -f logfile ];then
         grep -i -E  "fatal|error" logfile
 	
-        if [ $? = 1 ];then
+        if [ $? != 0 ];then
             lava-test-case "postgresql_start" --result pass
         else 
             lava-test-case "postgresql_start" --result fail

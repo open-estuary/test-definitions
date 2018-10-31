@@ -48,7 +48,7 @@ fio_test() {
 
 
 #  run fio test.
-for rw in read randread write randwrite rw randrw; do
+for rw in read randread write randwrite rw; do
     fio_test "${rw}"
 done
 

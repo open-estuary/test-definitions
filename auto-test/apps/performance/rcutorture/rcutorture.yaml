@@ -7,7 +7,6 @@ metadata:
         - chase.qi@linaro.org
         - shuangshengchen@qq.com
     os:
-        - centos
         - fedora
     devices:
         - d03
@@ -16,10 +15,7 @@ metadata:
         - performance
     level: 1
     totalcase:
-        centos: 5
         fedora: 5
-        ubuntu: 5
-        debian: 5
         opensuse: 5
 params:
     SKIP_INSTALL: "false"

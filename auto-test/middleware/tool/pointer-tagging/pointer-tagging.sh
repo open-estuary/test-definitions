@@ -33,8 +33,8 @@ pointer_tagging_build_test() {
     # Run tests
     for tests in $(./pointer_tagging_tests -l) ; do
 	./pointer_tagging_tests -t "${tests}"
-        print_info $? "${test}"
-	check_return "${tests}"
+        print_info $? "${tests}"
+#	check_return "${tests}"
     done
 }
 

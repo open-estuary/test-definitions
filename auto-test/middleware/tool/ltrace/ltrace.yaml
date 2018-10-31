@@ -19,11 +19,11 @@ metadata:
         - d03
     level: 1 
     totalcase:
-        debian: 6
-        ubuntu: 6
-        centos: 6
-        fedora: 6
-        opensuse: 6
+        debian: 5
+        ubuntu: 5
+        centos: 5
+        fedora: 5
+        opensuse: 5
 run:
     steps:
         - "cd auto-test/middleware/tool/ltrace; ./ltrace.sh; cd - "

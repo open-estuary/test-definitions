@@ -17,7 +17,7 @@ metadata:
     level: 1
     totalcase:
         centos: 14
-        fedora: 14
+        fedora: 13
 
 run:
     steps:

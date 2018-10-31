@@ -54,12 +54,13 @@ function mongodb_start(){
     if [ -d /mongodb/log  ];then
         rm -rf /mongdb/log
     fi
-    mkdir -p /mongodb/db 
+    `kdir -p /mongodb/db 
     mkdir -p /mongodb/log
-    mongod --fork --dbpath /mongodb/db --logpath /mongodb/log/mongodb.log --logappend 
-    print_info $? "mongodb_start_server"
-    sleep 10
-
+    if [ "$distro" != "ubuntu" ];then
+        mongod --fork --dbpath /mongodb/db --logpath /mongodb/log/mongodb.log --logappend 
+        print_info $? "mongodb_start_server"
+        sleep 10
+    fi
 }
 
 function mongodb_stop_by_service(){

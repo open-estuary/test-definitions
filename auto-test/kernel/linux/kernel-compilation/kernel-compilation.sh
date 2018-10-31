@@ -42,7 +42,7 @@ cd "${OUTPUT}"
 major_version=$(echo "${VERSION}" | awk -F'.' '{print $1}')
 wget "https://cdn.kernel.org/pub/linux/kernel/v${major_version}.x/linux-${VERSION}.tar.xz"
 tar xf "linux-${VERSION}.tar.xz"
-print_info $? download-kernel-tarball
+#print_info $? download-kernel-tarball
 cd "linux-${VERSION}"
 
 # Compile Kernel with defconfig.

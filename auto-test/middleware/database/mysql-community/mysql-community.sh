@@ -51,8 +51,8 @@ else
 	print_info 1 anonymous-login
 fi
 
-mysqladmin -u root password "root"
-print_info $? set-root-pwd
+#mysqladmin -u root password "root"
+#print_info $? set-root-pwd
 
 ./rootlogin.sh
 if [ $? -eq 0 ]; then

@@ -41,9 +41,9 @@ case "${distro}" in
 
         pkgs="nginx apache2-utils apache2"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
-        print_info $? install-pkgs
+        #print_info $? install-pkgs
         systemctl restart nginx
-        print_info $? start-nginx
+        #print_info $? start-nginx
         ;;
     centos|fedora)
         # x86_64 nginx package can be installed from epel repo. However, epel
@@ -51,7 +51,7 @@ case "${distro}" in
         [ "$(uname -m)" = "x86_64" ] && install_deps "epel-release" "${SKIP_INSTALL}"
         pkgs="nginx httpd-tools"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
-        print_info $? install-pkgs
+        #print_info $? install-pkgs
         # Stop apache server in case it is installed and running.
         systemctl stop httpd.service > /dev/null 2>&1 || true
         print_info $? stop-http

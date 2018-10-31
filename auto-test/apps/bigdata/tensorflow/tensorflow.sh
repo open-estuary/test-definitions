@@ -51,7 +51,7 @@ esac
 
 #更新pip
 pip install --upgrade pip
-print_info $? upgrade-pip
+#print_info $? upgrade-pip
 
 #安装tensorflow
 whl=`ls /usr/share/tensorflow`
@@ -123,6 +123,7 @@ case $distro in
     remove_deps "$pkgs"
     print_info $? remove-tensorflow
     rm -rf /usr/share/tensorflow
+    ;;
     "fedora"|"opensuse")
     pkgs="wget python-pip python-devel gcc vim expect"
     rm -rf /usr/share/tensorflow

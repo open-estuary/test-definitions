@@ -5,7 +5,6 @@ metadata:
     maintainer:
         - shuangshengchen@126.com
     os:
-        - centos
         - ubuntu
         - fedora
         - debian
@@ -17,7 +16,6 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 4
         ubuntu: 4
         fedora: 4
         debian: 4
