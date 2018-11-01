@@ -7,9 +7,8 @@ metadata:
         - hongxin_228@163.com
     scope:
         - ltp-realtime
-        - performance
     os:
-        - fedora
+        - centos
     devices:
         - d05
         - d03
