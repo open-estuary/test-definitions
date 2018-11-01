@@ -67,10 +67,14 @@ export GOPATH="${OUTPUT}/golang"
 #print_info $? down-dsdbench
 #cd dsdbench
 #cp目录
+case $distro in
+"centos")
 wget http://htsat.vicp.cc:804/liubeijie/dsdbench.zip
 unzip dsdbench.zip
 print_info $? down-dsdbench
 cd dsdbench
+;;
+esac
 
 #cp目录
 cp -r vendor/ "${GOPATH}/src"
