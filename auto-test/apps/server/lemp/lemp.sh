@@ -7,7 +7,10 @@ set -x
 
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sh-test-lib
+cd -
 
+pkg="curl"
+install_deps "${pkg}"
 
 case "$distro" in
     debian)
@@ -17,7 +20,7 @@ case "$distro" in
 	
 	#安装包
 	apt-get install mysql-server mysql-client -y
-	pkgs="nginx php-mysql php-fpm curl"
+	pkgs="nginx php-mysql php-fpm"
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
 	
@@ -43,7 +46,7 @@ case "$distro" in
 	
 	#安装包
 	apt-get install mysql-server mysql-client -y
-	pkgs="nginx php php-mysql php-common libapache2-mod-php curl php7.2-fpm"
+	pkgs="nginx php php-mysql php-common libapache2-mod-php  php7.2-fpm"
         install_deps "${pkgs}"
         print_info $? install-pkgs
         
@@ -67,7 +70,7 @@ case "$distro" in
         #yum remove -y `rpm -qa | grep -i percona`
         #yum remove -y `rpm -qa | grep -i mariadb`
 
-        pkgs="curl nginx mysql-community-server php php-mysql php-fpm"
+        pkgs=" nginx mysql-community-server php php-mysql php-fpm"
 	install_deps "${pkgs}"
         print_info $? install-pkgs
         systemctl stop httpd.service > /dev/null 2>&1 || true
@@ -89,7 +92,7 @@ case "$distro" in
 	./test.sh
 	
 	#安装包
-	pkgs="curl nginx mariadb-server php php-mysqlnd php-fpm"
+	pkgs="nginx mariadb-server php php-mysqlnd php-fpm"
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql	
 
@@ -145,7 +148,6 @@ EOF
         ;;
 esac
 
-#mysqladmin -u root password lxmptest
 case "${distro}" in
     ubuntu|debian)
 	$EXPECT << EOF
@@ -167,9 +169,6 @@ case "${distro}" in
 EOF
 	;;
 esac
-
-
-
 
 mysql --user='root' --password='root' -e 'show databases'
 print_info $? mysql-show-databases
@@ -255,7 +254,6 @@ case "${distro}" in
         ;;
 esac
 
-rpm -e --nodeps curl
 
 #remove packges
 case "${distro}" in
