@@ -10,6 +10,7 @@ metadata:
     os:
         - centos
         - opensuse
+        - debian
     devices:
         - d03
         - d05
@@ -17,6 +18,7 @@ metadata:
     totalcase:
         centos: 22
         opensuse: 22
+        debian: 22
 
 run:
     steps:
