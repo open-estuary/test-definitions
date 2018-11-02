@@ -26,6 +26,7 @@ case "$distro" in
     debian)
     	curl -fsSL get.docker.com -o get-docker.sh
 	sh get-docker.sh --mirror Aliyun
+	print_info $? install-docker
 	;;
 esac
 
