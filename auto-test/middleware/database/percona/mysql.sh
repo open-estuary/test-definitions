@@ -88,9 +88,7 @@ function mysql_client(){
     #创建用户
     mysql -e "create user 'mysql'@'%' identified by '123'"
     print_info $? "mysql${version}_create_user"
-    # 这里是授权所有的
-    
-    都可以来连接，给了mysql 所有权限（all） 在所有的数据库所有的表（*.*）
+    # 这里是授权所有的都可以来连接，给了mysql 所有权限（all） 在所有的数据库所有的表（*.*）
     mysql -e "grant all privileges on *.* to 'mysql'@'%'"
     print_info $? "grant_privileges_on_all_ip_address"
    
