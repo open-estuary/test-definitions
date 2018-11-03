@@ -88,7 +88,9 @@ function mysql_client(){
     #创建用户
     mysql -e "create user 'mysql'@'%' identified by '123'"
     print_info $? "mysql${version}_create_user"
-    # 这里是授权所有的ip都可以来连接，给了mysql 所有权限（all） 在所有的数据库所有的表（*.*）
+    # 这里是授权所有的
+    
+    都可以来连接，给了mysql 所有权限（all） 在所有的数据库所有的表（*.*）
     mysql -e "grant all privileges on *.* to 'mysql'@'%'"
     print_info $? "grant_privileges_on_all_ip_address"
    
@@ -101,7 +103,7 @@ function mysql_client(){
 
     ip=`ip -f inet -o addr | grep -v "127.0.0.1" |  awk '{print $4}' | cut -f1 -d '/'`
     mysql -h $ip -umysql -p123 -e "select user()"
-    print_info $? "mysql${version}_login_non_root_user_by_tcp"
+    #print_info $? "mysql${version}_login_non_root_user_by_tcp"
     mysql -e "drop user 'mysql'@'%'"
     print_info $? "mysql${version}_drop_user@%"
     mysql -e "drop user 'mysql'@'localhost'"
