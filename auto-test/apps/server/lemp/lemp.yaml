@@ -9,12 +9,17 @@ metadata:
         - lemp
     os:
         - fedora
+        - centos
+        - debian
+
     devices:
         - d05
         - d03
     level: 1
     totalcase:
         fedora: 12
+        centos: 12
+        debian: 12
 run:
     steps:
         - "cd auto-test/apps/server/lemp; ./lemp.sh; cd - "

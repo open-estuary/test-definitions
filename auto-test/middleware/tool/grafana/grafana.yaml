@@ -6,15 +6,17 @@ metadata:
         - 1136920311@qq.com
     os:
         - centos
+        - debian
     scope:
-        - tool
-        - test
+        - grafana
+
     devices:
         - d03
         - d05
     level: 5
     totalcase:
         centos: 6
+        debian: 6
 
 run:
     steps:

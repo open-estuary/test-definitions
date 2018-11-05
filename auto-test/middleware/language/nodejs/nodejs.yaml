@@ -12,6 +12,7 @@ metadata:
         - ubuntu
         - opensuse
         - fedora
+        - debian
     devices:
         - d03
         - d05
@@ -20,7 +21,9 @@ metadata:
         centos: 9
         opensuse: 9
         fedora: 9
+        debian: 9
         ubuntu: 17
+
 
 
 run:
