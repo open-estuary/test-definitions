@@ -6,14 +6,14 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - liubeijie
+        - tool
     os:
         - centos
         - debian
     devices:
         - d03
         - d05
-    level: 5
+    level: 1
     totalcase:
         centos: 8
         debian: 8
