@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - shuangshengchen@qq.com
     scope:
-        - performance
+        - liubeijie
     os:
         - centos
         - opensuse
@@ -21,7 +21,7 @@ metadata:
         centos: 4
         ubuntu: 3
         fedora: 3
-        debian: 4
+        debian: 3
         opensuse: 3
 
 params:
