@@ -8,15 +8,12 @@ metadata:
     scope:
         - lamp
     os:
-        - ubuntu
-        - fedora
+        - centos
     devices:
         - d05
-        - d03
     level: 5
     totalcase:
-        ubuntu: 12
-        fedora: 12
+        centos: 12
 run:
     steps:
         - "cd auto-test/apps/server/lamp; ./lamp.sh; cd - "
