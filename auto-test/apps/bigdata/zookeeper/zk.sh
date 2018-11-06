@@ -29,6 +29,8 @@ case $distro in
     install_deps "${package}"
 ;;      
 esac
+    yum install python2-pip nmap-ncat gcc -y
+    yum install ansible -y
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
     ret=$?
     print_info $ret "zookeeper_standalone_install" 
