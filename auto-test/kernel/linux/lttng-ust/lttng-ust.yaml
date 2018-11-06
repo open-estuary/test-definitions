@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - linux
+        - liubeijie
     os:
         - centos
         - fedora
@@ -19,6 +19,7 @@ metadata:
         centos: 4
         fedora: 4
         opensuse: 4
+        debian: 4
 
 run:
     steps:
