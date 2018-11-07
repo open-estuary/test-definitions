@@ -1,11 +1,13 @@
-#!/bin/sh 
-set -x
+#!/bin/bash 
+
 # This test script run docker storage driver benchmarks and tests.
 # Test suite source https://github.com/dmcgowan/dsdbench
 
 # shellcheck disable=SC1091
-. ../../../../utils/sh-test-lib
-. ../../../../utils/sys_info.sh
+cd ../../../../utils
+. ./sys_info.sh
+. ./sh-test-lib
+cd -
 
 #变量赋初值
 OUTPUT="$(pwd)/output"
@@ -64,6 +66,16 @@ export GOPATH="${OUTPUT}/golang"
 #git clone https://github.com/dmcgowan/dsdbench
 #print_info $? down-dsdbench
 #cd dsdbench
+#cp目录
+case $distro in
+"centos")
+wget http://htsat.vicp.cc:804/liubeijie/dsdbench.zip
+unzip dsdbench.zip
+print_info $? down-dsdbench
+cd dsdbench
+;;
+esac
+
 #cp目录
 cp -r vendor/ "${GOPATH}/src"
 

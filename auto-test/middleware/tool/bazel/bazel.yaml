@@ -8,13 +8,13 @@ metadata:
         - wang_sisi@hoperun.com
         - yuanz_2010@163.com
     scope:
-        - bazel
+        - tool
     os:
         - centos
     devices:
         - d03
         - d05
-    level: 1
+    level: 5
     totalcase:
         centos: 17
 
