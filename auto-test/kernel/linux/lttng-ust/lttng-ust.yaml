@@ -6,11 +6,12 @@ metadata:
     maintainer:
         - fyuanz_2010@163.com
     scope:
-        - liubeijie
+        - linux
     os:
         - centos
         - fedora
         - opensuse
+        - debian
     devices:
         - d03
         - d05
