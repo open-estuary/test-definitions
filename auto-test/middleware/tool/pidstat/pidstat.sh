@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #Author:fangyuanzheng<fyuanz_2010@163.com>
 ##pidstat是sysstat工具的一个命令，用于监控全部或指定进程的cpu、内存、线程、设备IO等系统资源的占用情况。 
 
