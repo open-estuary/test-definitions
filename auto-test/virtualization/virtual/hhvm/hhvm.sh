@@ -150,7 +150,7 @@ print_info $? unset-lib-path
 count=`ps -aux | grep nginx | wc -l`
 if [ $count -gt 0 ];then
     kill -9 $(pidof nginx)
-	print_info $? kill-nginx
+	#print_info $? kill-nginx
 fi
 
 count=`ps -aux | grep hhvm | wc -l`
