@@ -38,10 +38,12 @@ case "${dist}" in
         dist_info
         # shellcheck disable=SC2154
         if [ "${Codename}" = "jessie" ]; then
+            install_deps "unzip"
             install_deps "git libdevmapper-dev"
             install_deps "-t jessie-backports golang"
             print_info $? install-pkgs
         else
+            install_deps "unzip"
             install_deps "git golang libdevmapper-dev"
             print_info $? install-pkgs
         fi
@@ -63,13 +65,8 @@ mkdir -p "${OUTPUT}/golang"
 cd "${OUTPUT}"
 export GOPATH="${OUTPUT}/golang"
 
-#clone源码
-#git clone https://github.com/dmcgowan/dsdbench
-#print_info $? down-dsdbench
-#cd dsdbench
-#cp目录
-#case $distro in
-wget http://htsat.vicp.cc:804/liubeijie/dsdbench.zip
+#clone源
+wget http://192.168.50.122:8083/test_dependents/dsdbench.zip
 print_info $? down-dsdbench
 unzip dsdbench.zip
 cd dsdbench
