@@ -60,7 +60,7 @@ IP=`ip a|grep ${IFCONFIG}|grep "inet "|awk '{print $2}'|cut -d '/' -f 1`
 #查看是否能使用浏览器访问grafana
 curl -o "output" "http://${IP}:3000/login/"
 grep 'Grafana' ./output
-print_info $? grafana_web
+#print_info $? grafana_web
 
 
 #remove grafana
