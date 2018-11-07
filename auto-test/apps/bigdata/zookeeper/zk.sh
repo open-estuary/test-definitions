@@ -10,11 +10,6 @@
 
 
 function zk_install_standalone(){
-    
-#    yum install -y ansible
- #   yum install -y python2-pip 
-  #  yum install -y nmap-ncat
-   # yum install -y gcc 
 case $distro in
     "centos")   
     package="ansible python2-pip nmap-ncat gcc"
@@ -29,6 +24,8 @@ case $distro in
     install_deps "${package}"
 ;;      
 esac
+    yum install python2-pip nmap-ncat gcc -y
+    yum install ansible -y
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
     ret=$?
     print_info $ret "zookeeper_standalone_install" 

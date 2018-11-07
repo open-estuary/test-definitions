@@ -47,6 +47,7 @@ case "${dist}" in
         fi
         ;;
     fedora|centos)
+        install_deps "unzip"
         install_deps "git golang device-mapper-devel"
         print_info $? install-pkgs
         ;;
@@ -67,14 +68,11 @@ export GOPATH="${OUTPUT}/golang"
 #print_info $? down-dsdbench
 #cd dsdbench
 #cp目录
-case $distro in
-"centos")
+#case $distro in
 wget http://htsat.vicp.cc:804/liubeijie/dsdbench.zip
-unzip dsdbench.zip
 print_info $? down-dsdbench
+unzip dsdbench.zip
 cd dsdbench
-;;
-esac
 
 #cp目录
 cp -r vendor/ "${GOPATH}/src"
