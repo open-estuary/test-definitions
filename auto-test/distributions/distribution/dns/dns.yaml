@@ -18,7 +18,7 @@ metadata:
     level: 1
     totalcase:
         centos: 4
-        debian: 4
+        debian: 3
         fedora: 4
         opensuse: 4
 run:
