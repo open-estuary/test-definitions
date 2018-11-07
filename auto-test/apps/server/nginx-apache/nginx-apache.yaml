@@ -9,10 +9,7 @@ metadata:
         - nginx-apache
     os:
         - centos
-        - ubuntu
         - debian
-        - fedora
-        - opensuse
     devices:
         - d05
         - d03
