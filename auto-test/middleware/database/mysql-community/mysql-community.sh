@@ -13,20 +13,22 @@ cd -
 
 ! check_root && error_msg "Please run this script as root."
 
-source ./mysql.sh 
-outDebugInfo
+pkg="expect"
+install_deps "${pkg}"
 
 case "${distro}" in
     centos)
+	source ./mysql.sh
+	outDebugInfo
 	yum erase -y mariadb-libs
 	yum remove -y mariadb-libs
 	yum update -y
 	cleanup_all_database
 	pkgs="mysql-community-common mysql-community-server 
-        mysql-community-client mysql-community-devel expect"
+        mysql-community-client mysql-community-devel"
 	;;
     ubuntu|debian)
-	apt-get remove --purge mysql-server -y
+	./test.sh
 	pkgs="mysql-server mysql-client"
 	;;
 esac
@@ -219,8 +221,7 @@ case "${distro}" in
 	print_info $? remove-mysql
 	;;
     ubuntu|debian)
-	apt-get remove --purge mysql-server -y
-	apt-get remove mysql-client -y
+	./test.sh
 	print_info $? remove-mysql
 	;;
 esac

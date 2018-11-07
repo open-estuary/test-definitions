@@ -9,7 +9,7 @@ metadata:
         - docker
     os:
         - centos
-        - opensuse
+        - debian
     devices:
         - d03
         - d05

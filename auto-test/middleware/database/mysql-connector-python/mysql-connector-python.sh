@@ -17,17 +17,20 @@ cd -
 
 ##################### Environmental preparation ###################
 
-source ./mysql.sh
-outDebugInfo
+pkg="expect python"
+install_deps "${pkg}"
+
 case "${distro}" in
     centos)
+	source ./mysql.sh
+	outDebugInfo
         yum erase -y mariadb-libs
         yum remove -y mariadb-libs
         yum update -y
         cleanup_all_database
-        pkgs1="mysql-community-server mysql-community-devel expect"
+        pkgs1="mysql-community-server mysql-community-devel"
 	install_deps "${pkgs1}"
-	pkgs2="mysql-connector-python mysql-connector-python-cext python"
+	pkgs2="mysql-connector-python mysql-connector-python-cext"
 	install_deps "${pkgs2}"
 	print_info $? install_mysql_python
 
@@ -36,7 +39,7 @@ case "${distro}" in
 	./test.sh
 	print_info $? delete_package
 	apt-get remove --purge mysql-server
-        pkgs="mysql-server mysql-client python python-pip expect"
+        pkgs="mysql-server mysql-client python-pip"
         install_deps "${pkgs}"
 	print_info $? install-mysql-community
 	pip install mysql-connector-python
@@ -46,7 +49,7 @@ case "${distro}" in
 	print_info $? delete_package
 	apt-get remove --purge mysql-server
 	#dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
-	pkgs="mysql-server python python-pip expect"
+	pkgs="mysql-server python-pip"
 	install_deps "${pkgs}"
         print_info $? install-mysql-community
         pip install mysql-connector-python
@@ -65,7 +68,7 @@ case "${distro}" in
 	mysqladmin -u root password "root"
 	print_info $? set-root-pwd
 	;;
-    debian)
+    debian|ubuntu)
 	EXPECT=$(which expect)
 	$EXPECT << EOF
 	set timeout 100
@@ -75,6 +78,8 @@ case "${distro}" in
 	expect ">"
 	send "use mysql;\r"
 	expect ">"
+	send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+        expect "OK"
 	send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
 	expect "OK"
 	send "FLUSH PRIVILEGES;\r"
@@ -85,28 +90,6 @@ EOF
 	systemctl restart mysql
 	print_info $? set-root-pwd
 	;;
-    ubuntu)
-        EXPECT=$(which expect)
-        $EXPECT << EOF
-        set timeout 100
-        spawn mysql -uroot -p
-        expect "password:"
-        send "root\r"
-        expect ">"
-        send "use mysql;\r"
-        expect ">"
-        send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
-        expect "OK"
-        send "update mysql.user set authentication_string=password('root') where user='root' and Host = 'localhost';\r"
-        expect "OK"
-        send "FLUSH PRIVILEGES;\r"
-        expect "OK"
-        send "exit\r"
-        expect eof
-EOF
-        systemctl restart mysql
-        print_info $? set-root-pwd
-        ;;
 
 esac
 
