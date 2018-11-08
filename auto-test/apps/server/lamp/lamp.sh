@@ -83,8 +83,8 @@ grep "Test Page for the Apache HTTP Server" ./output
 print_info $? apache2-test-page
 
 # Test MySQL.
-mysqladmin -u root password lxmptest  > /dev/null 2>&1 || true
-mysql --user="root" --password="lxmptest" -e "show databases"
+mysqladmin -u root password root  > /dev/null 2>&1 || true
+mysql --user="root" --password="root" -e "show databases"
 print_info $? mysql-show-databases
 
 # Test PHP.
@@ -124,7 +124,7 @@ grep "Record deleted successfully" ./output
 print_info $? php-delete-record
 
 # Delete myDB for the next run.
-mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
+mysql --user='root' --password='root' -e 'DROP DATABASE myDB'
 print_info $? delete-database
 remove_deps "${pkgs}"
 print_info $? remove-package

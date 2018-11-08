@@ -9,33 +9,25 @@ cd -
 ! check_root && error_msg "Please run this script as root."
 
 ##################### Environmental preparation ###################
+pkg="make wget curl"
+install_deps "${pkg}"
 
 case "$distro" in
     centos|fedora|opensuse)
-	pkgs="make docker wget"
+	pkgs="docker"
 	install_deps "${pkgs}"
 	print_info $? install-docker
     	;;
     ubuntu)
-	pkgs="wget make docker docker.io"
+	pkgs="docker docker.io"
 	install_deps "${pkgs}"
 	print_info $? install-docker
 	;;
     debian)
-	apt-get update
-	#安装软件包
-        pkgs="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make wget"
-	install_deps "${pkgs}"
-	#添加官方GPG key: 
-	curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-	#设置库
-	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-	print_info $? docker_repository
-	apt-get update
-	#安装docker
-	apt-get install docker-ce -y
-	print_info $? install_docker
-    ;;
+    	curl -fsSL get.docker.com -o get-docker.sh
+	sh get-docker.sh --mirror Aliyun
+	print_info $? install-docker
+	;;
 esac
 
 ##################### the testing step ###########################
@@ -172,19 +164,18 @@ rm -rf rm -rf /var/lib/docker
 
 case "${distro}" in
     centos|fedora|opensuse)
-        pkgs_re="make docker"
+        pkgs_re="docker"
 	remove_deps "${pkgs_re}"
 	print_info $? remove_docker
 	;;
     ubuntu)
-        pkgs_re="make docker docker.io"
+        pkgs_re="docker docker.io"
 	remove_deps "${pkgs_re}"
 	print_info $? remove_docker
 	;;
     debian)
-        pkgs_re="apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common make"
+	rm -rf get-docker.sh
 	apt-get purge docker-ce -y
-	remove_deps "${pkgs_re}"
         print_info $? remove_docker
 	;;
 esac

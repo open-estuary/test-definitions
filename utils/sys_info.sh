@@ -81,7 +81,8 @@ if [ $distro == "centos" ];then
 		cleantag=1
 	fi
 	if [ $cleantag == 1 ];then
-		sudo yum clean dbcache
+		sudo yum clean all
+		rm -rf /var/cache/yum/*
 	fi
 fi
 
@@ -92,7 +93,8 @@ case $distro in
         grep 5.0 /etc/yum.repos.d/estuary.repo 
         if [ $? -ne 0 ]; then
 	     sed -i "s/5.[0-9]/5.0/g"  /etc/yum.repos.d/estuary.repo 
-             yum clean all 
+             yum clean all
+	     rm -rf /var/cache/yum/*
         fi
         ;;
     "ubuntu" | "debian" )

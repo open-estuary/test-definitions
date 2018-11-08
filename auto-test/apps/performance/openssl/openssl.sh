@@ -34,7 +34,7 @@ case $distro in
          ;;
      "centos")
          yum install openssl -y
-         print_info $? install-openssl
+         #print_info $? install-openssl
          ;;
      "opensuse")
          zypper install -y openssl

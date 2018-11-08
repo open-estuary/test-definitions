@@ -1,24 +1,27 @@
 
 metadata:
-    name: "lamp"
+    name: mongo-c-driver-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Linux+Apache+Mysql/MariaDB+Perl/PHP/Python is used to build open source software for dynamic web sites or servers"
+    description: "mongodb c driver testing"
     maintainer:
-        - hongxin_228@163.com
+        - tanliqing2010@163.com
     scope:
-        - server
+        - mysql-cdriver
     os:
         - centos
     devices:
+        - d03
         - d05
     level: 1
     totalcase:
-        centos: 12
+        centos: 22
 run:
     steps:
-        - "cd auto-test/apps/server/lamp; ./lamp.sh; cd - "
+        - "cd auto-test/middleware/database/mongo; ./mongocdriver-test.sh; cd -"
+
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
    FAIL: fail
    PASS: pass
+

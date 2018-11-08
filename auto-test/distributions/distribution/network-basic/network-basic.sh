@@ -80,17 +80,6 @@ print_info $? curl
 
 rm -rf lmbench3
 
-case $distro in
-    "opensuse")
-      	zypper remove -y net-tools
-	zypper remove -y dhcp-client 
-      	print_info $? removse-pkgs
-	;;
-    "ubuntu"|"debian"|"centos"|"fedora")
-	remove_deps "net-tools"
-	print_info $? removse-pkgs
-      	;;
-esac
 
 
 
