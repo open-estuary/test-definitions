@@ -11,10 +11,14 @@ if [ `whoami` != 'root' ]; then
     echo " You must be the superuser to run this script" >&2
     exit 1
 fi
+
+pkg="wget"
+install_deps "${pkg}"
+
 case $distro in
     "centos"|"ubuntu"|"debian"|"fedora"|"opensuse")
-        pkg="wget unzip zip"
-        install_deps "${pkg}"
+        pkgs="unzip zip"
+        install_deps "${pkgs}"
         print_info $? install-pkg
         ;;
 esac
@@ -39,3 +43,6 @@ print_info $? zip-packaging
 
 rm -rf netperf*
 rm -rf cryp*
+
+remove_deps "${pkgs}"
+print_info $? remove-pkg
