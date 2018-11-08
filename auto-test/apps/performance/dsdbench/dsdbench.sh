@@ -38,18 +38,18 @@ case "${dist}" in
         dist_info
         # shellcheck disable=SC2154
         if [ "${Codename}" = "jessie" ]; then
-            install_deps "unzip"
+            install_deps "unzip wget"
             install_deps "git libdevmapper-dev"
             install_deps "-t jessie-backports golang"
             print_info $? install-pkgs
         else
-            install_deps "unzip"
+            install_deps "unzip wget"
             install_deps "git golang libdevmapper-dev"
             print_info $? install-pkgs
         fi
         ;;
     fedora|centos)
-        install_deps "unzip"
+        install_deps "unzip wget"
         install_deps "git golang device-mapper-devel"
         print_info $? install-pkgs
         ;;
