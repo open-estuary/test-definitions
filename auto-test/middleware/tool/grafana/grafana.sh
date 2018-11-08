@@ -20,6 +20,7 @@ case "${distro}" in
 	print_info $? install_grafana
 	;;
     debian)
+	apt-get install libfontconfig1 -y
 	wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_5.3.2_arm64.deb
 	dpkg -i grafana_5.3.2_arm64.deb
 	print_info $? install_grafana
