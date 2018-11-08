@@ -34,7 +34,6 @@ if [[ -e ${CUR_PATH}/${IMAGE} && -e ${CUR_PATH}/${ROOTFS} ]]; then
    print_info $? image_or_rootfs_exist
 else
    print_info $? image_or_rootfs_not_exist
-   exit 0
 fi
 
 # compail and install 
