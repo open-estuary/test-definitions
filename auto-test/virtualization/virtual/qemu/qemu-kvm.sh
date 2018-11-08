@@ -32,7 +32,6 @@ fi
 if [[ -e ${CUR_PATH}/${IMAGE} && -e ${CUR_PATH}/${ROOTFS} ]]; then
    print_info $? image_or_rootfs_exist
 else
-   echo '${IMAGE} or ${ROOTFS} not exist'
    print_info $? image_or_rootfs_exist
    exit 0
 fi
