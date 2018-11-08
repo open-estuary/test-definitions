@@ -39,10 +39,3 @@ print_info $? zip-packaging
 
 rm -rf netperf*
 rm -rf cryp*
-case $distro in
-    "centos"|"ubuntu"|"debian"|"fedora"|"opensuse")
-        pkg="wget unzip zip"
-        remove_deps "${pkg}"
-        print_info $? remove-pkg
-        ;;
-esac
