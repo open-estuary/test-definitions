@@ -15,12 +15,6 @@ TEST_SUITE="BENCHMARKS"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/dsbench.txt"
 
-#定义函数说明这个脚本的用法
-usage() {
-    echo "Usage: $0 [-t <benchmarks|tests>] [-s <true|false>]" 1>&2
-    exit 1
-}
-
 #可选参数
 while getopts "t:s:h" o; do
   case "$o" in
