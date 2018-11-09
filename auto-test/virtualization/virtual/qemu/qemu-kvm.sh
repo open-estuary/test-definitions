@@ -19,7 +19,8 @@ HOME_PATH=$HOME
 CUR_PATH=$PWD
 DISK_NAME=${distro}.img
 
-download_url="http://120.31.149.194:18083/test_dependents/qemu"
+#download_url="http://120.31.149.194:18083/test_dependents/qemu"
+download_url="http://192.168.50.122:8083/test_dependents/qemu"
 
 if [ ! -e ${CUR_PATH}/${IMAGE} ]; then
     download_file ${download_url}/${IMAGE}
@@ -32,8 +33,7 @@ fi
 if [[ -e ${CUR_PATH}/${IMAGE} && -e ${CUR_PATH}/${ROOTFS} ]]; then
    print_info $? image_or_rootfs_exist
 else
-   print_info $? image_or_rootfs_exist
-   exit 0
+   print_info $? image_or_rootfs_not_exist
 fi
 
 # compail and install 
@@ -189,7 +189,6 @@ fi
 chmod a+x qemu-start-kvm.sh
 ${CUR_PATH}/qemu-start-kvm.sh  $IMAGE  $DISK_NAME
 if [ $? -ne 0 ];then
-    echo 'qemu-start-from-img fail'
     lava-test-case qemu-start-from-img --result fail
     exit 0
 else
