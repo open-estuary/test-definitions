@@ -7,7 +7,6 @@ metadata:
         - liu_caili@hoperun.com
     scope:
         - virtualization
-        - liubeijie
     os:
         - centos
         - debian
