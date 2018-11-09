@@ -12,11 +12,11 @@ metadata:
         - php
     os:
         - debian
-        - ubuntu
+        - centos
     devices:
         - d03
         - d05
-    level: 1
+    level: 5
     totalcase:
         debian: 27
         ubuntu: 27

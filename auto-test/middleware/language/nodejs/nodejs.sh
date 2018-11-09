@@ -20,20 +20,18 @@ function nodejs_install(){
     install_deps "${pkgs}"
     print_info $? "install_nodejs"
     ;;
-   esac
-   # res=`node -v`
+    debian)
+    wget -qO- https://deb.nodesource.com/setup_8.x | sudo -E bash -
+    apt-get install -y nodejs
+    print_info $? "install_nodejs"
+    ;;
 
-    #echo $res | grep "v6"
-    #print_info $? "nodejs_version"
+   esac
 
 }
 
 function nodejs_npm(){
 
-    #res=`npm -v`
-    #echo $res | grep "3.10"
-   # print_info $? "nodejs_npm_version"
-    
     npm install "express"
     print_info $? "nodejs_install_package_local"
    

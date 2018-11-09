@@ -124,12 +124,18 @@ Remark:
 	    b.找到http.port, 去除#号, 修改为 http.port: 9200
 
 	    c.关闭防火墙
-
+		
+		centos:
 		1)systemctl stop firewall;
 
                 2)systemctl disable firewall
 
-	    d.切换到testuser用户,启动elasticsearch
+		debian:
+		1)apt-get install ufw
+
+		2)ufw disable
+
+            d.切换到testuser用户,启动elasticsearch
         
     (13)打开浏览器,输入 http://192.168.1.130:9200,查看信息
        

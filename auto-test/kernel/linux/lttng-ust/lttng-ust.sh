@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##Author:fangyuanzheng<fyuanz_2010@163.com>
 ##lttng-ust是用户空间跟踪库，测试点是检查包的版本和源
 

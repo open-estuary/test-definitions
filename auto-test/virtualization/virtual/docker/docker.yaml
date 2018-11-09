@@ -6,11 +6,10 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - virtualization
         - docker
     os:
         - centos
-        - opensuse
+        - debian
     devices:
         - d03
         - d05

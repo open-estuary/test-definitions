@@ -147,17 +147,15 @@ grep "HHVM is working" "./test_hhvm"
 unset LD_LIBRARY_PATH
 print_info $? unset-lib-path
 
+
 #count=`ps -aux | grep nginx | wc -l`
 #if [ $count -gt 0 ];then
  #   kill -9 $(pidof nginx)
 #	print_info $? kill-nginx
 #fi
 service stop nginx
-count=`ps -aux | grep hhvm | wc -l`
-if [ $count -gt 0 ];then
-    kill -9 $(pidof hhvm)
-    #print_info $? kill-hhvm
-fi
+
+
 
 #remove the binary and configuration files of hhvm
 if [ -d /usr/estuary/bin/hhvm ];then

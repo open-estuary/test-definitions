@@ -11,8 +11,8 @@ cd -
 
 ##################### Environmental preparation  ##############################
 #Installation basic package
-pkgs="curl net-tools vim git expect"
-install_deps "${pkgs}"
+pkg="curl net-tools vim git expect"
+install_deps "${pkg}"
 print_info $? install-tools
 
 #Install PHP and nginx packages and modify configuration files

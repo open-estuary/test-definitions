@@ -1,11 +1,13 @@
-#!/bin/sh 
-set -x
+#!/bin/bash 
+
 # This test script run docker storage driver benchmarks and tests.
 # Test suite source https://github.com/dmcgowan/dsdbench
 
 # shellcheck disable=SC1091
-. ../../../../utils/sh-test-lib
-. ../../../../utils/sys_info.sh
+cd ../../../../utils
+. ./sys_info.sh
+. ./sh-test-lib
+cd -
 
 #变量赋初值
 OUTPUT="$(pwd)/output"
@@ -36,15 +38,18 @@ case "${dist}" in
         dist_info
         # shellcheck disable=SC2154
         if [ "${Codename}" = "jessie" ]; then
+            install_deps "unzip wget"
             install_deps "git libdevmapper-dev"
             install_deps "-t jessie-backports golang"
             print_info $? install-pkgs
         else
+            install_deps "unzip wget"
             install_deps "git golang libdevmapper-dev"
             print_info $? install-pkgs
         fi
         ;;
     fedora|centos)
+        install_deps "unzip wget"
         install_deps "git golang device-mapper-devel"
         print_info $? install-pkgs
         ;;
@@ -60,10 +65,12 @@ mkdir -p "${OUTPUT}/golang"
 cd "${OUTPUT}"
 export GOPATH="${OUTPUT}/golang"
 
-#clone源码
-#git clone https://github.com/dmcgowan/dsdbench
-#print_info $? down-dsdbench
-#cd dsdbench
+#clone源
+wget http://192.168.50.122:8083/test_dependents/dsdbench.zip
+print_info $? down-dsdbench
+unzip dsdbench.zip
+cd dsdbench
+
 #cp目录
 cp -r vendor/ "${GOPATH}/src"
 
