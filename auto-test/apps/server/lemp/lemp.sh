@@ -7,7 +7,7 @@ set -x
 
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sh-test-lib
-cd -
+
 
 pkg="curl"
 install_deps "${pkg}"
