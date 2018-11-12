@@ -45,12 +45,12 @@ case "${distro}" in
 		install_deps "${pkgs}"
 	;;
         debian)
-		pkgs="libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
+		pkgs="wget libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
 		install_deps "${pkgs}"
 	;;
 	centos)
 		yum remove yum-plugin-priorities.noarch -y
-		pkgs="kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
+		pkgs="wget kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
 		install_deps "${pkgs}"
 	;;
         fedora)
