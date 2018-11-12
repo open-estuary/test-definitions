@@ -40,7 +40,7 @@ $EXPECT << EOF | tee out.log
 set timeout 10000
 spawn docker exec -it test1 bash
 expect "/]#"
-send "yum install -y net-tools\r"
+send "yum install -C -y net-tools\r"
 expect "Complete"
 send "ifconfig\r"
 expect "/]#"

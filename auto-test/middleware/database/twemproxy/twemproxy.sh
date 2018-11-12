@@ -12,7 +12,7 @@ source ../redis/redis.sh
 
 function twemproxy_install(){
 
-    yum install -y twemproxy 
+    yum install -C -y twemproxy
     print_info $? "install_twemproxy"
 
 

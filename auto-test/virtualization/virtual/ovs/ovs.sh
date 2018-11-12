@@ -19,8 +19,7 @@ case "${distro}" in
 		print_info $? install-ovs
 	;;
 	centos|fedora)
-		yum update
-		yum install -y openvswitch openvswitch-devel openvswitch-test openvswitch-debuginfo
+		yum install -C -y openvswitch openvswitch-devel openvswitch-test openvswitch-debuginfo
 		print_info $? install-ovs
 		systemctl start openvswitch.service
 		print_info $? start-ovs-service

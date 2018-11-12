@@ -33,7 +33,7 @@ case $distro in
          print_info $? install-openssl
          ;;
      "centos")
-         yum install openssl -y
+         yum install -C openssl -y
          #print_info $? install-openssl
          ;;
      "opensuse")

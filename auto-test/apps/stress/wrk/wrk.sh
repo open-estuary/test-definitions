@@ -17,7 +17,7 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-        yum install wrk.aarch64 -y
+        yum install -C wrk.aarch64 -y
         print_info $? install-wrk
          ;;
 esac

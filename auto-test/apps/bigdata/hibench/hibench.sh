@@ -10,14 +10,14 @@ cd $basedir
 ### install jdk
 function install_jdk() {
 
-    yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
+    yum install -C -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
     export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
     export PATH=$PATH:$JAVA_HOME/bin
 }
 
 function install_hibench {
     ### install git maver wget
-    yum install -y git maven wget
+    yum install -C -y git maven wget
 	mvn -v
 	print_info $? "hibench-install maven" 
 

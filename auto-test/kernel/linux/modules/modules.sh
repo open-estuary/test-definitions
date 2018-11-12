@@ -35,7 +35,7 @@ case "${dist}" in
         print_info $? gcc
         ;;
     centos)
-        yum install -y kernel-headers-${headers}
+        yum install -C -y kernel-headers-${headers}
         status=$?
         if [ $status -eq 0 ];then
             print_info 0 install
@@ -51,8 +51,8 @@ case "${dist}" in
         #cd /root/rpmbuild/SOURCE
         #tar xvJf linux-4.12.0* -C /usr/src/kernels/
         #cd -
-        yum install -y make
-        yum install -y gcc
+        yum install -C -y make
+        yum install -C -y gcc
         ;;
     *)
         echo "not surpport in this distribution"

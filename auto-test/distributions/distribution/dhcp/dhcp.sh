@@ -15,7 +15,7 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-        #yum install dhclient.aarch64 -y
+        #yum install -C dhclient.aarch64 -y
         pkgs="dhclient"
         install_deps "${pkgs}"
         print_info $? install-package

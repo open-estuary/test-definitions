@@ -14,8 +14,8 @@ fi
 
 case $distro in
     "centos")
-        yum install bind -y
-        yum install bind-utils -y
+        yum install -C bind -y
+        yum install -C bind-utils -y
         pkgs="bind bind-utils"
         install_deps "${pkgs}"
         print_info $? install-package

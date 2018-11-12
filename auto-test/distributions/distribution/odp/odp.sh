@@ -17,9 +17,9 @@ if [ `whoami` != 'root' ] ; then
 fi
 case $distro in
 "centos")
-     yum install wget -y
-     yum install CUnit-devel.aarch64 -y
-     yum install libatomic.aarch64 -y
+     yum install -C wget -y
+     yum install -C CUnit-devel.aarch64 -y
+     yum install -C libatomic.aarch64 -y
      #print_info $? install-pkgs
      wget http://192.168.50.122:8083/test_dependents/centos_odp.tar.gz
      tar xf centos_odp.tar.gz

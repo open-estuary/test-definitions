@@ -11,9 +11,8 @@
 
 
 function spark_download(){
-	yum update -y    
-    yum install -y wget ansible 
-    yum install -y java-1.8.0-openjdk-devel  java-1.8.0-openjdk 
+    yum install -C -y wget ansible
+    yum install -C -y java-1.8.0-openjdk-devel  java-1.8.0-openjdk
     
 
     if [ -z $SPARKVERSION ];then
