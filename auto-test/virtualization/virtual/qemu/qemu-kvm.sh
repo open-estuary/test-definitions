@@ -19,6 +19,15 @@ HOME_PATH=$HOME
 CUR_PATH=$PWD
 DISK_NAME=${distro}.img
 
+case $distro in
+"centos")
+    yum install wget -y
+;;
+"debian")
+   apt-get install wget -y
+  ;;
+esac
+
 #download_url="http://120.31.149.194:18083/test_dependents/qemu"
 download_url="http://192.168.50.122:8083/test_dependents/qemu"
 
@@ -45,12 +54,12 @@ case "${distro}" in
 		install_deps "${pkgs}"
 	;;
         debian)
-		pkgs="libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
+		pkgs="wget libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
 		install_deps "${pkgs}"
 	;;
 	centos)
 		yum remove yum-plugin-priorities.noarch -y
-		pkgs="kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
+		pkgs="wget kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
 		install_deps "${pkgs}"
 	;;
         fedora)
