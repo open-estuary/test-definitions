@@ -61,7 +61,7 @@ sed -i "s/nameserver/# nameserver/g" /etc/resolv.conf
 sed -i "1i nameserver ${board_ip}" /etc/resolv.conf
 service bind9 restart
 host www.tonv.my
-sleep 5
+sleep 8
 print_info $? forward-dns
 host 192.168.1.70 2>&1 | tee -a dig.log
 print_info $? reverse-dns
