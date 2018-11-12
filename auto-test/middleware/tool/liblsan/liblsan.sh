@@ -43,7 +43,7 @@ else
    rmflag=1
    if [ "$from" != "Estuary"  ];then
    yum remove -y $package
-   yum install -y $package
+   yum install -C -y $package
    from=$(yum info $package | grep "From repo" | awk '{print $4}')
       if [ "$from" = "$from_repo"   ];then
             print_info 0 repo_check

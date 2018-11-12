@@ -18,7 +18,7 @@ for P in ${package};do
     echo "$P install"
 case $distro in
     "centos" )
-         yum install -y $P
+         yum install -C -y $P
          print_info $? devtoolset-4-boost
          ;;
  esac
@@ -31,7 +31,7 @@ else
     rmflag=1
     if [ "$from" != "Estuary"  ];then
         yum remove -y $P
-        yum install -y $P
+        yum install -C -y $P
         from=$(yum info $P | grep "From repo" | awk '{print $4}')
         if [ "$from" = "$from_repo"   ];then
               print_info 0 repo_check

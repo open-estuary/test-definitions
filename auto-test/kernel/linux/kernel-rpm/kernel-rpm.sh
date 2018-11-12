@@ -53,15 +53,15 @@ case "${dist}" in
         fi
         ;;
     centos|fedora) 
-        yum install yum-utils -y
+        yum install -C yum-utils -y
         print_info $? yum-utils
 
         yum build-dep -y kernel 
         
-        yum install -y pesign
+        yum install -C -y pesign
         print_info $? pesign
 
-        yum install rpm-build -y
+        yum install -C rpm-build -y
         print_info $? rpm-build
 
         yumdownloader --source kernel

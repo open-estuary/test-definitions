@@ -10,7 +10,6 @@ source ../percona/mysql.sh
 outDebugInfo
 yum erase -y mariadb-libs
 yum remove -y mariadb-libs
-yum update -y
 
 cleanup_all_database
 

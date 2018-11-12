@@ -17,7 +17,7 @@ outDebugInfo
 function memcached_install(){
 case $distro in
     "centos"|"fedora")
-	yum install python -y
+	yum install -C python -y
     	pkgs="memcached libevent python2-pip nmap-ncat"
 	install_deps "${pkgs}"
         pip install -q python-memcached

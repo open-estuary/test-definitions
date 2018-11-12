@@ -10,7 +10,7 @@
 
 function install_ansible(){
 
-    yum install -y ansible 
+    yum install -C -y ansible 
     print_info $? "install ansible"
     
 }

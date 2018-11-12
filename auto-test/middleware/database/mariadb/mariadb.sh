@@ -8,7 +8,7 @@ if [ `whoami` != 'root' ] ; then
     exit 1
 fi
 function mariadb_install(){
-    yum install -y  mariadb-server 
+    yum install -C -y  mariadb-server
     ret=$?
     print_info $ret "install_mariadb"
     if [ $ret -ne 0 ];then

@@ -15,9 +15,9 @@ if [ `whoami` != 'root' ]; then
 fi
 case $distro in
     "centos")
-        #yum install gcc -y
-        #yum install gcc-c++ -y
-        #yum install wget -y
+        #yum install -C gcc -y
+        #yum install -C gcc-c++ -y
+        #yum install -C wget -y
         pkgs="gcc gcc-c++ wget"
         install_deps "${pkgs}"
         print_info $? install-package

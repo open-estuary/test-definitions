@@ -28,7 +28,7 @@ cd -
 >>>>>>> c3e2df2a8076c02b07db756a80201ca83ccca61c
 case $distro in
     "centos")
-        yum install netperf -y
+        yum install -C netperf -y
         print_info $? install-netperf
          ;;
     "ubuntu")

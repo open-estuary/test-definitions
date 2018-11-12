@@ -54,8 +54,8 @@ case $distro in
         install_commands='zypper -n install'
         ;;
     "centos" )
-        update_commands='yum update -y'
-        install_commands='yum install -y'
+        update_commands='yum makecache'
+        install_commands='yum install -C -y'
         ;;
     "fedora" )
         update_commands='dnf update -y'
@@ -214,7 +214,7 @@ yumInstall(){
         i=0
         for package in "$@"
         do 
-            yum install -y $package 
+            yum install -C -y $package 
             if [ $? -eq 0 ];then
                 let "i++"
             fi 
@@ -268,7 +268,7 @@ install_deps_ex(){
     case $distro in 
         "centos")
             if [ ! -z $1 ];then 
-                yum install -y $1
+                yum install -C -y $1
             fi 
             ;;
         "ubuntu")

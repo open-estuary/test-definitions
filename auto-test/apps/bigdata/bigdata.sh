@@ -10,7 +10,7 @@
 
 function install_bigdata(){
 
-    yum install -y bigdata 
+    yum install -C -y bigdata
     print_info $? "install bigdata"
     
     export LANG=en_US.UTF8

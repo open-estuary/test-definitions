@@ -13,7 +13,7 @@ if [ `whoami` != 'root' ]; then
 fi
 case $distro in
     "centos"|"fedora")
-        yum install python2-pip.noarch -y
+        yum install -C python2-pip.noarch -y
         ;;
     "ubuntu"|"debian")
         apt-get install python-pip -y
@@ -44,7 +44,7 @@ esac
 
 case $distro in
     "centos"|"fedora")
-        yum install python2-pip.noarch -y
+        yum install -C python2-pip.noarch -y
         print_info $? install-pip
         ;;
     "ubuntu"|"debian")

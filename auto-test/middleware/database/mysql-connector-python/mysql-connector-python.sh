@@ -26,7 +26,6 @@ case "${distro}" in
 	outDebugInfo
         yum erase -y mariadb-libs
         yum remove -y mariadb-libs
-        yum update -y
         cleanup_all_database
         pkgs1="mysql-community-server mysql-community-devel"
 	install_deps "${pkgs1}"

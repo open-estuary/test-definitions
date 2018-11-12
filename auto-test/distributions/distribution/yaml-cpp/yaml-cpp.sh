@@ -17,12 +17,12 @@ if [ `whoami` != 'root' ] ; then
 fi
 case $distro in
     "centos"|"fedora")
-         #yum install yaml-cpp-static -y
-         #yum install yaml-cpp -y
-         #yum install cmake -y
-         #yum install boost -y
-         #yum install gcc-c++ -y
-         #yum install make -y
+         #yum install -C yaml-cpp-static -y
+         #yum install -C yaml-cpp -y
+         #yum install -C cmake -y
+         #yum install -C boost -y
+         #yum install -C gcc-c++ -y
+         #yum install -C make -y
          package="yaml-cpp-static yaml-cpp cmake boost gcc-c++ make"
          install_deps "${package}"
          print_info $? install-yaml-cpp
