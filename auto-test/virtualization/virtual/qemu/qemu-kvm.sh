@@ -19,6 +19,15 @@ HOME_PATH=$HOME
 CUR_PATH=$PWD
 DISK_NAME=${distro}.img
 
+case $distro in
+"centos")
+    yum install wget -y
+;;
+"debian")
+   apt-get install wget -y
+  ;;
+esac
+
 #download_url="http://120.31.149.194:18083/test_dependents/qemu"
 download_url="http://192.168.50.122:8083/test_dependents/qemu"
 
