@@ -2,7 +2,8 @@
 #Author mahongxin<hongxin_228@163.com>
 set -x
 cd ../../../../utils
-. ./sys_info.sh
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 if [ `whoami` != 'root' ]; then
     echo "You must be the superuser to run this script" >$2
@@ -59,7 +60,8 @@ board_ip=`ifconfig |grep "inet"|cut -c14-26|head -n 1`
 sed -i "s/nameserver/# nameserver/g" /etc/resolv.conf
 sed -i "1i nameserver ${board_ip}" /etc/resolv.conf
 service bind9 restart
-#host www.tonv.my
-#print_info $? forward-dns
+host www.tonv.my
+sleep 8
+print_info $? forward-dns
 host 192.168.1.70 2>&1 | tee -a dig.log
 print_info $? reverse-dns
