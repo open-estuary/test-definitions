@@ -14,15 +14,15 @@ Introduction : The developer and tester of each module
 |  | build | 林文凯 | 刘北洁 |
 |  | deploy | 林文凯 | 刘北洁 |
 | hardwareboards |  |  |  |
-| kernel | linux | 刘新良 | 丁玉 |
-|  | memory | 刘新良 | 闵帅 |
+| kernel | linux | 肖俊 | 丁玉 |
+|  | memory | 肖俊 | 闵帅 |
 | middleware | tool | 汪育 | 张东方 |
 |  | database | 汪育 | 马红新 |
 |  | language | 汪育 | 刘北洁 |
-| peripheral | raid | 刘新良 | 闵帅 |
-|  | ssd | 刘新良 | 闵帅 |
-|  | 82599 | 刘新良 | 闵帅 |
-|  | sas | 刘新良 | 闵帅 |
-|  | misc | 刘新良 | 闵帅 |
-|  | hns | 刘新良 | 闵帅 |
-| virtualization | virtual | 刘新良 | 刘北洁 |
+| peripheral | raid | 肖俊 | 闵帅 |
+|  | ssd | 肖俊 | 闵帅 |
+|  | 82599 | 肖俊 | 闵帅 |
+|  | sas | 肖俊 | 闵帅 |
+|  | misc | 肖俊 | 闵帅 |
+|  | hns | 肖俊 | 闵帅 |
+| virtualization | virtual | 肖俊 | 刘北洁 |
