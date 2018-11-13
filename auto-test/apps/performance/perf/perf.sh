@@ -16,7 +16,7 @@ for P in ${package};do
 # Install package
 case $distro in
     "centos" )
-         yum install -C -y "$P"
+         yum install -y "$P"
          print_info $? "$P"
          ;;
  esac
@@ -28,7 +28,7 @@ case $distro in
      rmflag=1
      if [ "$from" != "Estuary" ];then
          yum remove -y $P
-         yum install -C -y $P
+         yum install -y $P
          from=$(yum info $P | grep "From repo" | awk '{print $4}')
         if [ "$from" = "$from_repo"  ];then
            echo "$P install  [pass]" | tee -a ${RESULT_FILE}

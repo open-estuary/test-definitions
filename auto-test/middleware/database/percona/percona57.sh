@@ -10,7 +10,7 @@
 
 function percona57_install(){
     
-    yum install -C -y Percona-Server-server-57
+    yum install -y Percona-Server-server-57
     if [ $? -ne 0 ];then
         local vv=`mysqld -V`
         echo $vv | grep -i percona &&   yum remove -y Percona* 
@@ -18,7 +18,7 @@ function percona57_install(){
         echo $vv | grep -i mariadb &&   yum remove -y mariadb* 
         yum remove -y mysql* 
         print_info $? "percona57_remove_other_sql_databases"
-        yum install -C -y Percona-Server-server-57
+        yum install -y Percona-Server-server-57
     fi
     if [ $? -eq 0 ];then
         print_info 0 "percona-server-57_install"
