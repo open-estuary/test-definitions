@@ -20,7 +20,7 @@ cd -
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos")
-         yum install -C -y qperf
+         yum install -y qperf
          print_info $? install-qperf
          ;;
     "ubuntu")

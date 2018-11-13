@@ -36,7 +36,7 @@ case "${dist}" in
                     rmflag=1
                    # if [ "$from" != "anaconda" ];then
                    #     yum remove -y $p
-                   #     yum install -C -y $p
+                   #     yum install -y $p
                    #     from=$(yum info $p | grep "Source" | awk '{print $2}')
                    #     if [ "$from" = "$from_repo1" -o "$from" = "$from_repo2" ];then
                    #         echo "$p install  [PASS]" | tee -a ${RESULT_FILE}
@@ -77,7 +77,7 @@ case "${dist}" in
         package_list="kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
             echo "$p install"
-            yum install -C -y $p
+            yum install -y $p
             status=$?
             rmflag=0
             if test $status -eq 0
@@ -91,7 +91,7 @@ case "${dist}" in
                     rmflag=1
                     if [ "$from" != "Estuary" ];then
                         yum remove -y $p
-                        yum install -C -y $p
+                        yum install -y $p
                         from=$(yum info $p | grep "From repo" | awk '{print $4}')
                         if [ "$from" = "$from_repo" ];then
                              print_info 0 repo_check

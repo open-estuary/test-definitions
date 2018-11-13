@@ -181,7 +181,7 @@ function hive_inner_table() {
             print_info $? "hive_download_test_data"
         fi
         if [ ! `which unzip` ];then
-            yum install -C unzip -y
+            yum install unzip -y
         fi
 
         unzip -f ./ml-100k.zip

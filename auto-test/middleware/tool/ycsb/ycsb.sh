@@ -20,7 +20,7 @@ fi
 
 function install_ycsb(){
 
-    yum install -C -y ycsb java-1.8.0-openjdk
+    yum install -y ycsb java-1.8.0-openjdk
     print_info $? "install_ycsb"
 
     export LANG=en_US.UTF8

@@ -7,7 +7,7 @@ case $distro in
         print_info 0 install-package
         ;;
      "centos")
-        yum install -C net-tools -y
+        yum install net-tools -y
         print_info 0 install-package
 esac
 inet=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'`

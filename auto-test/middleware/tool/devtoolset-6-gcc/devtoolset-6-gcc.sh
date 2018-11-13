@@ -32,7 +32,7 @@ else
     rmflag=1
     if [ "$from" != "Estuary"  ];then
         yum remove -y ${pkgs}
-        yum install -C -y ${pkgs}
+        yum install -y ${pkgs}
         from=$(yum info ${pkgs} | grep "From repo" | awk '{print $4}')
         if [ "$from" = "$from_repo"   ];then
                print_info 0 repo_check

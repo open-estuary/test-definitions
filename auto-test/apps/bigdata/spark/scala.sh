@@ -41,7 +41,7 @@ function scala_install(){
         ln -s ~/bigdata/spark/scala-2.12.4/ /var/spark/scala
     popd 
 
-    yum install -C -y java-1.8.0-openjdk-devel  java-1.8.0-openjdk
+    yum install -y java-1.8.0-openjdk-devel  java-1.8.0-openjdk
 }
 
 function scala_env_path(){
