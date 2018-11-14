@@ -94,6 +94,7 @@ function zk_install_c_client(){
        yum install -y python-devel python-pip 
 case $distro in
       "centos"|"ubuntu"|"debian"|"opensuse")
+       pip install –upgrade pip
        pip install zkpython
 ;;
 esac
