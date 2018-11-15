@@ -9,7 +9,7 @@ metadata:
         - hadoop
     os:
         - centos
-        - fedora
+        - debian
     devices:
         - d03
         - d05
