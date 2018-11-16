@@ -12,6 +12,7 @@ metadata:
         - php
     os:
         - debian
+        - centos
     devices:
         - d03
         - d05
