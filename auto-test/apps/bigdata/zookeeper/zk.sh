@@ -27,6 +27,7 @@ esac
     yum install python2-pip nmap-ncat gcc -y
     yum install ansible -y
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
+    sleep 5
     ret=$?
     print_info $ret "zookeeper_standalone_install" 
     if [ $ret -ne 0 ];then
