@@ -25,6 +25,7 @@ case $distro in
 ;;      
 esac
     yum install python2-pip nmap-ncat gcc -y
+    yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
     yum install ansible -y
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
     sleep 5
