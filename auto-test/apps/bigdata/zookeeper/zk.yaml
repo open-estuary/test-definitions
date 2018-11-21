@@ -8,6 +8,7 @@ metadata:
     scope:
         - bigdata
         - zookeeper
+        - liubeijie
     os:
         - centos
     devices:
