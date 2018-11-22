@@ -10,7 +10,6 @@ set -x
 source ../../../../utils/sys_info.sh
 source ../../../../utils/sh-test-lib
 
-cd -
 
 ARRAY_SIZE="200"
 
