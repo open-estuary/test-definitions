@@ -1,10 +1,27 @@
-#!/bin/sh 
+# ==================
+# Filename: pm-qa
+# Author:
+# Email:
+# Date:
+# Description: Test power management (PM-QA). Currently, the test runs
+#              cpufreq, cpuidle, cpuhotplug, thermal and cputopology by
+#              default and individual test can be run by setting TESTS
+#              parameter in test job definition too
+# ==================
 
-# shellcheck disable=SC1091
+###### specify interpeter path ######
+
+#!/bin/bash 
+
+###### importing environment variable ######  
+
 cd ../../../../utils
-    .        ./sys_info.sh
-    .        ./sh-test-lib
+   source  ./sys_info.sh
+   source  ./sh-test-lib
 cd -
+
+###### setting variables ######
+
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 SKIP_INSTALL="false"
@@ -26,10 +43,17 @@ while getopts ":r:t:s:" opt; do
     esac
 done
 
+###### precheck root ######
+
 ! check_root && error_msg "Please run this script as root."
+
+###### install ######
+
 install_deps "git build-essential linux-libc-dev" "${SKIP_INSTALL}"
 print_info $? install-pkg
 create_out_dir "${OUTPUT}"
+
+###### testing step ######
 
 rm -rf pm-qa
 git clone https://git.linaro.org/power/pm-qa.git
