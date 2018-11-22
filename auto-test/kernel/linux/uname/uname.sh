@@ -13,39 +13,31 @@
 ############# importing environment variable ##############
 
 cd ../../../../utils
-   .         ./sys_info.sh
-   .         ./sh-test-lib
+    source  ./sys_info.sh
+    source  ./sh-test-lib
 cd -
 
 #################### precheck ####################
 
-if [ 'whoami' != 'root' ];then
-	echo "You must be the root to run this script" >$2
-	exit 1
-fi
+! check_root && error_msg "please run this script as root."
 
 ################## setting variables ##################
 
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-export RESULT_FILE
-
-# pkgs="uname"
 version="4.18"
 machine="aarch64"
 
 #################### install ####################
 
-case $distro in
-    "centos")
-        install_deps "${pkgs}"
-        print_info $? install-pkgs
-        ;;
-    "debian")
-        install_deps "${pkgs}" -y
-        print_info $? install-pkgs
-        ;;
-esac
+# case $distro in
+  #  "centos")
+   #     install_deps "${pkgs}"
+    #    print_info $? install-pkgs
+     #   ;;
+  #  "debian")
+   #     install_deps "${pkgs}" -y
+    #    print_info $? install-pkgs
+     #   ;;
+#esac
 
 #################### testing step ####################
 
@@ -59,7 +51,7 @@ else
 fi
 
 ## check the machine ##
-mach='uname -m'
+mach=`uname -m`
 echo $mach
 if [ "$mach" = "$machine" ];then
 	print_info $0 machine
