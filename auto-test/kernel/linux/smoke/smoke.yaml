@@ -8,20 +8,15 @@ metadata:
         - fyuanz_2010@163.com
     os:
         - centos
-        - ubuntu
-        - fedora
         - debian
     scope:
         - linux
-        - smoke
     devices:
-        - d03
+        - d06
         - d05
     level: 1
     totalcase:
         centos: 23
-        ubuntu: 23
-        fedora: 23
         debian: 23
 
 run:
