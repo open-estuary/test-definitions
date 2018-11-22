@@ -1,5 +1,4 @@
-# ==================
-# Filename: pm-qa
+# ================== Filename: pm-qa
 # Author:
 # Email:
 # Date:
@@ -49,7 +48,7 @@ done
 
 ###### install ######
 
-install_deps "git build-essential linux-libc-dev" "${SKIP_INSTALL}"
+install_deps "git gcc build-essential linux-libc-dev" "${SKIP_INSTALL}"
 print_info $? install-pkg
 create_out_dir "${OUTPUT}"
 
