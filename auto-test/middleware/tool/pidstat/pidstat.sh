@@ -16,7 +16,7 @@ cd -
 ######################## Environmental preparation   ######################
 case $distro in
     "centos"|"opensuse"|"ubuntu"|"debian" )
-	#yum install -C -y sysstat
+	#yum install -y sysstat
         pkgs="sysstat"
 	install_deps "${pkgs}"
         print_info $? install_sysstat

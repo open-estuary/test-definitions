@@ -10,7 +10,7 @@ BUILD_ESSENTIAL="build-essential automake cmake git libtool"
 COMMON_TOOLS="python curl wget unzip bison flex"
 #However it will use yum on other platforms such as CentOS
 if [ "$(which yum 2> /dev/null)" ] ; then 
-    INSTALL_CMD="$(tool_add_sudo) yum install -C"
+    INSTALL_CMD="$(tool_add_sudo) yum install"
     BUILD_ESSENTIAL="automake cmake git libtool"
 fi
 
@@ -20,7 +20,7 @@ fi
 
 #Add build and common tools
 if [ "$(which yum)" ] ; then
-    $(tool_add_sudo) yum install -C -y -q  "Devlopment Tools"
+    $(tool_add_sudo) yum install -y -q  "Devlopment Tools"
 fi
 
 ${INSTALL_CMD} ${INSTALL_OPTIONS} ${BUILD_ESSENTIAL} 
@@ -43,7 +43,7 @@ if [ -z "$(which cram 2>/dev/null)" ] ; then
 fi
 
 if [ "$(which yum)" ] ; then
-    $(tool_add_sudo) yum install -C -y -q perl-ExtUtils-MakeMaker glibc-static
+    $(tool_add_sudo) yum install -y -q perl-ExtUtils-MakeMaker glibc-static
 fi
 
 

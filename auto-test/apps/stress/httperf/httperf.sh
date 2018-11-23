@@ -18,7 +18,7 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
 "centos")
-     yum install -C make -y
+     yum install make -y
      wget ftp://ftp.hpl.hp.com/pub/httperf/httperf-0.9.0.tar.gz
      print_info $? wget-httperf
      tar -zxvf httperf-0.9.0.tar.gz

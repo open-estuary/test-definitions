@@ -7,7 +7,7 @@ cd ../../../../utils
 . ./sh-test-lib
 cd -
 
-#yum install -C go -y
+#yum install go -y
 #print_info $? golang-install
 #go version
 

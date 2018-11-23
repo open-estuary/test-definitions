@@ -17,11 +17,11 @@ case $distro in
           apt-get install selinux-utils -y
           ;;
     "centos"|"fedora")
-          yum install -C samba -y
+          yum install samba -y
           print_info $? install-samba
-          yum install -C samba-client.aarch64 -y
+          yum install samba-client.aarch64 -y
           print_info $? install-samba-client
-          yum install -C expect -y
+          yum install expect -y
           ;;
      "opensuse")
           zypper install -y samba

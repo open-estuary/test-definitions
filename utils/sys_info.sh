@@ -55,7 +55,7 @@ case $distro in
         ;;
     "centos" )
         update_commands='yum makecache'
-        install_commands='yum install -C -y'
+        install_commands='yum install -y'
         ;;
     "fedora" )
         update_commands='dnf update -y'
@@ -214,7 +214,7 @@ yumInstall(){
         i=0
         for package in "$@"
         do 
-            yum install -C -y $package 
+            yum install -y $package 
             if [ $? -eq 0 ];then
                 let "i++"
             fi 
@@ -268,7 +268,7 @@ install_deps_ex(){
     case $distro in 
         "centos")
             if [ ! -z $1 ];then 
-                yum install -C -y $1
+                yum install -y $1
             fi 
             ;;
         "ubuntu")

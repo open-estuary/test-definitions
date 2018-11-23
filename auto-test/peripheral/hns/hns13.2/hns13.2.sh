@@ -5,7 +5,7 @@ cd ../../../../utils
 cd -
 case $distro in
     "centos"|"fedora"|"opensuse")
-	#yum install -C net-tools -y
+	#yum install net-tools -y
 	pkgs="net-tools"
 	install_deps "$pkgs"
         ;;
