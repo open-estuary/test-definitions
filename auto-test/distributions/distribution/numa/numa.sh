@@ -1,29 +1,38 @@
+# ====================
+# Filename: numa.sh
+# Author: 
+# Email:
+# Date: 
+# Description: NUMA--Non Uniform Memory Access Architecture
+# ====================
+
+###### specify interpeter bath ######
+
 #!/bin/bash
 
-# Filename: NUMA.sh
-# Author: xuexing4@hisilicon.com
-# Description: NUMA--Non Uniform Memory Access Architecture
-# Latest: 2018-08-30
+###### importing environment variable ######
 
 cd ../../../../utils
 source ./sys_info.sh
 source ./sh-test-lib
 cd -
-set -x
 
-#Test user id
-if [ `whoami` != 'root' ]; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
+###### check root ######
+
+! check_root && error_msg "You must run the script as root."
+
+###### setting variables ######
 
 numcpus=`cat /proc/cpuinfo| grep "processor"| wc -l`
 nummems=`free -m |grep Mem | awk '{print $2}'`
+numnodes=`numactl -H|grep -o -P '(?<=available: ).*(?= nodes)'`
 
-#Verify that the system supports NUMA
+###### precheck ######
+
+# Verify that the system supports numa
 support_numa ()
 {
-    if [ `dmesg | grep -i numa` == "No NUMA configuration found" ];then
+    if [ `dmesg | grep -i numa` == "No numa configuration found" ];then
         print_info 1 support-numa
 	exit 1
     else
@@ -33,17 +42,18 @@ support_numa ()
 
 support_numa
 
-#install numactl
+###### install ######
+
 case $distro in
-    "centos"|"ubuntu"|"debian"|"opensuse"|"fedora")
+    "centos"|"debian")
         pkgs="numactl"
         install_deps "${pkgs}"
         print_info $? install-numactl
 esac
 
-numnodes=`numactl -H|grep -o -P '(?<=available: ).*(?= nodes)'`
+###### test step ######
+## Show inventory of available nodes on the system
 
-#Show inventory of available nodes on the system
 show_numa ()
 {
     available=`numactl -H|grep "available"`
@@ -71,7 +81,7 @@ show_numa ()
 
 show_numa
 
-#Verify the total number of CPU and memory
+## Verify the total number of CPU and memory
 total_number ()
 {
     sumcpus=0
@@ -94,7 +104,7 @@ total_number ()
 
 total_number
 
-#Show NUMA policy settings of the current process
+## Show NUMA policy settings of the current process
 numa_policy ()
 {
     policy=`numactl -s|grep "policy"`
@@ -112,7 +122,7 @@ numa_policy ()
 
 numa_policy
 
-#View the current policy after setting up--default preferred interleave bind
+## View the current policy after setting up--default preferred interleave bind
 setup_policy ()
 {
     if [ `numactl -s|grep "policy"|awk '{print $2}'` = "default" ];then
@@ -130,7 +140,7 @@ setup_policy ()
 
 setup_policy
 
-# Verification of cpu binding and memory binding functions 
+## Verification of cpu binding and memory binding functions 
 mem_bind ()
 {
     for((i=0;i<$numnodes;i++));
@@ -171,9 +181,10 @@ cpu_bind ()
 
 cpu_bind
 
-#remove the numactl
+###### restore environment ######
+## remove the numactl
 case $distro in
-    "centos"|"ubuntu"|"debian"|"opensuse"|"fedora")
+    "centos"|"debian")
         pkgs="numactl"
         remove_deps "${pkgs}"
         print_info $? remove-numactl
