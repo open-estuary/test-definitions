@@ -8,20 +8,14 @@ metadata:
     scope:
         - distribution
     os:
-        - ubuntu
-        - opensuse
         - centos
-        - fedora
         - debian
     devices:
         - d05
-        - d03
+        - d06
     level: 1
     totalcase:
         centos: 5
-        ubuntu: 5
-        opensuse: 5
-        fedora: 5
         debian: 5
 run:
     steps:
