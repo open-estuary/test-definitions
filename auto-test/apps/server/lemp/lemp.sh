@@ -1,39 +1,13 @@
 #!/bin/bash
-
-# shellcheck disable=SC1091
-#. ../../lib/sh-test-lib
 #Author mahongxin <hongxin_228@163.com>
 set -x
-
-. ../../../../utils/sys_info.sh
-. ../../../../utils/sh-test-lib
-
+cd ../../../../utils
+   source ./sys_info.sh
+   source ./sh-test-lib
+cd -
 
 pkg="curl"
 install_deps "${pkg}"
-
-
-#删除apache进程
-case "${distro}" in
-    centos)
-	systemctl stop httpd.service > /dev/null 2>&1 || true
-	proc=`ps -ef |grep httpd|awk '{print $2}'`
-	for p in $proc
-	do 
-		kill -9 $p
-	done
-	;;
-    debian)
-	systemctl stop apache2.service > /dev/null 2>&1 || true
-        proc=`ps -ef |grep apache2|awk '{print $2}'`
-        for p in $proc
-        do
-                kill -9 $p
-        done
-        ;;
-
-esac
-
 
 case "$distro" in
     debian)
@@ -58,32 +32,6 @@ case "$distro" in
 	systemctl start php7.0-fpm
 	systemctl start nginx
 	systemctl start mysql
-	;;
-        
-    ubuntu)
-	#清理环境
-	./test.sh
-	apt-get remove --purge mysql-server
-	echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
-	echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
-	
-	#安装包
-	apt-get install mysql-server mysql-client -y
-	pkgs="nginx php php-mysql php-common libapache2-mod-php  php7.2-fpm"
-        install_deps "${pkgs}"
-        print_info $? install-pkgs
-        
-	#修改配置文件
-	# Configure PHP.
-	cp /etc/php/7.2/fpm/php.ini /etc/php/7.2/fpm/php.ini.bak
-	sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/fpm/php.ini
-	# Configure NGINX for PHP.
-	cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-	cp ../../../../utils/ubuntu-nginx.conf /etc/nginx/sites-available/default
-
-	systemctl start php7.2-fpm
-	systemctl start nginx
-        systemctl start mysql
 	;;
     centos)
 	#清理环境
@@ -110,29 +58,6 @@ case "$distro" in
 	systemctl start nginx
 	systemctl start mysql
      	;;
-    fedora)
-	#清理环境
-	./test.sh
-	
-	#安装包
-	pkgs="nginx mariadb-server php php-mysqlnd php-fpm"
-	install_deps "${pkgs}"
-	print_info $? install_php_nginx_mysql	
-
-	# Configure PHP.
-	cp /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.conf.bak
-	sed -i "s/;listen.owner = nobody/listen.owner = nginx/" /etc/php-fpm.d/www.conf
-        sed -i "s/;listen.group = nobody/listen.group = nginx/" /etc/php-fpm.d/www.conf
-        sed -i "s/user = apache/user = nginx/" /etc/php-fpm.d/www.conf
-	sed -i "s/group = apache/group = nginx/" /etc/php-fpm.d/www.conf
-	# Configure NGINX for PHP.
-	cp /etc/nginx/nginx.conf.default /etc/nginx/nginx.conf.default.bak
-	cp ../../../../utils/fedora-nginx.conf /etc/nginx/nginx.conf.default
-
-	systemctl start php-fpm
-	systemctl start nginx
-        systemctl start mariadb
-        ;;
 esac
 
 sed -i "s/Apache/Nginx/g" ./html/index.html
@@ -144,15 +69,15 @@ print_info $? test-nginx-server
 
 # Test MySQL.
 case "${distro}" in
-    centos|fedora)
+    centos)
 	mysqladmin -u root password root
 	print_info $? set-root-pwd
         ;;
-    ubuntu|debian)
+    debian)
         EXPECT=$(which expect)
         $EXPECT << EOF
         set timeout 100
-        spawn mysql -uroot -p
+        spawn mysql -u root -p
         expect "password:"
         send "root\r"
         expect ">"
@@ -169,28 +94,6 @@ case "${distro}" in
 EOF
         print_info $? set-root-pwd
         ;;
-esac
-
-case "${distro}" in
-    ubuntu|debian)
-	$EXPECT << EOF
-	set timeout 100
-	spawn mysql -uroot -p
-	expect "password:"
-	send "lxmptest\r"
-	expect ">"
-	send "use mysql;\r"
-	expect ">"
-	send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
-        expect "OK"
-	send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
-	expect "OK"
-	send "FLUSH PRIVILEGES;\r"
-	expect "OK"
-	send "exit\r"
-	expect eof	
-EOF
-	;;
 esac
 
 mysql --user='root' --password='root' -e 'show databases'
@@ -254,13 +157,6 @@ case "${distro}" in
 	cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
         cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
         ;;
-    ubuntu)
-	systemctl stop php7.2-fpm
-        systemctl stop nginx
-        systemctl stop mysql
-        cp /etc/php/7.2/fpm/php.ini.bak /etc/php/7.2/fpm/php.ini
-        cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
-	;;
     centos)
 	systemctl stop php-fpm
         systemctl stop nginx
@@ -268,25 +164,18 @@ case "${distro}" in
         cp /etc/php.ini.bak /etc/php.ini
 	cp /etc/nginx/nginx.conf.default.bak  /etc/nginx/nginx.conf.default
 	;;
-    fedora)
-	systemctl stop php-fpm
-        systemctl stop nginx
-        systemctl stop mariadb
-        cp /etc/php-fpm.d/www.conf.bak /etc/php-fpm.d/www.conf
-	cp /etc/nginx/nginx.conf.default.bak  /etc/nginx/nginx.conf.default
-        ;;
 esac
 
 
 #remove packges
 case "${distro}" in
-    ubuntu|debian)
+    debian)
 	./test.sh
 	apt-get remove --purge mysql-sever -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;
-    centos|fedora)
+    centos)
 	./test.sh
 	remove_deps "${pkgs}"
 	print_info $? remove-package

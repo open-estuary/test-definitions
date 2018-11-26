@@ -24,7 +24,6 @@ cd -
 ###### install ######
 
 case $distro in
-
     "centos")
         yum install python2-pip -y
         print_info $? install-pip
