@@ -1,12 +1,10 @@
 #!/bin/bash
 
 set -x
-
-. ../../../../utils/sys_info.sh
-. ../../../../utils/sh-test-lib
-
-
-
+cd ../../../../utils
+   source ./sys_info.sh
+   source ./sh-test-lib
+cd -
 
 #usage() {
 #    echo "Usage: $0 [-s <true|false>]" 1>&2
@@ -33,7 +31,7 @@ set -x
 
     # shellcheck disable=SC2154
     case "${distro}" in
-      debian|ubuntu)
+      debian)
         if [ "${distro}" = "debian" ]; then
             pkgs="curl apache2 mysql-server php-mysql php-common libapache2-mod-php"
         elif [ "${distro}" = "ubuntu" ]; then
@@ -44,9 +42,6 @@ set -x
         install_deps "${pkgs}"
         print_info $? install-pkgs
 	case "$distro" in
-	    ubuntu)
-            echo "extension=mysqli.so" >> /etc/php/7.2/apache2/php.ini
-	    ;;
             debian)
             echo "extension=mysqli.so">> /etc/php/7.0/apache2/php.ini
 	    ;;
@@ -54,7 +49,7 @@ set -x
         systemctl start apache2
         systemctl start mysql
         ;;
-      centos|fedora)
+      centos)
         yum remove -y `rpm -qa | grep -i mysql`
         yum remove -y `rpm -qa | grep -i alisql`
         yum remove -y `rpm -qa | grep -i percona`

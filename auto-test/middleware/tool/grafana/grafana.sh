@@ -12,7 +12,7 @@ cd -
 pkgs="wget curl ufw"
 install_deps "${pkgs}"
 
-#下载并安装grafana
+# download and install grafana
 case "${distro}" in
     centos)
 	wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.4-1.aarch64.rpm

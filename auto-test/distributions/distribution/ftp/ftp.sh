@@ -40,8 +40,8 @@ vsftpd_execute()
 set -x
 
 cd ../../../../utils
-    . ./sys_info.sh
-    . ./sh-test-lib
+   source ./sys_info.sh
+   source ./sh-test-lib
 cd -
 case $distro in
     "ubuntu"|"debian")

@@ -2,8 +2,8 @@
 # Author: mahongxin <hongxin_228@163.com>
 set -x
 cd ../../../../utils
-. ./sys_info.sh
-. ./sh-test-lib
+   source ./sys_info.sh
+   source ./sh-test-lib
 cd -
 
 #Test user id
