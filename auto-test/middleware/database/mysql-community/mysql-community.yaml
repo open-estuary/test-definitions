@@ -14,13 +14,12 @@ metadata:
         - centos
         - debian
     devices:
-        - d03
+        - d06
         - d05
     level: 1
     totalcase:
-        centos: 26
-        ubuntu: 26
-        debian: 26
+        centos: 25
+        debian: 25
 
 run:
     steps:

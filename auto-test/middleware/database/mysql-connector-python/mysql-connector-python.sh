@@ -43,17 +43,6 @@ case "${distro}" in
 	print_info $? install-mysql-community
 	pip install mysql-connector-python
 	;;
-    ubuntu)
-	./test.sh
-	print_info $? delete_package
-	apt-get remove --purge mysql-server
-	#dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
-	pkgs="mysql-server python-pip"
-	install_deps "${pkgs}"
-        print_info $? install-mysql-community
-        pip install mysql-connector-python
-	;;
-
 esac
 
 ##################### the testing step ###########################
@@ -67,7 +56,7 @@ case "${distro}" in
 	mysqladmin -u root password "root"
 	print_info $? set-root-pwd
 	;;
-    debian|ubuntu)
+    debian)
 	EXPECT=$(which expect)
 	$EXPECT << EOF
 	set timeout 100
@@ -165,11 +154,5 @@ case "${distro}" in
 	apt-get remove --purge mysql-server
         print_info $? remove-mysql
 	;;
-    ubuntu)
-    	./test.sh
-   	apt-get remove --purge mysql-server
-	#dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
-	print_info $? remove-mysql
-        ;;
 esac
 
