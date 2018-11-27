@@ -1,5 +1,5 @@
 # ====================
-# Filename: numa.sh
+# Filename: numa
 # Author: 
 # Email:
 # Date: 
