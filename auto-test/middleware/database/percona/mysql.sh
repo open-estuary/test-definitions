@@ -112,7 +112,7 @@ function mysql_client(){
 function mysql_load_data(){
      yum install wget -y
     if [ ! -d test_db ];then
-         wget http://203.160.91.226:18083/test_dependents/test_db.zip 
+         wget http://192.168.50.122:8083/test_dependents/test_db.zip 
 
         if [ $? -ne 0 ];then 
             install_deps git 
