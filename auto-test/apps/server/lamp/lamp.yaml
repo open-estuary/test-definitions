@@ -9,14 +9,12 @@ metadata:
         - server
     os:
         - centos
-        - debian
     devices:
         - d05
         - d06
     level: 1
     totalcase:
         centos: 11
-        debian: 11
 run:
     steps:
         - "cd auto-test/apps/server/lamp; ./lamp.sh; cd - "
