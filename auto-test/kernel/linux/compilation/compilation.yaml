@@ -15,10 +15,10 @@ metadata:
     devices:
         - d06
         - d05
-    level: 5
+    level: 1
     totalcase:
-        centos: 4
-        debian: 4
+        centos: 6
+        debian: 6
 run:
     steps:
         - "cd auto-test/kernel/linux/compilation; ./compilation.sh; cd -"
