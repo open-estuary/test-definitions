@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - distributionfang
+        - distribution
     os:
         - centos
     devices:
