@@ -6,19 +6,15 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        -distribution
+        -distributionfang
     os:
-        - ubuntu
         - debian
-        - fedora
     devices:
         - d05
-        - d03
+        - d06
     level: 1
     totalcase:
-        ubuntu: 7
         debian: 6
-        fedora: 6
 run:
     steps:
         - "cd auto-test/distributions/distribution/gtest; ./gtest.sh; cd -"
