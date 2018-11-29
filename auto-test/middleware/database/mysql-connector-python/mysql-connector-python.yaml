@@ -9,7 +9,7 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - mysql-connector-python
+        - databasefang
     os:
         - centos
         - debian
