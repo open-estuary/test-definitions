@@ -31,21 +31,15 @@ case $distro in
     install_deps "${pkgs}"
     print_info $? install-tensorflow
     ;;
-    "ubuntu"|"debian")
+    "debian")
     pkgs="wget python-pip python-dev gcc vim expect"
     install_deps "$pkgs"
-    sleep 18m
+    sleep 60s
     mkdir -p /usr/share/tensorflow
-    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl /usr/share/tensorflow
+    cd /usr/share/tensorflow
+    wget http://192.168.50.122:8083/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl
     print_info $? install-tensorflow
-    ;;
-    "fedora"|"opensuse")
-    pkgs="wget python-pip python-devel gcc vim expect"
-    install_deps "$pkgs"
-    sleep 18m
-    mkdir -p /usr/share/tensorflow
-    wget $ci_http_addr/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl /usr/share/tensorflow
-    print_info $? install-tensorflow
+    cd -
     ;;
 esac
 
@@ -56,7 +50,7 @@ pip install --upgrade pip
 #安装tensorflow
 whl=`ls /usr/share/tensorflow`
 cd /usr/share/tensorflow
-pip install $whl
+python -m pip install $whl
 print_info $? pip-install-whl
 
 #hello to check pip install tensorflow
@@ -108,7 +102,7 @@ python ./load_model.py
 print_info $? tf-load-model
 
 cd /usr/share/tensorflow
-pip uninstall tensorflow -y
+python -m pip uninstall $whl -y
 print_info $? pip-remove-whl
 
 #环境复原
@@ -118,16 +112,10 @@ case $distro in
     remove_deps "${pkgs}"
     print_info $? remove-pkgs
     ;;
-    "ubuntu"|"debian")
+    "debian")
     pkgs="wget python-pip python-dev gcc vim expect"
     remove_deps "$pkgs"
     print_info $? remove-tensorflow
     rm -rf /usr/share/tensorflow
-    ;;
-    "fedora"|"opensuse")
-    pkgs="wget python-pip python-devel gcc vim expect"
-    rm -rf /usr/share/tensorflow
-    remove_deps "$pkgs"
-    print_info $? remove-tensorflow
     ;;
 esac

@@ -9,7 +9,7 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - mysql-connector-python
+        - database
     os:
         - centos
         - debian
@@ -19,7 +19,7 @@ metadata:
     level: 1
     totalcase:
         centos: 16
-        debian: 16
+        debian: 17
 
 run:
     steps:
