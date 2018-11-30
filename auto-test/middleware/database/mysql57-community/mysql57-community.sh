@@ -38,7 +38,7 @@ else
 	print_info 1 anonymous-login
 fi
 
-mysqladmin -u root password "root"
+mysqladmin -u root password root  > /dev/null 2>&1 || true
 print_info $? set-root-pwd
 
 ./rootlogin.sh

@@ -10,7 +10,6 @@ source ./sys_info.sh
 source ./sh-test-lib
 cd -
 
-
 ! check_root && error_msg "Please run this script as root."
 
 pkg="expect"
@@ -26,7 +25,7 @@ case "${distro}" in
 	pkgs="mysql-community-common mysql-community-server 
         mysql-community-client mysql-community-devel"
 	;;
-    ubuntu|debian)
+    debian)
 	./test.sh
 	pkgs="mysql-server mysql-client"
 	;;
@@ -52,8 +51,8 @@ else
 	print_info 1 anonymous-login
 fi
 
-#mysqladmin -u root password "root"
-#print_info $? set-root-pwd
+# mysqladmin -u root password "root"
+# print_info $? set-root-pwd
 
 ./rootlogin.sh
 if [ $? -eq 0 ]; then
@@ -215,11 +214,11 @@ systemctl stop mysql
 print_info $? stop-mysql
 
 case "${distro}" in
-    centos|fedora)
+    centos)
 	remove_deps "${pkgs}"
 	print_info $? remove-mysql
 	;;
-    ubuntu|debian)
+    debian)
 	./test.sh
 	print_info $? remove-mysql
 	;;
