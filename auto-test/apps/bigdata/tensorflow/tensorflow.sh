@@ -102,7 +102,7 @@ python ./load_model.py
 print_info $? tf-load-model
 
 cd /usr/share/tensorflow
-pip uninstall tensorflow -y
+python -m pip uninstall $whl -y
 print_info $? pip-remove-whl
 
 #环境复原
