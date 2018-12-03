@@ -13,23 +13,16 @@
 ###### importing environment variable ######
 
 cd ../../../../utils
-source ./sys_info.sh
-source ./sh-test-lib
+   source ./sys_info.sh
+   source ./sh-test-lib
 cd -
 
 ###### check root ######
 
-! check_root && error_msg "You must run the script as root."
+! check_root && error_msg "Please run the script as root."
 
-###### setting variables ######
+## Verify that the system supports numa
 
-numcpus=`cat /proc/cpuinfo| grep "processor"| wc -l`
-nummems=`free -m |grep Mem | awk '{print $2}'`
-numnodes=`numactl -H|grep -o -P '(?<=available: ).*(?= nodes)'`
-
-###### precheck ######
-
-# Verify that the system supports numa
 support_numa ()
 {
     if [ `dmesg | grep -i numa` == "No numa configuration found" ];then
@@ -48,61 +41,26 @@ case $distro in
     "centos"|"debian")
         pkgs="numactl"
         install_deps "${pkgs}"
-        print_info $? install-numactl
+        print_info $? numactl-install
 esac
 
 ###### test step ######
-## Show inventory of available nodes on the system
 
-show_numa ()
-{
-    available=`numactl -H|grep "available"`
-    cpus=`numactl -H|grep "cpus"`
-    size=`numactl -H|grep "size"`
-    free=`numactl -H|grep "free"`
-    distances=`numactl -H|grep "distances"`
-    if [[ $available != "" ]]&&[[ $cpus != "" ]]&&[[ $size != "" ]]&&[[ $free != "" ]]&&[[ $distances != "" ]];then
-	    for((i=0;i<$numnodes;i++));
-	    do
-	        nodecpu="numactl -H|grep -o -P '(?<=node $i cpus:).*'"
-                nodecpus=`eval $nodecpu`
-		nodesize="numactl -H|grep -o -P '(?<=node $i size: ).*(?= MB)'"
-                nodesizes=`eval $nodesize`
-		nodefree="numactl -H|grep -o -P '(?<=node $i free: ).*(?= MB)'"
-                nodefrees=`eval $nodefree`
-		if [[ $nodecpus != "" ]]&&[[ $nodesizes -gt 0 ]]&&[[ $nodefrees -gt 0 ]];then
-		    echo " node$i is pass "	
-		fi
-            done
-    fi
+## Show numa
+numactl --hardware
+print_info $? numa-info
 
-    print_info $? show-numa
-}
+## Show numastat
+numastat
+print_info $? numastat
 
-show_numa
+## Show numa bind info
+numactl -s
+print_info $? numa-bind-info
 
 ## Verify the total number of CPU and memory
-total_number ()
-{
-    sumcpus=0
-    summems=0
-    for((i=0;i<$numnodes;i++));
-    do	
-        numcpu=`numactl -H|grep "node ${i} cpus"|awk -F ":" '{print $2}'|wc -w`
-        nummem=`numactl -H|grep "node ${i} size"|grep -o -P '(?<=size: ).*(?= MB)'`
-        a=$sumcpus
-        b=$summems
-        declare -i sumcpus=$a+$numcpu
-        declare -i summems=$b+$nummem
-    done
-    if [ $numcpus -eq $sumcpus ]&&[ `expr $nummems - $summems` -lt 3 ];then
-            print_info 0 total-number
-    else
-            print_info 1 total-number
-    fi
-}
-
-total_number
+cat /proc/cpuinfo |grep "processor" |wc -l
+free -g |grep Mem |awk '{print $2}'
 
 ## Show NUMA policy settings of the current process
 numa_policy ()
@@ -137,51 +95,15 @@ setup_policy ()
 	fi
     fi
 }
-
+ 
 setup_policy
 
 ## Verification of cpu binding and memory binding functions 
-mem_bind ()
-{
-    for((i=0;i<$numnodes;i++));
-    do
-        if [ `numactl -m $i numactl -s|grep "membind"|awk '{print $2}'` = "$i" ];then
-            a=`expr $i + 2`
-            numahit1=`numastat -c|grep "Numa_Hit"|awk '{print $'$a'}'`
-            numactl -m $i dd if=/dev/zero of=/dev/shm/b bs=100M count=100
-            numahit2=`numastat -c|grep "Numa_Hit"|awk '{print $'$a'}'`
-            if [ `expr $numahit2 - $numahit1` -gt 999 ];then
-            	echo " bindmems${i} is pass "
-	    fi
-        fi
-    done
-
-    print_info $? mem-bind
-}
-
-mem_bind
-
-cpu_bind ()
-{
-    for((i=0;i<$numnodes;i++));
-    do
-        if [ `numactl -N $i numactl -s|grep -w "cpubind"|awk '{print $2}'` = "$i" ];then
-            a=`expr $i + 2`
-            numahit1=`numastat -c|grep "Numa_Hit"|awk '{print $'$a'}'`
-            numactl -m $i dd if=/dev/zero of=/dev/shm/b bs=100M count=100
-            numahit2=`numastat -c|grep "Numa_Hit"|awk '{print $'$a'}'`
-            if [ `expr $numahit2 - $numahit1` -gt 999 ];then
-                    echo " bindcpus${i} is pass "
-	    fi
-        fi    
-    done
-
-    print_info $? cpu-bind
-}
-
-cpu_bind
+##print_info $? mem-bind
+##print_info $? cpu-bind
 
 ###### restore environment ######
+
 ## remove the numactl
 case $distro in
     "centos"|"debian")
