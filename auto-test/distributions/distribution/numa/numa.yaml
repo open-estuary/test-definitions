@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - xuexing4@hisilicon.com
     scope:
-        - distributions
+        - distribution
     os:
         - centos
         - debian
@@ -15,8 +15,8 @@ metadata:
         - d06
     level: 1
     totalcase:
-        centos: 9
-        debian: 9
+        centos: 8
+        debian: 8
 run:
     steps:
         - "cd auto-test/distributions/distribution/numa; ./numa.sh; cd -"
