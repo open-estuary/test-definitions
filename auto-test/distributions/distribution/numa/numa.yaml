@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - xuexing4@hisilicon.com
     scope:
-        - distributionfang
+        - distribution
     os:
         - centos
         - debian
