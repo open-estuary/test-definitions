@@ -2,8 +2,8 @@
 
 # shellcheck disable=SC1091
 cd ../../../../utils
-    .        ./sys_info.sh
-    .        ./sh-test-lib
+   source   ./sys_info.sh
+   source   ./sh-test-lib
 cd -
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -24,7 +24,7 @@ done
 install() {
     # shellcheck disable=SC2154
     case "${distro}" in
-      debian|ubuntu) install_deps "lsb-release sysstat numactl lsof pciutils usbutils dmidecode" "${SKIP_INSTALL}"
+      debian|ubuntu) install_deps "lshw lsb-release sysstat numactl lsof pciutils usbutils dmidecode" "${SKIP_INSTALL}"
       print_info $? install-pkg
       ;;
       fedora|centos|opensuse) install_deps "lshw lsof pcp-import-iostat2pcp redhat-lsb-core numactl pciutils usbutils sysstat dmidecode" "${SKIP_INSTALL}"
@@ -126,8 +126,8 @@ print_info $? numastat
 run "iostat"
 print_info $? iostat
 
-#run "lshw"
-#print_info $? lshw
+run "lshw"
+print_info $? lshw
 
 run "lsof"
 print_info $? lsof

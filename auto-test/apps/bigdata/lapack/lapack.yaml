@@ -17,7 +17,7 @@ metadata:
     devices:
         - d05
         - d03
-    level: 5
+    level: 1
     totalcase:
         centos: 2
         ubuntu: 2

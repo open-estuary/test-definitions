@@ -11,9 +11,10 @@ metadata:
         - centos
     devices:
         - d05
+        - d06
     level: 1
     totalcase:
-        centos: 12
+        centos: 11
 run:
     steps:
         - "cd auto-test/apps/server/lamp; ./lamp.sh; cd - "

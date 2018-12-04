@@ -3,14 +3,11 @@
 # Author: wangsisi
 
 # Test user id
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
+! check_root && error_msg "You must run this script as root."
 
 cd ../../../../utils
-source        ./sys_info.sh
-source         ./sh-test-lib
+source    ./sys_info.sh
+source    ./sh-test-lib
 cd -
 
 ###################  Environmental preparation  #######################
@@ -193,7 +190,6 @@ case "${distro}" in
         ;;
     fedora)
         sed -i s/5.[0-9]/5.1/g /etc/yum.repos.d/estuary.repo
-        yum update
         version="4.16.0"
         release="estuary.2.fc26"
         from_repo="estuary"

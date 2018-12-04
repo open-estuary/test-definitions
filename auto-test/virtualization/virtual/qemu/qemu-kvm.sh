@@ -19,7 +19,17 @@ HOME_PATH=$HOME
 CUR_PATH=$PWD
 DISK_NAME=${distro}.img
 
-download_url="http://120.31.149.194:18083/test_dependents/qemu"
+case $distro in
+"centos")
+    yum install wget -y
+;;
+"debian")
+   apt-get install wget -y
+  ;;
+esac
+
+#download_url="http://120.31.149.194:18083/test_dependents/qemu"
+download_url="http://192.168.50.122:8083/test_dependents/qemu"
 
 if [ ! -e ${CUR_PATH}/${IMAGE} ]; then
     download_file ${download_url}/${IMAGE}
@@ -32,9 +42,7 @@ fi
 if [[ -e ${CUR_PATH}/${IMAGE} && -e ${CUR_PATH}/${ROOTFS} ]]; then
    print_info $? image_or_rootfs_exist
 else
-   echo '${IMAGE} or ${ROOTFS} not exist'
-   print_info $? image_or_rootfs_exist
-   exit 0
+   print_info $? image_or_rootfs_not_exist
 fi
 
 # compail and install 
@@ -46,12 +54,12 @@ case "${distro}" in
 		install_deps "${pkgs}"
 	;;
         debian)
-		pkgs="libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
+		pkgs="wget libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
 		install_deps "${pkgs}"
 	;;
 	centos)
 		yum remove yum-plugin-priorities.noarch -y
-		pkgs="kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
+		pkgs="wget kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
 		install_deps "${pkgs}"
 	;;
         fedora)
@@ -190,7 +198,6 @@ fi
 chmod a+x qemu-start-kvm.sh
 ${CUR_PATH}/qemu-start-kvm.sh  $IMAGE  $DISK_NAME
 if [ $? -ne 0 ];then
-    echo 'qemu-start-from-img fail'
     lava-test-case qemu-start-from-img --result fail
     exit 0
 else

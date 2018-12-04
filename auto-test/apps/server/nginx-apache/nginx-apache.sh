@@ -5,7 +5,6 @@ source ./sys_info.sh
 source ./sh-test-lib
 cd -
 
-#. ../../../lib/sh-test-lib
 #OUTPUT="$(pwd)/output"
 #RESULT_FILE="${OUTPUT}/result.txt"
 LOGFILE="./ablog.txt"
@@ -58,17 +57,17 @@ esac
 
 
 case "${distro}" in
-    debian|ubuntu|opensuse)
+    debian)
         # Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
 
         pkgs="nginx apache2-utils apache2"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
-        #print_info $? install-pkgs
+        print_info $? install-pkgs
         systemctl restart nginx
-        #print_info $? start-nginx
+        print_info $? start-nginx
         ;;
-    centos|fedora)
+    centos)
         # x86_64 nginx package can be installed from epel repo. However, epel
         # project doesn't support ARM arch yet. RPB repo should provide nginx.
         [ "$(uname -m)" = "x86_64" ] && install_deps "epel-release" "${SKIP_INSTALL}"
@@ -97,6 +96,7 @@ print_info $? apachebench-test-on-nginx
 # shellcheck disable=SC2129
 grep "Complete requests:" "${LOGFILE}" | awk '{print "Complete-requests pass " $3 " items"}'""
 print_info $? complete-requests-pass
+
 # shellcheck disable=SC2129
 grep "Failed requests:" "${LOGFILE}" | awk '{ORS=""} {print "Failed-requests "; if ($3==0) {print "pass "} else {print "fail "}; print $3 " items\n" }'""
 print_info $? Failed reques
@@ -105,23 +105,30 @@ print_info $? Failed reques
 
 grep "Write errors:" "${LOGFILE}" | awk '{ORS=""} {print "Write-errors "; if ($3==0) {print "pass "} else {print "fail "}; print $3 " items\n" }' ""
 print_info $? write errors
+
 # shellcheck disable=SC2129
 grep "Total transferred:" "${LOGFILE}" | awk '{print "Total-transferred pass " $3 " bytes"}'""
 print_info $? total taansferred
+
 # shellcheck disable=SC2129
 grep "HTML transferred:" "${LOGFILE}" | awk '{print "HTML-transferred pass " $3 " bytes"}' ""
-print_info $？Html transferred
+print_info $? Html transferred
+
 # shellcheck disable=SC2129
 grep "Requests per second:" "${LOGFILE}" | awk '{print "Requests-per-second  pass " $4 " #/s"}'""
 print_info $? request per second
+
 # shellcheck disable=SC2129
 grep "Time per request:" "${LOGFILE}" | grep -v "across" | awk '{print "Time-per-request-mean pass " $4 " ms"}'""
-printf time per request
+print_info $? time-per-request-mean
+
 # shellcheck disable=SC2129
 grep "Time per request:" "${LOGFILE}" | grep "across" | awk '{print "Time-per-request-concurent pass " $4 " ms"}'""
-print_info $? time per request
+print_info $? time-per-request-concurent
+
 # shellcheck disable=SC2129
 grep "Transfer rate:" "${LOGFILE}" | awk '{print "Transfer-rate pass " $3 " kb/s"}'""
 print_info $? transfer rate
+
 remove_deps "${pkgs}" "${SKIP_INSTALL}"
 print_info $? remove-package

@@ -14,7 +14,7 @@ set -x
 
 function ssh_install(){
 
-    yum install -y openssh-server sshpass 
+    yum install -y openssh-server sshpass
 }
 
 function ssh_parse_host_passwd(){

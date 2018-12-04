@@ -11,12 +11,12 @@ metadata:
         - grafana
 
     devices:
-        - d03
+        - d06
         - d05
     level: 1
     totalcase:
-        centos: 6
-        debian: 6
+        centos: 4
+        debian: 4
 
 run:
     steps:

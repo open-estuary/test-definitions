@@ -12,7 +12,7 @@ cd -
 pkgs="wget curl ufw"
 install_deps "${pkgs}"
 
-#下载并安装grafana
+# download and install grafana
 case "${distro}" in
     centos)
 	wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.4-1.aarch64.rpm
@@ -61,7 +61,7 @@ IP=`ip a|grep ${IFCONFIG}|grep "inet "|awk '{print $2}'|cut -d '/' -f 1`
 #查看是否能使用浏览器访问grafana
 curl -o "output" "http://${IP}:3000/login/"
 grep 'Grafana' ./output
-print_info $? grafana_web
+#print_info $? grafana_web
 
 
 #remove grafana

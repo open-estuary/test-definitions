@@ -1,6 +1,7 @@
 #!/bin/bash
-. ../../../../utils/sys_info.sh
-. ../../../../utils/sh-test-lib
+cd ../../../../utils
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
 if [ `whoami` != "root" ];then

@@ -18,7 +18,7 @@ for P in ${package};do
     echo "$P install"
 case $distro in
     "centos" )
-         yum install -y $P 
+         yum install -y $P
          print_info $? devtoolset-4-binutils
          ;;
  esac

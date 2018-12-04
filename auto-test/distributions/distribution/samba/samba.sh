@@ -21,7 +21,7 @@ case $distro in
           print_info $? install-samba
           yum install samba-client.aarch64 -y
           print_info $? install-samba-client
-          yum install expect -y          
+          yum install expect -y
           ;;
      "opensuse")
           zypper install -y samba

@@ -50,7 +50,7 @@ function ccdriver_install(){
     yum install gcc -y
     print_info $? "install_cassandra_cpp_driver "
 
-    yum install cassandra-cpp-driver-devel -y 
+    yum install cassandra-cpp-driver-devel -y
     export LANG=en_US.UTF8 
     yum info cassandra-cpp-driver > tmp.info 
     local version=`grep Version tmp.info | cut -d : -f 2`

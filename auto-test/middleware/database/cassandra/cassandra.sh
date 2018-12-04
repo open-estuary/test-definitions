@@ -24,7 +24,7 @@ function cassandra20_install(){
     fi
     print_info $? "cassandra20_version=$version_and_from_repo=$repo"
 
-    yum install java-1.8.0-openjdk-devel -y 
+    yum install java-1.8.0-openjdk-devel -y
     javadir=`which java`
     javadirreal=dirname ` readlink -f $javadir`
     
@@ -35,7 +35,7 @@ function cassandra20_install(){
         source ~/.bashrc 
     fi 
     
-    yum install -y python2-pip 
+    yum install -y python2-pip
     pip install cqlsh==4.1.1 
 
 

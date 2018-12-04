@@ -1,18 +1,19 @@
+#==============================================================
+# Filename: percona56
+# Author: 
+# Email:
+# Date:
+# Description: 
+#================================================================
+
+###### specify interpeter path ######
+
 #!/bin/bash
 
-#=================================================================
-#   文件名称：percona.sh
-#   创 建 者：tanliqing tanliqing2010@163.com
-#   创建日期：2017年12月07日
-#   描    述：
-#
-#================================================================*/
-
-
+###### install ######
 
 function percona_install(){
-    
-    yum install -y git wget 
+    yum install -y git wget
     yum install -y Percona-Server-server-56
     if [ $? -ne 0  ];then
         percona_uninstall
@@ -22,7 +23,7 @@ function percona_install(){
             exit 1
         fi 
     else
-        print_info 0 "install_percona_server"
+            print_info 0 "install_percona_server"
     fi
     export LANG="en_US.UTF-8"
 

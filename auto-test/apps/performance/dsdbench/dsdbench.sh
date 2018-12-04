@@ -15,12 +15,6 @@ TEST_SUITE="BENCHMARKS"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="${OUTPUT}/dsbench.txt"
 
-#定义函数说明这个脚本的用法
-usage() {
-    echo "Usage: $0 [-t <benchmarks|tests>] [-s <true|false>]" 1>&2
-    exit 1
-}
-
 #可选参数
 while getopts "t:s:h" o; do
   case "$o" in
@@ -38,15 +32,18 @@ case "${dist}" in
         dist_info
         # shellcheck disable=SC2154
         if [ "${Codename}" = "jessie" ]; then
+            install_deps "unzip wget"
             install_deps "git libdevmapper-dev"
             install_deps "-t jessie-backports golang"
             print_info $? install-pkgs
         else
+            install_deps "unzip wget"
             install_deps "git golang libdevmapper-dev"
             print_info $? install-pkgs
         fi
         ;;
     fedora|centos)
+        install_deps "unzip wget"
         install_deps "git golang device-mapper-devel"
         print_info $? install-pkgs
         ;;
@@ -62,19 +59,11 @@ mkdir -p "${OUTPUT}/golang"
 cd "${OUTPUT}"
 export GOPATH="${OUTPUT}/golang"
 
-#clone源码
-#git clone https://github.com/dmcgowan/dsdbench
-#print_info $? down-dsdbench
-#cd dsdbench
-#cp目录
-case $distro in
-"centos")
-wget http://htsat.vicp.cc:804/liubeijie/dsdbench.zip
-unzip dsdbench.zip
+#clone源
+wget http://192.168.50.122:8083/test_dependents/dsdbench.zip
 print_info $? down-dsdbench
+unzip dsdbench.zip
 cd dsdbench
-;;
-esac
 
 #cp目录
 cp -r vendor/ "${GOPATH}/src"

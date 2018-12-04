@@ -4,8 +4,10 @@
 # performance of a Unix-like system
 
 #加载外部文件
-source ../../../../utils/sh-test-lib
-source ../../../../utils/sys_info.sh
+cd ../../../../utils
+source ./sh-test-lib
+source ./sys_info.sh
+cd -
 
 #检查用户权限
 ! check_root && error_msg "Please run this script as root."

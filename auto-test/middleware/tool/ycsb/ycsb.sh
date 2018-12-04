@@ -1,16 +1,18 @@
-#!/bin/bash
 
 #=================================================================
-#   文件名称：ycsb-test.sh
-#   创 建 者：tanliqing tanliqing2010@163.com
-#   创建日期：2017年12月27日
-#   描    述：
-#
+#  Filename: ycsb
+#  Author:
+#  Email:
+#  Date:
+#  Description:
 #================================================================*/
+
+#!/bin/bash
+
 set -x
 cd ../../../../utils
-.            ./sys_info.sh
-.             ./sh-test-lib
+   source   ./sys_info.sh
+   source   ./sh-test-lib
 cd -
 
 if [ `whoami` != 'root'  ] ; then
@@ -32,7 +34,7 @@ function install_ycsb(){
     else
         false
     fi 
-    print_info $? "ycsb_version_is_right"
+    print_info $? version_check
 }
 
 function ycsb_env(){
