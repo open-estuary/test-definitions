@@ -11,14 +11,14 @@ install_deps "${pkg}"
 print_info $? install-tools
 
 #删除nginx
-systemctl stop nginx > /dev/null 2>&1 || true
-proc=`ps -ef |grep nginx|awk '{print $2}'`
-for p in $proc
-do 
-	kill -9 $p
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+        kill -9 $p
 done
 
-    # shellcheck disable=SC2154
+# shellcheck disable=SC2154
     case "${distro}" in
       debian)
         if [ "${distro}" = "debian" ]; then

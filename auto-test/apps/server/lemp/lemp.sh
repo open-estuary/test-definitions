@@ -6,8 +6,15 @@ cd ../../../../utils
    source ./sh-test-lib
 cd -
 
-pkg="curl"
+pkg="curl net-tools"
 install_deps "${pkg}"
+
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+        kill -9 $p
+done
 
 case "$distro" in
     debian)
