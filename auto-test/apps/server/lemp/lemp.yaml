@@ -6,16 +6,16 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - serverfang
+        - server
     os:
-            ##- centos
+        - centos
         - debian
     devices:
         - d05
         - d06
     level: 1
     totalcase:
-            ##centos: 13
+        centos: 13
         debian: 13
 run:
     steps:

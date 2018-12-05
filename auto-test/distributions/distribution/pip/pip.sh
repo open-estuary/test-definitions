@@ -43,7 +43,7 @@ print_info $? pip-update
 
 ## install requests ##
 
-pip install requests --upgrade
+pip install requests --ignore-installed requests
 print_info $? pip-install-package
 
 ## uninstall requests ##
