@@ -33,6 +33,17 @@ CONCURENT=100
 # Install and configure LEMP.
 # systemctl available on Debian 8, CentOS 7 and newer releases.
 # shellcheck disable=SC2154
+
+pkg="net-tools"
+install_deps "$pkg"
+
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+        kill -9 $p
+done
+
 case "${distro}" in
     debian)
         # Stop apache server in case it is installed and running.
