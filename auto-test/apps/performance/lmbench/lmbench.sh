@@ -1,10 +1,9 @@
 #!/bin/bash
 
 set -x
-
 cd ../../../../utils
-source ./sh-test-lib
-source ./sys_info.sh
+   source ./sh-test-lib
+   source ./sys_info.sh
 cd -
 
 ! check_root && error_msg "Please run this script as root."
@@ -13,18 +12,13 @@ cd -
 url=`pwd`
 
 case "${distro}" in
-    centos|fedora)
+    centos)
 	pkgs="make expect wget gcc-c++ gcc"
 	install_deps "${pkgs}"
 	print_info $? install-package
 	;;
-    ubuntu|debian)
+    debian)
 	pkgs="make expect wget g++ gcc"
-        install_deps "${pkgs}"
-        print_info $? install-package
-        ;;
-    opensuse)
-	pkgs="make expect wget gcc"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
@@ -32,7 +26,7 @@ case "${distro}" in
 esac
 
 wget ${ci_http_addr}/test_dependents/lmbench3.tar.gz
-#wget http://120.31.149.194:18083/test_dependents/lmbench3.tar.gz
+
 if [ $? -eq 0 ];then
 	info_msg "download pass"
 else
@@ -56,7 +50,6 @@ if [ $? -eq 0 ];then
 else
         info_msg "cp_gnu-os fail"
 fi
-
 
 ##################### the testing step ###########################
 make build
@@ -91,13 +84,10 @@ send "\r"
 expect "Mail results"
 send "n\r"
 expect "Leaving directory '${url}/src'"
-
 expect eof
 EOF
 
 print_info $? make_results
-
-
 make see |tee log.txt
 
 results=`cat log.txt|grep "Communication bandwidths"`
@@ -119,10 +109,4 @@ print_info $? remove_pkgs
 
 cp -rf lmbench3/* lmbench3-results/
 rm -rf lmbench3
-
-
-
-
-
-
 

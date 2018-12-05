@@ -118,7 +118,6 @@ EOF
         ;;
 esac
 
-
 mysql --user='root' --password='root' -e 'show databases'
 print_info $? mysql-show-databases
 
@@ -188,7 +187,6 @@ case "${distro}" in
 	cp /etc/nginx/nginx.conf.default.bak  /etc/nginx/nginx.conf.default
 	;;
 esac
-
 
 #remove packges
 case "${distro}" in
