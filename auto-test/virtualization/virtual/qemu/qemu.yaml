@@ -10,15 +10,13 @@ metadata:
     os:
         - centos
         - debian
-        - opensuse
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 3
-        debian: 3
-        opensuse: 1
+        centos: 13
+        debian: 13
 
 run:
     steps:
