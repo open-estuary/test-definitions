@@ -30,8 +30,8 @@ case $distro in
   ;;
 esac
 
-#download_url="http://120.31.149.194:18083/test_dependents/qemu"
-download_url="http://203.160.91.226:18083/test_dependents/qemu"
+download_url="http://192.168.50.122:8083/test_dependents/qemu"
+#download_url="http://203.160.91.226:18083/test_dependents/qemu"
 
 if [ ! -e ${CUR_PATH}/${IMAGE} ]; then
     download_file ${download_url}/${IMAGE}
