@@ -18,7 +18,7 @@ case $distro in
         #yum install gcc -y
         #yum install gcc-c++ -y
         #yum install wget -y
-        pkgs="gcc gcc-c++ wget"
+        pkgs="gcc gcc-c++ wget python-devel bzip2-devel zlib-devel"
         install_deps "${pkgs}"
         print_info $? install-package
         wget http://192.168.50.122:8083/test_dependents/boost_1_63_0.tar.gz
