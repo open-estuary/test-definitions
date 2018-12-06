@@ -15,13 +15,13 @@ install_deps "${pkgs}"
 # download and install grafana
 case "${distro}" in
     centos)
-	wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.4-1.aarch64.rpm
+	wget ${ci_http_addr}/test_dependents/grafana-5.2.4-1.aarch64.rpm
 	yum localinstall grafana-5.2.4-1.aarch64.rpm -y
 	print_info $? install_grafana
 	;;
     debian)
 	apt-get install libfontconfig1 -y
-	wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_5.3.2_arm64.deb
+	wget ${ci_http_addr}/test_dependents/grafana_5.3.2_arm64.deb
 	dpkg -i grafana_5.3.2_arm64.deb
 	print_info $? install_grafana
 	;;

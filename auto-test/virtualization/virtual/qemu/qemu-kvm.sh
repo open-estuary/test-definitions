@@ -21,15 +21,17 @@ DISK_NAME=${distro}.img
 
 case $distro in
 "centos")
-    yum install wget -y
+    yum install qemu qemu-kvm -y
+    print_info $? install-qemu
 ;;
 "debian")
-   apt-get install wget -y
+   apt-get install qemu -y
+   print_info $? install-qemu
   ;;
 esac
 
-#download_url="http://120.31.149.194:18083/test_dependents/qemu"
 download_url="http://192.168.50.122:8083/test_dependents/qemu"
+#download_url="http://203.160.91.226:18083/test_dependents/qemu"
 
 if [ ! -e ${CUR_PATH}/${IMAGE} ]; then
     download_file ${download_url}/${IMAGE}
@@ -46,7 +48,7 @@ else
 fi
 
 # compail and install 
-pkgs="expect wget qemu qemu-kvm gcc"
+pkgs="expect wget  gcc"
 install_deps "${pkgs}"
 case "${distro}" in
 	ubuntu)
@@ -73,7 +75,7 @@ case "${distro}" in
 	*)
 		error_msg "Unsupported distribution!"
 esac
-print_info $? qemu-install
+
 
 #######################  testing the step ###########################
 #编译qemu-2.6.0文件
@@ -98,9 +100,11 @@ chmod a+x ${CUR_PATH}/qemu-load-kvm.sh
 ${CUR_PATH}/qemu-load-kvm.sh $IMAGE $ROOTFS $distro
 if [ $? -ne 0 ]; then
     echo 'qemu system load fail'
+    print_info 1 qemu-load
    # lava-test-case qemu-system-load --result fail
     exit 0
 else
+    print_info 0 qemu-load
     lava-test-case qemu-system-load --result pass
 fi
 
@@ -108,19 +112,23 @@ fi
 qemu-img create -f qcow2 $DISK_NAME 10G
 if [ $? -ne 0 ]; then
     echo 'qemu-img create fail'
+    print_info 1 qemu-img-create
     lava-test-case qemu-img-create --result fail
     exit 0
 else
-   lava-test-case qemu-img-create --result pass
+    print_info 0 qemu-img-create
+    lava-test-case qemu-img-create --result pass
 fi
 
 # mount network block device moduler
 modprobe nbd max_part=16
 if [ $? -ne 0 ];then
     echo 'modprobe nbd fail'
+    print_info 1 modpro-nbd
     lava-test-case modprob-nbd --result fail
     exit 0
 else
+    print_info 0 modpro-nbd
     lava-test-case modprobe-nbd --result pass
 fi
 
@@ -130,13 +138,16 @@ chmod a+x ${CUR_PATH}/qemu-create-partition.sh
 ${CUR_PATH}/qemu-create-partition.sh
 if [ $? -ne 0 ];then
     echo 'create nbd0 partition fail'
+    print_info 1 create-partition
     lava-test-case create-partition --result fail
     exit 0
 else
     nbd_p1=$(fdisk /dev/nbd0 -l | grep -w 'Linux')
     if [ "$nbd_p1"x = ""x ] ; then
+	print_info 1 create-partition
         lava-test-case create-partition --result fail
     else
+	print_info 0 create-parttion 
         lava-test-case create-partition --result pass
     fi
 fi
@@ -146,9 +157,11 @@ mkfs.ext4 /dev/nbd0p1
 if [ $? -ne 0 ]
 then
     echo 'mkfs.ext4 nbd0p1 fail'
+    print_info 1 mkfs.ext4-nbd0p1
     lava-test-case mkfs.ext4-nbd0p1 --result fail
     exit 0
 else
+    print_info 0 mkfs.ext4-nbd0p1
     lava-test-case mkfs.ext4-nbd0p1 --result pass
 fi
 
@@ -156,9 +169,12 @@ mkdir -p /mnt/image
 mount /dev/nbd0p1 /mnt/image/
 if [ $? -ne 0 ];then
     echo 'mount image fail'
+    print_info 1 mount-image
     lava-test-case mount-image --result fail
     exit 0
+
 else
+    print_info 0 mount-image
     lava-test-case mount-image --result pass
 fi
 
@@ -168,9 +184,12 @@ zcat ${CUR_PATH}/${ROOTFS} | cpio -dim
 if [ $? -ne 0 ]
 then
     echo 'tar file system fail'
+    print_info 1 tar-file-system
     lava-test-case tar-file-system --result fail
     exit 0
+
 else
+    print_info 0 tar-file-system
     lava-test-case tar-file-system --result pass
 fi
 cd ${CUR_PATH}
@@ -179,18 +198,23 @@ umount /mnt/image
 if [ $? -ne 0 ]
 then
     echo 'umount image fail'
+    print_info 1 umount-image
     lava-test-case umount-image --result fail
     exit 0
 else
+    print_info 0 umount-image
     lava-test-case umount-image --result pass
 fi
 
 qemu-nbd -d /dev/nbd0
 if [ $? -ne 0 ];then
     echo 'qemu-nbd fail'
+    print_info 1 qemu-nbd
     lava-test-case qemu-nbd --result fail
     exit 0
 else
+
+    print_info 0 qemu-nbd
     lava-test-case qemu-nbd --result pass
 fi
 
@@ -198,8 +222,10 @@ fi
 chmod a+x qemu-start-kvm.sh
 ${CUR_PATH}/qemu-start-kvm.sh  $IMAGE  $DISK_NAME
 if [ $? -ne 0 ];then
+    print_info 1 qemu-start-fom-img
     lava-test-case qemu-start-from-img --result fail
     exit 0
 else
+    print_info 0 qemu-start-from-img
     lava-test-case qemu-start-from-img --result pass
 fi

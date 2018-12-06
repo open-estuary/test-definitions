@@ -16,7 +16,7 @@ cd -
 
 case $distro in
     "centos"|fedora)
-        pkgs="pcp-import-iostat2pcp"
+        pkgs="pcp-import-iostat2pcp sysstat"
         install_deps "${pkgs}"
         print_info $? pcp-import-iostat2pcp
         ;;
