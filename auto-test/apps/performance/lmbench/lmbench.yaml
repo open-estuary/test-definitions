@@ -8,21 +8,15 @@ metadata:
     scope:
         - performance
     os:
-        - ubuntu
         - centos
-        - fedora
         - debian
-        - opensuse
     devices:
         - d05
-        - d03
+        - d06
     level: 5
     totalcase:
         centos: 5
-        ubuntu: 5
-        defora: 5
         debian: 5
-        opensuse: 5
 
 run:
     steps:

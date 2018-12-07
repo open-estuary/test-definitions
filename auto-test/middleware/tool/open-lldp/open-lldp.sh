@@ -1,30 +1,48 @@
+# ====================
+# Filename: open-lldp
+# Author:
+# Email:
+# Date:
+# Description:
+# ====================
 
-#!/bin/sh 
+###### specify interpeter path ######
+
+#!/bin/bash 
+
+###### importing environment variable ######
+
 set -x
 cd ../../../../utils
-    .        ./sys_info.sh
-             ./sh-test-lib
+    source  ./sys_info.sh
+    source  ./sh-test-lib
 cd -
 
-if [ `whoami` != 'root' ] ; then
-    echo "You must be the superuser to run this script" >&2
-    exit 1
-fi
+###### check root ######
+
+! check_root && error_msg "Please run this script as root."
+
+###### importing variables ######
 
 version="1.0.1"
 from_repo="Estuary"
 package="open-lldp"
+
+###### install ######
+
 for P in ${package};do
     echo "$P install"
 
 case $distro in
     "centos" )
          yum install -y $P
-         print_info $? $P
+         print_info $? install-open-lldp 
          ;;
  esac
 
-# Check the package version && source
+###### testing step ######
+
+## Check the package version && source
 from=$(yum info $P | grep "From repo" | awk '{print $4}')
 if [ "$from" = "$from_repo"  ];then
      print_info 0 repo_check
@@ -44,12 +62,14 @@ fi
 
 vers=$(yum info $P | grep "Version" | awk '{print $3}')
 if [ "$vers" = "$version"   ];then
-     print_info 0 version
+     print_info 0 version_check
 else
-    print_info 1 version
+    print_info 1 version_check
 fi
 done
 
-# Remove package
+###### restore environment ######
+
+## Remove package
 yum remove -y $P
-print_info $? remove
+print_info $? remove-open-lldp

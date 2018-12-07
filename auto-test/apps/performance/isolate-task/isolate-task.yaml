@@ -16,7 +16,7 @@ metadata:
         - performance
     environment:
         - lava-test-shell
-    level: 5
+    level: 1
     totalcase:
 params:
     ISOL_CORES:   "2,3"

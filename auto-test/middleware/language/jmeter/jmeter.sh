@@ -44,6 +44,13 @@ print_info $? install-depends
 java -version
 print_info $? java-version
 
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+	kill -9 $p
+done
+
 systemctl restart nginx
 print_info $? restart-web-server
 

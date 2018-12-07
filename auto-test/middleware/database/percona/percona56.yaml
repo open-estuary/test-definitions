@@ -6,15 +6,15 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - database 
+        - database
     os:
         - centos
     devices:
-        - d03
+        - d06
         - d05
-    level: 5
+    level: 1
     totalcase:
-        centos: 121
+        centos: 120
 
 
 run:

@@ -3,19 +3,19 @@
 set -x
 
 cd ../../../../utils
-.            ./sys_info.sh
-.            ./sh-test-lib
+   source  ./sys_info.sh
+   source  ./sh-test-lib
 cd -
 
 case "${distro}" in
-	centos|fedora)
+	centos)
 		#sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
 		#sudo chmod +r /etc/yum.repos.d/estuary.repo
 		#sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
 		#yum clean dbcache
-		print_info $? setup-estuary-repository
+		#print_info $? setup-estuary-repository
 		
-		pkgs="gcc java-devel bazel"
+		pkgs="gcc java java-devel bazel"
 		install_deps "${pkgs}"
 		print_info $? install-bazel
 	;;

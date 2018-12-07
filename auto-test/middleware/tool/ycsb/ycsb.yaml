@@ -10,7 +10,7 @@ metadata:
     os:
         - centos
     devices:
-        - d03
+        - d06
         - d05
     level: 5
     totalcase:

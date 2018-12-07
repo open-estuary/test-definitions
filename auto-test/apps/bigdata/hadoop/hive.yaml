@@ -10,10 +10,11 @@ metadata:
     os:
         - centos
     devices:
-        - d03
+        - d06
         - d05
     level: 1
     totalcase:
+            centos: 
 
 run:
     steps:

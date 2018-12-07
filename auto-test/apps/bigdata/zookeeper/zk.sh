@@ -25,8 +25,10 @@ case $distro in
 ;;      
 esac
     yum install python2-pip nmap-ncat gcc -y
+    yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
     yum install ansible -y
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
+    sleep 5
     ret=$?
     print_info $ret "zookeeper_standalone_install" 
     if [ $ret -ne 0 ];then
@@ -94,6 +96,7 @@ function zk_install_c_client(){
        yum install -y python-devel python-pip
 case $distro in
       "centos"|"ubuntu"|"debian"|"opensuse")
+       pip install –upgrade pip
        pip install zkpython
 ;;
 esac

@@ -6,19 +6,16 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - hadoop
+        - bigdata
     os:
         - centos
-        - debian
     devices:
-        - d03
+        - d06
         - d05
 
-    level: 5
+    level: 1
     totalcase:
         centos: 36
-        ubuntu: 36
-        fedora: 36
 run:
     steps:
         - "cd auto-test/apps/bigdata/hadoop; ./hadoop-test.sh ; cd -"

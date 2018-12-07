@@ -1,10 +1,9 @@
 #!/bin/bash
 
 #=================================================================
-#   文件名称：mysql-connector-python.sh
-#   创 建 者：dingyu ding_yu@hoperun.com
-#   描    述：mysql-connector-python是MySQL官方的纯Python驱动,使用这个驱动让Python连接MySQL,测试创建数据库，创建表格,插入,删除,修改,查询数据等基本功能.
-#
+#   Fielname: mysql-connector-python.sh
+#   Author: dingyu ding_yu@hoperun.com
+#   Description: mysql-connector-python是MySQL官方的纯Python驱动,使用这个驱动让Python连接MySQL,测试创建数据库，创建表格,插入,删除,修改,查询数据等基本功能.
 #================================================================*/
 set -x
 
@@ -43,17 +42,6 @@ case "${distro}" in
 	print_info $? install-mysql-community
 	pip install mysql-connector-python
 	;;
-    ubuntu)
-	./test.sh
-	print_info $? delete_package
-	apt-get remove --purge mysql-server
-	#dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
-	pkgs="mysql-server python-pip"
-	install_deps "${pkgs}"
-        print_info $? install-mysql-community
-        pip install mysql-connector-python
-	;;
-
 esac
 
 ##################### the testing step ###########################
@@ -67,7 +55,7 @@ case "${distro}" in
 	mysqladmin -u root password "root"
 	print_info $? set-root-pwd
 	;;
-    debian|ubuntu)
+    debian)
 	EXPECT=$(which expect)
 	$EXPECT << EOF
 	set timeout 100
@@ -165,11 +153,5 @@ case "${distro}" in
 	apt-get remove --purge mysql-server
         print_info $? remove-mysql
 	;;
-    ubuntu)
-    	./test.sh
-   	apt-get remove --purge mysql-server
-	#dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
-	print_info $? remove-mysql
-        ;;
 esac
 

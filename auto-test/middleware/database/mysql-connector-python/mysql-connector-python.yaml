@@ -9,18 +9,17 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - mysql-connector-python
+        - database
     os:
         - centos
-        - ubuntu
         - debian
     devices:
-        - d03
+        - d06
         - d05
     level: 1
     totalcase:
-        centos: 17
-        ubuntu: 16
+        centos: 16
+        debian: 17
 
 run:
     steps:

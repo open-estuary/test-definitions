@@ -8,18 +8,16 @@ metadata:
         - liu_caili@hoperun.com
     scope:
         - bigdata
-        - tensorflow
     os:
         - centos
+        - debian
     devices:
-        - d03
+        - d06
         - d05
-    level: 5
+    level: 1
     totalcase:
         centos: 13
-        ubuntu: 16
-        fedora: 16
-        debian: 16
+        debian: 13
 
 run:
     steps:

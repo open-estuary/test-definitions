@@ -1,19 +1,30 @@
 #!/bin/bash
 
-! check_root && error_msg "Please run this script as root."
-
 set -x
 
 cd ../../../../utils
 source ./sys_info.sh
 source ./sh-test-lib
+
+! check_root && error_msg "Please run this script as root."
+
 cd -
+
 
 ##################### Environmental preparation  ##############################
 #Installation basic package
 pkg="curl net-tools vim git expect"
 install_deps "${pkg}"
 print_info $? install-tools
+
+#删除80端口进程
+
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+        kill -9 $p
+done
 
 #Install PHP and nginx packages and modify configuration files
 case "${distro}" in
@@ -112,9 +123,9 @@ curl -o "output" "http://localhost/index.html"
 grep 'Welcome to' ./output
 print_info $? test-nginx-server
 
-curl -o "output" "http://localhost/info.php"
-grep 'version' ./output
-print_info $? php-info
+#curl -o "output" "http://localhost/info.php"
+#grep 'version' ./output
+#print_info $? php-info
 
 curl -o "output" "http://localhost/array.php"
 grep 'I like Volvo, BMW and SAAB' ./output
