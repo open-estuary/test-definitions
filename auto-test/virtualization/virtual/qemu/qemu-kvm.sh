@@ -21,11 +21,13 @@ DISK_NAME=${distro}.img
 
 case $distro in
 "centos")
-    yum install qemu qemu-kvm -y
+    pkg="wget gcc expect qemu qemu-kvm" 
+    install_deps "$pkg"
     print_info $? install-qemu
 ;;
 "debian")
-   apt-get install qemu -y
+    pkg="wget gcc expect qemu"
+    install_deps "$pkg"
    print_info $? install-qemu
   ;;
 esac
@@ -47,9 +49,7 @@ else
    print_info $? image_or_rootfs_not_exist
 fi
 
-# compail and install 
-pkgs="expect wget  gcc"
-install_deps "${pkgs}"
+
 case "${distro}" in
 	ubuntu)
 		pkgs="libvirt-bin zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
