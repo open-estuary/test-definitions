@@ -10,12 +10,7 @@
 
 function nodejs_install(){
     case $distro in
-    opensuse)
-    pkgs="nodejs npm8 "
-    install_deps "${pkgs}"
-    print_info $? "install-nodejs"
-    ;;
-    ubuntu|fedora|centos)
+    centos)
     pkgs="nodejs npm" 
     install_deps "${pkgs}"
     print_info $? "install_nodejs"
@@ -26,9 +21,7 @@ function nodejs_install(){
     apt-get install -y nodejs
     print_info $? "install_nodejs"
     ;;
-
    esac
-
 }
 
 function nodejs_npm(){
@@ -72,10 +65,9 @@ function nodejs_npm(){
 function nodejs_fs_test(){
 
     npm install 'child_process' -g
-    print_info $? "nodejs_insatll_'child_process'_package"
+    print_info $? "nodejs_install_'child_process'_package"
     node readFile.js
     
-
 }
 
 function nodejs_uninstall(){
@@ -83,5 +75,5 @@ function nodejs_uninstall(){
     remove_deps "${pkgs}" 
     print_info $? "uninstall_nodejs"
 
-
 }
+

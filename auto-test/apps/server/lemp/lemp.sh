@@ -6,8 +6,15 @@ cd ../../../../utils
    source ./sh-test-lib
 cd -
 
-pkg="curl"
+pkg="curl net-tools"
 install_deps "${pkg}"
+
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+        kill -9 $p
+done
 
 case "$distro" in
     debian)
@@ -96,6 +103,28 @@ EOF
         ;;
 esac
 
+case "${distro}" in
+    ubuntu|debian)
+        $EXPECT << EOF
+        set timeout 100
+        spawn mysql -uroot -p
+        expect "password:"
+        send "lxmptest\r"
+        expect ">"
+        send "use mysql;\r"
+        expect ">"
+        send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+        expect "OK"
+        send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
+        expect "OK"
+        send "FLUSH PRIVILEGES;\r"
+        expect "OK"
+        send "exit\r"
+        expect eof      
+EOF
+        ;;
+esac
+
 mysql --user='root' --password='root' -e 'show databases'
 print_info $? mysql-show-databases
 
@@ -165,7 +194,6 @@ case "${distro}" in
 	cp /etc/nginx/nginx.conf.default.bak  /etc/nginx/nginx.conf.default
 	;;
 esac
-
 
 #remove packges
 case "${distro}" in

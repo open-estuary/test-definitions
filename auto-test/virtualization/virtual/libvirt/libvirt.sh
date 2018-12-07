@@ -1,7 +1,9 @@
 #!/bin/bash
 set -x
-source ../../../../utils/sh-test-lib
-source ../../../../utils/sys_info.sh
+cd ../../../../utils
+   source ./sh-test-lib
+   source ./sys_info.sh
+cd -
 
 ! check_root && error_msg "Please run this script as root."
 
@@ -30,10 +32,12 @@ case "${distro}" in
 	print_info $? install-package
 	;;
    centos)
-	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils libvirt-python virt-manager"
+	cd ~
+	pkgs="virt-install libvirt* python2-pip"
 	install_deps "${pkgs}"
 	print_info $? install-package
-	#添加loaler文件
+	pip install --ignore-installed --force-reinstall 'requests==2.6.0' urllib3
+	cd -
 	;;
    fedora)
 	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils"
@@ -138,8 +142,6 @@ if [ "$res1"x == "700"x ];then
 else
 	print_info 1 domain_blkiotune
 fi
-
-
 
 virsh autostart domain_aarch64
 print_info $? domain_autostart
