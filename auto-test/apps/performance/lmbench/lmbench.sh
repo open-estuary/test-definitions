@@ -83,7 +83,10 @@ expect "Status output file"
 send "\r"
 expect "Mail results"
 send "n\r"
+<<<<<<< HEAD
 
+=======
+>>>>>>> fa378c9e15af73adeb7c01a6ca15202348b21dd7
 expect eof
 EOF
 
