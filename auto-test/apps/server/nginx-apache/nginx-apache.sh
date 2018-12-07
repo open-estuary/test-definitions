@@ -34,9 +34,7 @@ CONCURENT=100
 # systemctl available on Debian 8, CentOS 7 and newer releases.
 # shellcheck disable=SC2154
 
-<<<<<<< HEAD
 
-=======
 pkg="net-tools"
 install_deps "$pkg"
 
@@ -46,7 +44,7 @@ for p in $process
 do
         kill -9 $p
 done
->>>>>>> d61f7555a190ce938d071118c3984a53d5c0800f
+
 
 case "${distro}" in
     debian)

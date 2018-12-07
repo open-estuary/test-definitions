@@ -10,11 +10,7 @@ pkg="curl net-tools expect"
 install_deps "${pkg}"
 print_info $? install-tools
 
-<<<<<<< HEAD
 
-    # shellcheck disable=SC2154
-=======
-#删除nginx
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
 process=`ps -ef|grep $pro|awk '{print $2}'`
 for p in $process
@@ -22,8 +18,7 @@ do
         kill -9 $p
 done
 
-# shellcheck disable=SC2154
->>>>>>> d61f7555a190ce938d071118c3984a53d5c0800f
+
     case "${distro}" in
       debian)
         if [ "${distro}" = "debian" ]; then

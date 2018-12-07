@@ -6,14 +6,8 @@ cd ../../../../utils
    source ./sh-test-lib
 cd -
 
-<<<<<<< HEAD
 
-
-
-pkg="curl expect"
-=======
-pkg="curl net-tools"
->>>>>>> d61f7555a190ce938d071118c3984a53d5c0800f
+pkg="curl net-tools expect"
 install_deps "${pkg}"
 
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
