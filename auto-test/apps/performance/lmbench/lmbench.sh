@@ -90,7 +90,6 @@ expect "Status output file"
 send "\r"
 expect "Mail results"
 send "n\r"
-expect "Leaving directory '${url}/src'"
 
 expect eof
 EOF
