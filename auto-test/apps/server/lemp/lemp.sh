@@ -6,11 +6,22 @@ cd ../../../../utils
    source ./sh-test-lib
 cd -
 
+<<<<<<< HEAD
 
 
 
 pkg="curl expect"
+=======
+pkg="curl net-tools"
+>>>>>>> d61f7555a190ce938d071118c3984a53d5c0800f
 install_deps "${pkg}"
+
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+        kill -9 $p
+done
 
 case "$distro" in
     debian)
@@ -121,7 +132,10 @@ EOF
         ;;
 esac
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d61f7555a190ce938d071118c3984a53d5c0800f
 mysql --user='root' --password='root' -e 'show databases'
 print_info $? mysql-show-databases
 
@@ -191,7 +205,6 @@ case "${distro}" in
 	cp /etc/nginx/nginx.conf.default.bak  /etc/nginx/nginx.conf.default
 	;;
 esac
-
 
 #remove packges
 case "${distro}" in

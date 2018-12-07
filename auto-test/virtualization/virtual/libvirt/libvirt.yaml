@@ -9,16 +9,12 @@ metadata:
         - virtual
         - libvirt
     os:
-        - ubuntu
-        - fedora
         - centos
     devices:
         - d05
         - d06
     level: 1
     totalcase: 
-        ubuntu: 38
-        fedora: 38
         centos: 38
 
 run:

@@ -17,27 +17,14 @@ pkg="curl net-tools vim git expect"
 install_deps "${pkg}"
 print_info $? install-tools
 
-#删除apache进程
-case "${distro}" in
-    centos)
-	systemctl stop httpd.service > /dev/null 2>&1 || true
-	proc=`ps -ef |grep httpd|awk '{print $2}'`
-	for p in $proc
-	do 
-		kill -9 $p
-	done
-	;;
-    debian)
-	systemctl stop apache2.service > /dev/null 2>&1 || true
-        proc=`ps -ef |grep apache2|awk '{print $2}'`
-        for p in $proc
-        do
-                kill -9 $p
-        done
-        ;;
+#删除80端口进程
 
-esac
-
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+        kill -9 $p
+done
 
 #Install PHP and nginx packages and modify configuration files
 case "${distro}" in
