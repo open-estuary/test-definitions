@@ -15,7 +15,7 @@ case "${distro}" in
 		#yum clean dbcache
 		#print_info $? setup-estuary-repository
 		
-		pkgs="gcc java-devel bazel"
+		pkgs="gcc java java-devel bazel"
 		install_deps "${pkgs}"
 		print_info $? install-bazel
 	;;
