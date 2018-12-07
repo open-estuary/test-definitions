@@ -34,26 +34,6 @@ CONCURENT=100
 # systemctl available on Debian 8, CentOS 7 and newer releases.
 # shellcheck disable=SC2154
 
-#删除apache进程
-case "${distro}" in
-    centos)
-	systemctl stop httpd.service > /dev/null 2>&1 || true
-	proc=`ps -ef |grep httpd|awk '{print $2}'`
-	for p in $proc
-	do 
-		kill -9 $p
-	done
-	;;
-    debian)
-	systemctl stop apache2.service > /dev/null 2>&1 || true
-        proc=`ps -ef |grep apache2|awk '{print $2}'`
-        for p in $proc
-        do
-                kill -9 $p
-        done
-        ;;
-
-esac
 
 
 case "${distro}" in

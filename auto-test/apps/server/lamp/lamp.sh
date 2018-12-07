@@ -6,38 +6,20 @@ cd ../../../../utils
    source ./sh-test-lib
 cd -
 
-#usage() {
-#    echo "Usage: $0 [-s <true|false>]" 1>&2
-#    exit 1
-#}
+pkg="curl net-tools expect"
+install_deps "${pkg}"
+print_info $? install-tools
 
-#while getopts "s:" o; do
-#  case "$o" in
-#    s) SKIP_INSTALL="${OPTARG}" ;;
-#    *) usage ;;
-#  esac
-#done
-
-#! check_root && error_msg "This script must be run as root"
-
-# Install lamp and use systemctl for service management. Tested on Ubuntu 16.04,
-# Debian 8, CentOS 7 and Fedora 24. systemctl should available on newer releases
-# as well.
-#if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
-#    warn_msg "LAMP package installation skipped"
-#else
-    # Stop nginx server in case it is installed and running.
-    systemctl stop nginx > /dev/null 2>&1 || true
 
     # shellcheck disable=SC2154
     case "${distro}" in
       debian)
         if [ "${distro}" = "debian" ]; then
-            pkgs="curl apache2 mysql-server php-mysql php-common libapache2-mod-php"
+            pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
         elif [ "${distro}" = "ubuntu" ]; then
             echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
             echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
-           pkgs="curl apache2 mysql-server php-mysql php-common libapache2-mod-php"
+           pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
         fi
         install_deps "${pkgs}"
         print_info $? install-pkgs
@@ -58,7 +40,7 @@ cd -
         #yum install httpd -y
         #yum install mysql-community-server -y
         #yum install php php-mysql -y
-        pkgs="curl httpd mysql-community-server php php-mysql"
+        pkgs="httpd mysql-community-server php php-mysql"
         install_deps "${pkgs}"
         print_info $? install-pkgs
         systemctl start httpd.service
@@ -78,7 +60,57 @@ grep "Test Page for the Apache HTTP Server" ./output
 print_info $? apache2-test-page
 
 # Test MySQL.
-mysqladmin -u root password root  > /dev/null 2>&1 || true
+case "${distro}" in
+    centos)
+        mysqladmin -u root password root
+        print_info $? set-root-pwd
+        ;;
+    debian)
+        EXPECT=$(which expect)
+        $EXPECT << EOF
+        set timeout 100
+        spawn mysql -u root -p
+        expect "password:"
+        send "root\r"
+        expect ">"
+        send "use mysql;\r"
+        expect ">"
+        send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+        expect "OK"
+        send "UPDATE user SET authentication_string=PASSWORD('lxmptest') where USER='root';\r"
+        expect "OK"
+        send "FLUSH PRIVILEGES;\r"
+        expect "OK"
+        send "exit\r"
+        expect eof
+EOF
+        print_info $? set-root-pwd
+        ;;
+esac
+
+case "${distro}" in
+    ubuntu|debian)
+        $EXPECT << EOF
+        set timeout 100
+        spawn mysql -uroot -p
+        expect "password:"
+        send "lxmptest\r"
+        expect ">"
+        send "use mysql;\r"
+        expect ">"
+        send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+        expect "OK"
+        send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
+        expect "OK"
+        send "FLUSH PRIVILEGES;\r"
+        expect "OK"
+        send "exit\r"
+        expect eof      
+EOF
+        ;;
+esac
+
+#mysqladmin -u root password root  > /dev/null 2>&1 || true
 mysql --user="root" --password="root" -e "show databases"
 print_info $? mysql-show-databases
 
