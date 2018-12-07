@@ -34,27 +34,15 @@ CONCURENT=100
 # systemctl available on Debian 8, CentOS 7 and newer releases.
 # shellcheck disable=SC2154
 
-#删除apache进程
-case "${distro}" in
-    centos)
-	systemctl stop httpd.service > /dev/null 2>&1 || true
-	proc=`ps -ef |grep httpd|awk '{print $2}'`
-	for p in $proc
-	do 
-		kill -9 $p
-	done
-	;;
-    debian)
-	systemctl stop apache2.service > /dev/null 2>&1 || true
-        proc=`ps -ef |grep apache2|awk '{print $2}'`
-        for p in $proc
-        do
-                kill -9 $p
-        done
-        ;;
+pkg="net-tools"
+install_deps "$pkg"
 
-esac
-
+pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+process=`ps -ef|grep $pro|awk '{print $2}'`
+for p in $process
+do
+        kill -9 $p
+done
 
 case "${distro}" in
     debian)

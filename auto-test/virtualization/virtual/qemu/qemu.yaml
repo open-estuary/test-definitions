@@ -11,7 +11,7 @@ metadata:
         - centos
         - debian
     devices:
-        - d03
+        - d06
         - d05
     level: 1
     totalcase:
