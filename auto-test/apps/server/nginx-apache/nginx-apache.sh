@@ -38,6 +38,17 @@ CONCURENT=100
 pkg="net-tools"
 install_deps "$pkg"
 
+case "distro" in
+    centos)
+	systemctl stop nginx
+	systemctl stop httpd
+	;;
+    debian)
+	systemctl stop nginx 
+	systemctl stop apache2
+	;;
+esac
+
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
 process=`ps -ef|grep $pro|awk '{print $2}'`
 for p in $process
