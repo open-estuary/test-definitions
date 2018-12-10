@@ -38,6 +38,14 @@ case "${distro}" in
 	print_info $? install-package
 	pip install --ignore-installed --force-reinstall 'requests==2.6.0' urllib3
 	cd -
+	下载loder文件
+        mkdir -p /usr/share/AAVMF
+        cd /usr/share/AAVMF
+        wget ${ci_http_addr}/test_dependents/AAVMF_CODE.fd
+        wget ${ci_http_addr}/test_dependents/AAVMF_VARS.fd
+        wget ${ci_http_addr}/test_dependents/AAVMF_CODE.verbose.fd
+        cd -
+
 	;;
    fedora)
 	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils"
