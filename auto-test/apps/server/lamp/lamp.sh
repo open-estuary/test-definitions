@@ -160,6 +160,19 @@ print_info $? php-delete-record
 # Delete myDB for the next run.
 mysql --user='root' --password='root' -e 'DROP DATABASE myDB'
 print_info $? delete-database
+
+#停止服务
+case "$distro" in
+    centos)
+	systemctl stop httpd
+	systemctl stop mysql
+	;;
+    debian)
+	systemctl stop apache2
+	systemctl stop mysql
+	;;
+esac
+
 remove_deps "${pkgs}"
 print_info $? remove-package
 
