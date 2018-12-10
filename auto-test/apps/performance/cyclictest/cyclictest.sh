@@ -74,10 +74,10 @@ print_info $? Max_delay
 case "$distro" in
     centos|fedora|opensuse)
 	rm -rf rt-tests
-	remove_deps "${pkgs}"
 	print_info $? remove_pkgs
 	;;
     ubuntu|debian)
+        pkgs="rt-tests"
 	remove_deps "${pkgs}"
         print_info $? remove_pkgs
 	;;
