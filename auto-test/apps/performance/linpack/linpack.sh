@@ -49,9 +49,8 @@ print_info $? gcc-linpack
 print_info $? run-linpack
 
 #remove packgs
-remove_deps "${pkgs}"
-print_info $? remove-package
 
 rm -f linpack
 rm -f linpack.c
 rm -f linpack.log
+print_info $? remove-package
