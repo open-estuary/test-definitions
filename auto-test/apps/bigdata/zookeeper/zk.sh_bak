@@ -83,15 +83,6 @@ function zk_install_c_client(){
     fi 
     pushd .
         cd $ZK_HOME
-        #----------下载超时就去文件服务器下载备用的----------------
-        if [ ! -d "/var/bigdata/zookeeper" ];then
-        mkdir -p /var/bigdata/zookeeper
-        cd /var/bigdata/zookeeper
-        wget http://192.168.50.122:8083/test_dependents/zookeeper.tar.gz
-        tar -zxvf zookeeper.tar.gz
-        cd zookeeper-3.4.11
-       fi
-       #-----------------------------------------------------------
         export ZK_HOME=`pwd`
         cd ./src/c
         ./configure && \
