@@ -6,8 +6,7 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - zookeeper
-        - liubeijie
+        - bigdata
     os:
         - centos
     devices:
