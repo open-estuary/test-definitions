@@ -23,7 +23,7 @@ cd -
 
 ################## setting variables ##################
 
-version="4.18"
+version="4.19"
 machine="aarch64"
 
 #################### install ####################
@@ -45,18 +45,18 @@ machine="aarch64"
 vers=`uname -r|cut -b 1-4`
 echo $vers
 if [ "$vers" = "$version" ];then
-      print_info $0 version
+      print_info 0 version
 else
-      print_info $1 version
+      print_info 1 version
 fi
 
 ## check the machine ##
 mach=`uname -m`
 echo $mach
 if [ "$mach" = "$machine" ];then
-	print_info $0 machine
+	print_info 0 machine
 else
-	print_info $1 machine
+	print_info 1 machine
 fi
 
 ################## restore environment ##################

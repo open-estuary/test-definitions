@@ -10,6 +10,19 @@ pkg="curl net-tools expect"
 install_deps "${pkg}"
 print_info $? install-tools
 
+case "$distro" in
+    centos)
+	systemctl stop nginx
+	systemctl stop httpd
+	;;
+    debian)
+	systemctl stop nginx 
+	systemctl stop apache2
+	apt-get remove apache2 --purge -y
+	apt-get remove nginx --purge -y
+	apt-get remove php-fpm --purge -y
+	;;
+esac
 
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
 process=`ps -ef|grep $pro|awk '{print $2}'`
@@ -22,7 +35,7 @@ done
     case "${distro}" in
       debian)
         if [ "${distro}" = "debian" ]; then
-            pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
+            pkgs="apache2 php-fpm mysql-server php-mysql php-common libapache2-mod-php"
         elif [ "${distro}" = "ubuntu" ]; then
             echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
             echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
@@ -173,7 +186,18 @@ case "$distro" in
 	;;
 esac
 
-remove_deps "${pkgs}"
-print_info $? remove-package
+case "$distro" in
+    debian)
+	apt-get remove apache2 --purge -y
+	pkgs="mysql-server php-mysql php-common libapache2-mod-php"
+	remove_deps "${pkgs}"
+	print_info $? remove-package
+	;;
+    centos)
+	remove_deps "${pkgs}"
+        print_info $? remove-package
+	;;
+esac
+
 
 rm -rf output

@@ -38,7 +38,7 @@ CONCURENT=100
 pkg="net-tools"
 install_deps "$pkg"
 
-case "distro" in
+case "$distro" in
     centos)
 	systemctl stop nginx
 	systemctl stop httpd
@@ -46,6 +46,8 @@ case "distro" in
     debian)
 	systemctl stop nginx 
 	systemctl stop apache2
+	apt-get remove apache2 --purge -y
+	apt-get remove nginx --purge -y
 	;;
 esac
 
@@ -60,7 +62,7 @@ done
 case "${distro}" in
     debian)
 	apt-get install apache2 -y
-	print_info install_apache2
+	print_info $? install-apache2
 
 	systemctl stop apache2 > /dev/null 2>&1 || true
 	
@@ -68,7 +70,7 @@ case "${distro}" in
 	cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
 	sed -i "s/listen 80 default_server/listen 7000  default_server/g" /etc/nginx/sites-available/default
 	sed -i "s/#listen 443/listen 443/g" /etc/nginx/sites-available/default
-	sed -i "s/#include snippets/snakeoil.conf;/include snippets/snakeoil.conf;/g" /etc/nginx/sites-available/default
+	sed -i "s%#include snippets/snakeoil.conf;%include snippets/snakeoil.conf;%g" /etc/nginx/sites-available/default
 
 	systemctl restart nginx
 	print_info $? start-nginx
@@ -153,14 +155,14 @@ esac
 rm -rf /etc/nginx/sites-available/default
 cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
 
-case "distro" in
+case "$distro" in
     centos)
 	remove_deps "${pkgs}" "${SKIP_INSTALL}"
 	print_info $? remove-package
 	;;
     debian)
-    	apt-get remove nginx* -y
-	apt-get remove apache2* -y
+    	apt-get remove nginx --purge -y
+	apt-get remove apache2 --purge -y
 	print_info $? remove_apache2_nginx
 	;;
 esac
