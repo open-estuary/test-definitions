@@ -10,6 +10,20 @@ cd -
 pkg="curl net-tools expect"
 install_deps "${pkg}"
 
+case "$distro" in
+    centos)
+	systemctl stop nginx
+	systemctl stop httpd
+	;;
+    debian)
+	systemctl stop nginx 
+	systemctl stop apache2
+	apt-get remove apache2 --purge -y
+	apt-get remove nginx --purge -y
+	apt-get remove php-fpm --purge -y
+	;;
+esac
+
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
 process=`ps -ef|grep $pro|awk '{print $2}'`
 for p in $process
@@ -204,6 +218,8 @@ case "${distro}" in
     debian)
 	./test.sh
 	apt-get remove --purge mysql-sever -y
+	apt-get remove php-fpm --purge -y
+	apt-get remove --purge nginx -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;

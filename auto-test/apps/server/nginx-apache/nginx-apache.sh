@@ -46,6 +46,8 @@ case "$distro" in
     debian)
 	systemctl stop nginx 
 	systemctl stop apache2
+	apt-get remove apache2 --purge -y
+	apt-get remove nginx --purge -y
 	;;
 esac
 
