@@ -6,7 +6,8 @@ cd ../../../../utils
    source ./sh-test-lib
 cd -
 
-pkg="curl net-tools"
+
+pkg="curl net-tools expect"
 install_deps "${pkg}"
 
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
@@ -183,6 +184,8 @@ case "${distro}" in
 	systemctl stop php7.0-fpm
 	systemctl stop nginx
 	systemctl stop mysql
+	rm -rf /etc/php/7.0/fpm/php.ini
+	rm -rf /etc/nginx/sites-available/default
 	cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
         cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
         ;;
@@ -191,6 +194,7 @@ case "${distro}" in
         systemctl stop nginx
         systemctl stop mysql
         cp /etc/php.ini.bak /etc/php.ini
+	rm -rf /etc/nginx/nginx.conf.default
 	cp /etc/nginx/nginx.conf.default.bak  /etc/nginx/nginx.conf.default
 	;;
 esac

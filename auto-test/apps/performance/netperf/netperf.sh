@@ -4,28 +4,22 @@
 ##Netperf是一种网络性能的测量工具，主要针对基于TCP或UDP的传输
 
 set -x
-<<<<<<< HEAD
-#加载外部文件
-=======
-
 #####加载外部文件################
->>>>>>> c3e2df2a8076c02b07db756a80201ca83ccca61c
+
 cd ../../../../utils
 source ./sys_info.sh
 source ./sh-test-lib
 cd -
 
-<<<<<<< HEAD
-#检查用户权限
-! check_root && error_msg "Please run this script as root."
+
 
 #环境准备
-=======
+
 #############################  Test user id       #########################
 ! check_root && error_msg "Please run this script as root."
 
 ######################## Environmental preparation   ######################
->>>>>>> c3e2df2a8076c02b07db756a80201ca83ccca61c
+
 case $distro in
     "centos")
         yum install netperf -y
@@ -84,6 +78,15 @@ if [ "$throu2" != "" ] ; then
    print_info $? $TCID2
 else
     print_info $? $TCID2
+fi
+
+#停止netperf
+kill -9 $(pidof netserver)
+pro=`ps -ef|grep netserver|grep -v grep`
+if [ "$pro" == "" ]; then
+	print_info 0 kill_netperf
+else
+	print_info 1 kill_netperf
 fi
 
 ######################  environment  restore ##########################

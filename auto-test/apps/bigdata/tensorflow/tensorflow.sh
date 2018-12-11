@@ -108,14 +108,12 @@ print_info $? pip-remove-whl
 #环境复原
 case $distro in
     "centos")
-    pkgs="tensorflow wget python-pip python-devel gcc vim expect"
+    pkgs="tensorflow"
     remove_deps "${pkgs}"
     print_info $? remove-pkgs
     ;;
     "debian")
-    pkgs="wget python-pip python-dev gcc vim expect"
-    remove_deps "$pkgs"
-    print_info $? remove-tensorflow
     rm -rf /usr/share/tensorflow
+    print_info $? remove-tensorflow
     ;;
 esac

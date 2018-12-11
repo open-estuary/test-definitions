@@ -128,78 +128,97 @@ print_info $? test-nginx-server
 #print_info $? php-info
 
 curl -o "output" "http://localhost/array.php"
+cat output
 grep 'I like Volvo, BMW and SAAB' ./output
 print_info $? php-array
 
 curl -o "output" "http://localhost/datatype.php"
+cat output
 grep 'int' ./output
 print_info $? php-data-type
 
 curl -o "output" "http://localhost/for.php"
+cat output
 grep 'the data is' ./output
 print_info $? php-for
 
 curl -o "output" "http://localhost/if.php"
+cat output
 grep 'Have a good day' ./output
-#print_info $? php-if
+print_info $? php-if
 
 curl -o "output" "http://localhost/print.php"
+cat output
 grep 'PHP is fun' ./output
 print_info $? php-print
 
 curl -o "output" "http://localhost/time.php"
+cat output
 grep 'the current time is' ./output
 print_info $? php-time
 
 curl -o "output" "http://localhost/constant.php"
+cat output
 grep 'Welcome to hoperun.com' ./output
 print_info $? php-contant
 
 curl -o "output" "http://localhost/error.php"
+cat output
 grep 'Error:' ./output
 print_info $? php-error
 
 curl -o "output" "http://localhost/function.php"
+cat output
 grep 'Hello world' ./output
 print_info $? php-function
 
 curl -o "output" "http://localhost/multiarray.php"
+cat output
 grep 'Row number 3' ./output
 print_info $? php-multiarray
 
 curl -o "output" "http://localhost/string.php"
+cat output
 grep 'iahgnahS' ./output
 print_info $? php-string
 
 curl -o "output" "http://localhost/variable.php"
+cat output
 grep '11' ./output
 print_info $? php-variable
 
 curl -o "output" "http://localhost/cookie.php"
+cat output
 grep 'Welcome' ./output
 print_info $? php-cookie
 
 curl -o "output" "http://localhost/exception.php"
+cat output
 grep 'Message:' ./output
 print_info $? php-exception
 
 curl -o "output" "http://localhost/global.php"
+cat output
 grep '100' ./output
 print_info $? php-global
 
 curl -o "output" "http://localhost/operator.php"
+cat output
 grep '164601.66666666666674' ./output
 print_info $? php-operator
 
 curl -o "output" "http://localhost/session.php"
+cat output
 grep 'Pageviews=1' ./output
 print_info $? php-session
 
 curl -o "output" "http://localhost/switch.php"
+cat output
 grep 'No number between 1 and 3' ./output
 print_info $? php-switch
 
 curl -o "output" "http://localhost/while.php"
+cat output
 grep 'this number is:' ./output
 print_info $? php-while
 

@@ -66,12 +66,12 @@ install() {
     # shellcheck disable=SC2154
     case "$distro" in
       debian|ubuntu)
-        pkgs="binutils gcc make python gfortran "
+        pkgs="git binutils gcc make python gfortran "
         install_deps "${pkgs}" "${SKIP_INSTALL}"
 	print_info $? "install_lapack"
         ;;
       fedora|centos)
-        pkgs="binutils gcc glibc-static make python gcc-gfortran "
+        pkgs="git binutils gcc glibc-static make python gcc-gfortran "
         install_deps "${pkgs}"
         print_info $? "install_lapack"
         ;;
@@ -100,20 +100,8 @@ lapack_build_test
 # Parse and print lapack tests results
 #parse_output
 
-case "$distro" in
-      debian|ubuntu)
-        pkgs="gcc"
-        remove_deps "${pkgs}" "${SKIP_INSTALL}"
-        print_info $? "install_lapack"
-        ;;
-      fedora|centos)
-        pkgs="gcc"
-        remove_deps "${pkgs}"
-        print_info $? "install_lapack"
-        ;;
-      opensuse)
-        pkgs="gcc"
-        remove_deps "${pkgs}"
-        print_info $? "install_lapack"
-	;;
-esac
+
+
+pro=`ps -ef|grep lapack|grep -v grep|awk '{print $2}'`
+kill -9 $pro
+print_info $? "remove_lapack"
