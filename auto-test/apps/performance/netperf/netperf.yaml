@@ -21,7 +21,7 @@ metadata:
         centos: 6
         fedora: 6
         debian: 6
-       ubuntu: 6
+        ubuntu: 6
         opensuse: 6
 run:
     steps:
