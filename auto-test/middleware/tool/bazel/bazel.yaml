@@ -6,9 +6,9 @@ metadata:
                   just as engineers do at Google."
     maintainer:
         - wang_sisi@hoperun.com
-        - yuanz_2010@163.com
+        - fyuanz_2010@163.com
     scope:
-        - toolfang
+        - tool
     os:
         - centos
     devices:
