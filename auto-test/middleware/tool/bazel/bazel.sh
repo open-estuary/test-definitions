@@ -1,5 +1,5 @@
 #!/bin/bash
-#dd
+
 set -x
 
 cd ../../../../utils
@@ -11,17 +11,11 @@ yum remove java* -y
 
 case "${distro}" in
 	centos)
-		#sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
-		#sudo chmod +r /etc/yum.repos.d/estuary.repo
-		#sudo rpm --import ftp://repoftp:repopushez7411@117.78.41.188/releases/ESTUARY-GPG-KEY
-		#yum clean dbcache
-		#print_info $? setup-estuary-repository
-		
-		pkgs="gcc java-1.8-openjdk java-1.8-openjdk-devel bazel"
+		pkgs="gcc java-1.8.0-openjdk java-1.8.0-openjdk-devel bazel"
 		install_deps "${pkgs}"
 		print_info $? install-bazel
-	;;
-	*)
+	        ;;
+	     *)
 		error_msg "Unsupported distribution!"
 esac
 
