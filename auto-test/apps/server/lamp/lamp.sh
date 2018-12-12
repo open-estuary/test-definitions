@@ -76,6 +76,7 @@ cp ./html/* /var/www/html/
 
 # Test Apache.
 curl -o "output" "http://localhost/index.html"
+cat output
 grep "Test Page for the Apache HTTP Server" ./output
 print_info $? apache2-test-page
 
@@ -136,37 +137,44 @@ print_info $? mysql-show-databases
 
 # Test PHP.
 curl -o "output" "http://localhost/info.php"
+cat output
 grep "PHP Version" ./output
 print_info $? phpinfo
 
 # PHP Connect to MySQL.
 curl -o "output" "http://localhost/connect-db.php"
+cat output
 grep "Connected successfully" ./output
 #exit_on_fail "php-connect-db"
 print_info $? php-connect-db
 
 # PHP Create a MySQL Database.
 curl -o "output" "http://localhost/create-db.php"
+cat output
 grep "Database created successfully" ./output
 print_info $? php-create-db
 
 # PHP Create MySQL table.
 curl -o "output" "http://localhost/create-table.php"
+cat output
 grep "Table MyGuests created successfully" ./output
 print_info $? php-create-table
 
 # PHP add record to MySQL table.
 curl -o "output" "http://localhost/add-record.php"
+cat output
 grep "New record created successfully" ./output
 print_info $? php-add-record
 
 # PHP select record from MySQL table.
 curl -o "output" "http://localhost/select-record.php"
+cat output
 grep "id: 1 - Name: John Doe" ./output
 print_info $? php-select-record
 
 # PHP delete record from MySQL table.
 curl -o "output" "http://localhost/delete-record.php"
+cat output
 grep "Record deleted successfully" ./output
 print_info $? php-delete-record
 
@@ -189,6 +197,7 @@ esac
 case "$distro" in
     debian)
 	apt-get remove apache2 --purge -y
+	apt-get remove php-fpm --purge -y
 	pkgs="mysql-server php-mysql php-common libapache2-mod-php"
 	remove_deps "${pkgs}"
 	print_info $? remove-package
