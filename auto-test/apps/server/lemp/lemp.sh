@@ -86,6 +86,7 @@ sed -i "s/Apache/Nginx/g" ./html/index.html
 cp ./html/* /usr/share/nginx/html/
 
 curl -o "output" "http://localhost/index.html"
+cat output
 grep 'Test Page for the Nginx HTTP Server' ./output
 print_info $? test-nginx-server
 
@@ -151,6 +152,7 @@ print_info $? test-phpinfo
 
 # PHP Connect to MySQL.
 curl -o "output" "http://localhost/connect-db.php"
+cat output
 sleep 5
 grep 'Connected successfully' ./output
 print_info $? php-connect-db
@@ -158,30 +160,35 @@ print_info $? php-connect-db
 # PHP Create a MySQL Database.
 curl -o "output" "http://localhost/create-db.php"
 sleep 5
+cat output
 grep 'Database created successfully' ./output
 print_info $? php-create-db
 
 # PHP Create MySQL table.
 curl -o "output" "http://localhost/create-table.php"
 sleep 5
+cat output
 grep 'Table MyGuests created successfully' ./output
 print_info $? php-create-table
 
 # PHP add record to MySQL table.
 curl -o "output" "http://localhost/add-record.php"
 sleep 5
+cat output
 grep 'New record created successfully' ./output
 print_info $? php-create-recoard
 
 # PHP select record from MySQL table.
 curl -o "output" "http://localhost/select-record.php"
 sleep 5
+cat output
 grep 'id: 1 - Name: John Doe' ./output
 print_info $? php-select-record
 
 # PHP delete record from MySQL table.
 curl -o "output" "http://localhost/delete-record.php"
 sleep 5
+cat output
 grep 'Record deleted successfully' ./output
 print_info $? php-delete-record
 

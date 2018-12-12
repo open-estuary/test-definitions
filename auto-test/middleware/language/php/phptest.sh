@@ -137,7 +137,7 @@ cp ./html/* /usr/share/nginx/html/
 
 #################### testing the step ########################################
 curl -o "output" "http://localhost/index.html"
-grep 'Welcome to' ./output
+egrep 'nginx|Nginx' ./output
 print_info $? test-nginx-server
 
 #curl -o "output" "http://localhost/info.php"
@@ -161,7 +161,7 @@ print_info $? php-for
 
 curl -o "output" "http://localhost/if.php"
 cat output
-grep 'Have a good day' ./output
+grep 'Have a good' ./output
 print_info $? php-if
 
 curl -o "output" "http://localhost/print.php"
@@ -249,6 +249,11 @@ case "${distro}" in
         systemctl stop nginx
 	print_info $? stop-nginx
 
+	rm -rf /etc/php.ini
+        rm -rf /etc/nginx/conf.d/default.conf
+        cp /etc/php.ini.bak /etc/php.ini
+        cp /etc/nginx/conf.d/default.conf.bak /etc/nginx/conf.d/default.conf
+
 	pkgs="nginx php php-fpm"
 	remove_deps "${pkgs}"
 	print_info $? remove-php
@@ -270,6 +275,12 @@ case "${distro}" in
 	systemctl stop nginx
 	print_info $? stop-nginx
 	
+	rm -rf /etc/nginx/sites-available/default
+        rm -rf /etc/php/7.0/fpm/php.ini
+        cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
+        cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
+
+
 	apt-get remove nginx --purge -y
 	apt-get remove php-fpm --purge -y
 	print_info $? remove-php
