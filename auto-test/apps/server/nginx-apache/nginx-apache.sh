@@ -1,8 +1,8 @@
 #!/bin/bash
 set -x
 cd ../../../../utils
-source ./sys_info.sh
-source ./sh-test-lib
+   source ./sys_info.sh
+   source ./sh-test-lib
 cd -
 
 #OUTPUT="$(pwd)/output"
@@ -26,7 +26,8 @@ CONCURENT=100
   #esac
 #done
 
-#! check_root && error_msg "This script must be run as root"
+! check_root && error_msg "This script must be run as root"
+
 #create_out_dir "${OUTPUT}"
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 #dist_name
@@ -37,11 +38,11 @@ CONCURENT=100
 pkg="net-tools"
 install_deps "$pkg"
 
-pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
-process=`ps -ef|grep $pro|awk '{print $2}'`
+pro=`netstat -tlnp |grep 80|awk '{print $7}' |cut -d / -f 1 |head -1`
+process=`ps -ef |grep $pro|awk '{print $2}'`
 for p in $process
 do
-        kill -9 $p
+    kill -9 $p
 done
 
 case "${distro}" in
