@@ -87,26 +87,3 @@ for test in ${cipher_commands}; do
         ;;
     esac
 done
-case $distro in
-    "ubuntu")
-        apt-get remove openssl -y
-        print_info $? remove-openssl
-        ;;
-    "centos")
-        yum remove openssl -y
-        print_info $? remove-openssl
-        ;;
-    "opensuse")
-        zypper remove -y openssl
-        print_info $? remove-openssl
-        ;;
-    "fedora")
-        dnf remove openssl -y
-        print_info $? remove-openssl
-        ;;
-    "debian")
-        apt-get remove openssl -y
-        print_info $? remove-openssl
-        ;;
-
-esac

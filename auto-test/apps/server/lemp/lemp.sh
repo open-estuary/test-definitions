@@ -6,8 +6,23 @@ cd ../../../../utils
    source ./sh-test-lib
 cd -
 
-pkg="curl net-tools"
+
+pkg="curl net-tools expect"
 install_deps "${pkg}"
+
+case "$distro" in
+    centos)
+	systemctl stop nginx
+	systemctl stop httpd
+	;;
+    debian)
+	systemctl stop nginx 
+	systemctl stop apache2
+	apt-get remove apache2 --purge -y
+	apt-get remove nginx --purge -y
+	apt-get remove php-fpm --purge -y
+	;;
+esac
 
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
 process=`ps -ef|grep $pro|awk '{print $2}'`
@@ -71,6 +86,7 @@ sed -i "s/Apache/Nginx/g" ./html/index.html
 cp ./html/* /usr/share/nginx/html/
 
 curl -o "output" "http://localhost/index.html"
+cat output
 grep 'Test Page for the Nginx HTTP Server' ./output
 print_info $? test-nginx-server
 
@@ -136,6 +152,7 @@ print_info $? test-phpinfo
 
 # PHP Connect to MySQL.
 curl -o "output" "http://localhost/connect-db.php"
+cat output
 sleep 5
 grep 'Connected successfully' ./output
 print_info $? php-connect-db
@@ -143,30 +160,35 @@ print_info $? php-connect-db
 # PHP Create a MySQL Database.
 curl -o "output" "http://localhost/create-db.php"
 sleep 5
+cat output
 grep 'Database created successfully' ./output
 print_info $? php-create-db
 
 # PHP Create MySQL table.
 curl -o "output" "http://localhost/create-table.php"
 sleep 5
+cat output
 grep 'Table MyGuests created successfully' ./output
 print_info $? php-create-table
 
 # PHP add record to MySQL table.
 curl -o "output" "http://localhost/add-record.php"
 sleep 5
+cat output
 grep 'New record created successfully' ./output
 print_info $? php-create-recoard
 
 # PHP select record from MySQL table.
 curl -o "output" "http://localhost/select-record.php"
 sleep 5
+cat output
 grep 'id: 1 - Name: John Doe' ./output
 print_info $? php-select-record
 
 # PHP delete record from MySQL table.
 curl -o "output" "http://localhost/delete-record.php"
 sleep 5
+cat output
 grep 'Record deleted successfully' ./output
 print_info $? php-delete-record
 
@@ -183,6 +205,8 @@ case "${distro}" in
 	systemctl stop php7.0-fpm
 	systemctl stop nginx
 	systemctl stop mysql
+	rm -rf /etc/php/7.0/fpm/php.ini
+	rm -rf /etc/nginx/sites-available/default
 	cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
         cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
         ;;
@@ -191,6 +215,7 @@ case "${distro}" in
         systemctl stop nginx
         systemctl stop mysql
         cp /etc/php.ini.bak /etc/php.ini
+	rm -rf /etc/nginx/nginx.conf.default
 	cp /etc/nginx/nginx.conf.default.bak  /etc/nginx/nginx.conf.default
 	;;
 esac
@@ -200,6 +225,8 @@ case "${distro}" in
     debian)
 	./test.sh
 	apt-get remove --purge mysql-sever -y
+	apt-get remove php-fpm --purge -y
+	apt-get remove --purge nginx -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;

@@ -3,14 +3,15 @@
 set timeout 30
 set IMAGE [lindex $argv 0]
 set ROOTFS [lindex $argv 1]
-set DISTRO [lindex $argv 2]
+set distro [lindex $argv 2]
 
 if { $distro == "ubuntu" } {
     spawn qemu-system-aarch64 -m 1024 -cpu host -M virt  -nographic -initrd $ROOTFS -kernel $IMAGE -enable-kvm
     } else { 
-    spawn qemu-system-aarch64 -m 1024 -cpu cortex-a57 -M virt  -nographic -initrd $ROOTFS -kernel $IMAGE -enable-kvm
+    spawn qemu-system-aarch64 -m 1024 -machine virt -cpu cortex-a57  -nographic -smp 1 -initrd $ROOTFS -kernel $IMAGE  --append "console=ttyAMA0"
     }
 
 expect "estuary:/$"
+send "exit"
 expect eof
 

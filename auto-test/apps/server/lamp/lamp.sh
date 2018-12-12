@@ -10,7 +10,20 @@ pkg="curl net-tools expect"
 install_deps "${pkg}"
 print_info $? install-tools
 
-#删除nginx
+case "$distro" in
+    centos)
+	systemctl stop nginx
+	systemctl stop httpd
+	;;
+    debian)
+	systemctl stop nginx 
+	systemctl stop apache2
+	apt-get remove apache2 --purge -y
+	apt-get remove nginx --purge -y
+	apt-get remove php-fpm --purge -y
+	;;
+esac
+
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
 process=`ps -ef|grep $pro|awk '{print $2}'`
 for p in $process
@@ -18,11 +31,11 @@ do
         kill -9 $p
 done
 
-# shellcheck disable=SC2154
+
     case "${distro}" in
       debian)
         if [ "${distro}" = "debian" ]; then
-            pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
+            pkgs="apache2 php-fpm mysql-server php-mysql php-common libapache2-mod-php"
         elif [ "${distro}" = "ubuntu" ]; then
             echo mysql-server mysql-server/root_password password lxmptest | sudo debconf-set-selections
             echo mysql-server mysql-server/root_password_again password lxmptest | sudo debconf-set-selections
@@ -63,6 +76,7 @@ cp ./html/* /var/www/html/
 
 # Test Apache.
 curl -o "output" "http://localhost/index.html"
+cat output
 grep "Test Page for the Apache HTTP Server" ./output
 print_info $? apache2-test-page
 
@@ -123,44 +137,76 @@ print_info $? mysql-show-databases
 
 # Test PHP.
 curl -o "output" "http://localhost/info.php"
+cat output
 grep "PHP Version" ./output
 print_info $? phpinfo
 
 # PHP Connect to MySQL.
 curl -o "output" "http://localhost/connect-db.php"
+cat output
 grep "Connected successfully" ./output
 #exit_on_fail "php-connect-db"
 print_info $? php-connect-db
 
 # PHP Create a MySQL Database.
 curl -o "output" "http://localhost/create-db.php"
+cat output
 grep "Database created successfully" ./output
 print_info $? php-create-db
 
 # PHP Create MySQL table.
 curl -o "output" "http://localhost/create-table.php"
+cat output
 grep "Table MyGuests created successfully" ./output
 print_info $? php-create-table
 
 # PHP add record to MySQL table.
 curl -o "output" "http://localhost/add-record.php"
+cat output
 grep "New record created successfully" ./output
 print_info $? php-add-record
 
 # PHP select record from MySQL table.
 curl -o "output" "http://localhost/select-record.php"
+cat output
 grep "id: 1 - Name: John Doe" ./output
 print_info $? php-select-record
 
 # PHP delete record from MySQL table.
 curl -o "output" "http://localhost/delete-record.php"
+cat output
 grep "Record deleted successfully" ./output
 print_info $? php-delete-record
 
 # Delete myDB for the next run.
 mysql --user='root' --password='root' -e 'DROP DATABASE myDB'
 print_info $? delete-database
-remove_deps "${pkgs}"
-print_info $? remove-package
+
+#停止服务
+case "$distro" in
+    centos)
+	systemctl stop httpd
+	systemctl stop mysql
+	;;
+    debian)
+	systemctl stop apache2
+	systemctl stop mysql
+	;;
+esac
+
+case "$distro" in
+    debian)
+	apt-get remove apache2 --purge -y
+	apt-get remove php-fpm --purge -y
+	pkgs="mysql-server php-mysql php-common libapache2-mod-php"
+	remove_deps "${pkgs}"
+	print_info $? remove-package
+	;;
+    centos)
+	remove_deps "${pkgs}"
+        print_info $? remove-package
+	;;
+esac
+
 
 rm -rf output

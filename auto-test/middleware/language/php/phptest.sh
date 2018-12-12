@@ -17,6 +17,20 @@ pkg="curl net-tools vim git expect"
 install_deps "${pkg}"
 print_info $? install-tools
 
+case "$distro" in
+    centos)
+	systemctl stop nginx
+	systemctl stop httpd
+	;;
+    debian)
+	systemctl stop nginx 
+	systemctl stop apache2
+	apt-get remove apache2 --purge -y
+	apt-get remove nginx --purge -y
+	apt-get remove php-fpm --purge -y
+	;;
+esac
+
 #删除80端口进程
 
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
@@ -25,6 +39,9 @@ for p in $process
 do
         kill -9 $p
 done
+
+
+
 
 #Install PHP and nginx packages and modify configuration files
 case "${distro}" in
@@ -120,7 +137,7 @@ cp ./html/* /usr/share/nginx/html/
 
 #################### testing the step ########################################
 curl -o "output" "http://localhost/index.html"
-grep 'Welcome to' ./output
+egrep 'nginx|Nginx' ./output
 print_info $? test-nginx-server
 
 #curl -o "output" "http://localhost/info.php"
@@ -128,78 +145,97 @@ print_info $? test-nginx-server
 #print_info $? php-info
 
 curl -o "output" "http://localhost/array.php"
+cat output
 grep 'I like Volvo, BMW and SAAB' ./output
 print_info $? php-array
 
 curl -o "output" "http://localhost/datatype.php"
+cat output
 grep 'int' ./output
 print_info $? php-data-type
 
 curl -o "output" "http://localhost/for.php"
+cat output
 grep 'the data is' ./output
 print_info $? php-for
 
 curl -o "output" "http://localhost/if.php"
-grep 'Have a good day' ./output
-#print_info $? php-if
+cat output
+grep 'Have a good' ./output
+print_info $? php-if
 
 curl -o "output" "http://localhost/print.php"
+cat output
 grep 'PHP is fun' ./output
 print_info $? php-print
 
 curl -o "output" "http://localhost/time.php"
+cat output
 grep 'the current time is' ./output
 print_info $? php-time
 
 curl -o "output" "http://localhost/constant.php"
+cat output
 grep 'Welcome to hoperun.com' ./output
 print_info $? php-contant
 
 curl -o "output" "http://localhost/error.php"
+cat output
 grep 'Error:' ./output
 print_info $? php-error
 
 curl -o "output" "http://localhost/function.php"
+cat output
 grep 'Hello world' ./output
 print_info $? php-function
 
 curl -o "output" "http://localhost/multiarray.php"
+cat output
 grep 'Row number 3' ./output
 print_info $? php-multiarray
 
 curl -o "output" "http://localhost/string.php"
+cat output
 grep 'iahgnahS' ./output
 print_info $? php-string
 
 curl -o "output" "http://localhost/variable.php"
+cat output
 grep '11' ./output
 print_info $? php-variable
 
 curl -o "output" "http://localhost/cookie.php"
+cat output
 grep 'Welcome' ./output
 print_info $? php-cookie
 
 curl -o "output" "http://localhost/exception.php"
+cat output
 grep 'Message:' ./output
 print_info $? php-exception
 
 curl -o "output" "http://localhost/global.php"
+cat output
 grep '100' ./output
 print_info $? php-global
 
 curl -o "output" "http://localhost/operator.php"
+cat output
 grep '164601.66666666666674' ./output
 print_info $? php-operator
 
 curl -o "output" "http://localhost/session.php"
+cat output
 grep 'Pageviews=1' ./output
 print_info $? php-session
 
 curl -o "output" "http://localhost/switch.php"
+cat output
 grep 'No number between 1 and 3' ./output
 print_info $? php-switch
 
 curl -o "output" "http://localhost/while.php"
+cat output
 grep 'this number is:' ./output
 print_info $? php-while
 
@@ -212,6 +248,11 @@ case "${distro}" in
 
         systemctl stop nginx
 	print_info $? stop-nginx
+
+	rm -rf /etc/php.ini
+        rm -rf /etc/nginx/conf.d/default.conf
+        cp /etc/php.ini.bak /etc/php.ini
+        cp /etc/nginx/conf.d/default.conf.bak /etc/nginx/conf.d/default.conf
 
 	pkgs="nginx php php-fpm"
 	remove_deps "${pkgs}"
@@ -233,8 +274,15 @@ case "${distro}" in
 
 	systemctl stop nginx
 	print_info $? stop-nginx
+	
+	rm -rf /etc/nginx/sites-available/default
+        rm -rf /etc/php/7.0/fpm/php.ini
+        cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
+        cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
 
-	remove_deps "${pkgs}"
+
+	apt-get remove nginx --purge -y
+	apt-get remove php-fpm --purge -y
 	print_info $? remove-php
 
         ;;

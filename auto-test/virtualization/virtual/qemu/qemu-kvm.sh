@@ -50,6 +50,7 @@ fi
 # compail and install 
 pkgs="expect wget qemu qemu-kvm gcc"
 install_deps "${pkgs}"
+
 case "${distro}" in
 	ubuntu)
 		pkgs="libvirt-bin zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"

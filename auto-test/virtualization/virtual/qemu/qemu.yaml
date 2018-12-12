@@ -6,7 +6,8 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        - virtualization
+        - virtual
+        - qemu
     os:
         - centos
         - debian
