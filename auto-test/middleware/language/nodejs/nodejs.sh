@@ -17,6 +17,7 @@ function nodejs_install(){
     ;;
     debian)
     apt-get install wget -y
+    apt-get install sudo -y
     wget -qO- https://deb.nodesource.com/setup_8.x | sudo -E bash -
     apt-get install -y nodejs
     print_info $? "install_nodejs"

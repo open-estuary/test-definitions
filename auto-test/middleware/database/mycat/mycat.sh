@@ -73,9 +73,37 @@ case $distro in
     print_info $? mysql-status
     ;;
  esac
-#修改密码
-mysqladmin -uroot  password "123456"
-print_info $? set-passwd
+
+#给root用户添加密码
+case "${distro}" in
+    centos)
+	mysqladmin -u root password "root"
+	print_info $? set-root-pwd
+	;;
+    debian)
+	EXPECT=$(which expect)
+	$EXPECT << EOF
+	set timeout 100
+	spawn mysql -uroot -p
+	expect "password:"
+	send "root\r"
+	expect ">"
+	send "use mysql;\r"
+	expect ">"
+	send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+	expect "OK"
+	send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
+	expect "OK"
+	send "FLUSH PRIVILEGES;\r"
+	expect "OK"
+	send "exit\r"
+	expect eof
+EOF
+	systemctl restart mysql
+	print_info $? set-root-pwd
+	;;
+esac
+
 
 #登录mysql并创建3个库
 EXPECT=$(which expect)
@@ -83,7 +111,7 @@ $EXPECT << EOF | tee -a out.log
 set timeout 100
 spawn mysql -uroot -p
 expect "Enter password"
-send "123456\n"
+send "root\n"
 expect ">"
 send "create database db1;\n"
 expect ">"
@@ -143,7 +171,7 @@ $EXPECT << EOF | tee -a mycat.log
 set timeout 100
 spawn mysql -uroot -p -h127.0.0.1 -P8066 -DTESTDB
 expect "Enter password"
-send "123456\n"
+send "root\n"
 expect ">"
 send "create table employee (id int not null primary key,name varchar(100),sharding_id int not null);\n"
 expect ">"
@@ -178,3 +206,4 @@ cd -
      print_info $? remove_package
   #   ;;
 #esac
+rm -rf mycat.tar.gz

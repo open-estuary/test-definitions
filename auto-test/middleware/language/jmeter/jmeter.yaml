@@ -19,9 +19,9 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 9
+        centos: 11
         ubuntu: 11
-        debian: 9
+        debian: 11
 
 run:
     steps:

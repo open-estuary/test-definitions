@@ -19,11 +19,11 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 2
-        ubuntu: 2
-        fedora: 2
-        debian: 2
-        opensuse: 2
+        centos: 3
+        ubuntu: 3
+        fedora: 3
+        debian: 3
+        opensuse: 3
 
 params:
     SKIP_INSTALL: "False"

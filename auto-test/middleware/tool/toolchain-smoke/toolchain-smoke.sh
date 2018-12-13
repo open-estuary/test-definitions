@@ -1,9 +1,9 @@
-#!/bin/sh 
+#!/bin/bash 
 
 # shellcheck disable=SC1091
 cd ../../../../utils
-.            ./sh-test-lib
-.            ./sys_info.sh
+source ./sh-test-lib
+source ./sys_info.sh
 cd -
 
 OUTPUT="$(pwd)/output"
