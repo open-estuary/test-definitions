@@ -54,7 +54,7 @@ esac
 #download source pakgs
 case $distro in
      ubuntu|debian|opensuse|fedora)
-       wget http://203.160.91.226:18083/test_dependents/mycat.tar.gz
+       wget http://192.168.50.122:8083/test_dependents/mycat.tar.gz
        tar -xvf mycat.tar.gz -C /usr/local
        ;;
 esac
