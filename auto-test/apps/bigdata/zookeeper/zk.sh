@@ -43,8 +43,9 @@ esac
 function zk_start(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t start 
-    sleep 3
-    jps | grep QuorumPeerMain
+    sleep 5
+    jps > 1.log
+    cat 1.log | grep QuorumPeerMain
     ret=$?
     print_info $ret "zookeeper_start"
     if [ $ret -ne 0 ];then
@@ -105,7 +106,7 @@ function zk_install_c_client(){
        yum install -y python-devel python-pip
 case $distro in
       "centos"|"ubuntu"|"debian"|"opensuse")
-       pip install –upgrade pip
+       pip install –-upgrade pip
        pip install zkpython
 ;;
 esac

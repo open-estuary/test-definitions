@@ -6,7 +6,7 @@ cd ../../../../utils
    source  ./sys_info.sh
    source  ./sh-test-lib
 cd -
-
+yum remove java* -y
 case "${distro}" in
 	centos)
 		#sudo wget -O /etc/yum.repos.d/estuary.repo https://raw.githubusercontent.com/open-estuary/distro-repo/master/estuaryftp.repo
@@ -15,7 +15,7 @@ case "${distro}" in
 		#yum clean dbcache
 		#print_info $? setup-estuary-repository
 		
-		pkgs="gcc java java-devel bazel"
+		pkgs="gcc java-1.8.0-openjdk java-1.8.0-openjdk-devel bazel"
 		install_deps "${pkgs}"
 		print_info $? install-bazel
 	;;
