@@ -14,7 +14,7 @@
 # Default server configuration
 #
 server {
-	listen 80 default_server;
+	listen 90 default_server;
 	listen [::]:80 default_server;
 
 	# SSL configuration
@@ -57,8 +57,8 @@ server {
 	#	# With php7.0-fpm:
 		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
 		fastcgi_index index.php;
-		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
 	}
 
 	# deny access to .htaccess files, if Apache's document root

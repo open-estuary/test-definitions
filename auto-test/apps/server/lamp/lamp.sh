@@ -49,6 +49,7 @@ done
 	    ;;
 	 esac
         systemctl start apache2
+	systemctl status apache2
         systemctl start mysql
         ;;
       centos)
