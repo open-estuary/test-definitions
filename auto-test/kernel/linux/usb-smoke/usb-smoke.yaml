@@ -1,4 +1,4 @@
-metadata:
+etadata:
     format: Lava-Test Test Definition 1.0
     name: usb-smoke
     description: "Basic USB test for Linaro Ubuntu images. The test examines all available USB devices
@@ -18,11 +18,11 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 8
-        fedora: 8
-        ubuntu: 8
-        debian: 8
-        opensuse: 8
+        centos: 9
+        fedora: 9
+        ubuntu: 9
+        debian: 9
+        opensuse: 9
 
 run:
     steps:

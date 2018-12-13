@@ -14,7 +14,7 @@ metadata:
         - d05
     level: 1
     totalcase:
-            centos: 
+            centos: 54
 
 run:
     steps:

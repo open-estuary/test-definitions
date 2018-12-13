@@ -7,19 +7,19 @@ metadata:
         - hongxin_228@163.com
     scope:
         - performance
-        - weighttp
     os:
         - centos
+        - debian
     devices:
         - d05
         - d03
     level: 1
     totalcase:
-        centos: 7
-        ubuntu: 7
-        fedora: 7
-        debian: 7
-        opensuse: 7
+        centos: 6
+        ubuntu: 6
+        fedora: 6
+        debian: 6
+        opensuse: 6
 run:
     steps:
         - "cd auto-test/apps/performance/weighttp; ./weighttp.sh; cd - "

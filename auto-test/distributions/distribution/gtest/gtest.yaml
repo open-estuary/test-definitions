@@ -14,7 +14,7 @@ metadata:
         - d06
     level: 1
     totalcase:
-        debian: 6
+        debian: 7
 run:
     steps:
         - "cd auto-test/distributions/distribution/gtest; ./gtest.sh; cd -"

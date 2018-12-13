@@ -109,8 +109,10 @@ file1="./sqrt.o"
 file2="./sqrt_unittest.o"
 TCID="gtest-testing"
 if [ -f "$file1" ] && [ -f "$file2" ];then
+    print_info 0 $TCID
     lava-test-case $TCID --result pass
 else
+    print_info 1 $TCID
     lava-test-case $TCID --result fail
 fi
 case $distro in
