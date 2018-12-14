@@ -68,16 +68,15 @@ case "${distro}" in
 	
 	apt-get install nginx -y
 	cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-	sed -i "s/listen 80 default_server/listen 7000  default_server/g" /etc/nginx/sites-available/default
-	sed -i "s/#listen 443/listen 443/g" /etc/nginx/sites-available/default
-	sed -i "s%#include snippets/snakeoil.conf;%include snippets/snakeoil.conf;%g" /etc/nginx/sites-available/default
+	cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
+	sed -i "s/listen 80/listen 7000/g" /etc/nginx/sites-available/default
+	sed -i "s/# listen 443/listen 443/g" /etc/nginx/sites-available/default
+	sed -i "s%# include snippets/snakeoil.conf;%include snippets/snakeoil.conf;%g" /etc/nginx/sites-available/default
 
 	systemctl restart nginx
 	print_info $? start-nginx
-	systemctl status nginx
 	systemctl restart apache2
-	print_info $? start-apache2
-	systemctl status apache2	
+	print_info $? start-apache2	
         ;;
     centos)
         # x86_64 nginx package can be installed from epel repo. However, epel
