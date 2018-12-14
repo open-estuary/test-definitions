@@ -45,11 +45,13 @@ done
         print_info $? install-pkgs
 	case "$distro" in
             debian)
+	    cp /etc/php/7.0/apache2/php.ini /etc/php/7.0/apache2/php.ini.bak
             echo "extension=mysqli.so">> /etc/php/7.0/apache2/php.ini
 	    ;;
 	 esac
         systemctl start apache2
-	systemctl status apache2
+	STATUS=`systemctl status apache2`
+        echo $STATUS
         systemctl start mysql
         ;;
       centos)
@@ -197,6 +199,8 @@ esac
 
 case "$distro" in
     debian)
+	rm -rf /etc/php/7.0/apache2/php.ini
+	cp /etc/php/7.0/apache2/php.ini.bak /etc/php/7.0/apache2/php.ini
 	apt-get remove apache2 --purge -y
 	apt-get remove php-fpm --purge -y
 	pkgs="mysql-server php-mysql php-common libapache2-mod-php"

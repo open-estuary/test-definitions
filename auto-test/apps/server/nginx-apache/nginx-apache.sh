@@ -75,9 +75,14 @@ case "${distro}" in
 
 	systemctl restart nginx
 	print_info $? start-nginx
-	systemctl restart apache2
+	STATUS=`systemctl status nginx`
+	echo $STATUS
+        systemctl restart apache2
 	print_info $? start-apache2	
+	STATUS=`systemctl status apache2`
+        echo $STATUS
         ;;
+
     centos)
         # x86_64 nginx package can be installed from epel repo. However, epel
         # project doesn't support ARM arch yet. RPB repo should provide nginx.

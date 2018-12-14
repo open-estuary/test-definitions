@@ -53,7 +53,8 @@ case "$distro" in
 
 	systemctl start php7.0-fpm
 	systemctl start nginx
-	systemctl status nginx
+	STATUS=`systemctl status nginx`
+	echo $STATUS
 	systemctl start mysql
 	;;
     centos)
