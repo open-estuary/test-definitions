@@ -87,8 +87,7 @@ expect eof
 EOF
 
 print_info $? make_results
-make see |tee log.txt
-
+#make see |tee log.txt
 results=`cat log.txt|grep "Communication bandwidths"`
 if [ "${results}"x != ""x ];then
 	print_info 0 run_pass

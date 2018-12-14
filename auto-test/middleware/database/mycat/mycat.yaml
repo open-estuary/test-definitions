@@ -17,8 +17,8 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 16
-        debian: 16
+        centos: 14
+        debian: 14
         opensuse: 12
 run:
     steps:
