@@ -15,6 +15,7 @@ metadata:
         - d03
     level: 1
     totalcase:
+            centos: 7
 run:
     steps:
         - "cd auto-test/distributions/distribution/phanytomjs; ./phanytomjs.sh; cd - "
