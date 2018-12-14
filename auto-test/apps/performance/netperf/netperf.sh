@@ -32,7 +32,7 @@ case $distro in
      "fedora"|"opensuse"|"debian")
          pkgs="wget make gcc"
          install_deps "${pkgs}"
-         wget http://htsat.vicp.cc:804/liubeijie/netperf-2.5.0.tar.gz
+         wget ${ci_http_addr}/test_dependents/netperf-2.5.0.tar.gz
          tar -zxvf netperf-2.5.0.tar.gz
          cd netperf-netperf-2.5.0
          ./configure -build=alpha
