@@ -131,7 +131,8 @@ esac
 systemctl stop nginx
 systemctl start nginx
 print_info $? start-nginx
-systemctl status nginx
+STATUS=`systemctl status nginx`
+echo $STATUS
 
 sed -i "s/Apache/Nginx/g" ./html/index.html
 cp ./html/* /usr/share/nginx/html/
