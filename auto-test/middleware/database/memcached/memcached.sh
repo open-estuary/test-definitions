@@ -48,7 +48,7 @@ function memcached_start_by_command(){
     fi
 	memcached -d -p 11211 -m 64m -u memtest 
     	ps -ef |grep "memcached -d -p" | grep -v grep
-    	print_info $? "memcached_start_by command"
+    	print_info $? memcached_start_by_command
         
 }
 
@@ -115,7 +115,7 @@ function memcached_stop_by_command(){
 
 function memcached_uninstall(){
     remove_deps "${pkgs}"
-    print_info $? "memcached_uninstall"
+    print_info $? memcached_uninstall
 }
 
 memcached_install
