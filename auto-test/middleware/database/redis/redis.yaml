@@ -18,9 +18,9 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 46
+        centos: 47
         ubuntu: 46
-        debian: 46
+        debian: 47
         opensuse: 46
         fedora: 47
 

@@ -15,7 +15,7 @@ metadata:
         - d06
     level: 1
     totalcase:
-        centos: 11
+        centos: 14
         debian: 14
 run:
     steps:

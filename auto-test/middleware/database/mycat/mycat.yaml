@@ -19,6 +19,7 @@ metadata:
     totalcase:
         centos: 14
         debian: 16
+        debian: 14
         opensuse: 12
 run:
     steps:
