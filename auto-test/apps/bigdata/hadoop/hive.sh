@@ -191,7 +191,7 @@ function hive_inner_table() {
 
         hdfs dfs -test -e /user/hive/warehouse/u_data
         print_info $? "hive_view_data_in_hdfs"
-
+        unzip ml-100k.zip
         hive -e "LOAD DATA LOCAL INPATH './ml-100k/u.data' OVERWRITE INTO TABLE u_data;"
         print_info $? "hive_load_data "
 
@@ -202,10 +202,10 @@ function hive_inner_table() {
         print_info $? "hive base select count(*)"
 
         cp ${basedir}/hive-add-file.sql .
-        print_info $? "hive_create_sql_file"
+       # print_info $? "hive_create_sql_file"
 
         cp ${basedir}/weekday_mapper.py .
-        print_info $? "hive_create_outer_script_file"
+        #print_info $? "hive_create_outer_script_file"
 
         hive -f "hive-add-file.sql"
         print_info $? "hive_batch_mode_commands"
