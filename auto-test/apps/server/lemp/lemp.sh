@@ -43,6 +43,8 @@ case "$distro" in
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
 	
+	systemctl stop apache2.service > /dev/null 2>&1 || true
+	
 	#修改配置文件
 	# Configure PHP.
 	cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
