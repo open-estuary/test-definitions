@@ -88,12 +88,13 @@ EOF
 
 print_info $? make_results
 make see |tee log.txt
-results=`cat log.txt|grep "Communication bandwidths"`
-if [ "${results}"x != ""x ];then
-	print_info 0 run_pass
-else
-	print_info 1 run_fail
-fi
+
+#results=`cat log.txt|grep "Communication bandwidths"`
+#if [ "${results}"x != ""x ];then
+#	print_info 0 run_pass
+#else
+#	print_info 1 run_fail
+#fi
 
 cd ../
 
@@ -105,5 +106,9 @@ fi
 
 
 cp -rf lmbench3/* lmbench3-results/
+cd lmbench3-results
+cat log.txt|grep "bandwidths"
+print_info $? run-results
+
 rm -rf lmbench3
 print_info $? remove_pkgs
