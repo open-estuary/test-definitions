@@ -16,11 +16,10 @@ case "$distro" in
 	systemctl stop httpd
 	;;
     debian)
+	systemctl stop mysql
+	systemctl stop php7.0-fpm
 	systemctl stop nginx 
 	systemctl stop apache2
-	apt-get remove apache2 --purge -y
-	apt-get remove nginx --purge -y
-	apt-get remove php-fpm --purge -y
 	;;
 esac
 
@@ -35,11 +34,15 @@ case "$distro" in
     debian)
 	#清理环境
 	./test.sh
-	apt-get remove --purge mysql-server
-	
+	apt-get remove mysql-server --purge -y
+	apt-get remove php-fpm --purge -y
+	apt-get remove nginx --purge -y
+	apt-get remove apache2 --purge -y
+	apt-get remove php-mysql -y
 	#安装包
 	apt-get install mysql-server mysql-client -y
 	pkgs="nginx php-mysql php-fpm"
+	
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
 	
@@ -85,6 +88,9 @@ case "$distro" in
 	systemctl start mysql
      	;;
 esac
+
+proc=`netstat -tlnp|grep 80|tee proc.log`
+cat proc.log
 
 sed -i "s/Apache/Nginx/g" ./html/index.html
 cp ./html/* /usr/share/nginx/html/
