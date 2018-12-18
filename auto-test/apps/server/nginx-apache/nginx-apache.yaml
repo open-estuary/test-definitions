@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - server
+        - nginx-apache
     os:
         - centos
         - debian
@@ -16,7 +16,7 @@ metadata:
     level: 1
     totalcase:
         centos: 13
-        debian: 13
+        debian: 14
 run:
     steps:
         - "cd auto-test/apps/server/nginx-apache; ./nginx-apache.sh; cd - "
