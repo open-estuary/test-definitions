@@ -18,8 +18,7 @@ metadata:
     level: 1
     totalcase:
         centos: 14
-        debian: 16
-        debian: 14
+        debian: 12
         opensuse: 12
 run:
     steps:

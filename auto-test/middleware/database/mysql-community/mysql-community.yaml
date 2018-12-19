@@ -19,7 +19,7 @@ metadata:
     level: 1
     totalcase:
         centos: 27
-        debian: 27
+        debian: 25
 
 run:
     steps:
