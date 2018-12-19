@@ -77,6 +77,8 @@ case "${distro}" in
 	print_info $? start-nginx
 	STATUS=`systemctl status nginx`
 	echo $STATUS
+	proc=`netstat -tlnp|grep 80|tee proc.log`
+	cat proc.log
         systemctl restart apache2
 	print_info $? start-apache2	
 	STATUS=`systemctl status apache2`
