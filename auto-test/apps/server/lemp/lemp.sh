@@ -2,8 +2,8 @@
 #Author mahongxin <hongxin_228@163.com>
 set -x
 cd ../../../../utils
-   source ./sys_info.sh
-   source ./sh-test-lib
+source ./sys_info.sh
+source ./sh-test-lib
 cd -
 
 
@@ -40,7 +40,10 @@ case "$distro" in
 	apt-get remove apache2 --purge -y
 	apt-get remove php-mysql -y
 	#安装包
-	apt-get install mysql-server mysql-client -y
+	
+	apt-get install mysql-server -y
+	systemctl start mysql
+	
 	pkgs="nginx php-mysql php-fpm"
 	
 	install_deps "${pkgs}"
@@ -52,15 +55,16 @@ case "$distro" in
 	# Configure PHP.
 	cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
+	systemctl start php7.0-fpm
+
 	# Configure NGINX for PHP.
         cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-        cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
-
-	systemctl start php7.0-fpm
+        cp ../../../../utils/nginx.conf /etc/nginx/sites-available/default
+	
+	systemctl stop nginx
 	systemctl start nginx
 	STATUS=`systemctl status nginx`
 	echo $STATUS
-	systemctl start mysql
 	;;
     centos)
 	#清理环境
