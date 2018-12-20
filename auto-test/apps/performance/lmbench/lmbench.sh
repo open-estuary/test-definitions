@@ -106,9 +106,16 @@ fi
 
 
 cp -rf lmbench3/* lmbench3-results/
-cd lmbench3-results
-cat log.txt|grep "bandwidths"
-print_info $? run-results
+
+if [ "$distro" == "debian" ]; then
+        cd lmbench3-results
+        cat log.txt|grep "bandwidths"
+        print_info $? run-results
+else
+	
+	cat log.txt|grep "bandwidths"
+	print_info $? run-results
+fi
 
 rm -rf lmbench3
 print_info $? remove_pkgs

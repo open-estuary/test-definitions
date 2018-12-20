@@ -6,7 +6,6 @@ metadata:
     maintainer:
         - 1136920311@qq.com
     scope:
-        - lmbench
         - performance
     os:
         - centos
