@@ -51,6 +51,13 @@ case "$distro" in
 	
 	systemctl stop apache2.service > /dev/null 2>&1 || true
 	
+	
+	systemctl start nginx
+	curl -o "output" "http://localhost/index.html"
+	cat output
+	grep 'Test Page for the Nginx HTTP Server' ./output
+	print_info $? test-nginx-server
+	
 	#修改配置文件
 	# Configure PHP.
 	cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
@@ -96,13 +103,8 @@ esac
 proc=`netstat -tlnp|grep 80|tee proc.log`
 cat proc.log
 
-sed -i "s/Apache/Nginx/g" ./html/index.html
 cp ./html/* /usr/share/nginx/html/
 
-curl -o "output" "http://localhost/index.html"
-cat output
-grep 'Test Page for the Nginx HTTP Server' ./output
-print_info $? test-nginx-server
 
 # Test MySQL.
 case "${distro}" in
