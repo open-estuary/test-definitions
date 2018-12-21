@@ -101,7 +101,5 @@ lapack_build_test
 #parse_output
 
 
-
-pro=`ps -ef|grep lapack|grep -v grep|awk '{print $2}'`
-kill -9 $pro
+rm -rf lapack
 print_info $? "remove_lapack"
