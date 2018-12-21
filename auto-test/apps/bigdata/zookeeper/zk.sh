@@ -44,8 +44,10 @@ function zk_start(){
     
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t start 
     sleep 5
-    jps > 1.log
-    cat 1.log | grep QuorumPeerMain
+
+   # jps > 1.log
+    #cat 1.log | grep QuorumPeerMain
+    ps -ef |grep "QuorumPeerMain"
     ret=$?
     print_info $ret "zookeeper_start"
     if [ $ret -ne 0 ];then
