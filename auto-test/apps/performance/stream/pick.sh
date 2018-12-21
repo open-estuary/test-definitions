@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Script to read file.
 #
 # Author: Fengliang <ChinaFengliang@163.com>
