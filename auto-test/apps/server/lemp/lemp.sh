@@ -53,9 +53,10 @@ case "$distro" in
 	
 	
 	systemctl start nginx
-	curl -o "output" "http://localhost/index.html"
+
+	curl -o "output" "http://localhost/"
 	cat output
-	grep 'Test Page for the Nginx HTTP Server' ./output
+	grep 'Welcome to nginx' ./output
 	print_info $? test-nginx-server
 	
 	#修改配置文件
