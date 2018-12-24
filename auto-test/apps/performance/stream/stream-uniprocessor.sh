@@ -9,17 +9,10 @@ TEST_LOG="${OUTPUT}/stream-output.txt"
 create_out_dir "${OUTPUT}"
 
 # Run Test.
-detect_abi
-# shellcheck disable=SC2154
-
-if [ $# -eq 1  ];then
-    repeat=$1
-else
-    repeat=10 
-fi
 
 # centos has not per install bc command
-install_deps "bc"
+pkgs="bc wget gcc gcc-c++"
+install_deps "$pkgs"
 
 
 
@@ -52,24 +45,29 @@ stdevMap["Triad"]=0.15
 
 echo "-----------------------------------------------------------------"
 echo "Memory_Count= $memCountGB, Chips_Count= $currChipsNum" | tee $TEST_LOG
-echo "chipType=$chipType , chipManufacturer=$chipManufacturer , chipSpeed=$chipSpeed" | tee -a $TEST_LOG
-echo "biosVersion=$biosVersion , biosDate=$biosDate" | tee -a $TEST_LOG 
+echo "chipType=$chipType , chipManufacturer=$chipManufacturer , chipSpeed=$chipSpeed" | tee $TEST_LOG
+echo "biosVersion=$biosVersion , biosDate=$biosDate" | tee $TEST_LOG
 echo ""
-for i in `seq 1 $repeat`;do
-    ./stream/bin/"${abi}"/stream 2>&1 | tee -a "${TEST_LOG}"
-done
 
-if [ $? = 0  ];then
-    lava-test-case STREAM-Execute --result pass
-else
-    lava-test-case STREAM-Execute --result fail
-fi
+#下载Stream benchmark源码
+wget http://www.cs.virginia.edu/stream/FTP/Code/stream.c | tee $TEST_LOG
+
+#编译(STREAM_ARRAY_SIZE:测试数据集的大小,为100M,NTIME:kernel执行的次数,OFFSET:数组的偏移量,通常设置为靠近2的n次方
+gcc -O -fopenmp -DSTREAM_ARRAY_SIZE=100000000 -DNTIME=12 -DOFFSET=1022 stream.c -o stream_omp_exe
+print_info $? stream-build | tee $TEST_LOG
+
+#运行
+./stream_omp_exe | tee $TEST_LOG
+print_info $? stream-run
+
 
 for test in Copy Scale Add Triad; do
     ret=`grep "^${test}" "${TEST_LOG}" \
         | awk -v test="${test}" \
         '{printf("stream-uniprocessor-%s pass %s MB/s\n", test, $2)}' \
         | tee -a "${RESULT_FILE}"`
+    echo $ret
+    print_info $? STREAM-${test}-$ret
     lava-test-case STREAM-${test}-$ret --result pass
 done
 
@@ -119,4 +117,5 @@ for case in Copy Scale Add Triad;do
 
 done
 
-
+rm -rf stream.c
+rm -rf stream_omp_exe
