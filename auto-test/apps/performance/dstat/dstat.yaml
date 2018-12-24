@@ -17,7 +17,7 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 12
+        centos: 13
         ubuntu: 12
         debian: 13
         opensuse: 12

@@ -15,10 +15,10 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 6
+        centos: 7
         ubuntu: 6
         fedora: 6
-        debian: 6
+        debian: 7
         opensuse: 6
 run:
     steps:
