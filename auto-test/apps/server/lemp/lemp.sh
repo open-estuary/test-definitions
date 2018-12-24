@@ -49,10 +49,16 @@ case "$distro" in
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
 	
-	systemctl stop apache2.service > /dev/null 2>&1 || true
+	systemctl stop apache2 > /dev/null 2>&1 || true
 	
 	
 	systemctl start nginx
+	
+	STATUS=`systemctl status nginx`
+        echo $STATUS
+
+	proc=`netstat -tlnp|grep 80|tee proc.log`
+	cat proc.log
 
 	curl -o "output" "http://localhost/"
 	cat output
