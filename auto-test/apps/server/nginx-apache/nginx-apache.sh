@@ -68,7 +68,6 @@ case "${distro}" in
 	
 	apt-get install nginx -y
 	cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-	cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
 	sed -i "s/listen 80/listen 7000/g" /etc/nginx/sites-available/default
 	sed -i "s/# listen 443/listen 443/g" /etc/nginx/sites-available/default
 	sed -i "s%# include snippets/snakeoil.conf;%include snippets/snakeoil.conf;%g" /etc/nginx/sites-available/default
@@ -77,12 +76,14 @@ case "${distro}" in
 	print_info $? start-nginx
 	STATUS=`systemctl status nginx`
 	echo $STATUS
-	proc=`netstat -tlnp|grep 80|tee proc.log`
+	proc=`netstat -tlnp|grep 7000|tee proc.log`
 	cat proc.log
-        #systemctl restart apache2
-	#print_info $? start-apache2	
-	#STATUS=`systemctl status apache2`
-        #echo $STATUS
+        systemctl restart apache2
+	print_info $? start-apache2	
+	STATUS=`systemctl status apache2`
+        echo $STATUS
+	proc=`netstat -tlnp|grep 80|tee proc.log`
+        cat proc.log
         ;;
 
     centos)
