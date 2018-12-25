@@ -59,10 +59,11 @@ case "$distro" in
 
 	proc=`netstat -tlnp|grep 80|tee proc.log`
 	cat proc.log
-
+	
+	sed -i "s/Apache/Nginx/g" /var/www/html/index.html
 	curl -o "output" "http://localhost/"
 	cat output
-	grep 'Welcome to nginx' ./output
+	egrep 'Nginx|nginx' ./output
 	print_info $? test-nginx-server
 	
 	#修改配置文件
