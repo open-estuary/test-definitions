@@ -65,7 +65,7 @@ function install_hadoop() {
     fi
     pwd
     echo 22222222
-    tar -zxvf hadoop-2.7.4.tar.gz
+    tar -zxf hadoop-2.7.4.tar.gz
  
     pushd hadoop-${version}
 	
@@ -160,8 +160,14 @@ function hadoop_ssh_nopasswd() {
    # if [ -d ~/.ssh ];then
     #    rm -rf ~/.ssh
     #fi
-    
-    ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+     EXPECT=$(which expect)
+     set timeout 100
+     spawn  ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+     expect "Overwrite"
+     send "n\r"
+     expect eof
+EOF
+
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     chmod 0600 ~/.ssh/authorized_keys
 	echo  "StrictHostKeyChecking=no" >> ~/.ssh/config

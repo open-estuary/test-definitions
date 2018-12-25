@@ -85,11 +85,11 @@ print_info $? apache2-test-page
 
 # Test MySQL.
 case "${distro}" in
-    centos)
-        mysqladmin -u root password root
-        print_info $? set-root-pwd
-        ;;
-    debian)
+    #centos)
+     #   mysqladmin -u root password root
+      #  print_info $? set-root-pwd
+      #  ;;
+    debian|centos)
         EXPECT=$(which expect)
         $EXPECT << EOF
         set timeout 100
