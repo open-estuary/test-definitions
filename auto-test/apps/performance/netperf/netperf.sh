@@ -49,13 +49,15 @@ echo "Performing netperf start server test..."
 TCID="netperf-server-start"
 netserver &
 #计算netserver进程的行数
-count=`ps -ef | grep netserver | grep -v "grep"| wc -l`
+#count=`ps -ef | grep netserver | grep -v "grep"| wc -l`
+sleep 5
+ps -ef |grep netserver
 #计算结果大于0就pass
-if [ ${count} -gt 0 ]; then
-    print_info $? $TCID
-else
-    print_info $? $TCID
-fi
+#if [ ${count} -gt 0 ]; then
+    print_info $? netserver-start
+#else
+ #   print_info $? $TCID
+#fi
 
 #测试 网络带宽是否成功
 #-H 主机名或IP 指定运行netserver的服务器的IP

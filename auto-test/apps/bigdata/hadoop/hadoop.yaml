@@ -6,8 +6,9 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
+        - big
         - bigdata
-    os:
+    os:  
         - centos
     devices:
         - d06
