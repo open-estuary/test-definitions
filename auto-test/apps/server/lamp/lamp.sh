@@ -55,19 +55,20 @@ done
         systemctl start mysql
         ;;
       centos)
+	#清理数据库
+	systemctl stop mysql
         yum remove -y `rpm -qa | grep -i mysql`
         yum remove -y `rpm -qa | grep -i alisql`
         yum remove -y `rpm -qa | grep -i percona`
         yum remove -y `rpm -qa | grep -i mariadb`
-        #yum install curl -y
-        #yum install httpd -y
-        #yum install mysql-community-server -y
-        #yum install php php-mysql -y
+	#安装包
         pkgs="httpd mysql-community-server php php-mysql"
         install_deps "${pkgs}"
         print_info $? install-pkgs
         systemctl start httpd.service
         systemctl start mysql
+	STATUS=`systemctl status mysql`
+        echo $STATUS
         ;;
       *)
         error_msg "Unsupported distribution!"
@@ -85,11 +86,25 @@ print_info $? apache2-test-page
 
 # Test MySQL.
 case "${distro}" in
-    #centos)
-     #   mysqladmin -u root password root
-      #  print_info $? set-root-pwd
-      #  ;;
-    debian|centos)
+    centos)
+	EXPECT=$(which expect)
+        $EXPECT << EOF
+        set timeout 100
+        spawn mysql -u root -p
+        expect "password:"
+        send "root\r"
+        expect ">"
+        send "exit\r"
+        expect eof
+EOF
+        if [ $? -eq 1 ];then
+              mysqladmin -u root password root
+        fi
+        print_info $? set-root-pwd
+	systemctl restart mysql
+       ;;
+
+    debian)
         EXPECT=$(which expect)
         $EXPECT << EOF
         set timeout 100
