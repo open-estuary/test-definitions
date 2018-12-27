@@ -4,12 +4,12 @@
 function install_jdk() {
     case $distro in
       centos|fedora)
-        pkgs="java-1.8.0-openjdk java-1.8.0-openjdk-devel wget"
+        pkgs="java-1.8.0-openjdk java-1.8.0-openjdk-devel wget expect"
         install_deps "${pkgs}"
 	print_info $? "hadoop_java_install"
         ;;
     ubuntu|debian)
-        pkgs="wget openjdk-8-jdk openjdk-8-jre"
+        pkgs="wget openjdk-8-jdk openjdk-8-jre expect"
         install_deps "${pkgs}"
         print_info $? "hadoop_java_install"
         ;;
