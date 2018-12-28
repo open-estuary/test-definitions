@@ -161,6 +161,7 @@ function hadoop_ssh_nopasswd() {
     #    rm -rf ~/.ssh
     #fi
      EXPECT=$(which expect)
+     $EXPECT << EOF
      set timeout 100
      spawn  ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
      expect "Overwrite"
