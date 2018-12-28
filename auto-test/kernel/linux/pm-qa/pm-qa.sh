@@ -60,7 +60,7 @@ print_info $? git-pm-qa
 cd pm-qa
 git checkout -b "${RELEASE}" "${RELEASE}"
 make -C utils
-cd /pm-qa/cpuidle
+cd cpuidle
 sed -i 's/120/30/g' cpuidle_killer.c 
 cd -
 for test in ${TESTS}; do
