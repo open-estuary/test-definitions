@@ -9,16 +9,19 @@ cd ../../../../utils
     . ./sys_info.sh
     . ./sh-test-lib
 cd -
-pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
-process=`ps -ef|grep $pro|awk '{print $2}'`
-for p in $process
-do
-	kill -9 $p
-done
+#pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+netstat -tlnp|grep 80
+netstat -tlnp|grep sshd
+#process=`ps -ef|grep $pro|awk '{print $2}'`
 
+#for p in $process
+#do
+#	kill -9 $p
+#done
+yum remove nginx -y
 case $distro in
     centos)
-    install_deps "jmeter java-1.8.0-openjdk"
+    install_deps " nginx jmeter java-1.8.0-openjdk"
     jm=jmeter
     print_info $? install-jmeter
     ;;
