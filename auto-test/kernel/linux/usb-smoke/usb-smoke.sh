@@ -49,6 +49,6 @@ print_supported_usb_protocols
 print_supported_usb_speeds
 
 # Remove usbutils package
-pkg="usbutils"
-remove_deps -y "${pkg}"
-print_info $? remove-pkg
+pkgs="usbutils"
+remove_deps "${pkgs}"
+print_info $? remove-pkgs
