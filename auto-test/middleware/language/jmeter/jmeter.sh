@@ -9,7 +9,11 @@ cd ../../../../utils
     . ./sys_info.sh
     . ./sh-test-lib
 cd -
+yum install nginx -y
+systemctl start nginx
+
 pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+netstat -tlnp|grep 80
 process=`ps -ef|grep $pro|awk '{print $2}'`
 for p in $process
 do
