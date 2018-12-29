@@ -9,6 +9,7 @@ metadata:
         - hongxin_228@163.com
         - liu_caili@hoperun.com
     scope:
+        - jmeter
         - language
     os:
         - centos
