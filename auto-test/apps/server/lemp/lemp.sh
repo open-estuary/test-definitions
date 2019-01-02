@@ -14,6 +14,7 @@ case "$distro" in
     centos)
 	systemctl stop nginx
 	systemctl stop httpd
+	systemctl stop php-fpm
 	;;
     debian)
 	systemctl stop mysql
