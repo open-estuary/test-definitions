@@ -11,10 +11,10 @@
 
 function zk_install_standalone(){
 case $distro in
-    "centos")   
-    package="ansible python2-pip nmap-ncat gcc"
-    install_deps "${package}"
-;;
+ #   "centos")   
+ #   package="ansible python2-pip nmap-ncat gcc"
+ #   install_deps "${package}"
+#;;
     "fedora")
     package="ansible python2-pip nmap-ncat gcc-c++"
     install_deps "${package}"
@@ -24,6 +24,8 @@ case $distro in
     install_deps "${package}"
 ;;      
 esac
+    cat ~/.bashrc
+    yum remove java*
     yum install python2-pip nmap-ncat gcc -y
     yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
     yum install ansible -y
@@ -104,6 +106,9 @@ function zk_install_c_client(){
         print_info $ret "zookeeper_install_c_client"
         
     popd 
+    cat ~/.bashrc
+    source ~/.bashrc
+
     if [ $ret -eq 0 ];then
        yum install -y python-devel python-pip
 case $distro in

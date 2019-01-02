@@ -21,10 +21,12 @@ case "$distro" in
     centos)
 	systemctl stop nginx
 	systemctl stop httpd
+	systemctl stop php-fpm
 	;;
     debian)
 	systemctl stop nginx 
 	systemctl stop apache2
+	systemctl stop php7.0-fpm
 	apt-get remove apache2 --purge -y
 	apt-get remove nginx --purge -y
 	apt-get remove php-fpm --purge -y

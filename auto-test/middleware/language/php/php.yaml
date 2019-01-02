@@ -10,6 +10,7 @@ metadata:
         - liu_caili@hoperun.com
     scope:
         - language
+        - php
     os:
         - debian
         - centos
