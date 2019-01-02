@@ -33,7 +33,7 @@ function close_firewall_seLinux(){
 }
 
 function cleanup_mysql() {
-
+    systemctl stop mysqld.service
     # mysql alisql percona 
     database="$1"
     case $distro in 
@@ -60,14 +60,17 @@ function cleanup_mysql() {
 
 
 function cleanup_all_database(){
-    
+    systemctl stop mysqld.service
     # 清理mysql
     for db in mysql alisql percona mariadb 
     do 
         cleanup_mysql $db
     done 
 
-    rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld /mysql /percona 
+    rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld /mysql /percona
+    
+ #   systemctl stop mysqld.service    
+ 
     userdel -r mysql 
 
 }
