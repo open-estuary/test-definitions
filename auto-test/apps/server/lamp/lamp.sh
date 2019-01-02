@@ -14,13 +14,18 @@ case "$distro" in
     centos)
 	systemctl stop nginx
 	systemctl stop httpd
+	systemctl stop php-fpm
 	;;
     debian)
 	systemctl stop nginx 
 	systemctl stop apache2
+	systemctl stop php7.0-fpm
+	systemctl stop mysql
 	apt-get remove apache2 --purge -y
 	apt-get remove nginx --purge -y
 	apt-get remove php-fpm --purge -y
+	apt-get remove mysql-server --purge -y
+	apt-get remove php-mysql -y
 	;;
 esac
 
@@ -205,10 +210,12 @@ case "$distro" in
     centos)
 	systemctl stop httpd
 	systemctl stop mysql
+	systemctl stop php-fpm
 	;;
     debian)
 	systemctl stop apache2
 	systemctl stop mysql
+	systemctl stop php7.0-fpm
 	;;
 esac
 
@@ -218,7 +225,8 @@ case "$distro" in
 	cp /etc/php/7.0/apache2/php.ini.bak /etc/php/7.0/apache2/php.ini
 	apt-get remove apache2 --purge -y
 	apt-get remove php-fpm --purge -y
-	pkgs="mysql-server php-mysql php-common libapache2-mod-php"
+	apt-get remove mysql-serser --purge -y
+	pkgs="php-mysql php-common libapache2-mod-php"
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;
