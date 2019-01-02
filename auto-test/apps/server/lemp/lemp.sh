@@ -71,6 +71,8 @@ case "$distro" in
 	cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
 	systemctl start php7.0-fpm
+	pro=`systemctl status php7.0-fpm`
+	echo $pro
 
 	# Configure NGINX for PHP.
         cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
@@ -227,6 +229,9 @@ print_info $? delete-myDB
 case "${distro}" in
     debian)
 	systemctl stop php7.0-fpm
+	pro=`systemctl status php7.0-fpm`
+	echo $pro
+
 	systemctl stop nginx
 	systemctl stop mysql
 	rm -rf /etc/php/7.0/fpm/php.ini
