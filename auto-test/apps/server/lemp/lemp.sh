@@ -101,14 +101,22 @@ case "$distro" in
         cp /etc/php.ini /etc/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php.ini
         sed -i "s/doc_root =/doc_root=\/usr\/share\/nginx\/html/" /etc/php.ini
-        # Configure NGINX for PHP.
+   
+	# Configure NGINX for PHP.
 	cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
         cp ../../../../utils/centos-nginx.conf /etc/nginx/conf.d/default.conf
         
-	systemctl start php-fpm
-	systemctl start nginx
 	systemctl start mysql
-     	;;
+     	systemctl stop php-fpm
+	systemctl start php-fpm
+	pro=`systemctl status php-fpm`
+	echo $pro
+
+	systemctl stop nginx
+	systemctl start nginx
+	pro=`systemctl status nginx`
+	echo $pro
+	;;
 esac
 
 proc=`netstat -tlnp|grep 80|tee proc.log`

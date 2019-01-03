@@ -68,10 +68,10 @@ done
         yum remove -y `rpm -qa | grep -i percona`
         yum remove -y `rpm -qa | grep -i mariadb`
 	yum remove httpd -y
-	yum remove php -y
+	yum remove php-fpm -y
 	yum remove php-mysql -y
 	#安装包
-        pkgs="httpd mysql-community-server php php-mysql"
+        pkgs="httpd mysql-community-server php php-mysql php-fpm"
         install_deps "${pkgs}"
         print_info $? install-pkgs
 	systemctl start php-fpm
