@@ -78,12 +78,6 @@ case "${distro}" in
 	echo $STATUS
 	proc=`netstat -tlnp|grep 7000|tee proc.log`
 	cat proc.log
-        systemctl restart apache2
-	print_info $? start-apache2	
-	STATUS=`systemctl status apache2`
-        echo $STATUS
-	proc=`netstat -tlnp|grep 80|tee proc.log`
-        cat proc.log
         ;;
 
     centos)
