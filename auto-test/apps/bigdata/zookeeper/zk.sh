@@ -25,7 +25,7 @@ case $distro in
 ;;      
 esac
     cat ~/.bashrc
-    yum remove java*
+    yum remove java* -y
     yum install python2-pip nmap-ncat gcc -y
     yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
     yum install ansible -y

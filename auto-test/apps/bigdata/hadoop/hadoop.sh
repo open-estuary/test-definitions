@@ -160,15 +160,17 @@ function hadoop_ssh_nopasswd() {
    # if [ -d ~/.ssh ];then
     #    rm -rf ~/.ssh
     #fi
-     EXPECT=$(which expect)
-     $EXPECT << EOF
-     set timeout 100
-     spawn  ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-     expect "Overwrite"
-     send "n\r"
-     expect eof
-EOF
-
+     #EXPECT=$(which expect)
+     #$EXPECT << EOF
+     #set timeout 100
+     #spawn  ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+     #expect "Overwrite"
+     #send "n\r"
+     #expect eof
+#EOF
+    if [ ! -f ~/.ssh/id_rsa.pub ];then
+	    ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+    fi
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     chmod 0600 ~/.ssh/authorized_keys
 	echo  "StrictHostKeyChecking=no" >> ~/.ssh/config
