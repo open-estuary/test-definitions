@@ -54,6 +54,7 @@ done
             echo "extension=mysqli.so">> /etc/php/7.0/apache2/php.ini
 	    ;;
 	 esac
+	systemctl start php7.0-fpm
         systemctl start apache2
 	STATUS=`systemctl status apache2`
         echo $STATUS
@@ -66,10 +67,14 @@ done
         yum remove -y `rpm -qa | grep -i alisql`
         yum remove -y `rpm -qa | grep -i percona`
         yum remove -y `rpm -qa | grep -i mariadb`
+	yum remove httpd -y
+	yum remove php -y
+	yum remove php-mysql -y
 	#安装包
         pkgs="httpd mysql-community-server php php-mysql"
         install_deps "${pkgs}"
         print_info $? install-pkgs
+	systemctl start php-fpm
         systemctl start httpd.service
         systemctl start mysql
 	STATUS=`systemctl status mysql`
@@ -231,6 +236,7 @@ case "$distro" in
 	print_info $? remove-package
 	;;
     centos)
+	yum remove -y `rpm -qa | grep -i mysql`
 	remove_deps "${pkgs}"
         print_info $? remove-package
 	;;
