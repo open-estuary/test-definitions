@@ -14,7 +14,7 @@ cd $basedir
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 
-source ./cassandra.sh 
+source ./cassandra20.sh 
 #set -x
 #export PS4='+{$LINENO:${FUNCNAME[0]}} '
 outDebugInfo
@@ -23,11 +23,11 @@ cassandra20_install
 cassandra20_edit_config
 cassandra20_start_by_service
 
-cassandra20_sql_ddl
-cassandra_keyspace_op
-cassandra_table_op
-cassandra_CURD_op 
-cassandra_collection_op
+#cassandra20_sql_ddl
+#cassandra_keyspace_op
+#cassandra_table_op
+#cassandra_CURD_op 
+#cassandra_collection_op
 
 cassandra20_stop_by_service
 

@@ -14,19 +14,18 @@ function cassandra20_install(){
     print_info $? install_cassandra20
     
 
-    
-     yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
+    yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
     javadir=`which java`
-
+    
     cat ~/.bashrc
-
-    grep JAVA_HOME ~/.bashrc
-    if [ $? -ne 0 ];then
-        echo 'export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk' >> ~/.bashrc
-        echo 'export PATH=$PATH:$JAVA_HOME/bin ' >> ~/.bashrc
-        source ~/.bashrc
-    fi
-
+    
+    grep JAVA_HOME ~/.bashrc 
+    if [ $? -ne 0 ];then  
+        echo 'export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk' >> ~/.bashrc 
+        echo 'export PATH=$PATH:$JAVA_HOME/bin ' >> ~/.bashrc 
+        source ~/.bashrc 
+    fi 
+    
     yum install -y python2-pip
     pip install cqlsh==4.1.1 
 
@@ -38,11 +37,11 @@ function cassandra20_edit_config(){
     sed -i s/'JVM_OPTS="$JVM_OPTS -Xss256k"'/'JVM_OPTS="$JVM_OPTS -Xss328k"'/  /etc/cassandra/default.conf/cassandra-env.sh 
     grep "Xss328k" /etc/cassandra/default.conf/cassandra-env.sh 
     if [ $? -eq 0 ];then
-        true
+	 print_info 0 cassandra20_edit_config_of_JVM_OPTS_per-thread_stack_size
+        
     else
-        false
+         print_info 1 cassandra20_edit_config_of_JVM_OPTS_per-thread_stack_size
     fi
-    print_info $? cassandra20_edit_config_of_JVM_OPTS_per-thread_stack_size
 }
 
 
@@ -51,7 +50,7 @@ function cassandra20_start_by_service(){
         cassandra #直接使用命令去启动
         sleep 3
         jps | grep CassandraDaemon | grep -v grep 
-         print_info $? cassandra20_start_by_service
+	print_info $? cassandra20_start_by_service
 }
 
 function cassandra20_stop_by_service(){
@@ -60,6 +59,7 @@ function cassandra20_stop_by_service(){
         jps | grep CassandraDaemon
         test $? -ne 0 && true || false 
         print_info $? cassandra20_stop_by_service
+	
 }
 
 function cassandra_keyspace_op(){

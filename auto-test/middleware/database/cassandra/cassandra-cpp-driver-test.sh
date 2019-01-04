@@ -25,6 +25,6 @@ ccdriver_server_isRunning
 ccdriver_sample_exec
 
 cassandra20_stop_by_service
-cassandra_uninstall 
+cassandra20_uninstall 
 ccdriver_uninstall 
 

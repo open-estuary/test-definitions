@@ -15,12 +15,12 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 2
+        centos: 5
 
 
 run:
     steps:
-        - "cd auto-test/middleware/database/cassandra; ./cassandra-test.sh; cd -"
+        - "cd auto-test/middleware/database/cassandra; ./cassandra20-test.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
