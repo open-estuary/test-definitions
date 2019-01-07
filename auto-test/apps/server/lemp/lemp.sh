@@ -71,14 +71,17 @@ case "$distro" in
 	# Configure PHP.
 	cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
-	systemctl start php7.0-fpm
-	pro=`systemctl status php7.0-fpm`
-	echo $pro
-
+	
 	# Configure NGINX for PHP.
         cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
         cp ../../../../utils/nginx.conf /etc/nginx/sites-available/default
 	
+	
+	systemctl stop php7.0-fpm
+	systemctl start php7.0-fpm
+	STATUS=`systemctl status php7.0-fpm`
+	echo $STATUS
+
 	systemctl stop nginx
 	systemctl start nginx
 	STATUS=`systemctl status nginx`

@@ -54,7 +54,12 @@ done
             echo "extension=mysqli.so">> /etc/php/7.0/apache2/php.ini
 	    ;;
 	 esac
+	systemctl stop php7.0-fpm
 	systemctl start php7.0-fpm
+	pro=`systemctl status php7.0-fpm`
+	echo $pro
+	
+	systemctl stop apache2
         systemctl start apache2
 	STATUS=`systemctl status apache2`
         echo $STATUS
