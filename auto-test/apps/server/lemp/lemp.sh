@@ -45,7 +45,7 @@ case "$distro" in
 	apt-get install mysql-server -y
 	systemctl start mysql
 	
-	pkgs="nginx php-mysql php-fpm"
+	pkgs="nginx nginx-full nginx-common php-mysql php-fpm libgd3 libnginx-mod-http-auth-pam libnginx-mod-http-dav-extlibnginx-mod-http-echo libnginx-mod-http-geoiplibnginx-mod-http-image-filter libnginx-mod-http-subs-filterlibnginx-mod-http-upstream-fair libnginx-mod-http-xslt-filterlibnginx-mod-mail libnginx-mod-stream libxslt1.1"
 	
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
