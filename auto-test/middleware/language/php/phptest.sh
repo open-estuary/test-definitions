@@ -22,6 +22,9 @@ case "$distro" in
 	systemctl stop nginx
 	systemctl stop httpd
 	systemctl stop php-fpm
+	yum remove nginx -y
+	yum remove php-fpm -y
+	yum remove httpd -y
 	;;
     debian)
 	systemctl stop nginx 
@@ -67,8 +70,11 @@ case "${distro}" in
 	cp ../../../../utils/centos-nginx.conf /etc/nginx/conf.d/default.conf
 	systemctl stop httpd.service > /dev/null 2>&1 || true
 	
+	systemctl stop php-fpm
 	systemctl start php-fpm
         print_info $? start-php-fpm
+	pro=`systemctl status php-fpm`
+	echo $pro
 	;;
     debian)
 	pkgs="nginx php-fpm"
@@ -85,9 +91,11 @@ case "${distro}" in
 	# Configure NGINX for PHP.
         cp  /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
         cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
-
+	systemctl stop php7.0-fpm
 	systemctl start php7.0-fpm
         print_info $? start-php-fpm
+	pro=`systtemctl status php7.0-fpm`
+	echo $pro
         ;;
     ubuntu)
 	pkgs="nginx php-fpm"
