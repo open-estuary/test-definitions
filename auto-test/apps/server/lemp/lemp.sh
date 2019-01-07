@@ -7,7 +7,7 @@ source ./sh-test-lib
 cd -
 
 
-pkg="curl net-tools expect"
+pkg="curl net-tools expect lsof"
 install_deps "${pkg}"
 
 case "$distro" in
@@ -24,12 +24,14 @@ case "$distro" in
 	;;
 esac
 
-pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
-process=`ps -ef|grep $pro|awk '{print $2}'`
-for p in $process
-do
-        kill -9 $p
-done
+#删除80端口占用进程
+lsof -i :80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
+if [ $? -eq 0 ];then
+        echo kill_80_pass
+else
+        echo kill_80_fail
+fi
+
 
 case "$distro" in
     debian)
@@ -71,14 +73,17 @@ case "$distro" in
 	# Configure PHP.
 	cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
-	systemctl start php7.0-fpm
-	pro=`systemctl status php7.0-fpm`
-	echo $pro
-
+	
 	# Configure NGINX for PHP.
         cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
         cp ../../../../utils/nginx.conf /etc/nginx/sites-available/default
 	
+	
+	systemctl stop php7.0-fpm
+	systemctl start php7.0-fpm
+	STATUS=`systemctl status php7.0-fpm`
+	echo $STATUS
+
 	systemctl stop nginx
 	systemctl start nginx
 	STATUS=`systemctl status nginx`

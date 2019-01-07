@@ -13,7 +13,7 @@ cd -
 
 ##################### Environmental preparation  ##############################
 #Installation basic package
-pkg="curl net-tools vim git expect"
+pkg="curl net-tools vim git expect lsof"
 install_deps "${pkg}"
 print_info $? install-tools
 
@@ -22,6 +22,9 @@ case "$distro" in
 	systemctl stop nginx
 	systemctl stop httpd
 	systemctl stop php-fpm
+	yum remove nginx -y
+	yum remove php-fpm -y
+	yum remove httpd -y
 	;;
     debian)
 	systemctl stop nginx 
@@ -34,13 +37,12 @@ case "$distro" in
 esac
 
 #删除80端口进程
-
-pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
-process=`ps -ef|grep $pro|awk '{print $2}'`
-for p in $process
-do
-        kill -9 $p
-done
+lsof -i :80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
+if [ $? -eq 0 ];then
+	echo kill_80_pass
+else
+	echo kill_80_fail
+fi
 
 
 
@@ -67,8 +69,11 @@ case "${distro}" in
 	cp ../../../../utils/centos-nginx.conf /etc/nginx/conf.d/default.conf
 	systemctl stop httpd.service > /dev/null 2>&1 || true
 	
+	systemctl stop php-fpm
 	systemctl start php-fpm
         print_info $? start-php-fpm
+	pro=`systemctl status php-fpm`
+	echo $pro
 	;;
     debian)
 	pkgs="nginx php-fpm"
@@ -85,9 +90,11 @@ case "${distro}" in
 	# Configure NGINX for PHP.
         cp  /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
         cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
-
+	systemctl stop php7.0-fpm
 	systemctl start php7.0-fpm
         print_info $? start-php-fpm
+	pro=`systtemctl status php7.0-fpm`
+	echo $pro
         ;;
     ubuntu)
 	pkgs="nginx php-fpm"
