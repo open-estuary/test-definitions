@@ -70,6 +70,8 @@ print_info $? Avg_delay
 cat cyc_log3.txt |grep "Max"
 print_info $? Max_delay
 
+cd -
+
 #remove the packgs
 case "$distro" in
     centos|fedora|opensuse)
@@ -85,7 +87,10 @@ esac
 
 
 
-
+rm -rf cyc_log1.txt
+rm -rf cyc_log2.txt
+rm -rf cyc_log3.txt
+rm -rf cyc_log4.txt
 
 
 
