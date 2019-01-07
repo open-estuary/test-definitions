@@ -6,7 +6,7 @@ cd ../../../../utils
    source ./sh-test-lib
 cd -
 
-pkg="curl net-tools expect"
+pkg="curl net-tools expect lsof"
 install_deps "${pkg}"
 print_info $? install-tools
 
@@ -29,12 +29,13 @@ case "$distro" in
 	;;
 esac
 
-pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
-process=`ps -ef|grep $pro|awk '{print $2}'`
-for p in $process
-do
-        kill -9 $p
-done
+#删除80端口占用进程
+lsof -i :80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
+if [ $? -eq 0 ];then
+	echo kill_80_pass
+else
+	echo kill_80_fail
+fi
 
 
     case "${distro}" in
