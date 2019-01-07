@@ -9,6 +9,8 @@ cd ../../../../utils
     . ./sys_info.sh
     . ./sh-test-lib
 cd -
+yum install lsof -y
+lsof -i:80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
 #pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
 netstat -tlnp|grep 80
 netstat -tlnp|grep sshd
