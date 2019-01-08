@@ -47,7 +47,7 @@ case "$distro" in
 	apt-get install mysql-server -y
 	systemctl start mysql
 	
-	pkgs="nginx nginx-common nginx-full php-mysql php-fpm php "
+	pkgs="nginx php-mysql php-fpm php "
 	
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
