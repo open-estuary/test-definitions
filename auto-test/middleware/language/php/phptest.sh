@@ -265,7 +265,7 @@ case "${distro}" in
         cp /etc/php.ini.bak /etc/php.ini
         cp /etc/nginx/conf.d/default.conf.bak /etc/nginx/conf.d/default.conf
 
-	pkgs="nginx php php-fpm"
+	pkgs="nginx* php*"
 	remove_deps "${pkgs}"
 	print_info $? remove-php
 		;;
@@ -292,8 +292,8 @@ case "${distro}" in
         cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
 
 
-	apt-get remove nginx --purge -y
-	apt-get remove php-fpm --purge -y
+	apt-get remove nginx* --purge -y
+	apt-get remove php* --purge -y
 	print_info $? remove-php
 
         ;;
