@@ -83,6 +83,7 @@ fi
 	systemctl start php-fpm
         systemctl start httpd.service
         systemctl start mysql
+	cat /var/log/mysqld.log
 	STATUS=`systemctl status mysql`
         echo $STATUS
         ;;
