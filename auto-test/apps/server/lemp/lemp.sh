@@ -280,8 +280,8 @@ case "${distro}" in
     debian)
 	./test.sh
 	apt-get remove --purge mysql-sever -y
-	apt-get remove php-fpm --purge -y
-	apt-get remove --purge nginx -y
+	apt-get remove php* --purge -y
+	apt-get remove --purge nginx* -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;
