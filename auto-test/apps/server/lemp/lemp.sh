@@ -41,13 +41,13 @@ case "$distro" in
 	apt-get remove php-fpm --purge -y
 	apt-get remove nginx --purge -y
 	apt-get remove apache2 --purge -y
-	apt-get remove php-mysql -y
+	apt autoremove
 	#安装包
 	
 	apt-get install mysql-server -y
 	systemctl start mysql
 	
-	pkgs="nginx php-mysql php-fpm"
+	pkgs="nginx php-mysql php-fpm php "
 	
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
@@ -281,8 +281,8 @@ case "${distro}" in
     debian)
 	./test.sh
 	apt-get remove --purge mysql-sever -y
-	apt-get remove php-fpm --purge -y
-	apt-get remove --purge nginx -y
+	apt-get remove php* --purge -y
+	apt-get remove --purge nginx* -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;
