@@ -38,15 +38,16 @@ case "$distro" in
 	#清理环境
 	./test.sh
 	apt-get remove mysql-server --purge -y
-	apt-get remove php* --purge -y
-	apt-get remove nginx* --purge -y
+	apt-get remove php-fpm --purge -y
+	apt-get remove nginx --purge -y
 	apt-get remove apache2 --purge -y
+	apt autoremove
 	#安装包
 	
 	apt-get install mysql-server -y
 	systemctl start mysql
 	
-	pkgs="nginx php-mysql php apache2-bin apache2-data apache2-utils default-mysql-server galera-3 gawk libaio1 libapache2-mod-php7.0 libapr1 libaprutil1 libaprutil1-dbd-sqlite3 libaprutil1-ldap libcgi-fast-perl libcgi-pm-perl libconfig-inifiles-perl libdbd-mysql-perl libdbi-perl libencode-locale-perl libfcgi-perl libhtml-parser-perl libhtml-tagset-perl libhtml-template-perl libhttp-date-perl libhttp-message-perl libio-html-perl libjemalloc1 liblua5.2-0 liblwp-mediatypes-perl libmariadbclient18 libsigsegv2 libterm-readkey-perl libtimedate-perl liburi-perl mariadb-client-10.1 mariadb-client-core-10.1 mariadb-common mariadb-server-10.1 mariadb-server-core-10.1 mysql-common"
+	pkgs="nginx nginx-common nginx-full php-mysql php-fpm php "
 	
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
