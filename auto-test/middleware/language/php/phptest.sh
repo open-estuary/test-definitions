@@ -76,7 +76,7 @@ case "${distro}" in
 	echo $pro
 	;;
     debian)
-	pkgs="nginx php-fpm libgd3 libjbig0 libjpeg62-turbo libnginx-mod-http-auth-pamlibnginx-mod-http-dav-ext libnginx-mod-http-echo libnginx-mod-http-geoiplibnginx-mod-http-image-filter libnginx-mod-http-subs-filterlibnginx-mod-http-upstream-fair libnginx-mod-http-xslt-filterlibnginx-mod-mail libnginx-mod-stream libtiff5 libwebp6 libxslt1.1nginx-common nginx-full php-common php7.0-cli php7.0-common php7.0-fpmphp7.0-json php7.0-opcache php7.0-readline psmisc"
+	pkgs="nginx php-fpm libgd3 libjbig0 libjpeg62-turbo libnginx-mod-http-auth-pam libnginx-mod-http-dav-ext libnginx-mod-http-echo libnginx-mod-http-geoip libnginx-mod-http-image-filter libnginx-mod-http-subs-filter libnginx-mod-http-upstream-fair libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5 libwebp6 libxslt1.1 nginx-common nginx-full php-common php7.0-cli php7.0-common php7.0-fpm php7.0-json php7.0-opcache php7.0-readline psmisc"
         install_deps "${pkgs}"
 	print_info $? install_php
         
