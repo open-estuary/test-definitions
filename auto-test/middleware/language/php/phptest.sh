@@ -77,7 +77,7 @@ case "${distro}" in
 	echo $pro
 	;;
     debian)
-	pkgs="nginx nginx-common nginx-full php-fpm "
+	pkgs="nginx php php-fpm "
         install_deps "${pkgs}"
 	print_info $? install_php
         
