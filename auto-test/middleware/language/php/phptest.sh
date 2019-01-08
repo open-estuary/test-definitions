@@ -94,7 +94,7 @@ case "${distro}" in
 	systemctl stop php7.0-fpm
 	systemctl start php7.0-fpm
         print_info $? start-php-fpm
-	pro=`systtemctl status php7.0-fpm`
+	pro=`systemctl status php7.0-fpm`
 	echo $pro
         ;;
     ubuntu)
