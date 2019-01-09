@@ -32,6 +32,9 @@ else
         echo kill_80_fail
 fi
 
+pro=`netstat -tlnp|grep 80|tee log.log`
+cat log.log
+
 
 case "$distro" in
     debian)
