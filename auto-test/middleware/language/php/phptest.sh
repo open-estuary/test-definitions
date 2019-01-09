@@ -24,6 +24,7 @@ case "$distro" in
 	systemctl stop php-fpm
 	yum remove nginx -y
 	yum remove php-fpm -y
+	yum remove php -y
 	yum remove httpd -y
 	;;
     debian)
@@ -33,9 +34,12 @@ case "$distro" in
 	apt-get remove apache2 --purge -y
 	apt-get remove nginx --purge -y
 	apt-get remove php-fpm --purge -y
-	apt autoremove
+	apt-get remove php --purge -y
+	apt autoremove -y
 	;;
 esac
+
+netstat -tlnp|grep 80
 
 #删除80端口进程
 lsof -i :80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
@@ -45,13 +49,16 @@ else
 	echo kill_80_fail
 fi
 
+netstat -tlnp|grep 80
+
 
 
 
 #Install PHP and nginx packages and modify configuration files
 case "${distro}" in
     centos)
-	pkgs="nginx php php-fpm"
+	yum install nginx -y
+	pkgs="php php-fpm"
 	install_deps "${pkgs}"
 	print_info $? install-php
 
@@ -77,7 +84,8 @@ case "${distro}" in
 	echo $pro
 	;;
     debian)
-	pkgs="nginx php php-fpm "
+	apt install nginx -y
+	pkgs="php php-fpm"
         install_deps "${pkgs}"
 	print_info $? install_php
         
@@ -266,7 +274,7 @@ case "${distro}" in
         cp /etc/php.ini.bak /etc/php.ini
         cp /etc/nginx/conf.d/default.conf.bak /etc/nginx/conf.d/default.conf
 
-	pkgs="nginx* php*"
+	pkgs="nginx php php-fpm"
 	remove_deps "${pkgs}"
 	print_info $? remove-php
 		;;
@@ -293,8 +301,9 @@ case "${distro}" in
         cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
 
 
-	apt-get remove nginx* --purge -y
-	apt-get remove php* --purge -y
+	apt-get remove nginx --purge -y
+	apt-get remove php-fpm --purge -y
+	apt-get remove php --purge -y
 	print_info $? remove-php
 
         ;;

@@ -12,17 +12,28 @@ install_deps "${pkg}"
 
 case "$distro" in
     centos)
-	systemctl stop nginx
-	systemctl stop httpd
-	systemctl stop php-fpm
+	#清理环境
+        ./test.sh
+	yum remove mysql-community-server -y
+	yum remove php -y
+        yum remove nginx -y
+        yum remove php-mysql -y
+        yum remove php-fpm -y
+
 	;;
     debian)
-	systemctl stop mysql
-	systemctl stop php7.0-fpm
-	systemctl stop nginx 
-	systemctl stop apache2
+	#清理环境
+	./test.sh
+        apt-get remove mysql-server --purge -y
+        apt-get remove php-fpm --purge -y
+	 apt-get remove php --purge -y
+        apt-get remove nginx --purge -y
+        apt-get remove apache2 --purge -y
+        apt autoremove -y
 	;;
 esac
+
+netstat -tlnp|grep 80
 
 #删除80端口占用进程
 lsof -i :80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
@@ -32,23 +43,19 @@ else
         echo kill_80_fail
 fi
 
+netstat -tlnp|grep 80
+
 
 case "$distro" in
     debian)
-	#清理环境
-	./test.sh
-	apt-get remove mysql-server --purge -y
-	apt-get remove php-fpm --purge -y
-	apt-get remove nginx --purge -y
-	apt-get remove apache2 --purge -y
-	apt autoremove
 	#安装包
 	
 	apt-get install mysql-server -y
 	systemctl start mysql
 	
-	pkgs="nginx php-mysql php-fpm php "
-	
+	apt install nginx -y
+
+	pkgs="php-mysql php-fpm php "
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
 	
@@ -90,14 +97,10 @@ case "$distro" in
 	echo $STATUS
 	;;
     centos)
-	#清理环境
-	./test.sh
-	yum remove nginx -y
-	yum remove php -y
-	yum remove php-mysql -y
-	yum remove php-fpm -y
 	#安装包
-        pkgs=" nginx mysql-community-server php php-mysql php-fpm"
+	yum install nginx -y
+
+        pkgs="mysql-community-server php php-mysql php-fpm"
 	install_deps "${pkgs}"
         print_info $? install-pkgs
         systemctl stop httpd.service > /dev/null 2>&1 || true
@@ -281,8 +284,9 @@ case "${distro}" in
     debian)
 	./test.sh
 	apt-get remove --purge mysql-sever -y
-	apt-get remove php* --purge -y
-	apt-get remove --purge nginx* -y
+	apt-get remove php-fpm --purge -y
+	apt-get remove php --purge -y
+	apt-get remove --purge nginx -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;
