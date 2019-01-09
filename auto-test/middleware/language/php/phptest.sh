@@ -57,7 +57,8 @@ netstat -tlnp|grep 80
 #Install PHP and nginx packages and modify configuration files
 case "${distro}" in
     centos)
-	pkgs="nginx php php-fpm"
+	yum install nginx -y
+	pkgs="php php-fpm"
 	install_deps "${pkgs}"
 	print_info $? install-php
 
@@ -83,7 +84,8 @@ case "${distro}" in
 	echo $pro
 	;;
     debian)
-	pkgs="nginx php php-fpm "
+	apt install nginx -y
+	pkgs="php php-fpm"
         install_deps "${pkgs}"
 	print_info $? install_php
         
@@ -301,7 +303,7 @@ case "${distro}" in
 
 	apt-get remove nginx --purge -y
 	apt-get remove php-fpm --purge -y
-	 apt-get remove php --purge -y
+	apt-get remove php --purge -y
 	print_info $? remove-php
 
         ;;
