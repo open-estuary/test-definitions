@@ -24,6 +24,8 @@ case "$distro" in
 	;;
 esac
 
+netstat -tlnp|grep 80
+
 #删除80端口占用进程
 lsof -i :80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
 if [ $? -eq 0 ];then
@@ -32,8 +34,7 @@ else
         echo kill_80_fail
 fi
 
-pro=`netstat -tlnp|grep 80|tee log.log`
-cat log.log
+netstat -tlnp|grep 80
 
 
 case "$distro" in
