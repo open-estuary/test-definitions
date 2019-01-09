@@ -53,8 +53,9 @@ case "$distro" in
 	apt-get install mysql-server -y
 	systemctl start mysql
 	
-	pkgs="nginx php-mysql php-fpm php "
-	
+	apt install nginx -y
+
+	pkgs="php-mysql php-fpm php "
 	install_deps "${pkgs}"
 	print_info $? install_php_nginx_mysql
 	
@@ -97,7 +98,9 @@ case "$distro" in
 	;;
     centos)
 	#安装包
-        pkgs=" nginx mysql-community-server php php-mysql php-fpm"
+	yum install nginx -y
+
+        pkgs="mysql-community-server php php-mysql php-fpm"
 	install_deps "${pkgs}"
         print_info $? install-pkgs
         systemctl stop httpd.service > /dev/null 2>&1 || true
