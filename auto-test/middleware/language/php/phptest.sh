@@ -24,6 +24,7 @@ case "$distro" in
 	systemctl stop php-fpm
 	yum remove nginx -y
 	yum remove php-fpm -y
+	yum remove php -y
 	yum remove httpd -y
 	;;
     debian)
@@ -33,7 +34,8 @@ case "$distro" in
 	apt-get remove apache2 --purge -y
 	apt-get remove nginx --purge -y
 	apt-get remove php-fpm --purge -y
-	apt autoremove
+	apt-get remove php --purge -y
+	apt autoremove -y
 	;;
 esac
 
@@ -270,7 +272,7 @@ case "${distro}" in
         cp /etc/php.ini.bak /etc/php.ini
         cp /etc/nginx/conf.d/default.conf.bak /etc/nginx/conf.d/default.conf
 
-	pkgs="nginx* php*"
+	pkgs="nginx php php-fpm"
 	remove_deps "${pkgs}"
 	print_info $? remove-php
 		;;
@@ -297,8 +299,9 @@ case "${distro}" in
         cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
 
 
-	apt-get remove nginx* --purge -y
-	apt-get remove php* --purge -y
+	apt-get remove nginx --purge -y
+	apt-get remove php-fpm --purge -y
+	 apt-get remove php --purge -y
 	print_info $? remove-php
 
         ;;
