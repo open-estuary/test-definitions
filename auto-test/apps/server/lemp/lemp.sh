@@ -12,15 +12,24 @@ install_deps "${pkg}"
 
 case "$distro" in
     centos)
-	systemctl stop nginx
-	systemctl stop httpd
-	systemctl stop php-fpm
+	#清理环境
+        ./test.sh
+	yum remove mysql-community-server -y
+	yum remove php -y
+        yum remove nginx -y
+        yum remove php-mysql -y
+        yum remove php-fpm -y
+
 	;;
     debian)
-	systemctl stop mysql
-	systemctl stop php7.0-fpm
-	systemctl stop nginx 
-	systemctl stop apache2
+	#清理环境
+	./test.sh
+        apt-get remove mysql-server --purge -y
+        apt-get remove php-fpm --purge -y
+	 apt-get remove php --purge -y
+        apt-get remove nginx --purge -y
+        apt-get remove apache2 --purge -y
+        apt autoremove -y
 	;;
 esac
 
@@ -39,13 +48,6 @@ netstat -tlnp|grep 80
 
 case "$distro" in
     debian)
-	#清理环境
-	./test.sh
-	apt-get remove mysql-server --purge -y
-	apt-get remove php-fpm --purge -y
-	apt-get remove nginx --purge -y
-	apt-get remove apache2 --purge -y
-	apt autoremove
 	#安装包
 	
 	apt-get install mysql-server -y
@@ -94,12 +96,6 @@ case "$distro" in
 	echo $STATUS
 	;;
     centos)
-	#清理环境
-	./test.sh
-	yum remove nginx -y
-	yum remove php -y
-	yum remove php-mysql -y
-	yum remove php-fpm -y
 	#安装包
         pkgs=" nginx mysql-community-server php php-mysql php-fpm"
 	install_deps "${pkgs}"
@@ -285,8 +281,9 @@ case "${distro}" in
     debian)
 	./test.sh
 	apt-get remove --purge mysql-sever -y
-	apt-get remove php* --purge -y
-	apt-get remove --purge nginx* -y
+	apt-get remove php-fpm --purge -y
+	apt-get remove php --purge -y
+	apt-get remove --purge nginx -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;

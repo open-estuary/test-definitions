@@ -8,16 +8,18 @@ cd -
 
 case "$distro" in 
     ubuntu|debian)
-
-	systemctl stop apache2 > /dev/null 2>&1 || true
 	systemctl stop mysql
+        systemctl stop php7.0-fpm
+        systemctl stop nginx
+        systemctl stop apache2
+
 	packages1=`apt list --installed | grep -i "mysql"|awk -F '/' '{print $1}'`
 	for package_a in $packages1
 	do 
 		apt remove -y $package_a
 	done
 
-	packages2=`apt list --installed | grep -i "mysql"|awk -F '/' '{print $1}'`
+	packages2=`apt list --installed | grep -i "mariadb"|awk -F '/' '{print $1}'`
         for package_b in $packages2
         do
                 apt remove -y $package_b
@@ -25,8 +27,11 @@ case "$distro" in
 
 	;;
     centos|fedora)
-	systemctl stop httpd.service > /dev/null 2>&1 || true
+	systemctl stop nginx
+        systemctl stop httpd
+        systemctl stop php-fpm
 	systemctl stop mysql
+
 	packages1=`rpm -qa | grep -i "mysql"`
             for package_a in $packages1
             do
