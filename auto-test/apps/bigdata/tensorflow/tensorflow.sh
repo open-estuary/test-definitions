@@ -37,7 +37,7 @@ case $distro in
     sleep 60s
     mkdir -p /usr/share/tensorflow
     cd /usr/share/tensorflow
-    wget http://192.168.50.122:8083/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl
+    wget ${ci_http_addr}/test_dependents/tensorflow-1.2.1-cp27-none-linux_aarch64.whl
     print_info $? install-tensorflow
     cd -
     ;;

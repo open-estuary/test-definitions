@@ -60,7 +60,7 @@ cd "${OUTPUT}"
 export GOPATH="${OUTPUT}/golang"
 
 #clone源
-wget http://192.168.50.122:8083/test_dependents/dsdbench.zip
+wget ${ci_http_addr}/test_dependents/dsdbench.zip
 print_info $? down-dsdbench
 unzip dsdbench.zip
 cd dsdbench
