@@ -24,11 +24,6 @@ case "$distro" in
     debian)
 	#清理环境
 	./test.sh
-        apt-get remove mysql-server --purge -y
-        apt-get remove php-fpm --purge -y
-	 apt-get remove php --purge -y
-        apt-get remove nginx --purge -y
-        apt-get remove apache2 --purge -y
         apt autoremove -y
 	;;
 esac
@@ -53,7 +48,6 @@ case "$distro" in
 	apt-get install mysql-server -y
 	systemctl start mysql
 	
-	apt install nginx -y
 
 	pkgs="php-mysql php-fpm php "
 	install_deps "${pkgs}"
@@ -61,7 +55,7 @@ case "$distro" in
 	
 	systemctl stop apache2 > /dev/null 2>&1 || true
 	
-	
+	apt install nginx -y
 	systemctl start nginx
 	
 	STATUS=`systemctl status nginx`
@@ -283,10 +277,6 @@ esac
 case "${distro}" in
     debian)
 	./test.sh
-	apt-get remove --purge mysql-sever -y
-	apt-get remove php-fpm --purge -y
-	apt-get remove php --purge -y
-	apt-get remove --purge nginx -y
 	remove_deps "${pkgs}"
 	print_info $? remove-package
 	;;

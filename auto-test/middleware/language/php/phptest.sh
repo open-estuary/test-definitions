@@ -84,14 +84,14 @@ case "${distro}" in
 	echo $pro
 	;;
     debian)
-	apt install nginx -y
 	pkgs="php php-fpm"
         install_deps "${pkgs}"
 	print_info $? install_php
         
 	# Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
-	
+	apt install nginx -y
+
 	# Configure PHP.
         cp /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/php.ini.bak
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
