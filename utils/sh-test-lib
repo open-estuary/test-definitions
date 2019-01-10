@@ -24,8 +24,8 @@
 
 LANG=C
 ci_http_addr=http://192.168.50.122:8083
-echo "${local_ip}"
-if [[ "${local_ip}" =~ "172.90.20." ]];then
+defult_route=`ip route show | grep default | tail -1|awk {'print $3'}`
+if [[ "${defult_route}" =~ "172.90.20." ]];then
 	ci_http_addr=http://172.19.20.14:8083
 fi
 echo "${ci_http_addr}"
