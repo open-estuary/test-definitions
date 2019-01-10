@@ -25,6 +25,24 @@ case "$distro" in
                 apt remove -y $package_b
         done
 
+	packages3=`apt list --installed | grep -i "php"|awk -F '/' '{print $1}'`
+        for package_c in $packages3
+        do
+                apt remove -y $package_c
+        done
+
+	packages4=`apt list --installed | grep -i "nginx"|awk -F '/' '{print $1}'`
+        for package_d in $packages4
+        do
+                apt remove -y $package_d
+        done
+
+	packages5=`apt list --installed | grep -i "apache"|awk -F '/' '{print $1}'`
+        for package_e in $packages5
+        do
+                apt remove -y $package_e
+        done
+
 	;;
     centos|fedora)
 	systemctl stop nginx
@@ -45,6 +63,7 @@ case "$distro" in
             done
 	rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld /mysql /percona
 	userdel -r mysql
+
 
             ;;
 
