@@ -37,7 +37,7 @@ case "$distro" in
                 apt remove -y $package_d
         done
 
-	packages5=`apt list --installed | grep -i "apache"|awk -F '/' '{print $1}'`
+	packages5=`apt list --installed | grep -i "apache2"|awk -F '/' '{print $1}'`
         for package_e in $packages5
         do
                 apt remove -y $package_e
