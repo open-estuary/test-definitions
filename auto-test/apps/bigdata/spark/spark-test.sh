@@ -14,6 +14,7 @@ cd $basedir
 . ../../../../lib/sh-test-lib
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sshpasswd.sh 
+. ../../../../utils/sh-test-lib
 source ./spark.sh 
 source ./scala.sh 
 #set -x

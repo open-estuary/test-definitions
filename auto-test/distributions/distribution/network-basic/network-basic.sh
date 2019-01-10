@@ -76,7 +76,7 @@ print_info $? ip-addr
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
 print_info $? ping-gateway
 
-run "curl http://192.168.50.122:8083/test_dependents/lmbench3.tar.gz -o lmbench3" "download-a-file"
+run "curl ${ci_http_addr}/test_dependents/lmbench3.tar.gz -o lmbench3" "download-a-file"
 print_info $? curl
 
 rm -rf lmbench3

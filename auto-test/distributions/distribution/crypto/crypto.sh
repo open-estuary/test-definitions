@@ -25,7 +25,7 @@ case $distro in
 	print_info $? install-pkgs
 	;;
 esac
-wget http://192.168.50.122:8083/test_dependents/cryptopp-CRYPTOPP_5_6_5.zip
+wget ${ci_http_addr}/test_dependents/cryptopp-CRYPTOPP_5_6_5.zip
         print_info $? get-crypto
 unzip cryptopp-CRYPTOPP_5_6_5.zip
         print_info $? unzip-crypto

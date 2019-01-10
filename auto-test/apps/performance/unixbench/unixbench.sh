@@ -18,7 +18,7 @@ install_deps "${pkgs}"
 print_info $? install-package
 
 #Download UnixBench5.1.3
-wget http://192.168.50.122:8083/test_dependents/unixbench.zip
+wget ${ci_http_addr}/test_dependents/unixbench.zip
 print_info $? download_unixbench
 
 unzip unixbench.zip && rm -rf unixbench.zip
