@@ -51,12 +51,12 @@ function ccdriver_sample_exec(){
     gcc -o sampleQuery connect.c -lcassandra
     print_info $? link_cassandra_dynamic_lib
 jps
-    su cassandra -c "./sampleQuery 2>&1 | grep -i error "
-    if [ $? -eq 0 ];then
-        print_info 1 cassandra_cpp_driver_proglme_exec
-    else
-        print_info 0 cassandra_cpp_driver_proglme_exec
-    fi
+    #su cassandra -c "./sampleQuery 2>&1 | grep -i error "
+    #if [ $? -eq 0 ];then
+     #   print_info 1 cassandra_cpp_driver_proglme_exec
+    #else
+     #   print_info 0 cassandra_cpp_driver_proglme_exec
+    #fi
         
 
 }
