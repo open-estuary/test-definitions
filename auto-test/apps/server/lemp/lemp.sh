@@ -124,8 +124,13 @@ esac
 proc=`netstat -tlnp|grep 80|tee proc.log`
 cat proc.log
 
+ sed -i "s/Apache/Nginx/g" ./html/index.html
 cp ./html/* /usr/share/nginx/html/
 
+curl -o "output" "http://localhost/index.html"
+cat output
+egrep 'Nginx|nginx' ./output
+print_info $? test-nginx-server1
 
 # Test MySQL.
 case "${distro}" in
@@ -199,6 +204,13 @@ curl -o "output" "http://localhost/info.php"
 sleep 5
 grep 'PHP Version' ./output
 print_info $? test-phpinfo
+
+
+curl -o "output" "http://localhost/index.html"
+cat output
+egrep 'Nginx|nginx' ./output
+print_info $? test-nginx-server2
+
 
 # PHP Connect to MySQL.
 curl -o "output" "http://localhost/connect-db.php"
