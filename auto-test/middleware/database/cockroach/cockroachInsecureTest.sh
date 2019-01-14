@@ -4,6 +4,7 @@ set -x
 basedir=$(cd `dirname $0` ;pwd)
 cd $basedir 
 . ../../../../utils/sh-test-lib 
+. ../../../../utils/sys_info.sh
 outDebugInfo
 
 
