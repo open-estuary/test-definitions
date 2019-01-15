@@ -107,7 +107,7 @@ function openFile(){
             exec('lava-test-case "nodejs_close_file " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );
         });
 
-    });
+    
 }
 
 
