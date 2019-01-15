@@ -35,7 +35,7 @@ function openFile(){
         }
         exec('lava-test-case "nodejs_writefile_file " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );
     });
-	#fs.writeFile('tmp.txt',"this is also a temp file\n");
+	/*fs.writeFile('tmp.txt',"this is also a temp file\n");*/
     fs.open('input.txt', 'r+', function(err, fd) {
         if (err) {
             exec('lava-test-case "nodejs_open_file_async " --result fail' , function(err , stdout ,stderr ){console.log(stdout) ;} );
