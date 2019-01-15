@@ -92,13 +92,13 @@ function openFile(){
     var fs = require("fs");
     var exec = require('child_process').exec;
     fs.writeFile('tmp.txt',"this is also a temp file\n");
-    fs.open('tmp.txt', 'r+', function(err, fd) {
+    /*fs.open('tmp.txt', 'r+', function(err, fd) {
         if (err) {
             exec('lava-test-case "nodejs_open_file_async " --result fail' , function(err , stdout ,stderr ){console.log(stdout) ;} );
             return console.error(err);
 
         }
-        exec('lava-test-case "nodejs_open_file_async " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );
+        exec('lava-test-case "nodejs_open_file_async " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );*/
 
         fs.close(fd, function(err){
             if (err){
