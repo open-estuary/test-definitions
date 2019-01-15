@@ -88,7 +88,9 @@ function openFile(){
 }
 
 
-
+    function close(){
+    var fs = require("fs");
+    var exec = require('child_process').exec;
     fs.writeFile('tmp.txt',"this is also a temp file\n");
     fs.open('tmp.txt', 'r+', function(err, fd) {
         if (err) {
@@ -106,6 +108,7 @@ function openFile(){
         });
 
     });
+}
 
 
 
@@ -114,8 +117,7 @@ function openFile(){
 
 readFile();
 openFile();
-writeFile();
-open();
+close();
 
 
 
