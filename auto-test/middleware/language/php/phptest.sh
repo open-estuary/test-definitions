@@ -160,9 +160,9 @@ curl -o "output" "http://localhost/index.html"
 egrep 'nginx|Nginx' ./output
 print_info $? test-nginx-server
 
-#curl -o "output" "http://localhost/info.php"
-#grep 'version' ./output
-#print_info $? php-info
+curl -o "output" "http://localhost/info.php"
+grep 'version' ./output
+print_info $? php-info
 
 curl -o "output" "http://localhost/array.php"
 cat output
