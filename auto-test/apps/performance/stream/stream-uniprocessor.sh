@@ -50,8 +50,8 @@ echo "biosVersion=$biosVersion , biosDate=$biosDate" | tee $TEST_LOG
 echo ""
 
 #下载Stream benchmark源码
-wget http://www.cs.virginia.edu/stream/FTP/Code/stream.c | tee $TEST_LOG
-
+#wget http://www.cs.virginia.edu/stream/FTP/Code/stream.c | tee $TEST_LOG
+wget -c ${ci_http_addr}/test_dependents/stream.c | tee $TEST_LOG
 #编译(STREAM_ARRAY_SIZE:测试数据集的大小,为100M,NTIME:kernel执行的次数,OFFSET:数组的偏移量,通常设置为靠近2的n次方
 gcc -O -fopenmp -DSTREAM_ARRAY_SIZE=100000000 -DNTIME=12 -DOFFSET=1022 stream.c -o stream_omp_exe
 print_info $? stream-build | tee $TEST_LOG
