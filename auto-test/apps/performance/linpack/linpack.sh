@@ -33,7 +33,8 @@ case "$distro" in
 esac
 
 #download linpack
-wget http://www.netlib.org/benchmark/linpackc.new
+#wget http://www.netlib.org/benchmark/linpackc.new
+wget -c ${ci_http_addr}/test_dependents/linpackc.new
 print_info $? wget-linpack
 
 mv linpackc.new linpack.c

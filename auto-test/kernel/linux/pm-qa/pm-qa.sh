@@ -55,7 +55,9 @@ create_out_dir "${OUTPUT}"
 ###### testing step ######
 
 rm -rf pm-qa
-git clone https://git.linaro.org/power/pm-qa.git
+#git clone https://git.linaro.org/power/pm-qa.git
+wget -c ${ci_http_addr}/test_dependents/pm-qa.tar.gz
+tar -zxvf pm-qa.tar.gz
 print_info $? git-pm-qa
 cd pm-qa
 git checkout -b "${RELEASE}" "${RELEASE}"

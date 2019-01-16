@@ -27,7 +27,9 @@ case $distro in
         ;;
 
 esac
-git clone https://github.com/google/googletest.git
+#git clone https://github.com/google/googletest.git
+wget -c ${ci_http_addr}/test_dependents/googletest.tar.gz
+tar -zxvf googletest.tar.gz
 print_info $? install-gtest
 cp Makefile googletest/googletest/samples
 cd googletest/googletest/samples

@@ -11,11 +11,13 @@ cd -
 
 case "$distro" in 
     centos|fedora)
-	pkgs="gcc git numactl-devel make"
+	pkgs="gcc git numactl-devel make "
 	install_deps "${pkgs}"
 	print_info $? install_pkgs
 	
-	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+	#git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+	wget -c ${ci_http_addr}/test_dependents/rt-tests.tar.gz
+	tar -zxvf rt-tests.tar.gz
 	print_info $? download_rt-test
 
 	cd rt-tests
@@ -31,7 +33,9 @@ case "$distro" in
 	pkgs="gcc git libnuma-devel make"
 	install_deps "${pkgs}"
         print_info $? install_pkgs
-	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+	#git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+	wget -c ${ci_http_addr}/test_dependents/rt-tests.tar.gz
+	tar -zxvf rt-tests.tar.gz
         print_info $? download_rt-test
 
         cd rt-tests
