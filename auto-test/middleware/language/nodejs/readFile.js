@@ -111,6 +111,8 @@ function openFile(){
 
         }
         exec('lava-test-case "nodejs_open_tmp_async " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );
+	
+	});
         
         fs.close(fd, function(err){
             if (err){
@@ -118,8 +120,6 @@ function openFile(){
             }
             exec('lava-test-case "nodejs_close_file " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );
         });
-     
-  }    
 }
 
 
