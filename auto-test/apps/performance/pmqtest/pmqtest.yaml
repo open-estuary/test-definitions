@@ -14,7 +14,6 @@ metadata:
         - debian
         - opensuse
     scope:
-        - http
         - performance
     devices:
         - d03
