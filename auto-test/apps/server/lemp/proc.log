@@ -1,0 +1,2 @@
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      43750/nginx: master 
+tcp6       0      0 :::80                   :::*                    LISTEN      43750/nginx: master 
