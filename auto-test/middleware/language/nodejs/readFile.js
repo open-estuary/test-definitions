@@ -35,8 +35,8 @@ function openFile(){
         }
         exec('lava-test-case "nodejs_writefile_file " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );
     });
-	/*fs.writeFile('tmp.txt',"this is also a temp file\n");*/
-    /*fs.open('input.txt', 'r+', function(err, fd) {
+	fs.writeFile('tmp.txt',"this is also a temp file\n");
+       fs.open('tmp.txt', 'r+', function(err, fd) {
         if (err) {
             exec('lava-test-case "nodejs_open_file_async " --result fail' , function(err , stdout ,stderr ){console.log(stdout) ;} );
             return console.error(err);
@@ -51,7 +51,7 @@ function openFile(){
             exec('lava-test-case "nodejs_close_file " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );
         });
 
-    });*/
+    });
     fs.unlink('input.txt', function(err) {
         if (err) {
             exec('lava-test-case "nodejs_unlink_file " --result fail' , function(err , stdout ,stderr ){console.log(stdout) ;} );
@@ -88,7 +88,7 @@ function openFile(){
 }
 
 
-    function close(){
+    /*function close(){
     var fs = require("fs");
     var exec = require('child_process').exec;
     fs.writeFile('tmp.txt',"this is also a temp file\n",function(err, fd){
@@ -120,7 +120,7 @@ function openFile(){
             exec('lava-test-case "nodejs_close_file " --result pass' , function(err , stdout ,stderr ){console.log(stdout) ;} );
         });
      });
-}
+}*/
 
 
 
@@ -129,7 +129,7 @@ function openFile(){
 
 readFile();
 openFile();
-close();
+
 
 
 
