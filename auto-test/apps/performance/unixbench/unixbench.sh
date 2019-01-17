@@ -29,6 +29,7 @@ cd byte-unixbench-master/UnixBench/
 cp Makefile Makefile.bak
 sed -i 's/OPTON += -march=native -mtune=native/#OPTON += -march=native -mtune=native/' Makefile
 
+today=`date --date='0 days ago' +%Y-%m-%d`
 
 #run unixbench
 make
@@ -36,7 +37,7 @@ make
 echo  "======= running 1 parallel copy of tests ======= "
 print_info $? run_results
 
-today=`date --date='0 days ago' +%Y-%m-%d`
+#today=`date --date='0 days ago' +%Y-%m-%d`
 host_name=`hostname`
 cd results
 cat ${host_name}-${today}-01|grep "Dhrystone 2 using register variables"
@@ -46,7 +47,7 @@ cat ${host_name}-${today}-01|grep "Double-Precision Whetstone"
 print_info $? Double-Precision_test
 
 cat ${host_name}-${today}-01|grep "Execl Throughput"
-print_INFO $? Execl-Throughput_test
+print_info $? Execl-Throughput_test
 
 cat ${host_name}-${today}-01|grep "File Copy"
 print_info $? File-Copy_test
