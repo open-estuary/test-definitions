@@ -97,8 +97,11 @@ case "${distro}" in
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
 
 	# Configure NGINX for PHP.
-        cp  /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-        cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
+        #cp  /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+        #cp ../../../../utils/debian-nginx.conf /etc/nginx/sites-available/default
+	cp /etc/nginx/nginx.conf /etc/nginx/nginx.confbak
+	cp  ../../../../utils/nginx.conf /etc/nginx/nginx.conf
+
 	systemctl stop php7.0-fpm
 	systemctl start php7.0-fpm
         print_info $? start-php-fpm
@@ -295,10 +298,10 @@ case "${distro}" in
 	systemctl stop nginx
 	print_info $? stop-nginx
 	
-	rm -rf /etc/nginx/sites-available/default
+	rm -rf /etc/nginx/nginx.conf
         rm -rf /etc/php/7.0/fpm/php.ini
-        cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
-        cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
+        mv /etc/nginx/nginx.confbak /etc/nginx/nginx.conf
+        mv /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
 
 
 	apt-get remove nginx --purge -y

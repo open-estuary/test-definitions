@@ -76,8 +76,10 @@ case "$distro" in
         sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
 	
 	# Configure NGINX for PHP.
-        cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-        cp ../../../../utils/nginx.conf /etc/nginx/sites-available/default
+        #cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+	cp /etc/nginx/nginx.conf /etc/nginx/nginx.confbak
+        #cp ../../../../utils/debian-default /etc/nginx/sites-available/default
+	cp ../../../../utils/nginx.conf    /etc/nginx/nginx.conf
 	
 	
 	systemctl stop php7.0-fpm
@@ -272,8 +274,10 @@ case "${distro}" in
 	systemctl stop mysql
 	rm -rf /etc/php/7.0/fpm/php.ini
 	rm -rf /etc/nginx/sites-available/default
-	cp /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
-        cp /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
+	rm -rf /etc/nginx/nginx.conf
+	mv /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
+        mv /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
+	mv /etc/nginx/nginx.confbak /etc/nginx/nginx.conf
         ;;
     centos)
 	systemctl stop php-fpm
