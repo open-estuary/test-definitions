@@ -276,7 +276,7 @@ case "${distro}" in
 	rm -rf /etc/nginx/sites-available/default
 	rm -rf /etc/nginx/nginx.conf
 	mv /etc/php/7.0/fpm/php.ini.bak /etc/php/7.0/fpm/php.ini
-        mv /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
+        #mv /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
 	mv /etc/nginx/nginx.confbak /etc/nginx/nginx.conf
         ;;
     centos)
