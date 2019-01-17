@@ -17,15 +17,9 @@ case "$distro" in
 	systemctl stop php-fpm
 	;;
     debian)
-	systemctl stop nginx 
-	systemctl stop apache2
-	systemctl stop php7.0-fpm
-	systemctl stop mysql
-	apt-get remove apache2 --purge -y
-	apt-get remove nginx --purge -y
-	apt-get remove php-fpm --purge -y
-	apt-get remove mysql-server --purge -y
-	apt-get remove php-mysql -y
+	#清理环境
+	./test.sh
+	apt autoremove -y
 	;;
 esac
 
