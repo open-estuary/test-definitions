@@ -28,13 +28,8 @@ case "$distro" in
 	yum remove httpd -y
 	;;
     debian)
-	systemctl stop nginx 
-	systemctl stop apache2
-	systemctl stop php7.0-fpm
-	apt-get remove apache2 --purge -y
-	apt-get remove nginx --purge -y
-	apt-get remove php-fpm --purge -y
-	apt-get remove php --purge -y
+	#清理环境
+	./test.sh
 	apt autoremove -y
 	;;
 esac
