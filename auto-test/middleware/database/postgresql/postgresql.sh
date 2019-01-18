@@ -24,8 +24,9 @@ else
     lava-test-case "postgresql_server_install" --result fail
     exit 1
 fi
-version=`postgres -V`
-if [ x"$version" == x"postgres (PostgreSQL) 9.2.24" ];then
+version=`postgres -V|cut -b1-25`
+
+if [ x"$version" == x"postgres (PostgreSQL) 9.2" ];then
     lava-test-case "postgresql_version" --result pass
 else
     lava-test-case "postgresql_version" --result fail
