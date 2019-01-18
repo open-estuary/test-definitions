@@ -24,7 +24,7 @@ case "$distro" in
 	print_info $? install-docker
 	;;
     debian)
-    	curl -fsSL get.docker.com -o get-docker.sh
+    	wget ${ci_http_addr}/test_dependents/get-docker.sh
 	sh get-docker.sh --mirror Aliyun
 	print_info $? install-docker
 	;;
