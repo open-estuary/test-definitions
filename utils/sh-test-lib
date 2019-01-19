@@ -26,7 +26,7 @@ LANG=C
 ci_http_addr=http://192.168.50.122:8083
 defult_route=`ip route show | grep default | tail -1|awk {'print $3'}`
 if [[ "${defult_route}" =~ "172.19.20." ]];then
-	ci_http_addr=http://172.19.20.14:8083
+	ci_http_addr=http://172.19.20.15:8083
 fi
 echo "${ci_http_addr}"
 export LANG ci_http_addr
