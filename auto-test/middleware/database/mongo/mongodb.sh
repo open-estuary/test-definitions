@@ -54,7 +54,7 @@ function mongodb_start(){
     if [ -d /mongodb/log  ];then
         rm -rf /mongdb/log
     fi
-    `kdir -p /mongodb/db 
+    mkdir -p /mongodb/db 
     mkdir -p /mongodb/log
     if [ "$distro" != "ubuntu" ];then
         mongod --fork --dbpath /mongodb/db --logpath /mongodb/log/mongodb.log --logappend 
