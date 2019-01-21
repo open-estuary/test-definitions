@@ -6,8 +6,8 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - bigdata
         - spark
+        - bigdata
     os:
         - centos
     devices:
