@@ -1,6 +1,6 @@
     print('=================');    
     var conn = new Mongo();
-    var str = conn.host.match('27017');
+    var str = conn.host.match();
     if (str == null)
     {
        run('lava-test-case','monggodb_client_connect' , '--result' , 'fail');
