@@ -8,20 +8,20 @@ cd $basedir
 
 . ../../../../utils/sh-test-lib
 
-source ./mongodb.sh 
+source ./mongodb-debian.sh 
 
 #set -x
 #export PS4='+$LINENO:$FUNCTION[0] '
 outDebugInfo
 install_mongodb
-mongodb_start
 
+mongodb_start_by_service
+mongodb_stop_by_service
 
 mongodb_client
 mongodb_shutdown
 
-mongodb_start_by_service
-mongodb_stop_by_service
+
 
 mongodb_uninstall
 
