@@ -32,7 +32,7 @@ case $HOST in
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau"
         install_deps "${pkgs}" 
         #print_info $? install-dependent-packages
-        pkgs="curl nginx"
+        pkgs="curl nginx wget"
         install_deps "${pkgs}"
 	print_info $? install-nginx
     ;;

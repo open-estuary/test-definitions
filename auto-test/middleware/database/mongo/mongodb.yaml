@@ -17,8 +17,8 @@ metadata:
         - d05
     level: 1
     totalcase:
-        centos: 1
-        debian: 1
+        centos: 24
+        debian: 24
         ubuntu: 5
 
 

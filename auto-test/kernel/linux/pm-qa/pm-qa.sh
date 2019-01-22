@@ -48,7 +48,7 @@ done
 
 ###### install ######
 
-install_deps "git gcc build-essential linux-libc-dev" "${SKIP_INSTALL}"
+install_deps "wget git gcc build-essential linux-libc-dev" "${SKIP_INSTALL}"
 print_info $? install-pkg
 create_out_dir "${OUTPUT}"
 
