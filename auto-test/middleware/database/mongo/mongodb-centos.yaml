@@ -9,18 +9,18 @@ metadata:
         - database
         - mongodb
     os:
-        - debian
+        - centos
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        debian: 24
+        centos: 24
 
 
 run:
     steps:
-        - "cd auto-test/middleware/database/mongo; ./mongodb-test.sh; cd -"
+        - "cd auto-test/middleware/database/mongo; ./mongodb-centos-test.sh; cd -"
 
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

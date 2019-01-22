@@ -3,11 +3,6 @@
 
 function install_mongodb() {
     case $distro in
-    centos|fedora)
-    pkgs="mongodb mongodb-server"
-    install_deps "${pkgs}"
-    print_info $? "mongodb_install_mongodb_client"
-    ;;
     ubuntu|debian)
     pkgs="mongodb mongodb-server"
     install_deps "${pkgs}"
