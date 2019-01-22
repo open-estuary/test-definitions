@@ -11,7 +11,7 @@ cd -
 
 case "$distro" in 
     centos|fedora)
-	pkgs="gcc git numactl-devel make "
+	pkgs=" wget gcc git numactl-devel make "
 	install_deps "${pkgs}"
 	print_info $? install_pkgs
 	
