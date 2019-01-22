@@ -33,7 +33,7 @@ function close_firewall_seLinux(){
 }
 
 function cleanup_mysql() {
-
+    systemctl stop mysqld.service
     # mysql alisql percona 
     database="$1"
     case $distro in 
@@ -60,14 +60,17 @@ function cleanup_mysql() {
 
 
 function cleanup_all_database(){
-    
+    systemctl stop mysqld.service
     # 清理mysql
     for db in mysql alisql percona mariadb 
     do 
         cleanup_mysql $db
     done 
 
-    rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld /mysql /percona 
+    rm -rf /var/lib/mysql /var/log/mysqld.log /var/log/mysql   /var/run/mysqld /mysql /percona
+    
+ #   systemctl stop mysqld.service    
+ 
     userdel -r mysql 
 
 }
@@ -112,7 +115,7 @@ function mysql_client(){
 function mysql_load_data(){
      yum install wget -y
     if [ ! -d test_db ];then
-         wget http://192.168.50.122:8083/test_dependents/test_db.zip 
+         wget ${ci_http_addr}/test_dependents/test_db.zip 
 
         if [ $? -ne 0 ];then 
             install_deps git 

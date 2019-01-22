@@ -14,6 +14,7 @@ cd $basedir
 . ../../../../lib/sh-test-lib
 . ../../../../utils/sys_info.sh
 . ../../../../utils/sshpasswd.sh 
+. ../../../../utils/sh-test-lib
 source ./spark.sh 
 source ./scala.sh 
 #set -x
@@ -33,7 +34,7 @@ scala_test_string
 scala_test_collection
 #spark_download
 #spark_login_no_passwd
-#ssh_no_passwd
+ssh_no_passwd
 #spark_slave_host
 #spark_deploy_cluster
 spark_start_cluster

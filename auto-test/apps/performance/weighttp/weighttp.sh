@@ -20,7 +20,7 @@ pkgs="gcc wget tar make"
 install_deps "$pkgs"
 
 #install libev-3.7
-wget http://192.168.50.122:8083/test_dependents/libev-3.7.tar.gz
+wget ${ci_http_addr}/test_dependents/libev-3.7.tar.gz
     print_info $? get-libev
 tar -zxvf libev-3.7.tar.gz
     print_info $? tar-libev
@@ -30,7 +30,7 @@ make
 make install
 
 #install weighttp
-wget http://192.168.50.122:8083/test_dependents/weighttp-master.tar.gz
+wget ${ci_http_addr}/test_dependents/weighttp-master.tar.gz
     print_info $? wget-weighttp
 tar -zxvf weighttp-master.tar.gz
     print_info $? tar-weighttp

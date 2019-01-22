@@ -9,6 +9,7 @@ metadata:
         - centos
         - debian
     scope:
+        - unixbench
         - performance
     devices:
         - d06

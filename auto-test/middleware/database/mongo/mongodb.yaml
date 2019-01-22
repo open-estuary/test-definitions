@@ -6,8 +6,8 @@ metadata:
     maintainer:
         - tanliqing2010@163.com
     scope:
-        - database
         - mongodb
+        - database
     os:
         - debian
     devices:
@@ -15,7 +15,9 @@ metadata:
         - d05
     level: 1
     totalcase:
+
         debian: 24
+
 
 
 run:

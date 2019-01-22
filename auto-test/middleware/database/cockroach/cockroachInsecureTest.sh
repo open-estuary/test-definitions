@@ -4,6 +4,7 @@ set -x
 basedir=$(cd `dirname $0` ;pwd)
 cd $basedir 
 . ../../../../utils/sh-test-lib 
+. ../../../../utils/sys_info.sh
 outDebugInfo
 
 
@@ -102,22 +103,25 @@ fi
 #ps -ef | grep cockroach | grep -v grep | awk '{print $2}'| xargs kill -9
 cockroach start --insecure --store=node2 --host=localhost --port=26258 --http-port=8081 --join=localhost:26257 --background
 sleep 3
-if [ `ps -ef |grep "cockroach start" | grep -v grep | wc -l` -eq 3 ];then
-    lava-test-case "cockroach_restart" --result pass
-else
-   # lava-test-case "cockroach_restart" --result fail
-fi
+#if [ `ps -ef |grep "cockroach start" | grep -v grep | wc -l` -eq 3 ];then
+ #   lava-test-case "cockroach_restart" --result pass
+#else
+ #   lava-test-case "cockroach_restart" --result fail
+#fi
+print_info $? cockroach_restart
 
 cockroach quit --insecure --port 26257
 cockroach quit --insecure --port 26258
 cockroach quit --insecure --port 26259
 
-stopCluster=`ps -ef | grep "cockroach start" | grep -v grep`
-if [ -z  "$stopCluster" ];then
-    lava-test-case "cockroach_stop_cluster" --result pass
-else
-    #lava-test-case "cockroach_stop_cluster" --result fail
-fi
+print_info $? cockroach_stop
+
+#stopCluster=`ps -ef | grep "cockroach start" | grep -v grep`
+#if [ -z  "$stopCluster" ];then
+ #   lava-test-case "cockroach_stop_cluster" --result pass
+#else
+ #   lava-test-case "cockroach_stop_cluster" --result fail
+#fi
 
 remove_deps cockroach
 

@@ -32,7 +32,7 @@ case $HOST in
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau"
         install_deps "${pkgs}" 
         #print_info $? install-dependent-packages
-        pkgs="curl nginx"
+        pkgs="curl nginx wget"
         install_deps "${pkgs}"
 	print_info $? install-nginx
     ;;
@@ -64,10 +64,10 @@ esac
 pushd $INSTALLDIR/packages/$PKG_NAME-$PKG_VER
        #case $distro in
        # centos|fedora|opensuse|)
-	wget http://192.168.50.122:8083/test_dependents/hhvm-3.17.3-centos.aarch64.tar.gz
+	wget ${ci_http_addr}/test_dependents/hhvm-3.17.3-centos.aarch64.tar.gz
         #;;
         #ubuntu|debian)
- #       wget http://192.168.50.122:8083/test_dependents/hhvm-3.17.3-ubuntu.aarch64.tar.gz
+ #       wget ${ci_http_addr}/test_dependents/hhvm-3.17.3-ubuntu.aarch64.tar.gz
        # ;;
 #esac
 #print_info $? download-hhvm-tarball

@@ -15,19 +15,21 @@ fi
 #distro=`cat /etc/redhat-release | cut -b 1-6`
 case $distro in
     "centos"|"fedora"|"opensuse")
-        pkgs="gcc gcc-c++ git make"
+        pkgs="gcc gcc-c++ git make wget"
         install_deps "${pkgs}"
        # git clone https://github.com/google/googletest.git
        # print_info $? install-gtest
         ;;
     "ubuntu"|"debian")
-	pkgs="gcc g++ git make"
+	pkgs="gcc g++ git make wget"
 	install_deps "${pkgs}"
 	print_info $? install-deps
         ;;
 
 esac
-git clone https://github.com/google/googletest.git
+#git clone https://github.com/google/googletest.git
+wget -c ${ci_http_addr}/test_dependents/googletest.tar.gz
+tar -zxvf googletest.tar.gz
 print_info $? install-gtest
 cp Makefile googletest/googletest/samples
 cd googletest/googletest/samples

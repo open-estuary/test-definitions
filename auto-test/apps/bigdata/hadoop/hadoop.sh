@@ -4,12 +4,12 @@
 function install_jdk() {
     case $distro in
       centos|fedora)
-        pkgs="java-1.8.0-openjdk java-1.8.0-openjdk-devel wget"
+        pkgs="java-1.8.0-openjdk java-1.8.0-openjdk-devel wget expect"
         install_deps "${pkgs}"
 	print_info $? "hadoop_java_install"
         ;;
     ubuntu|debian)
-        pkgs="wget openjdk-8-jdk openjdk-8-jre"
+        pkgs="wget openjdk-8-jdk openjdk-8-jre expect"
         install_deps "${pkgs}"
         print_info $? "hadoop_java_install"
         ;;
@@ -52,7 +52,7 @@ function install_hadoop() {
 
 	if [ ! -f hadoop-${version}.tar.gz ];then
         #timeout 1m wget -c http://192.168.1.107/test-definitions/hadoop-${version}.tar.gz 
-        wget -c http://192.168.50.122:8083/test_dependents/hadoop-${version}.tar.gz
+        wget -c ${ci_http_addr}/test_dependents/hadoop-${version}.tar.gz
         if [ $? -ne 0 ];then 
             wget -q -c  http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz 
         fi
@@ -160,14 +160,17 @@ function hadoop_ssh_nopasswd() {
    # if [ -d ~/.ssh ];then
     #    rm -rf ~/.ssh
     #fi
-     EXPECT=$(which expect)
-     set timeout 100
-     spawn  ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-     expect "Overwrite"
-     send "n\r"
-     expect eof
-EOF
-
+     #EXPECT=$(which expect)
+     #$EXPECT << EOF
+     #set timeout 100
+     #spawn  ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+     #expect "Overwrite"
+     #send "n\r"
+     #expect eof
+#EOF
+    if [ ! -f ~/.ssh/id_rsa.pub ];then
+	    ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+    fi
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     chmod 0600 ~/.ssh/authorized_keys
 	echo  "StrictHostKeyChecking=no" >> ~/.ssh/config

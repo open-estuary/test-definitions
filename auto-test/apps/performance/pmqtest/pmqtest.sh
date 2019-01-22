@@ -16,9 +16,11 @@ LOOPS="10000"
 ##################### Environmental preparation  #############
 case "$distro" in
     centos|fedora)
-	pkgs="gcc git numactl-devel"
+	pkgs="gcc git numactl-devel wget"
 	install_deps "${pkgs}"
-	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+#	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+        wget -c ${ci_http_addr}/test_dependents/rt-tests.tar.gz
+	tar -zxvf rt-tests.tar.gz
 	print_info $? download_rt-test
 
 	cd rt-tests
@@ -28,7 +30,7 @@ case "$distro" in
         print_info $? run-pmqtest
 	;;
     ubuntu|debian)
-	pkgs="rt-tests"
+	pkgs="rt-tests wget"
 	install_deps "${pkgs}"
         print_info $? install_pkgs
         #以SMP模式运行进行10000次循环测试
@@ -36,9 +38,11 @@ case "$distro" in
         print_info $? run-pmqtest
 	;;
     opensuse)
-	pkgs="gcc git libnuma-devel"
+	pkgs="gcc git libnuma-devel wget"
 	install_deps "${pkgs}"
-	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+	#git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+	wget -c ${ci_http_addr}/test_dependents/rt-tests.tar.gz
+	tar -zxvf rt-tests.tar.gz
         print_info $? download_rt-test
 
         cd rt-tests

@@ -25,8 +25,8 @@ case $distro in
 ;;      
 esac
     cat ~/.bashrc
-    yum remove java*
-    yum install python2-pip nmap-ncat gcc -y
+    yum remove java* -y
+    yum install python2-pip nmap-ncat gcc wget -y
     yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
     yum install ansible -y
     ansible-playbook -i ./zk/hosts ./zk/site.yml -t install 
@@ -92,7 +92,7 @@ function zk_install_c_client(){
         if [ ! -d "/var/bigdata/zookeeper" ];then
         mkdir -p /var/bigdata/zookeeper
         cd /var/bigdata/zookeeper
-        wget http://192.168.50.122:8083/test_dependents/zookeeper.tar.gz
+        wget ${ci_http_addr}/test_dependents/zookeeper.tar.gz
         tar -zxvf zookeeper.tar.gz
         cd zookeeper-3.4.11
        fi
