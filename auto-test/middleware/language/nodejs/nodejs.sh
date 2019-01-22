@@ -18,7 +18,7 @@ function nodejs_install(){
     debian)
     apt-get install wget -y
     apt-get install sudo -y
-    wget -qO- ${ci_http_addr}/test_dependents/setup_8.x | sudo -E bash -
+    wget -qO- ${ci_http_addr}/test_dependents/setup_8_http.x | sudo -E bash -
     apt-get install -y nodejs
     print_info $? "install_nodejs"
     ;;
