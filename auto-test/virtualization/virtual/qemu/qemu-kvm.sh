@@ -82,7 +82,8 @@ esac
 qemu-system-aarch64 --help
 if [ $? -ne 0 ]; then
     QEMU_VER=qemu-2.6.0.tar.bz2
-    download_file http://wiki.qemu-project.org/download/${QEMU_VER}
+    download_file ${ci_http_addr}/test_dependents/qemu-2.6.0.tar.bz2
+    #http://wiki.qemu-project.org/download/${QEMU_VER}
     tar xf ${QEMU_VER}
     cd ${QEMU_VER%%.tar.bz2}
     ./configure --target-list=aarch64-softmmu
