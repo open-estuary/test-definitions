@@ -8,6 +8,7 @@ function install_mongodb() {
     install_deps "${pkgs}"
     print_info $? "mongodb_install_mongodb_client"
     ;;
+    esac
 
 }
 
