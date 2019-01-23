@@ -20,8 +20,8 @@ mongodb_start
 mongodb_client
 mongodb_shutdown
 
-mongodb_start_by_service
-mongodb_stop_by_service
+#mongodb_start_by_service
+#mongodb_stop_by_service
 
 mongodb_uninstall
 

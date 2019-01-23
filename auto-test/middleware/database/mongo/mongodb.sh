@@ -93,7 +93,7 @@ EOF
     fi
     ps -ef | grep 'mongod --fork'
     if [ $? -ne 0  ];then
-        print_info $? 'mongodb_shutdown'
+        print_info $? mongodb_shutdown
     fi 
 }
 
