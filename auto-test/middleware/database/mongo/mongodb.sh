@@ -84,16 +84,16 @@ function mongodb_client(){
 }
 
 function mongodb_shutdown(){
-    ps -ef | grep 'mongod --fork'    
+    ps -ef | grep 'mongod --fork'|grep -v grep    
     if [ $?  ] ;then 
     mongo <<-EOF 
     use admin;
     db.shutdownServer();
 EOF
     fi
-    ps -ef | grep 'mongod --fork'
+    ps -ef | grep 'mongod --fork'|grep -v grep
     if [ $? -ne 0  ];then
-        print_info $? mongodb_shutdown
+        print_info 0 mongodb_shutdown
     fi 
 }
 
