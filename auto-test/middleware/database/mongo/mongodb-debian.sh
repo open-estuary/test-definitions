@@ -70,7 +70,8 @@ function mongodb_client(){
 
     mkdir -p /data/db
     
-
+    systemctl start mongodb
+    sleep 5
     mongo test.js 
     print_info $? mongodb_client_exec_js_file
     
