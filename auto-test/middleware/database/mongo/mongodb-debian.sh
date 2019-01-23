@@ -7,6 +7,19 @@ function install_mongodb() {
     
     apt install net-tools -y
     apt install lsof -y
+
+    netstat -tlnp|grep 27017
+    #删除27017端口占用进程
+    lsof -i :27017|grep -v "PID"|awk '{print "kill -9",$2}'|sh
+
+    if [ $? -eq 0 ];then
+        echo kill_27017_pass
+    else
+        echo kill_27017_fail
+    fi
+
+    netstat -tlnp|grep 27017
+
     pkgs="mongodb mongodb-server"
     install_deps "${pkgs}"
     print_info $? "mongodb_install_client"
@@ -57,20 +70,7 @@ function mongodb_client(){
 
     mkdir -p /data/db
     
-    netstat -tlnp|grep 27017
-    #删除27017端口占用进程
-    lsof -i :27017|grep -v "PID"|awk '{print "kill -9",$2}'|sh
 
-    if [ $? -eq 0 ];then
-        echo kill_27017_pass
-    else
-        echo kill_27017_fail
-    fi
-
-    netstat -tlnp|grep 27017
-
-    mongod & 
-    sleep 5
     mongo test.js 
     print_info $? mongodb_client_exec_js_file
     
