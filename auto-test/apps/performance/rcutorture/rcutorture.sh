@@ -55,5 +55,3 @@ else
     print_info 1 rcutorture-end
 fi
 
-remove_deps "gzip"
-info_msg "remove pkgs successfully"
