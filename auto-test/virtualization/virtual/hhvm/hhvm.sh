@@ -23,16 +23,18 @@ HOST=$distro
 PKG_NAME="hhvm"
 #PKG_NAME="php-phpunit-environment"
 PKG_VER="3.17.3"
+pkg="wget"
+install_deps "{pkg}"
 
 case $HOST in
     centos|fedora|opensuse)
         echo "[$PKG_NAME] install package on $HOST system"
         # install hhvm dependent packages
-        pkgs="wget tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
+        pkgs="tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau"
         install_deps "${pkgs}" 
         #print_info $? install-dependent-packages
-        pkgs="curl nginx wget"
+        pkgs="curl nginx"
         install_deps "${pkgs}"
 	print_info $? install-nginx
     ;;
@@ -46,7 +48,7 @@ case $HOST in
         libmagickwand-dev libc-client2007e-dev libmemcached-dev libmcrypt-dev libpq-dev libboost-dev libboost-filesystem-dev libboost-program-options-dev \
         libboost-regex-dev libboost-system-dev libboost-thread-dev libboost-context-dev -y
         #print_info $? install-dependent-packages
-        apt-get install -y curl nginx wget
+        apt-get install -y curl nginx
 		print_info $? install-nginx
     ;;
     #debian)
