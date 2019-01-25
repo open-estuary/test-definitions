@@ -21,7 +21,7 @@ metadata:
     totalcase:
         debian: 27
         ubuntu: 27
-        centos: 27
+        centos: 28
 run:
     steps:
         - "cd auto-test/middleware/language/php; ./phptest.sh; cd -"
