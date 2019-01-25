@@ -6,8 +6,8 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - http
-        -distribution
+        - distribution
+        - gtest
     os:
         - debian
     devices:
@@ -15,7 +15,7 @@ metadata:
         - d06
     level: 1
     totalcase:
-        debian: 7
+        debian: 8
 run:
     steps:
         - "cd auto-test/distributions/distribution/gtest; ./gtest.sh; cd -"
