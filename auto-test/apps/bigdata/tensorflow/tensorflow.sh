@@ -108,8 +108,8 @@ print_info $? pip-remove-whl
 #环境复原
 case $distro in
     "centos")
-    pkgs="tensorflow"
-    remove_deps "${pkgs}"
+    pkg="tensorflow"
+    remove_deps "${pkg}"
     print_info $? remove-pkgs
     ;;
     "debian")

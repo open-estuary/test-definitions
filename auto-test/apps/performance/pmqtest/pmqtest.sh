@@ -13,10 +13,13 @@ source ../../../../utils/sh-test-lib
 #set variable
 LOOPS="10000"
 
+pkg="gcc git wget tar"
+install_deps "${pkg}"
+
 ##################### Environmental preparation  #############
 case "$distro" in
     centos|fedora)
-	pkgs="gcc git numactl-devel wget"
+	pkgs="numactl-devel"
 	install_deps "${pkgs}"
 #	git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
         wget -c ${ci_http_addr}/test_dependents/rt-tests.tar.gz
@@ -30,7 +33,7 @@ case "$distro" in
         print_info $? run-pmqtest
 	;;
     ubuntu|debian)
-	pkgs="rt-tests wget"
+	pkgs="rt-tests"
 	install_deps "${pkgs}"
         print_info $? install_pkgs
         #以SMP模式运行进行10000次循环测试
@@ -38,7 +41,7 @@ case "$distro" in
         print_info $? run-pmqtest
 	;;
     opensuse)
-	pkgs="gcc git libnuma-devel wget"
+	pkgs="libnuma-devel"
 	install_deps "${pkgs}"
 	#git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
 	wget -c ${ci_http_addr}/test_dependents/rt-tests.tar.gz

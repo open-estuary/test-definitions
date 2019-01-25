@@ -44,5 +44,7 @@ git checkout tags/"${GIT_TAG}" -b "${GIT_TAG}"
 ./isolate-task.sh -v -c "${CPUS}" sleep "10" 2>&1 | tee "${TEST_LOG}"
 print_info $? tracking-isolation
 grep TEST_ISOLATION_CORE_ "${TEST_LOG}" > "${RESULT_FILE}"
-remove_deps "git stress cpuset gzip"
+
+cd ../
+rm -rf  task-isolation
 print_info $? remove-pkgs
