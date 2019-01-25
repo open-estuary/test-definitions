@@ -13,8 +13,8 @@ path=`pwd`
 random_uuid=`cat /proc/sys/kernel/random/uuid`
 
 ### Download the virtual machine image file ###
-pkgs="wget"
-install_deps "${pkgs}"
+pkg="wget"
+install_deps "${pkg}"
 #wget http://120.31.149.194:18083/test_dependents/cirros-0.4.0-aarch64-disk.img
 wget ${ci_http_addr}/test_dependents/cirros-0.4.0-aarch64-disk.img
 
