@@ -7,6 +7,11 @@ cd ../../../../utils
 . ./sh-test-lib
 cd -
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+	    export http_proxy="http://172.19.20.11:3128"
+	    export https_proxy="http://172.19.20.11:3128"
+fi
+
 pkgs="docker expect net-tools"
 install_deps "${pkgs}"
 print_info $? install-package
