@@ -8,8 +8,12 @@ cd ../../../../utils
 cd -
 
 if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
-	    export http_proxy="http://172.19.20.11:3128"
-	    export https_proxy="http://172.19.20.11:3128"
+        echo -e "nameserver 10.98.48.39\nnameserver 10.72.55.82\nnameserver 10.72.255.100\ndomain huawei.com\nnameserver 10.129.54.130\nnameserver 8.8.8.8" >> /etc/resolv.conf
+mkdir -p /etc/systemd/system/docker.service.d
+echo "[Service]
+Environment=\"HTTP_PROXY=http://172.19.20.11:3128\" \"HTTPS_PROXY=https://172.19.20.11:3128\" \"NO_PROXY=*.huawei.com\"" > /etc/systemd/system/docker.service.d/http-proxy.conf
+        systemctl daemon-reload
+        systemctl restart docker
 fi
 
 pkgs="docker expect net-tools"
@@ -72,6 +76,11 @@ EXPECT=$(which expect)
 $EXPECT << EOF | tee out.log
 set timeout 500
 spawn docker exec -it test1 bash
+
+expect "/]#"
+send "export http_proxy=172.19.20.11:3128 && export https_proxy=172.19.20.11:3128\r"
+
+
 expect "/]#"
 send "ifconfig\r"
 expect "/]#"
