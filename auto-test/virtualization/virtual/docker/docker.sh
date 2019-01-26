@@ -24,6 +24,10 @@ case "$distro" in
 	print_info $? install-docker
 	;;
     debian)
+        if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+	    export http_proxy="http://172.19.20.11:3128"
+	    export https_proxy="http://172.19.20.11:3128"
+	fi
     	wget ${ci_http_addr}/test_dependents/get-docker.sh
 	sh get-docker.sh --mirror Aliyun
 	print_info $? install-docker
@@ -160,7 +164,8 @@ fi
 rm -rf docker.tar.gz
 rm -rf docker
 rm -rf upload
-rm -rf rm -rf /var/lib/docker
+#rm -rf rm -rf /var/lib/docker
+rm -rf /var/lib/docker
 
 case "${distro}" in
     centos|fedora|opensuse)
