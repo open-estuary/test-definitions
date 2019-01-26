@@ -12,6 +12,11 @@ if [ `whoami` != "root" ];then
 fi
 
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+	    export http_proxy="http://172.19.20.11:3128"
+	    export https_proxy="http://172.19.20.11:3128"
+fi
+
 IFCONFIG=`ip link|grep "state UP"|awk '{print $2}'|sed "s/://g"|head -1`
 IP=`ip a|grep ${IFCONFIG}|grep "inet "|awk '{print $2}'|cut -d '/' -f 1`
 
