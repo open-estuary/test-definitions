@@ -54,7 +54,7 @@ case "${dist}" in
         ;;
     centos|fedora)
         if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
-	        yum install m4 gcc net-tools bc xmlto asciidoc openssl-devel \
+	        yum install m4 gcc git net-tools bc xmlto asciidoc openssl-devel \
             hmaccalc elfutils-devel zlib-devel binutils-devel newt-devel \
             python-devel perl-ExtUtils-Embed bison audit-libs-devel pciutils-devel perl -y
 	        
