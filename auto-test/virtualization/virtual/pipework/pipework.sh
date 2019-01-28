@@ -133,6 +133,11 @@ EOF
 cat ./out.log | grep '172.17.0.21'
 #print_info $? retest-pipework-ip
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+    docker ps -a|grep test1|awk '{print $1}'|xargs docker rm -f
+fi
+
+
 cat ./out.log | grep '0% packet loss'
 #print_info $? test-container-network
 print_info 0 test-container-network
