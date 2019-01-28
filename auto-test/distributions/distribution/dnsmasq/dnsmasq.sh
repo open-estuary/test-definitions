@@ -44,6 +44,13 @@ sed -i "s/#listen-address=/listen-address=127.0.0.1,${IP}/g" $DNSMASQ_CONF
 sed -i "s/#bind-interfaces/bind-interfaces/g" $DNSMASQ_CONF
 echo 'nameserver 127.0.0.1' > /etc/resolv.conf
 echo 'nameserver 8.8.8.8' > /etc/resolv.dnsmasq.conf
+
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+        echo -e "nameserver 10.98.48.39\nnameserver 10.72.55.82\nnameserver 10.72.255.100\ndomain huawei.com\nnameserver 10.129.54.130\nnameserver 8.8.8.8" >> /etc/resolv.conf
+        echo -e "nameserver 10.98.48.39\nnameserver 10.72.55.82\nnameserver 10.72.255.100\ndomain huawei.com\nnameserver 10.129.54.130\nnameserver 8.8.8.8" >> /etc/resolv.dnsmasq.conf
+fi
+
+
 cp /etc/hosts /etc/dnsmasq.hosts
 echo 'addn-hosts=/etc/dnsmasq.hosts' >> /etc/dnsmasq.conf
 
