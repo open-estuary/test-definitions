@@ -364,7 +364,11 @@ function hive_uninstall(){
 	rm -rf apache-hive*
 	hdfs dfs -rm -r /user/hive
 	sed -i "/HIVE_HOME/d" ~/.bashrc
-	export HIVE_HOME 
+	export HIVE_HOME
+	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+             rm -rf metastore_db
+             rm -rf ml-100k*
+        fi
 
 }
 
