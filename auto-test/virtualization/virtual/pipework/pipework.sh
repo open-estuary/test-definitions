@@ -44,6 +44,28 @@ print_info $? setup-bridge-port
 pipework docker0 test1 172.17.0.20/24@172.17.0.1
 print_info $? pipework-set-ip
 
+
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then 
+
+EXPECT=$(which expect)
+$EXPECT << EOF | tee out.log
+set timeout 10000
+spawn docker exec -it test1 bash
+
+expect "/]#"
+send "export http_proxy=172.19.20.11:3128 && export https_proxy=172.19.20.11:3128\r"
+
+expect "/]#"
+send "yum install -y net-tools\r"
+expect "Complete"
+send "ifconfig\r"
+expect "/]#"
+send "exit\r"
+expect eof
+EOF
+
+else
+
 EXPECT=$(which expect)
 $EXPECT << EOF | tee out.log
 set timeout 10000
@@ -56,6 +78,8 @@ expect "/]#"
 send "exit\r"
 expect eof
 EOF
+
+fi
 
 cat ./out.log | grep "/]# ifconfig"
 print_info $? exec-container
@@ -76,11 +100,6 @@ EXPECT=$(which expect)
 $EXPECT << EOF | tee out.log
 set timeout 500
 spawn docker exec -it test1 bash
-
-expect "/]#"
-send "export http_proxy=172.19.20.11:3128 && export https_proxy=172.19.20.11:3128\r"
-
-
 expect "/]#"
 send "ifconfig\r"
 expect "/]#"
