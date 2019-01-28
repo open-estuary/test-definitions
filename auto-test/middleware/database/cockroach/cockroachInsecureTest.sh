@@ -92,6 +92,9 @@ fi
 
 #ps -ef | grep cockroach | grep node2 | grep -v grep | awk '{print $2}' | xargs kill -9
 cockroach quit --insecure --port 26258
+
+sleep 5
+
 noderes=`cockroach sql --insecure -e "SELECT * FROM bank.accounts"`
 
 if [ `echo "$noderes"| grep "1 row" -c` -ge 1  ] ;then

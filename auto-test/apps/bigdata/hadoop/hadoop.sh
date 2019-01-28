@@ -143,7 +143,8 @@ EOF
     popd 
 
 }
-mv /usr/lib/jvm/java-1.8.0-openjdk-arm64  /usr/lib/jvm/java-1.8.0-openjdk
+
+
 function hadoop_namenode_format() {
 	pushd  $HADOOP_HOME
 	rm -rf /tmp/hadoop-root
@@ -188,6 +189,8 @@ function hadoop_single_node() {
 	sbin/start-dfs.sh
 	print_info $? "hadoop_single_node_start_dfs"
 	
+	jps
+
 	# 5 
 	jps | grep NameNode | grep -v Jps
 	res1=$?
@@ -204,11 +207,14 @@ function hadoop_single_node() {
 		echo "-------------------------------------------------"
 		exit 1
 	fi
-       # mv /usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java /usr/lib/jvm/java-1.8.0-openjdk/bin/java
+	
+	sleep 5
+
+	bin/hdfs dfsadmin -safemode get
 	bin/hdfs dfsadmin -safemode leave	
 	print_info $? "hadoop_close_safe_node_mode"
 	bin/hdfs dfs -test -e /aa
-	if [ $? ];then
+	if [ $? -eq 0 ];then
 		bin/hdfs dfs -rm  -r /aa
 	fi
 	bin/hdfs dfs -mkdir /aa
