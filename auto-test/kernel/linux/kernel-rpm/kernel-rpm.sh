@@ -91,6 +91,7 @@ case "${dist}" in
 esac
 cd -
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
 case "${dist}" in
      centos|fedora)
         if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
@@ -104,3 +105,4 @@ case "${dist}" in
 	 echo 'need restore environment'
 	 ;;
 esac
+fi
