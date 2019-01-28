@@ -38,14 +38,16 @@ case "${distro}" in
 	print_info $? install-package
 	pip install --ignore-installed --force-reinstall 'requests==2.6.0' urllib3
 	cd -
-	下载loder文件
+	#下载loder文件
         mkdir -p /usr/share/AAVMF
         cd /usr/share/AAVMF
         wget ${ci_http_addr}/test_dependents/AAVMF_CODE.fd
         wget ${ci_http_addr}/test_dependents/AAVMF_VARS.fd
         wget ${ci_http_addr}/test_dependents/AAVMF_CODE.verbose.fd
         cd -
-
+	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+             sed -i "15s/virt-rhel7.6.0/virt-rhel7.5.0/" $path/centos_libvirt_demo.xml
+	fi
 	;;
    fedora)
 	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils"
