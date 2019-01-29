@@ -18,6 +18,12 @@ function nodejs_install(){
     debian)
     apt-get install wget -y
     apt-get install sudo -y
+    
+    if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+	    export http_proxy="http://172.19.20.11:3128"
+	    export https_proxy="http://172.19.20.11:3128"
+    fi
+    
     wget -qO- ${ci_http_addr}/test_dependents/setup_8_http.x | sudo -E bash -
     apt-get install -y nodejs
     print_info $? "install_nodejs"
