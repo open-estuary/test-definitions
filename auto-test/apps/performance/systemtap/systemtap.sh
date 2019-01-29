@@ -49,7 +49,7 @@ else
     echo "${PACKAGE} work: [PASS]" | tee -a "${RESULT_FILE}"
 fi
 install_systemtap
-remove_deps "${PACKAGE} ${DEPENDS}"
+remove_deps "${PACKAGE}"
 if test $? -eq 0;then
     echo "${PACKAGE} remove: [PASS]" | tee -a "${RESULT_FILE}"
 else
