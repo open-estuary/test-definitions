@@ -20,13 +20,19 @@ function nodejs_install(){
     apt-get install sudo -y
     
     if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
-	    export http_proxy="http://172.19.20.11:3128"
-	    export https_proxy="http://172.19.20.11:3128"
-    fi
-    
+        [ ! -f node-v8.15.0-linux-arm64.tar.gz ] && wget https://nodejs.org/dist/latest-v8.x/node-v8.15.0-linux-arm64.tar.gz
+        [ ! -d node-v8.15.0-linux-arm64 ] && tar -zxf node-v8.15.0-linux-arm64.tar.gz
+	cd node-v8.15.0-linux-arm64/bin
+	ln -s $(pwd)/node /usr/bin/node
+        export PATH=$PATH:$(pwd)
+	cd -
+	npm -v
+	print_info $? "install_nodejs"
+    else
     wget -qO- ${ci_http_addr}/test_dependents/setup_8_http.x | sudo -E bash -
     apt-get install -y nodejs
     print_info $? "install_nodejs"
+    fi
     ;;
    esac
 }
@@ -78,9 +84,15 @@ function nodejs_fs_test(){
 }
 
 function nodejs_uninstall(){
+    if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+    rm -f /usr/bin/node
+    rm -rf node-v8.15.0-linux-arm64
+    print_info $? "uninstall_nodejs"
+    else
     pkgs="nodejs"
     remove_deps "${pkgs}" 
     print_info $? "uninstall_nodejs"
+    fi
 
 }
 
