@@ -102,5 +102,6 @@ else
 fi
 
 ######################## environment  restore ###########################
-remove_deps "expect"
-print_info $? remove-package
+rm -rf sftp_put_test.log
+rm -rf sftp_get_test.log
+
