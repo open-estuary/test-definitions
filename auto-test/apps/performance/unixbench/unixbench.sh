@@ -90,7 +90,4 @@ cd ../../../
 rm -rf byte-unixbench-master
 print_info $? delete_Unixbench
 
-pkgs="gcc perl wget make unzip"
-remove_deps "${pkgs}"
-print_info $? remove-package
 
