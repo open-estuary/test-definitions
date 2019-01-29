@@ -168,11 +168,13 @@ fi
 rm -rf tmp
 case $distro in
     "ubuntu"|"debian")
-        remove_deps "${pkgs}"
+	pkg="vsftpd ftp"
+        remove_deps "${pkg}"
         print_info $? remove-package
         ;;
     "centos"|"opensuse"|"fedora")
-        remove_deps "${pkgs}"
+	pkg="vsftpd ftp vsftpd.aarch64"
+        remove_deps "${pkg}"
         print_info $? remove-package
         ;;
 esac
