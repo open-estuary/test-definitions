@@ -26,9 +26,9 @@ case $distro in
 	;;
 esac
 wget ${ci_http_addr}/test_dependents/cryptopp-CRYPTOPP_5_6_5.zip
-        print_info $? get-crypto
-unzip cryptopp-CRYPTOPP_5_6_5.zip
-        print_info $? unzip-crypto
+print_info $? get-crypto
+unzip cryptopp-CRYPTOPP_5_6_5.zip && rm -rf cryptopp-CRYPTOPP_5_6_5.zip
+print_info $? unzip-crypto
 
 cd cryptopp-CRYPTOPP_5_6_5
 make
@@ -153,16 +153,5 @@ else
     lava-test-case $TCID --result fail
 fi
 rm -rf cryptopp-CRYPTOPP_5_6_5
+print_info $? remove-pkgs
 rm -f cryptopp-CRYPTOPP_5_6_5.zip Cryptopp_test.cc Cryptopp_test crytest.log
-case $distro in
-        "centos"|"fedora"|"opensuse")
-        pkgs="gcc gcc-c++ make unzip wget"
-        remove_deps "${pkgs}"
-        print_info $? remove-pkgs
-        ;;
-        "ubuntu"|"debian")
-        pkgs="gcc g++ make unzip wget"
-        remove_deps "${pkgs}"
-        print_info $? remove-pkgs
-        ;;
-esac
