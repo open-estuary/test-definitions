@@ -80,18 +80,6 @@ javac test3.java
 java test3
 #print_info $? run-JAVAfile
 
-case $distro in
-    "ubuntu"|"debian")
-        pkgs="gcc g++"
-        remove_deps "${pkgs}"
-        print_info $? remove-package
-        ;;
-    "centos"|"fedora"|"opensuse")
-        pkgs="gcc gcc-c++"
-        remove_deps "${pkgs}"
-        print_info $? remove-package
-        ;;
-esac
 
-rm -f main.c test1.o main.cpp test2.o test3.java test3.class
-
+rm -rf main.c test1.o main.cpp test2.o test3.java test3.class
+print_info $? remove
