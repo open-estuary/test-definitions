@@ -1,6 +1,6 @@
 var page = require('webpage').create();
 phantom.outputEncoding = "UTF-8"; //解决中文乱码
-page.open("https://www.baidu.com", function(status) {
+page.open("https://baidu.com", function(status) {
     console.log(status);
     page.render('screen.png');
     var title = page.evaluate(function() {
