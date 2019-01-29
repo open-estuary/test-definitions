@@ -24,7 +24,8 @@ function nodejs_install(){
            [ ! -d node-v8.15.0-linux-arm64 ] && tar -zxf node-v8.15.0-linux-arm64.tar.gz
 	   cd node-v8.15.0-linux-arm64/bin
 	   ln -s $(pwd)/node /usr/bin/node
-           export PATH=$PATH:$(pwd)
+           current_dir=`pwd`
+           export PATH=$PATH:$current_dir
 	   cd -
 	   node -v
 	   npm -v
@@ -90,6 +91,7 @@ function nodejs_uninstall(){
     if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
         rm -f /usr/bin/node
         rm -rf node-v8.15.0-linux-arm64
+	echo ${path#/$current_dir:}
         print_info $? "uninstall_nodejs"
     else
     
