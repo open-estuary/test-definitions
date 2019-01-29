@@ -88,17 +88,27 @@ function nodejs_fs_test(){
 }
 
 function nodejs_uninstall(){
-    if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
-        rm -f /usr/bin/node
-        rm -rf node-v8.15.0-linux-arm64
-	echo ${path#/$current_dir:}
-        print_info $? "uninstall_nodejs"
-    else
+   case $distro in
+     centos)
+     pkgs="nodejs"
+     remove_deps "${pkgs}" 
+     print_info $? "uninstall_nodejs"
+     ;;
     
-        pkgs="nodejs"
-        remove_deps "${pkgs}" 
-        print_info $? "uninstall_nodejs"
-    fi
+     debian)
+     if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+         rm -f /usr/bin/node
+         rm -rf node-v8.15.0-linux-arm64
+ 	 echo ${path#/$current_dir:}
+         print_info $? "uninstall_nodejs"
+     else
+    
+         pkgs="nodejs"
+         remove_deps "${pkgs}" 
+         print_info $? "uninstall_nodejs"
+     fi
+     ;;
+   esac
 
 }
 
