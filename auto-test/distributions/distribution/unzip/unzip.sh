@@ -12,16 +12,12 @@ if [ `whoami` != 'root' ]; then
     exit 1
 fi
 
-pkg="wget"
-install_deps "${pkg}"
 
-case $distro in
-    "centos"|"ubuntu"|"debian"|"fedora"|"opensuse")
-        pkgs="unzip zip"
-        install_deps "${pkgs}"
-        print_info $? install-pkg
-        ;;
-esac
+pkgs="unzip zip wget"
+install_deps "${pkgs}"
+print_info $? install-pkg
+        
+
 wget ${ci_http_addr}/test_dependents/netperf-2.7.0.tar.gz
 
 tar -zxvf netperf-2.7.0.tar.gz
@@ -44,5 +40,3 @@ print_info $? zip-packaging
 rm -rf netperf*
 rm -rf cryp*
 
-remove_deps "${pkgs}"
-print_info $? remove-pkg
