@@ -27,12 +27,16 @@ done
 ! check_root && error_msg "You need to be root to install packages!"
 create_out_dir "${OUTPUT}"
 cd "${OUTPUT}"
+
+pkg="gcc"
+install_deps "$pkg"
+
 dist_name
 case "${dist}" in
     centos) 
             version="1.6.2"
             SOURCE="Estuary"
-            pkgs="gcc libbson libbson-devel"
+            pkgs="libbson libbson-devel"
             install_deps "${pkgs}" "${SKIP_INSTALL}"
             print_info $? install-libbson
             v=$(yum info libbson | grep "^Version" | awk '{print $3}')
@@ -66,12 +70,12 @@ case "${dist}" in
             print_info $? libbson-devel-source
             ;;
        "ubuntu"|"debian")
-            pkgs="gcc libbson-1.0-0 libbson-dev"
+            pkgs="libbson-1.0-0 libbson-dev"
             install_deps "${pkgs}"
             print_info $? install-libbson
             ;;
         "fedora")
-            pkgs="gcc libbson libbson-devel"
+            pkgs="libbson libbson-devel"
             install_deps "${pkgs}"
             print_info $? install-libbson
 esac

@@ -43,11 +43,10 @@ case $distro in
     "ubuntu"|"debian")
 	aptitude remove libpcre3 -y
 	aptitude remove libpcre3-dev -y
-	aptitude remove g++ -y
-        print_info $? remove-pkgs
+	print_info $? remove-pkgs
         ;;
     "centos"|"fedora"|"opensuse")
-	remove_deps  "${pkgs}"
+	remove_deps pcre-devel
 	print_info $? remove-pkgs
     	;;
 esac

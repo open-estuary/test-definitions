@@ -27,23 +27,23 @@ case $distro in
 esac
 
 #验证截图功能
-phantomjs ./a.js
+phantomjs a.js
 print_info $? phantomjs-screenshots
 
 #验证hello world功能
-phantomjs ./hello.js 2>&1 | tee phantomjs.log
+phantomjs hello.js 2>&1 | tee phantomjs.log
 print_info $? phantomjs-helloword
 
 #验证传递参数功能
-phantomjs ./arguments.js foo bar baz 2>&1 |tee -a  phantomjs.log
+phantomjs arguments.js foo bar baz 2>&1 |tee -a  phantomjs.log
 print_info $? phantomjs-parameters
 
 #加载页面的时间
-phantomjs ./loadspeed.js https://www.baidu.com 2>&1 | tee -a phantomjs.log
+phantomjs loadspeed.js https://www.baidu.com 2>&1 | tee -a phantomjs.log
 print_info $? phantomjs-loadingpage
 
 #获取到百度的标题
-phantomjs ./title.js 2>&1 | tee -a phantomjs.log
+phantomjs title.js 2>&1 | tee -a phantomjs.log
 print_info $? phantomjs-title
 
 case $distro in

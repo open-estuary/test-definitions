@@ -16,8 +16,8 @@ metadata:
         - d05
     level: 5
     totalcase: 
-        centos: 14
-        debian: 14
+        centos: 13
+        debian: 13
 run:
     steps:
         - "cd auto-test/apps/performance/unixbench/; ./unixbench.sh; cd -"

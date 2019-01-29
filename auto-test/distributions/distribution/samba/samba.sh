@@ -222,11 +222,11 @@ if [ $count -gt 0 ];then
 fi
 case $distro in
     "centos"|"fedora")
-     yum remove samba smbclient expect selinux-utils -y
+     yum remove samba smbclient selinux-utils -y
      print_info $? remove-package
      ;;
  "ubuntu"|"debian")
-    apt-get remove samba  expect -y
+    apt-get remove samba -y
     print_info $? remove-package
     ;;
  "opensuse")

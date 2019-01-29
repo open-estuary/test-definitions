@@ -15,15 +15,13 @@ if [ `whoami` != 'root' ] ; then
     echo "You must be the superuser to run this script" >&2
     exit 1
 fi
+
+pkg="cmake boost gcc-c++ make"
+install_deps "$pkg"
+
 case $distro in
     "centos"|"fedora")
-         #yum install yaml-cpp-static -y
-         #yum install yaml-cpp -y
-         #yum install cmake -y
-         #yum install boost -y
-         #yum install gcc-c++ -y
-         #yum install make -y
-         package="yaml-cpp-static yaml-cpp cmake boost gcc-c++ make"
+         package="yaml-cpp-static yaml-cpp"
          install_deps "${package}"
          print_info $? install-yaml-cpp
          ;;

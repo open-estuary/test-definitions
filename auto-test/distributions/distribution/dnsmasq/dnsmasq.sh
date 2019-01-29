@@ -88,11 +88,11 @@ esac
 #Uninstall software
 case $distro in
     "centos"|"fedora"|"opensuse")
-        remove_deps "${pkgs}"
+        remove_deps dnsmasq
         print_info $? remove-dnsmasq
         ;;
     "ubuntu"|"debian")
-        remove_deps "${pkgs}"
+        remove_deps dnsmasq
         print_info $? remove-dnsmasq
         ;;
 esac

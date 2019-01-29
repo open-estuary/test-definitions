@@ -15,9 +15,6 @@ if [ `whoami` != 'root' ]; then
 fi
 case $distro in
     "centos")
-        #yum install gcc -y
-        #yum install gcc-c++ -y
-        #yum install wget -y
         pkgs="gcc gcc-c++ wget python-devel bzip2-devel zlib-devel"
         install_deps "${pkgs}"
         print_info $? install-package
@@ -58,6 +55,9 @@ if [ "$str" != "" ]; then
 else
     lava-test-case $TCID --result fail
 fi
-#yum remove gcc gcc-c++ -y
-remove_deps "${pkgs}"
+
+
+
+cd -
+rm -rf boost_1_63_0
 print_info $? remove-pkgs

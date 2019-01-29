@@ -26,9 +26,9 @@ case $distro in
         ;;
 esac
 wget ${ci_http_addr}/test_dependents/google-snappy-1.1.7-15-gea660b5.tar.gz
-        print_info $? get-snappy
-tar -zxvf google-snappy-1.1.7-15-gea660b5.tar.gz
-        print_info $? decompression
+print_info $? get-snappy
+tar -zxf google-snappy-1.1.7-15-gea660b5.tar.gz && rm -rf  google-snappy-1.1.7-15-gea660b5.tar.gz
+print_info $? decompression
 
 cd google-snappy-ea660b5
 mkdir build 
@@ -77,13 +77,11 @@ rm -f google-snappy-1.1.7-15-gea660b5.tar.gz
 rm -rf google-snappy-ea660b5
 case $distro in
     "centos"|"fedora"|"opensuse")
-        pkgs="gcc gcc-c++ make cmake wget"
-        remove_deps "${pkgs}"
+        rm -rf google-snappy-ea660b5
         print_info $? remove-pkgs
         ;;
-        "ubuntu"|"debian")
-        pkgs="gcc g++ make cmake wget"
-        remove_deps "${pkgs}"
+     "ubuntu"|"debian")
+        rm -rf google-snappy-ea660b5
         print_info $? remove-pkgs
         ;;
 esac
