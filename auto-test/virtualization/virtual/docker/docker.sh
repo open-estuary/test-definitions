@@ -15,7 +15,7 @@ install_deps "${pkg}"
 case "$distro" in
     centos|fedora|opensuse)
 	#清理环境
-	pkill docker
+	systemctl stop docker
 	iptables -t nat -F
 	ifconfig docker0 down
 	brctl delbr docker0
