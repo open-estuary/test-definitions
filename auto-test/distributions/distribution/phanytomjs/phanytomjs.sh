@@ -27,7 +27,7 @@ case $distro in
 esac
 
 #验证截图功能
-phantomjs a.js
+phantomjs a.js 2>&1 | tee phantomjs.log
 sleep 3
 
 if [ -d test/ ];then
