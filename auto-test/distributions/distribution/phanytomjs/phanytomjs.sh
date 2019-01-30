@@ -19,7 +19,7 @@ case $distro in
 "centos")
      yum remove phantomjs -y
      pkgs="gcc gcc-c++ make openssl-devel freetype-devel fontconfig-devel phantomjs"
-     install_deps ${pkgs}
+     install_deps "${pkgs}"
      print_info $? install-phantomjs
      ;;
  "ubuntu")
