@@ -9,11 +9,18 @@ cd -
 ! check_root && error_msg "Please run this script as root."
 
 ##################### Environmental preparation ###################
-pkg="make wget curl"
+pkg="make wget curl bridge-utils net-tools"
 install_deps "${pkg}"
 
 case "$distro" in
     centos|fedora|opensuse)
+	#清理环境
+	systemctl stop docker
+	iptables -t nat -F
+	ifconfig docker0 down
+	brctl delbr docker0
+	yum remove docker -y
+	#安装docker
 	pkgs="docker"
 	install_deps "${pkgs}"
 	print_info $? install-docker
@@ -174,8 +181,12 @@ fi
 
 case "${distro}" in
     centos|fedora|opensuse)
-        pkgs_re="docker"
-	remove_deps "${pkgs_re}"
+	pkill docker
+        iptables -t nat -F
+        ifconfig docker0 down
+        brctl delbr docker0
+        
+	yum remove docker -y	
 	print_info $? remove_docker
 	;;
     ubuntu)

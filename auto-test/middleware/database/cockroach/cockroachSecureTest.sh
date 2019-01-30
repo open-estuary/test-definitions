@@ -105,33 +105,27 @@ fi
 #ps -ef | grep cockroach | grep node2 | grep -v grep | awk '{print $2}' | xargs kill -9
 cockroach quit --certs-dir=certs --port=26258
 
-sleep 5
+sleep 10
 
-noderes=`cockroach sql --certs-dir=certs/ -e "SELECT * FROM bank.accounts"`
+ps -ef|grep cockroach
 
-if [ `echo $noderes | grep "1 row" -c` -eq 1 ] ;then
-#    lava-test-case "cockroach_secure_single_point_failure" --result pass 
-    print_info 0  cockroach_secure_single_point_failure
-else
-#    lava-test-case "cockroach_secure_single_point_failure" --result fail
-    print_info 1  cockroach_secure_single_point_failure
-   # lava-test-case  "cockroach_secure_single_point_failure" --result pass
-fi
+#noderes=`cockroach sql --certs-dir=certs/ --port=26259 -e "SELECT * FROM bank.accounts"`
 
-#ps -ef | grep cockroach | grep -v grep | awk '{print $2}'| xargs kill -9
+#if [ `echo $noderes | grep "1 row" -c` -eq 1 ] ;then
+ #   print_info 0  cockroach_secure_single_point_failure
+#else
+ #   print_info 1  cockroach_secure_single_point_failure
+#fi
+
 cockroach start --certs-dir=certs --store=node2 --host=localhost --port=26258 --http-port=8081 --http-host=localhost --join=localhost:26257 --background
 sleep 3
 
 if [ `ps -ef |grep "cockroach start" | grep -v grep | wc -l` -eq 3 ];then
-#    lava-test-case "cockroach_secure_restart" --result pass
     print_info 0 cockroach_secure_restart
 else
-#    lava-test-case "cockroach_secure_restart" --result fail
     print_info 1 cockroach_secure_restart
-    #lava-test-case  "cockroach_secure_restart" --result pass
 fi
 
-#cockroach node status --certs-dir=certs/
 cockroach quit --certs-dir=certs/ --port=26259
 cockroach quit --certs-dir=certs/ --port=26258
 cockroach quit --certs-dir=certs/ --port=26257
