@@ -109,13 +109,13 @@ sleep 10
 
 ps -ef|grep cockroach
 
-noderes=`cockroach sql --certs-dir=certs/ --port=26259 -e "SELECT * FROM bank.accounts"`
+#noderes=`cockroach sql --certs-dir=certs/ --port=26259 -e "SELECT * FROM bank.accounts"`
 
-if [ `echo $noderes | grep "1 row" -c` -eq 1 ] ;then
-    print_info 0  cockroach_secure_single_point_failure
-else
-    print_info 1  cockroach_secure_single_point_failure
-fi
+#if [ `echo $noderes | grep "1 row" -c` -eq 1 ] ;then
+ #   print_info 0  cockroach_secure_single_point_failure
+#else
+ #   print_info 1  cockroach_secure_single_point_failure
+#fi
 
 cockroach start --certs-dir=certs --store=node2 --host=localhost --port=26258 --http-port=8081 --http-host=localhost --join=localhost:26257 --background
 sleep 3

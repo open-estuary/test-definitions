@@ -96,13 +96,13 @@ sleep 10
 
 ps -ef|grep cockroach
 
-noderes=`cockroach sql --insecure --port=26259 -e "SELECT * FROM bank.accounts"`
+#noderes=`cockroach sql --insecure --port=26259 -e "SELECT * FROM bank.accounts"`
 
-if [ `echo "$noderes"| grep "1 row" -c` -ge 1  ] ;then
-    lava-test-case "cockroach_single_point_failure" --result pass 
-else
-    lava-test-case "cockroach_single_point_failure" --result fail 
-fi
+#if [ `echo "$noderes"| grep "1 row" -c` -ge 1  ] ;then
+ #   lava-test-case "cockroach_single_point_failure" --result pass 
+#else
+ #   lava-test-case "cockroach_single_point_failure" --result fail 
+#fi
 
 cockroach start --insecure --store=node2 --host=localhost --port=26258 --http-port=8081 --join=localhost:26257 --background
 sleep 3
