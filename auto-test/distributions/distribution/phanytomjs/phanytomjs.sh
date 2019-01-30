@@ -17,7 +17,8 @@ if [ `whoami` != 'root' ] ; then
 fi
 case $distro in
 "centos")
-     yum install phantomjs -y
+     pkgs="phantomjs gcc gcc-c++ make openssl-devel freetype-devel fontconfig-devel"
+     install_deps ${pkgs}
      print_info $? install-phantomjs
      ;;
  "ubuntu")
@@ -26,8 +27,20 @@ case $distro in
      ;;
 esac
 
+#验证hello world功能
+phantomjs hello.js > phantomjs.log 2>&1
+sleep 3
+
+grep "hello,world!" phantomjs.log
+print_info $? phantomjs-helloword
+
+
 #验证截图功能
-phantomjs a.js 2>&1 | tee phantomjs.log
+if [ -d test/ ];then
+    rm -rf test/
+fi
+
+phantomjs a.js > phantomjs.log 2>&1
 sleep 3
 
 if [ -d test/ ];then
@@ -37,33 +50,29 @@ else
 fi
 
 
-#验证hello world功能
-phantomjs hello.js 2>&1 | tee phantomjs.log
-sleep 3
-
-grep "hello,world!" phantomjs.log
-print_info $? phantomjs-helloword
-
 #验证传递参数功能
-phantomjs arguments.js foo bar baz 2>&1 |tee phantomjs.log
+phantomjs arguments.js foo bar baz > phantomjs.log 2>&1
 sleep 3
 
 grep "foo" phantomjs.log
 print_info $? phantomjs-parameters
 
+
 #加载页面的时间
-phantomjs loadspeed.js https://baidu.com 2>&1 | tee phantomjs.log
+phantomjs loadspeed.js https://baidu.com > phantomjs.log 2>&1
 sleep 3
 
 grep "Loading" phantomjs.log
 print_info $? phantomjs-loadingpage
 
+
 #获取到百度的标题
-phantomjs demo.js 2>&1 | tee phantomjs.log
+phantomjs demo.js > phantomjs.log 2>&1
 sleep 3
 
 grep "success" phantomjs.log
 print_info $? phantomjs-title
+
 
 case $distro in
     "centos")
