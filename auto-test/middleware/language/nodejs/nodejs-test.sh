@@ -14,6 +14,11 @@ cd $basedir
 . ../../../../utils/sh-test-lib
 . ../../../../utils/sys_info.sh
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+	    export http_proxy="http://172.19.20.11:3128"
+	    export https_proxy="http://172.19.20.11:3128"
+fi
+
 source ./nodejs.sh 
 
 nodejs_install

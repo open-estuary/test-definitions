@@ -7,6 +7,15 @@ cd ../../../../utils
 . ./sh-test-lib
 cd -
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+        echo -e "nameserver 10.98.48.39\nnameserver 10.72.55.82\nnameserver 10.72.255.100\ndomain huawei.com\nnameserver 10.129.54.130\nnameserver 8.8.8.8" >> /etc/resolv.conf
+mkdir -p /etc/systemd/system/docker.service.d
+echo "[Service]
+Environment=\"HTTP_PROXY=http://172.19.20.11:3128\" \"HTTPS_PROXY=https://172.19.20.11:3128\" \"NO_PROXY=*.huawei.com\"" > /etc/systemd/system/docker.service.d/http-proxy.conf
+        systemctl daemon-reload
+        systemctl restart docker
+fi
+
 pkgs="docker expect net-tools"
 install_deps "${pkgs}"
 print_info $? install-package
@@ -35,6 +44,28 @@ print_info $? setup-bridge-port
 pipework docker0 test1 172.17.0.20/24@172.17.0.1
 print_info $? pipework-set-ip
 
+
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then 
+
+EXPECT=$(which expect)
+$EXPECT << EOF | tee out.log
+set timeout 10000
+spawn docker exec -it test1 bash
+
+expect "/]#"
+send "export http_proxy=172.19.20.11:3128 && export https_proxy=172.19.20.11:3128\r"
+
+expect "/]#"
+send "yum install -y net-tools\r"
+expect "Complete"
+send "ifconfig\r"
+expect "/]#"
+send "exit\r"
+expect eof
+EOF
+
+else
+
 EXPECT=$(which expect)
 $EXPECT << EOF | tee out.log
 set timeout 10000
@@ -47,6 +78,8 @@ expect "/]#"
 send "exit\r"
 expect eof
 EOF
+
+fi
 
 cat ./out.log | grep "/]# ifconfig"
 print_info $? exec-container
@@ -99,6 +132,11 @@ EOF
 
 cat ./out.log | grep '172.17.0.21'
 #print_info $? retest-pipework-ip
+
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+    docker ps -a|grep test1|awk '{print $1}'|xargs docker rm -f
+fi
+
 
 cat ./out.log | grep '0% packet loss'
 #print_info $? test-container-network

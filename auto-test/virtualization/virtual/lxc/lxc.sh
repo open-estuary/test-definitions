@@ -126,8 +126,8 @@ cd ../../../../utils
 cd -
 
 #install
-pkgs="wget expect"
-install_deps "${pkgs}"
+pkg="wget expect"
+install_deps "${pkg}"
 case "${distro}" in
 	debian|ubuntu)
 		pkgs="cgroup-bin libvirt-bin"

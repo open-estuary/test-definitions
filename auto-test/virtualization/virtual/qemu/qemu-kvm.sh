@@ -56,12 +56,12 @@ case "${distro}" in
 		install_deps "${pkgs}"
 	;;
         debian)
-		pkgs="wget libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
+		pkgs="libvirt0 zlib1g-dev libperl-dev libgtk2.0-dev libfdt-dev bridge-utils"
 		install_deps "${pkgs}"
 	;;
 	centos)
 		yum remove yum-plugin-priorities.noarch -y
-		pkgs="wget kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
+		pkgs="kvm virt-manager virt-install xauth qemu-img libvirt libvirt-python libvirt-client glib2-devel zlib-devel libtool"
 		install_deps "${pkgs}"
 	;;
         fedora)
@@ -82,7 +82,8 @@ esac
 qemu-system-aarch64 --help
 if [ $? -ne 0 ]; then
     QEMU_VER=qemu-2.6.0.tar.bz2
-    download_file http://wiki.qemu-project.org/download/${QEMU_VER}
+    download_file ${ci_http_addr}/test_dependents/qemu-2.6.0.tar.bz2
+    #http://wiki.qemu-project.org/download/${QEMU_VER}
     tar xf ${QEMU_VER}
     cd ${QEMU_VER%%.tar.bz2}
     ./configure --target-list=aarch64-softmmu
