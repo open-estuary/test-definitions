@@ -90,12 +90,13 @@ else
     lava-test-case "cockroach_node2_executer_sql_statement" --result fail 
 fi
 
-#ps -ef | grep cockroach | grep node2 | grep -v grep | awk '{print $2}' | xargs kill -9
 cockroach quit --insecure --port 26258
 
-sleep 5
+sleep 10
 
-noderes=`cockroach sql --insecure -e "SELECT * FROM bank.accounts"`
+ps -ef|grep cockroach
+
+noderes=`cockroach sql --insecure --port=26259 -e "SELECT * FROM bank.accounts"`
 
 if [ `echo "$noderes"| grep "1 row" -c` -ge 1  ] ;then
     lava-test-case "cockroach_single_point_failure" --result pass 
@@ -103,14 +104,8 @@ else
     lava-test-case "cockroach_single_point_failure" --result fail 
 fi
 
-#ps -ef | grep cockroach | grep -v grep | awk '{print $2}'| xargs kill -9
 cockroach start --insecure --store=node2 --host=localhost --port=26258 --http-port=8081 --join=localhost:26257 --background
 sleep 3
-#if [ `ps -ef |grep "cockroach start" | grep -v grep | wc -l` -eq 3 ];then
- #   lava-test-case "cockroach_restart" --result pass
-#else
- #   lava-test-case "cockroach_restart" --result fail
-#fi
 print_info $? cockroach_restart
 
 cockroach quit --insecure --port 26257
