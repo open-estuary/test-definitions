@@ -18,6 +18,7 @@ metadata:
         centos: 10
 
 
+
 run:
     steps:
         - "cd auto-test/middleware/database/cockroach; ./cockroachInsecureTest.sh; cd -"
