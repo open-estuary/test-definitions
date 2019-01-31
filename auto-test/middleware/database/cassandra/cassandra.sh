@@ -57,6 +57,9 @@ function cassandra20_start_by_service(){
 function cassandra20_stop_by_service(){
     
         kill -9 `jps | grep -i CassandraDaemon | awk {'print $1'}`
+
+	sleep 5
+
         jps | grep CassandraDaemon
         test $? -ne 0 && true || false 
         print_info $? cassandra20_stop_by_service
