@@ -10,7 +10,7 @@ cd ../../../../utils
     . ./sh-test-lib
 cd -
 
-pkg="lsof vim git expect"
+pkg="lsof vim git expect net-tools"
 install_deps "$pkg"
 print_info $? install_depend
 
