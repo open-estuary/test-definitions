@@ -9,25 +9,40 @@ cd ../../../../utils
     . ./sys_info.sh
     . ./sh-test-lib
 cd -
-yum install lsof -y
+
+pkg="lsof vim git expect net-tools"
+install_deps "$pkg"
+print_info $? install_depend
+
+#删除占用80端口进程
+netstat -tlnp|grep 80
+
 lsof -i:80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
-#pro=`netstat -tlnp|grep 80|awk '{print $7}'|cut -d / -f 1|head -1`
+
 netstat -tlnp|grep 80
 netstat -tlnp|grep sshd
-#process=`ps -ef|grep $pro|awk '{print $2}'`
 
-#for p in $process
-#do
-#	kill -9 $p
-#done
-yum remove nginx -y
+
+
 case $distro in
     centos)
-    install_deps " nginx jmeter java-1.8.0-openjdk"
+    #停止nginx服务
+    systemctl stop nginx
+    yum remove -y `rpm -qa | grep -i nginx`
+    #安装软件包
+    install_deps "nginx jmeter java-1.8.0-openjdk"
     jm=jmeter
     print_info $? install-jmeter
     ;;
     debian|ubuntu)
+    #停止nginx服务
+    systemctl stop nginx
+    packages=`apt list --installed | grep -i "nginx"|awk -F '/' '{print $1}'`
+    for p in $packages
+    do
+	apt remove -y $p
+    done
+    #安装软件包
     install_deps "nginx jmeter openjdk-8-jdk"
     jm=jmeter
     print_info $? install-jmeter
