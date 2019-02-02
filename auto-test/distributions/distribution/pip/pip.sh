@@ -71,8 +71,16 @@ print_info $? pip-show
 
 ## search jquery ##
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+    export http_proxy="http://172.19.20.11:3128"
+    export https_proxy="http://172.19.20.11:3128"
+fi
 pip search "jquery"
 print_info $? pip-search
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+    export http_proxy=""
+    export https_proxy=""
+fi
 
 ###### restore environment ######
 
