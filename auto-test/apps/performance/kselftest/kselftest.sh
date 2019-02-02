@@ -85,7 +85,8 @@ if [ -d "${KSELFTEST_PATH}" ]; then
 else
     # Download and extract kselftest tarball.
     #wget http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}" -O kselftest.tar.gz
-    wget http://htsat.vicp.cc:804/kselftest_aarch64.tar.gz
+    #wget http://htsat.vicp.cc:804/kselftest_aarch64.tar.gz
+    wget ${ci_http_addr}/test_dependents/kselftest_aarch64.tar.gz
     mv kselftest_aarch64.tar.gz kselftest.tar.gz
     tar zxf "kselftest.tar.gz"
     # shellcheck disable=SC2164
