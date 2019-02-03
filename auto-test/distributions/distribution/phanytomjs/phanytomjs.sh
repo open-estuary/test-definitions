@@ -61,7 +61,7 @@ print_info $? phantomjs-parameters
 
 #加载页面的时间
 if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
-    test_url="http://code.huawei.com"
+    test_url="http://10.90.31.150"
 else
     test_url="https://baidu.com"
 fi
