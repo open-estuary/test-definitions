@@ -172,7 +172,7 @@ rm -rf docker.tar.gz
 rm -rf docker
 rm -rf upload
 
-case ${distro} in
+case "${distro}" in
      centos)
      cat /proc/mounts | grep "docker"
      umount /var/lib/docker/containers
