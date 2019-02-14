@@ -190,6 +190,7 @@ fi
 case "${distro}" in
     centos|fedora|opensuse)
 #	pkill docker
+        systemctl stop docker
         iptables -t nat -F
         ifconfig docker0 down
         brctl delbr docker0
