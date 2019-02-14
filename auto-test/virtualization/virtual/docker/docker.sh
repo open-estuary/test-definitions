@@ -171,7 +171,15 @@ fi
 rm -rf docker.tar.gz
 rm -rf docker
 rm -rf upload
-#rm -rf rm -rf /var/lib/docker
+
+case ${distro} in
+     centos)
+     cat /proc/mounts | grep "docker"
+     umount /var/lib/docker/containers
+     umount /var/lib/docker/overlay2
+     ;;
+esac
+
 rm -rf /var/lib/docker
 
 if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
@@ -181,7 +189,7 @@ fi
 
 case "${distro}" in
     centos|fedora|opensuse)
-	pkill docker
+#	pkill docker
         iptables -t nat -F
         ifconfig docker0 down
         brctl delbr docker0
