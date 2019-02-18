@@ -44,13 +44,16 @@ case $distro in
 esac
 
 #更新pip
-pip install --upgrade pip
+#pip install --upgrade pip
+python -m pip install --upgrade --force pip
+
 #print_info $? upgrade-pip
 
 #安装tensorflow
 whl=`ls /usr/share/tensorflow`
 cd /usr/share/tensorflow
-python -m pip install $whl
+#python -m pip install $whl
+python -m pip --trusted-host pypi.python.org --trusted-host pypi.org install --trusted-host files.pythonhosted.org $whl
 print_info $? pip-install-whl
 
 #hello to check pip install tensorflow
