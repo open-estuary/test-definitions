@@ -83,7 +83,11 @@ function nodejs_fs_test(){
 
     npm install 'child_process' -g
     print_info $? "nodejs_install_'child_process'_package"
-    node readFile.js
+    if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+        node readFile.js.bak
+    else
+        node readFile.js
+    fi
     
 }
 
