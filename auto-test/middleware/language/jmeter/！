@@ -61,6 +61,7 @@ print_info $? jmeter-version
 which java
 if [ $? eq 0 ];then
 	install_deps "java"
+	print_info $? install-java
 fi
 
 pkgs="nginx vim git expect"
