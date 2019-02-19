@@ -46,14 +46,17 @@ info_msg "About to run pointer-tagging-tests  test..."
 info_msg "Output directory: ${OUTPUT}"
 
 # Install packages
-pkgs="binutils gcc git make"
+pkgs="binutils gcc git make glibc-static"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 # Build pointer tagging tests and run tests
 pointer_tagging_build_test
 
-remove_deps "${pkgs}" 
-if test $? -eq 0;then
+#remove_deps "${pkgs}
+
+cd ../
+rm -rf pointer-tagging-tests 
+if [ $? ];then
       print_info 0 remove
 else
       print_info 1 remove
