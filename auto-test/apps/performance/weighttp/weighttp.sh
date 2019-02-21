@@ -44,7 +44,13 @@ echo "/usr/local/lib" >> /etc/ld.so.conf
 
 #Test ' weighttp server'
 TCID="weighttp-test"
-weighttp -n 1 -k http://192.168.1.107  2>&1 | tee weighttp.log
+
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+    weighttp -n 1 -k http://172.19.20.15  2>&1 | tee weighttp.log
+else
+    weighttp -n 1 -k http://192.168.1.107  2>&1 | tee weighttp.log
+fi
+
 print_info $? test-weighttp
 str=`grep -Po "0 failed" weighttp.log`
 if [ "$str" != "" ] ; then
