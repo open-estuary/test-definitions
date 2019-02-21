@@ -122,7 +122,6 @@ do
         fi
 done
 
-print_info $? virtual_start
 
 
 
