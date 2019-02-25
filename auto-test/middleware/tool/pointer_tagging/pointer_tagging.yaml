@@ -10,6 +10,7 @@ metadata:
         - shuangshengchen@qq.com
  
     scope:
+        - pointer
         - tool
     os:
         - centos
@@ -17,10 +18,11 @@ metadata:
         - d05
     level: 1
     totalcase:
+            centos: 29
 
 run:
     steps:
-        - "cd auto-test/middleware/tool/pointer-tagging; ./pointer-tagging.sh; cd -"
+        - "cd auto-test/middleware/tool/pointer_tagging; ./pointer_tagging.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
