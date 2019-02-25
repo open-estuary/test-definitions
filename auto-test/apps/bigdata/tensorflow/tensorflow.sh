@@ -53,7 +53,7 @@ python -m pip install --upgrade --force pip
 whl=`ls /usr/share/tensorflow`
 cd /usr/share/tensorflow
 #python -m pip install $whl
-python -m pip --trusted-host pypi.python.org --trusted-host pypi.org install --trusted-host files.pythonhosted.org $whl
+python -m pip --default-timeout=100 install -U $whl
 print_info $? pip-install-whl
 
 #hello to check pip install tensorflow
