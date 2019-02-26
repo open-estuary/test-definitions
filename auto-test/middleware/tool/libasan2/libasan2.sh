@@ -31,7 +31,7 @@ case $distro in
     "debian")
         package="libasan3"
 	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
-            apt-get remove -y ${package} --purge                       #初始化环境
+            apt-get remove -y libtool                       #清理环境
         fi
         install_deps "${package}"
 	print_info $? install-package
@@ -116,7 +116,6 @@ case $distro in
      print_info $? $from
      vers=$(apt show $package | grep Version|awk '{print $2}')
      print_info $? $vers
-     dpkg -l build-essential g++ g++-6 gcc gcc-6 libasan3 libgcc-6-dev libstdc++-6-dev     #增加打印信息以作追踪YL24908ID问题之用
     ;;
 esac
 
