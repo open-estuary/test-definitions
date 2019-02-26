@@ -249,7 +249,7 @@ function hive_outer_table(){
 		else
 			false
 		fi
-		print_info $? "hive_partitions_count"
+		print_info $? "hive partitions count"
 
         hive -e "select count(*) from outer_tb ;" > tmp.log 
         res=`cat tmp.log`
