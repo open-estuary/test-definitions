@@ -106,6 +106,7 @@ function start_hadoop(){
 	fi
 }
 function hive_create_dir_on_hdfs() {
+        lsof -i:9000                                  #查看端口占用信息以作追踪Y25036id问题
 	hdfs dfs -test -e /tmp
 	if [ $? ];then
 		hdfs dfs -rm -f -r /tmp
