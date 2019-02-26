@@ -25,9 +25,15 @@ ROUTE_ADDR=$(ip route list |grep default |awk '{print $3}' |head -1)
 network=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'|awk '{print $1}'|head -1`
 #dhclient -v -r enahisic2i0
 dhclient -v -r $network
-ping -c 5 ${ROUTE_ADDR}
-print_info $? delete-ip
+sleep 5
+#ping -c 5 ${ROUTE_ADDR}
+board_ip=`ip addr|grep "inet"|grep $network|cut -c10-22|sed "s#/.*##g"`
+if [ "$board_ip" == "" ];then
 
+         print_info 0 delete-ip
+else
+	 print_info 1 delete-ip
+fi
 #dhclient -v enahisic2i0
 dhclient -v $network
 print_info $? acquiring-ip
