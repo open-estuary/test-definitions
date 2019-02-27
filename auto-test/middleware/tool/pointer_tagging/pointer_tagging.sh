@@ -27,7 +27,6 @@ pointer_tagging_build_test() {
 
     wget ${ci_http_addr}/test_dependents/pointer-tagging-tests.zip
     unzip pointer-tagging-tests.zip && rm -rf pointer-tagging-tests.zip
-    # shellcheck disable=SC2164
     sleep 20
     cd pointer-tagging-tests
     make all
