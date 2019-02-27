@@ -25,8 +25,8 @@ done
 
 pointer_tagging_build_test() {
 
-    git clone https://git.linaro.org/qa/pointer-tagging-tests.git
-    # shellcheck disable=SC2164
+    wget ${ci_http_addr}/test_dependents/pointer-tagging-tests.zip
+    unzip pointer-tagging-tests.zip && rm -rf pointer-tagging-tests.zip
     sleep 20
     cd pointer-tagging-tests
     make all
@@ -46,7 +46,7 @@ info_msg "About to run pointer-tagging-tests  test..."
 info_msg "Output directory: ${OUTPUT}"
 
 # Install packages
-pkgs="binutils gcc git make glibc-static"
+pkgs="binutils gcc make glibc-static wget unzip"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 # Build pointer tagging tests and run tests
