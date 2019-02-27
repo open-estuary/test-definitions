@@ -65,7 +65,9 @@ if [ $? ];then
       print_info 0 remove
 else
       print_info 1 remove
-fi 
-unset http_proxy
-unset https_proxy
+fi
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+     unset http_proxy
+     unset https_proxy
+fi
