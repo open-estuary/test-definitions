@@ -13,7 +13,10 @@ version="6.2.1"
 from_repo="Estuary"
 case $distro in
     "centos"|"ubuntu"|"debian")
-        package="libasan3" 
+        package="libasan3"
+	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+             remove_deps "libtool"                       #清理环境
+        fi
         install_deps "${package}"
         print_info $? install-package
          ;;
