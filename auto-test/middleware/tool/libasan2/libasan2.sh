@@ -30,8 +30,8 @@ case $distro in
          ;;
     "debian")
         package="libasan3"
-	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
-            apt-get remove -y ${package} --purge
+        if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+            apt-get remove -y libtool                       #清理环境
         fi
         install_deps "${package}"
 	print_info $? install-package
