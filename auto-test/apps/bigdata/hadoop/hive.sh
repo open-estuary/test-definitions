@@ -106,6 +106,7 @@ function start_hadoop(){
 	fi
 }
 function hive_create_dir_on_hdfs() {
+        lsof -i:9000
 	hdfs dfs -test -e /tmp
 	if [ $? ];then
 		hdfs dfs -rm -f -r /tmp
