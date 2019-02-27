@@ -23,16 +23,21 @@ case $distro in
 esac
 ROUTE_ADDR=$(ip route list |grep default |awk '{print $3}' |head -1)
 network=`ip link|grep "state UP"|awk '{print $2}'|sed 's/://g'|awk '{print $1}'|head -1`
-#dhclient -v -r enahisic2i0
-dhclient -v -r $network
-ping -c 5 ${ROUTE_ADDR}
-print_info $? delete-ip
+board_ip=`ip addr|grep "inet"|grep $network|cut -c 10-22|sed "s#/.*##g"`
+
+#释放ip
+dhclient $network -r -v
+if [ "$board_ip"x == ""x ];then
+	print_info 0 delete-ip
+else
+	print_info 1 delete-ip
+fi
+
 
 #dhclient -v enahisic2i0
-dhclient -v $network
+dhclient  $network -v
 print_info $? acquiring-ip
 ping -c 5 ${ROUTE_ADDR} 2>&1 |tee dhcp.log
-
 str=`grep -Po "64 bytes" dhcp.log`
 TCID="dhcp"
 
