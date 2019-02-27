@@ -23,6 +23,11 @@ while getopts "s:" o; do
   esac
 done
 
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+	 export http_proxy="http://172.19.20.11:3128"
+	 export https_proxy="http://172.19.20.11:3128"
+fi
+
 pointer_tagging_build_test() {
 
     git clone https://git.linaro.org/qa/pointer-tagging-tests.git
@@ -61,4 +66,6 @@ if [ $? ];then
 else
       print_info 1 remove
 fi 
+unset http_proxy
+unset https_proxy
 
