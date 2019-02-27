@@ -141,8 +141,16 @@ fi
 cat ./out.log | grep '0% packet loss'
 #print_info $? test-container-network
 print_info 0 test-container-network
+
+#删除容器
+docker stop test1
+docker rm test1
+docker rmi centos
+
+#停止docker服务
 systemctl stop docker
 
+#删除pipework软件包
 yum remove -y pipework
 print_info $? remove-pipework
 
