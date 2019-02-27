@@ -27,6 +27,8 @@ board_ip=`ip addr|grep "inet"|grep $network|cut -c 10-22|sed "s#/.*##g"`
 
 #释放ip
 dhclient $network -r -v
+board_ip=`ip addr|grep "inet"|grep $network|cut -c 10-22|sed "s#/.*##g"`
+
 if [ "$board_ip"x == ""x ];then
 	print_info 0 delete-ip
 else
