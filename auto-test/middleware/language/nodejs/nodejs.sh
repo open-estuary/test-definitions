@@ -84,7 +84,6 @@ function nodejs_fs_test(){
     npm install 'child_process' -g
     print_info $? "nodejs_install_'child_process'_package"
     node readFile.js
-    
 }
 
 function nodejs_uninstall(){

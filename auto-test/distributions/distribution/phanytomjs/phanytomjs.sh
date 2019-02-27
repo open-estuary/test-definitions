@@ -60,7 +60,13 @@ print_info $? phantomjs-parameters
 
 
 #加载页面的时间
-phantomjs loadspeed.js https://baidu.com > phantomjs.log 2>&1
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+    test_url="http://10.90.31.150"
+else
+    test_url="https://baidu.com"
+fi
+#phantomjs loadspeed.js https://baidu.com > phantomjs.log 2>&1
+phantomjs loadspeed.js $test_url > phantomjs.log 2>&1
 sleep 3
 
 grep "Loading" phantomjs.log
@@ -68,7 +74,12 @@ print_info $? phantomjs-loadingpage
 
 
 #获取到百度的标题
-phantomjs demo.js > phantomjs.log 2>&1
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+    demo_name="demo_b.js"
+else
+    demo_name="demo.js"
+fi
+phantomjs $demo_name > phantomjs.log 2>&1
 sleep 3
 
 grep "success" phantomjs.log

@@ -129,16 +129,17 @@ fi
 cockroach quit --certs-dir=certs/ --port=26259
 cockroach quit --certs-dir=certs/ --port=26258
 cockroach quit --certs-dir=certs/ --port=26257
-sleep 5
-stopCluster=`ps -ef | grep "cockroach start" | grep -v grep`
-if [ -z  "$stopCluster" ];then
+#sleep 5
+#stopCluster=`ps -ef | grep "cockroach start" | grep -v grep`
+#if [ -z  "$stopCluster" ];then
 #    lava-test-case "cockroach_secure_stop_cluster" --result pass
-    print_info 0 cockroach_secure_stop_cluster
-else
+#    print_info 0 cockroach_secure_stop_cluster
+#else
 #    lava-test-case "cockroach_secure_stop_cluster" --result fail
-    print_info 1 cockroach_secure_stop_cluster
+#    print_info 1 cockroach_secure_stop_cluster
     #lava-test-case  "cockroach_secure_stop_cluster" --result pass
-fi
+#fi
+print_info $? cockroach_secure_stop_cluster
 
 remove_deps cockroach
 

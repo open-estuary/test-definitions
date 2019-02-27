@@ -31,6 +31,9 @@ case $distro in
     "debian")
 	apt-get remove libtool -y
         package="libasan3"
+	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+            apt-get remove -y ${package} --purge
+        fi
         install_deps "${package}"
 	print_info $? install-package
 	;;
