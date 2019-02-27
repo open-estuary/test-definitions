@@ -29,6 +29,7 @@ case $distro in
          print_info $? install-package
          ;;
     "debian")
+	apt-get remove libtool -y
         package="libasan3"
         install_deps "${package}"
 	print_info $? install-package
