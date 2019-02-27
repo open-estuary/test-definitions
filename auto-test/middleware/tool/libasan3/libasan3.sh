@@ -12,7 +12,7 @@ fi
 version="6.2.1"
 from_repo="Estuary"
 case $distro in
-    "centos"|"ubuntu"|"debian")
+    "centos"|"ubuntu")
         package="libasan3" 
         install_deps "${package}"
         print_info $? install-package
@@ -27,6 +27,13 @@ case $distro in
 	install_deps "${package}"
         print_info $? install-package
 	;;
+    "debian")
+	apt-get remove -y libtool
+	package="libasan3"
+        install_deps "${package}"
+        print_info $? install-package
+         ;;
+
 
  esac
 
