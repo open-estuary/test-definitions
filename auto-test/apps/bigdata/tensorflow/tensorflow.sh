@@ -44,14 +44,28 @@ case $distro in
 esac
 
 #更新pip
-pip install --upgrade pip
+#pip install --upgrade pip
+python -m pip install --upgrade --force pip
+
 #print_info $? upgrade-pip
 
 #安装tensorflow
 whl=`ls /usr/share/tensorflow`
 cd /usr/share/tensorflow
-python -m pip install $whl
-print_info $? pip-install-whl
+#python -m pip install $whl
+for i in {1..10}
+do
+	python -m pip --default-timeout=100 install -U $whl
+	if [ $? -eq 0 ];then
+		print_info 0 pip-install-whl
+		break
+	else
+		print_info 1 pip-install-whl
+                sleep 10
+                continue
+	fi
+done
+
 
 #hello to check pip install tensorflow
 cd -

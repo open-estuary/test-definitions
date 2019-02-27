@@ -6,6 +6,7 @@ metadata:
     maintainer:
         - xue_xing@hoperun.com
     scope:
+        - hns13
         - hns
     os:
         - centos
@@ -17,7 +18,7 @@ metadata:
 
 run:
     steps:
-        - "cd auto-test/peripheral/hns/hns13.2; ./hns13.2.sh; cd -"
+        - "cd auto-test/peripheral/hns/hns13_2; ./hns13_2.sh; cd -"
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:

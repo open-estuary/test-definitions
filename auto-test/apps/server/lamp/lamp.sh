@@ -10,6 +10,8 @@ pkg="curl net-tools expect lsof"
 install_deps "${pkg}"
 print_info $? install-tools
 
+
+
 case "$distro" in
     centos)
 	systemctl stop nginx
@@ -70,6 +72,10 @@ fi
 	yum remove httpd -y
 	yum remove php-fpm -y
 	yum remove php-mysql -y
+        if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+            [ -d /var/lib/mysql ] && rm -rf /var/lib/mysql && echo 'delete directory for mysql successfully'
+        fi
+
 	#安装包
         pkgs="httpd mysql-community-server php php-mysql php-fpm"
         install_deps "${pkgs}"

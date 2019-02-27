@@ -39,12 +39,15 @@ case "${distro}" in
 	pip install --ignore-installed --force-reinstall 'requests==2.6.0' urllib3
 	cd -
 	#下载loder文件
+	if [ ! -d /usr/share/AAVMF ];then
         mkdir -p /usr/share/AAVMF
         cd /usr/share/AAVMF
         wget ${ci_http_addr}/test_dependents/AAVMF_CODE.fd
         wget ${ci_http_addr}/test_dependents/AAVMF_VARS.fd
         wget ${ci_http_addr}/test_dependents/AAVMF_CODE.verbose.fd
         cd -
+	fi
+
 	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
              sed -i "15s/virt-rhel7.6.0/virt-rhel7.5.0/" $path/centos_libvirt_demo.xml
 	fi
@@ -106,8 +109,22 @@ virsh define domain_aarch64.xml
 print_info $? virtual_create
 
 #Start virtual machines
-virsh start domain_aarch64
-print_info $? virtual_start
+for i in {1..10}
+do
+        virsh start domain_aarch64
+        if [ $? -eq 0 ];then
+		print_info 0 virtual_start
+                break
+	else 
+		print_info 1 virtual_start
+                sleep 10
+                continue
+        fi
+done
+
+
+
+
 
 #Virtual machine lifecycle operations
 virsh reboot domain_aarch64
