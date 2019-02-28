@@ -6,9 +6,7 @@ metadata:
     maintainer:
         - liu_caili@hoperun.com
     scope:
-        -  mahongxin1
         - database
-        - mysql
     os:
         - centos
     devices:
@@ -24,6 +22,6 @@ run:
 parse:
    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
    fixupdict:
-   FAIL: fail
-   PASS: pass
+       FAIL: fail
+       PASS: pass
 
