@@ -12,7 +12,7 @@ metadata:
         - fedora
         - debian
     scope:
-        - openssh
+        - distribution
     devices:
         - d03
         - d05
