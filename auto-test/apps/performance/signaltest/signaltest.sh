@@ -54,14 +54,14 @@ else
 fi
 
 if [-z "$avg-latency"];then
-   print_info 1 RT-min
+   print_info 1 RT-avg
 else
-   print_info 0 RT-min
+   print_info 0 RT-avg
 fi
 
 if [-z "$max-latency"];then
-   print_info 1 RT-min
+   print_info 1 RT-latency
 else
-   print_info 0 RT-min
+   print_info 0 RT-latency
 fi
 
