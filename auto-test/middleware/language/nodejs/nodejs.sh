@@ -29,6 +29,7 @@ function nodejs_install(){
 	   cd -
 	   node -v
 	   npm -v
+	   npm config set strict-ssl false
 	   print_info $? "install_nodejs"
 	
     else
