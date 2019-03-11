@@ -14,6 +14,7 @@ function nodejs_install(){
     pkgs="nodejs npm" 
     install_deps "${pkgs}"
     print_info $? "install_nodejs"
+    npm config set strict-ssl false
     ;;
     debian)
     apt-get install wget -y
