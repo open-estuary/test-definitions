@@ -73,7 +73,7 @@ function alisql_start_custom(){
     rm -rf ${base}
 
     mkdir -p ${base}/{data,run,log}
-    cp -f ../my.cnf $base
+    cp  ../my.cnf $base
     sed -i s"/3306/$port/" ${base}/my.cnf 
     touch ${base}/run/mysqld.pid 
     touch ${base}/log/mysqld.log
