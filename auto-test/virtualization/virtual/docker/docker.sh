@@ -32,8 +32,9 @@ case "$distro" in
 	;;
     debian)
 	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+	  wget -c http://172.19.20.112/debian-docker-ce/docker-ce-cli_18.09.3~3-0~debian-stretch_arm64.deb
 	  wget -c http://172.19.20.112/debian-docker-ce/docker-ce_18.09.3_3-0_debian-stretch_arm64.deb
-	  dpkg -i docker-ce_18.09.3_3-0_debian-stretch_arm64.deb
+	  dpkg -i docker-ce*.deb
 	  print_info $? install_docker
 	else
 	  wget ${ci_http_addr}/test_dependents/get-docker.sh
