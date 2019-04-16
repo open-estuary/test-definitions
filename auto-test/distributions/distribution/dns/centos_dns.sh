@@ -80,9 +80,13 @@ throu2=`grep -Po "server1.example.com." dig1.log`
 TCID1="DNS forward direction "
 TCID2="DNS reverse "
 if [ "$throu1" != "" ]; then
-   print_info $? $TCID1
+   print_info 0 $TCID1
+else
+   print_info 1 $TCID1
 fi
 if [ "$throu2" != "" ]; then
-   print_info $? $TCID2
+   print_info 0 $TCID2
+else
+   print_info 1 $TCID2
 fi
 
