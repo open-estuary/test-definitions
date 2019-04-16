@@ -73,20 +73,20 @@ systemctl restart named.service
 print_info $? restart-dns
 dig 192-168-1-70.realhostip.com 2>&1 | tee dig.log
 print_info $? forward-test
-dig -t mx example.com 2>&1 |tee dig1.log
+dig -t mx server1.example.com 2>&1 |tee dig1.log
 print_info $? reverse-test
 throu1=`grep -Po "192.168.1.70" dig.log`
 throu2=`grep -Po "server1.example.com." dig1.log`
 TCID1="DNS forward direction "
 TCID2="DNS reverse "
 if [ "$throu1" != "" ]; then
-    lava-test-case $TCID --result pass
+   print_info 0 $TCID1
 else
-    lava-test-case $TCID --result fail
+   print_info 1 $TCID1
 fi
 if [ "$throu2" != "" ]; then
-    lava-test-case $TCID2 --result pass
+   print_info 0 $TCID2
 else
-    lava-test-case $TCID2 --result fail
+   print_info 1 $TCID2
 fi
 
