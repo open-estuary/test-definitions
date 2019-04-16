@@ -31,9 +31,11 @@ make install
 
 #install weighttp
 wget ${ci_http_addr}/test_dependents/weighttp-master.tar.gz
-    print_info $? wget-weighttp
+print_info $? wget-weighttp
+
 tar -zxvf weighttp-master.tar.gz
-    print_info $? tar-weighttp
+print_info $? tar-weighttp
+
 cd weighttp-master
 echo "/usr/local/lib" >> /etc/ld.so.conf
 /sbin/ldconfig
@@ -59,6 +61,5 @@ else
     lava-test-case $TCID1 --result fail
 fi
 
-rm weighttp.log
-pkill weighttp
+rm -rf libev-3.7.tar.gz
 

@@ -27,20 +27,20 @@ case $distro in
         ;;
 esac
 
-#查询 selinux运行模式
+#鏌ヨ selinux杩愯妯″紡
 getenforce|egrep "Permissive|Enforcing|Disabled" 
 print_info $? selinux_mode
 
 getenforce|egrep "Permissive|Enforcing"
 status=$?
 if test $status -eq 0;then
-#设置为Enforcing模式
+#璁剧疆涓篍nforcing妯″紡
    setenforce 0
    setenforce 1
    getenforce|grep -i "Enforcing"
    print_info $? Selinux_EnforcingSet
 
-#设置为Permissive模式
+#璁剧疆涓篜ermissive妯″紡
    setenforce 0
    getenforce|grep -i "Permissive"
    print_info $? Selinux_Permissive
@@ -53,9 +53,14 @@ else
 fi
 
 #uninstall
-remove_deps "${pkgs}" 
- if test $? -eq 0;then
-    print_info 0 remove
- else
-    print_info 1 remove
- fi 
+case "$distro" in
+    ubuntu|debian)
+        remove_deps "${pkgs}"
+        print_info $? remove
+        ;;
+    opensuse)
+        remove_deps "${pkgs}"
+        print_info $? remove
+        ;;
+esac
+ 

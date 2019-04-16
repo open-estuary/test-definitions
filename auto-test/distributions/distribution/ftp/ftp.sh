@@ -146,11 +146,9 @@ expect eof
 EOF
 
 if [ $(find . -maxdepth 1 -name "$FTP_GET_LOG")x != ""x ]; then
-    #lava-test-case vsftpd-download --result pass
-    #print_info 0 vsftpd-download
+    print_info 0 vsftpd-download
 else
-    #lava-test-case vsftpd-download --result fail
-    #print_info 1 vsftpd-download
+    print_info 1 vsftpd-download
 fi
 
 cd -
@@ -158,11 +156,9 @@ cd -
 cd ~
 
 if [ $(find . -maxdepth 1 -name "ftp_put_test.log")x != ""x ]; then
-    #lava-test-case vsftpd-upload --result pass
-    #print_info 0 vsftpd-upload
+    print_info 0 vsftpd-upload
 else
-    #lava-test-case vsftpd-upload --result fail
-    #print_info 1 vsftpd-upload
+    print_info 1 vsftpd-upload
 fi
 
 rm -rf tmp
