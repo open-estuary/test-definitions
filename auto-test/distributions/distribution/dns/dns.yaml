@@ -6,7 +6,7 @@ metadata:
     maintainer:
         - hongxin_228@163.com
     scope:
-        - liubeijie
+        - distribution
         
     os:
         - centos
@@ -18,7 +18,7 @@ metadata:
         - d03
     level: 1
     totalcase:
-        centos: 4
+        centos: 6
         debian: 4
         fedora: 4
         opensuse: 4
