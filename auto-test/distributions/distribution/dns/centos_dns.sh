@@ -80,13 +80,9 @@ throu2=`grep -Po "server1.example.com." dig1.log`
 TCID1="DNS forward direction "
 TCID2="DNS reverse "
 if [ "$throu1" != "" ]; then
-    lava-test-case $TCID --result pass
-else
-    lava-test-case $TCID --result fail
+   print_info $? $TCID1
 fi
 if [ "$throu2" != "" ]; then
-    lava-test-case $TCID2 --result pass
-else
-    lava-test-case $TCID2 --result fail
+   print_info $? $TCID2
 fi
 
