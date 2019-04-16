@@ -66,17 +66,35 @@ cat << EOF >> /var/named/named.realhostip.com
 192-168-1-70  IN A       192.168.1.70
 192-168-1-80  IN A       192.168.1.80
 EOF
+
 chmod 777 /var/named/named.realhostip.com
-board_ip=`ip addr |grep "inet 192"|cut -c10-22|sed "s#/.*##g"|head -1`
+if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+	eth=`ip a|grep "state UP"|grep -v LOOPBACK|grep -v docker|grep -v virbr|grep -v bond|awk '{print $2}'|cut -f1 -d:`
+	for i in $eth
+	do
+		ip=`ifconfig $i|grep "inet"|awk '{print $2}'`
+        	echo $ip >> ip.txt
+	done
+	board_ip=`awk 'NR==1{print}' ip.txt`
+else
+    board_ip=`ip addr |grep "inet 192"|cut -c10-22|sed "s#/.*##g"|head -1`
+fi
+
+cp /etc/resolv.conf /etc/resolv.conf.bak
 sed -i "2i\\nameserver ${board_ip}" /etc/resolv.conf
+
 systemctl restart named.service
 print_info $? restart-dns
+
 dig 192-168-1-70.realhostip.com 2>&1 | tee dig.log
 print_info $? forward-test
+
 dig -t mx server1.example.com 2>&1 |tee dig1.log
 print_info $? reverse-test
+
 throu1=`grep -Po "192.168.1.70" dig.log`
 throu2=`grep -Po "server1.example.com." dig1.log`
+
 TCID1="DNS forward direction "
 TCID2="DNS reverse "
 if [ "$throu1" != "" ]; then
@@ -90,3 +108,5 @@ else
    print_info 1 $TCID2
 fi
 
+rm -rf /etc/resolv.conf
+mv /etc/resolv.conf.bak /etc/resolv.conf
