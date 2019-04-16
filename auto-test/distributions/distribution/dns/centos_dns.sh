@@ -73,7 +73,7 @@ systemctl restart named.service
 print_info $? restart-dns
 dig 192-168-1-70.realhostip.com 2>&1 | tee dig.log
 print_info $? forward-test
-dig -t mx example.com 2>&1 |tee dig1.log
+dig -t mx server1.example.com 2>&1 |tee dig1.log
 print_info $? reverse-test
 throu1=`grep -Po "192.168.1.70" dig.log`
 throu2=`grep -Po "server1.example.com." dig1.log`
