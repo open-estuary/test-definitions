@@ -72,7 +72,7 @@ if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
 	eth=`ip a|grep "state UP"|grep -v LOOPBACK|grep -v docker|grep -v virbr|grep -v bond|awk '{print $2}'|cut -f1 -d:`
 	for i in $eth
 	do
-		ip=`ifconfig $i|grep "inet"|awk '{print $2}'`
+		ip=`ifconfig $i|grep "inet "|awk '{print $2}'`
         	echo $ip >> ip.txt
 	done
 	board_ip=`awk 'NR==1{print}' ip.txt`
