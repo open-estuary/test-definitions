@@ -14,9 +14,7 @@ fi
 
 case $distro in
     "centos")
-        yum install bind -y
-        yum install bind-utils -y
-        pkgs="bind bind-utils"
+        pkgs="bind bind-utils net-tools"
         install_deps "${pkgs}"
         print_info $? install-package
         ;;
@@ -94,18 +92,15 @@ print_info $? reverse-test
 
 throu1=`grep -Po "192.168.1.70" dig.log`
 throu2=`grep -Po "server1.example.com." dig1.log`
-
-TCID1="DNS forward direction "
-TCID2="DNS reverse "
 if [ "$throu1" != "" ]; then
-   print_info 0 $TCID1
+   print_info 0 DNS_forward_direction
 else
-   print_info 1 $TCID1
+   print_info 1 DNS_forward_direction
 fi
 if [ "$throu2" != "" ]; then
-   print_info 0 $TCID2
+   print_info 0 DNS_reverse
 else
-   print_info 1 $TCID2
+   print_info 1 DNS_reverse
 fi
 
 rm -rf /etc/resolv.conf
