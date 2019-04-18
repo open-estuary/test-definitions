@@ -48,9 +48,9 @@ case "${distro}" in
         cd -
 	fi
 
-	if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
-             sed -i "15s/virt-rhel7.6.0/virt-rhel7.5.0/" $path/centos_libvirt_demo.xml
-	fi
+	#if [ "${ci_http_addr}"x = "http://172.19.20.15:8083"x ];then
+        #     sed -i "15s/virt-rhel7.6.0/virt-rhel7.5.0/" $path/centos_libvirt_demo.xml
+	#fi
 	;;
    fedora)
 	pkgs="qemu-kvm libvirt virt-install libguestfs-tools bridge-utils"
@@ -108,20 +108,27 @@ esac
 virsh define domain_aarch64.xml
 print_info $? virtual_create
 
-#Start virtual machines
+#start virtual machines
 for i in {1..10}
 do
         virsh start domain_aarch64
         if [ $? -eq 0 ];then
-		print_info 0 virtual_start
+                echo "pass" >> start.log
                 break
-	else 
-		print_info 1 virtual_start
+        else
+                echo "failed" >> start.log
                 sleep 10
                 continue
         fi
 done
 
+start_res=`grep "pass" start.log`
+if [ "$start_res"x != ""x ]
+then
+        print_info 0 virtual_start
+else
+        print_info 1 virtual_start
+fi
 
 
 
@@ -258,3 +265,4 @@ print_info $? libvirtd_stop
 remove_deps ${pkgs}
 print_info $? remove_pkgs
 
+rm -rf start.log
