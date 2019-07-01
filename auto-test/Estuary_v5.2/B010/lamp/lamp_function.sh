@@ -97,112 +97,104 @@ case "${distro}" in
 
 			#Test Apache.
 			curl -o "output" "http://localhost/index.html"
-             #print_info $? apache2-test-page
+             		#print_info $? apache2-test-page
 			if [ $? -eq 0 ];then
-            ###@把测试的结果写入到结果文件中###
+            		###@把测试的结果写入到结果文件中###
 				write_result "${RESULT_FILE}" "apachphp_command" "pass"
 			else
 				write_result "${RESULT_FILE}" "apachphp_command" "fail"
 			fi           
 			#cat output
-            #grep "Test Page for the Apache HTTP Server" ./output
-            #print_info $? apache2-test-page
-
+            		#grep "Test Page for the Apache HTTP Server" ./output
+            		#print_info $? apache2-test-page
             #Test MySQL.
-    case "${distro}" in
-        debian)
-            EXPECT=$(which expect)
-            $EXPECT << EOF
-            set timeout 100
-            spawn mysql -u root -p
-            expect "password:"
-            send "root\r"
-            expect ">"
-            send "use mysql;\r"
-            expect ">"
-            send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
-            expect "OK"
-            send "UPDATE user SET authentication_string=PASSWORD('lxmptest') where USER='root';\r"
-            expect "OK"
-            send "FLUSH PRIVILEGES;\r"
-            expect "OK"
-            send "exit\r"
-            expect eof
+    	case "${distro}" in
+        	debian)
+           		EXPECT=$(which expect)
+            		$EXPECT << EOF
+            		set timeout 100
+            		spawn mysql -u root -p
+            		expect "password:"
+            		send "root\r"
+            		expect ">"
+            		send "use mysql;\r"
+            		expect ">"
+            		send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+            		expect "OK"
+            		send "UPDATE user SET authentication_string=PASSWORD('lxmptest') where USER='root';\r"
+            		expect "OK"
+            		send "FLUSH PRIVILEGES;\r"
+            		expect "OK"
+            		send "exit\r"
+            		expect eof
 EOF
-            print_info $? set-root-pwd
-            ;;
-    esac
+            		print_info $? set-root-pwd
+            		;;
+    	esac
 
-    case "${distro}" in
-        ubuntu|debian)
-            $EXPECT << EOF
-            set timeout 100
-            spawn mysql -uroot -p
-            expect "password:"
-            send "lxmptest\r"
-            expect ">"
-            send "use mysql;\r"
-            expect ">"
-            send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
-            expect "OK"
-            send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
-            expect "OK"
-            send "FLUSH PRIVILEGES;\r"
-            expect "OK"
-            send "exit\r"
+    	case "${distro}" in
+        	ubuntu|debian)
+            		$EXPECT << EOF
+            		set timeout 100
+            		spawn mysql -uroot -p
+            		expect "password:"
+            		send "lxmptest\r"
+            		expect ">"
+            		send "use mysql;\r"
+            		expect ">"
+            		send "UPDATE mysql.user SET authentication_string=PASSWORD('Avalon'), plugin='mysql_native_password' WHERE user='root';\r"
+            		expect "OK"
+            		send "UPDATE user SET authentication_string=PASSWORD('root') where USER='root';\r"
+            		expect "OK"
+            		send "FLUSH PRIVILEGES;\r"
+            		expect "OK"
+            		send "exit\r"
 			expect eof
 EOF
-            ;;
-    esac
+            		;;
+    	esac
 
 			#mysqladmin -u root password root  > /dev/null 2>&1 || true
 			mysql --user="root" --password="root" -e "show databases"
-            if [ $? -eq 0 ];then
-                ###@把测试的结果写入到结果文件中###
-                write_result "${RESULT_FILE}" "showdb_command" "pass"
-            else
-                write_result "${RESULT_FILE}" "showdb_command" "fail"
-            fi
+            		if [ $? -eq 0 ];then
+                	###@把测试的结果写入到结果文件中###
+                		write_result "${RESULT_FILE}" "showdb_command" "pass"
+            		else
+                		write_result "${RESULT_FILE}" "showdb_command" "fail"
+            		fi
 			#查看mysql的端口号
 			netstat -tnl|grep 3306
-            if [ $? -eq 0 ];then
-                ###@把测试的结果写入到结果文件中###
-                write_result "${RESULT_FILE}" "mysqlport_command" "pass"
-            else
-                write_result "${RESULT_FILE}" "mysqlport_command" "fail"
-            fi
+            		if [ $? -eq 0 ];then
+                		###@把测试的结果写入到结果文件中###
+                		write_result "${RESULT_FILE}" "mysqlport_command" "pass"
+            		else
+                		write_result "${RESULT_FILE}" "mysqlport_command" "fail"
+            		fi
 			# 检测正常访问apache结合php解析页面
 			curl -o "output" "http://localhost/info.php"
 			cat output
 			grep "PHP Version" ./output
-            #if [ $? -eq 0 ];then
-                ###@把测试的结果写入到结果文件中###
-                #write_result "${RESULT_FILE}" "mqlport3_command" "pass"
-            #else
-                #write_result "${RESULT_FILE}" "mqlport3_command" "fail"
-            #fi
-			# php是否可以正常连接mysql
 			curl -o "output" "http://localhost/connect-db.php"
 			cat output
 			grep "Connected successfully" ./output
 			#exit_on_fail "php-connect-db"
-            if [ $? -eq 0 ];then
-                ###@把测试的结果写入到结果文件中###
-                write_result "${RESULT_FILE}" "cntdb_command" "pass"
-            else
-                write_result "${RESULT_FILE}" "cntdb_command" "fail"
-            fi
+            		if [ $? -eq 0 ];then
+                		###@把测试的结果写入到结果文件中###
+                		write_result "${RESULT_FILE}" "cntdb_command" "pass"
+            		else
+                		write_result "${RESULT_FILE}" "cntdb_command" "fail"
+            		fi
 
 			# php是否可以正常创建一个新mysql的库
 			curl -o "output" "http://localhost/create-db.php"
 			#cat output
 			#grep "Database created successfully" ./output
-            #if [ $? -eq 0 ];then
-                ###@把测试的结果写入到结果文件中###
-                #write_result "${RESULT_FILE}" "mqlport5_command" "pass"
-            #else
-                #write_result "${RESULT_FILE}" "mqlport5_command" "fail"
-            #fi
+            		#if [ $? -eq 0 ];then
+                		###@把测试的结果写入到结果文件中###
+                		#write_result "${RESULT_FILE}" "mqlport5_command" "pass"
+            		#else
+                		#write_result "${RESULT_FILE}" "mqlport5_command" "fail"
+            		#fi
 
 			#php是否可以正常创建一个mysql表
 			curl -o "output" "http://localhost/create-table.php"
@@ -210,64 +202,64 @@ EOF
 			grep "Table MyGuests created successfully" ./output
 			mysql --user='root' --password='root' -e 'DROP DATABASE myDB'
 	case "$distro" in
-        debian)
-            i=0
-            systemctl stop apache2
-            if [ $? -eq 0 ];then
-                let i=$i+1
-            fi
-            systemctl stop mysql
-            if [ $? -eq 0 ];then
-                let i=$i+1
-            fi
-            systemctl stop php7.0-fpm
-            if [ $? -eq 0 ];then
-                let i=$i+1
-            fi
-            if [ $i -eq 3 ];then
-                write_result "${RESULT_FILE}" "systemctl_stop" "pass"
-            else
-                write_result "${RESULT_FILE}" "systemctl_stop" "fail"
-            fi
-            ;;
-    esac
-    ;;
+        	debian)
+           		i=0
+            		systemctl stop apache2
+            		if [ $? -eq 0 ];then
+                		let i=$i+1
+            		fi
+            		systemctl stop mysql
+            		if [ $? -eq 0 ];then
+                		let i=$i+1
+            		fi
+            		systemctl stop php7.0-fpm
+            		if [ $? -eq 0 ];then
+                		let i=$i+1
+            		fi
+            		if [ $i -eq 3 ];then
+                		write_result "${RESULT_FILE}" "systemctl_stop" "pass"
+            		else
+                		write_result "${RESULT_FILE}" "systemctl_stop" "fail"
+            		fi
+            		;;
+    	esac
+    	;;
 esac
 
 #######Centos#######
 case "${distro}" in
-    centos)
-    case "${distro}" in
-        centos)
-            a=0
-            systemctl start php-fpm
-            if [ $? -eq 0 ];then
-                let a=$a+1
-            fi
-            systemctl start httpd.service
-            if [ $? -eq 0 ];then
-                let a=$a+1
-            fi
-            service httpd status
-            if [ $? -eq 0 ];then
-                let a=$a+1
-            fi
-            systemctl start mysql
-            if [ $? -eq 0 ];then
-                let a=$a+1
-            fi
-            if [ $a -eq 4 ];then
-            ###@把测试的结果写入到结果文件中###
-                write_result "${RESULT_FILE}" "mysql_command" "pass"
-            else
-                write_result "${RESULT_FILE}" "mysql_command" "fail"
-            fi
-            cat /var/log/mysqld.log
-				STATUS=`systemctl status mysql`
-            echo $STATUS
-        ;;
-        *)
-            error_msg "Unsupported distribution!"
+	centos)
+    	case "${distro}" in
+        	centos)
+            		a=0
+            		systemctl start php-fpm
+            		if [ $? -eq 0 ];then
+                		let a=$a+1
+            		fi
+            		systemctl start httpd.service
+            		if [ $? -eq 0 ];then
+                		let a=$a+1
+            		fi
+            		service httpd status
+            		if [ $? -eq 0 ];then
+                		let a=$a+1
+            		fi
+            		systemctl start mysql
+            		if [ $? -eq 0 ];then
+                		let a=$a+1
+            		fi
+            		if [ $a -eq 4 ];then
+            		###@把测试的结果写入到结果文件中###
+                		write_result "${RESULT_FILE}" "mysql_command" "pass"
+            		else
+                		write_result "${RESULT_FILE}" "mysql_command" "fail"
+            		fi
+            		cat /var/log/mysqld.log
+			STATUS=`systemctl status mysql`
+            		echo $STATUS
+        		;;
+        	*)
+            		error_msg "Unsupported distribution!"
 	esac
 			#######修改index.html并复制到/var/www/html/
 			sed -i "s/Nginx/Apache/g" ./html/index.html
@@ -286,46 +278,46 @@ case "${distro}" in
 
 
 #####Test MySQL.
-    case "${distro}" in
-        centos)
+	case "${distro}" in
+        	centos)
 			EXPECT=$(which expect)
-                $EXPECT << EOF
-                set timeout 100
-                spawn mysql -u root -p
-                expect "password:"
-                send "root\r"
-                expect ">"
-                send "exit\r"
-                expect eof
+                	$EXPECT << EOF
+                	set timeout 100
+                	spawn mysql -u root -p
+                	expect "password:"
+                	send "root\r"
+                	expect ">"
+                	send "exit\r"
+                	expect eof
 EOF
 			if [ $? -eq 1 ];then
 				mysqladmin -u root password root
 			fi
 			#if [ $? -eq 0 ];then
 				###@把测试的结果写入到结果文件中###
-                #write_result "${RESULT_FILE}" "setrot_command" "pass"
+                		#write_result "${RESULT_FILE}" "setrot_command" "pass"
 			#else
-                #write_result "${RESULT_FILE}" "setrot_command" "fail"
+                		#write_result "${RESULT_FILE}" "setrot_command" "fail"
 			#fi
-            systemctl restart mysql
-            ;;
-    esac
+            		systemctl restart mysql
+            		;;
+    	esac
 			#查看mysql的端口号
-            netstat -tnl|grep 3306
-            if [ $? -eq 0 ];then
-            ###@把测试的结果写入到结果文件中###
-                write_result "${RESULT_FILE}" "mysqlport_command" "pass"
+            		netstat -tnl|grep 3306
+            		if [ $? -eq 0 ];then
+            		###@把测试的结果写入到结果文件中###
+                		write_result "${RESULT_FILE}" "mysqlport_command" "pass"
 			else
-                write_result "${RESULT_FILE}" "mysqlport_command" "fail"
+                		write_result "${RESULT_FILE}" "mysqlport_command" "fail"
 			fi
 
 			#mysqladmin -u root password root  > /dev/null 2>&1 || true
-            mysql --user="root" --password="root" -e "show databases"
-            if [ $? -eq 0 ];then
-            ###@把测试的结果写入到结果文件中###
-                write_result "${RESULT_FILE}" "showdb_command" "pass"
+            		mysql --user="root" --password="root" -e "show databases"
+            		if [ $? -eq 0 ];then
+            		###@把测试的结果写入到结果文件中###
+                		write_result "${RESULT_FILE}" "showdb_command" "pass"
 			else
-                write_result "${RESULT_FILE}" "showdb_command" "fail"
+                		write_result "${RESULT_FILE}" "showdb_command" "fail"
 			fi
 
 			# Test PHP.
@@ -333,7 +325,7 @@ EOF
 			cat output
 			grep "PHP Version" ./output
 			#if [ $? -eq 0 ];then
-            ###@把测试的结果写入到结果文件中###
+            		###@把测试的结果写入到结果文件中###
 				#write_result "${RESULT_FILE}" "phpinfo_command" "pass"
 			#else
 				#write_result "${RESULT_FILE}" "phpinfo_command" "fail"
@@ -345,39 +337,39 @@ EOF
 			grep "Connected successfully" ./output
 			#exit_on_fail "php-connect-myDB"
 			if [ $? -eq 0 ];then
-            ###@把测试的结果写入到结果文件中###
+            		###@把测试的结果写入到结果文件中###
 				write_result "${RESULT_FILE}" "cntdb_command" "pass"
 			else
 				write_result "${RESULT_FILE}" "cntdb_command" "fail"
 			fi
-		#case "$distro" in
+			#case "$distro" in
 			#centos)
-                i=0
-                systemctl stop httpd
-                if [ $? -eq 0 ];then
-                    let i=$i+1
-                fi
-                systemctl stop mysql
-                if [ $? -eq 0 ];then
-                    let i=$i+1
-                fi
-                systemctl stop php-fpm
-                if [ $? -eq 0 ];then
-                    let i=$i+1
-                fi
-                if [ $i -eq 3 ];then
-                    write_result  "${RESULT_FILE}" "systemctl_stop" "pass"
-                else
-                    write_result  "${RESULT_FILE}" "systemctl_stop" "fail"
-                fi
+                	i=0
+                	systemctl stop httpd
+                	if [ $? -eq 0 ];then
+                    	let i=$i+1
+                	fi
+                	systemctl stop mysql
+                	if [ $? -eq 0 ];then
+                    		let i=$i+1
+                	fi
+                	systemctl stop php-fpm
+                	if [ $? -eq 0 ];then
+                    		let i=$i+1
+                	fi
+                	if [ $i -eq 3 ];then
+                    		write_result  "${RESULT_FILE}" "systemctl_stop" "pass"
+                	else
+                    		write_result  "${RESULT_FILE}" "systemctl_stop" "fail"
+                	fi
 			#;;
-		#esac
+			#esac
 			#####删除80端口占用进程
 			lsof -i :80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
 			if [ $? -eq 0 ];then
-                echo kill_80_pass
+                		echo kill_80_pass
 			else
-                echo kill_80_fail
+                		echo kill_80_fail
 			fi
 			;;
 esac
@@ -387,18 +379,18 @@ esac
 function test2()
 {
 case "$distro" in
-    debian)
-            rm -rf /etc/php/7.0/apache2/php.ini
-            cp /etc/php/7.0/apache2/php.ini.bak /etc/php/7.0/apache2/php.ini
-            apt-get remove apache2 --purge -y
-            apt-get remove php-fpm --purge -y
-            apt-get remove mysql-serser --purge -y
-            ;;
+	debian)
+            	rm -rf /etc/php/7.0/apache2/php.ini
+            	cp /etc/php/7.0/apache2/php.ini.bak /etc/php/7.0/apache2/php.ini
+            	apt-get remove apache2 --purge -y
+            	apt-get remove php-fpm --purge -y
+            	apt-get remove mysql-serser --purge -y
+            	;;
         centos)
-            yum remove -y `rpm -qa | grep -i mysql`
-            remove_deps "${pkgs}"
-        print_info $? remove-package
-        ;;
+            	yum remove -y `rpm -qa | grep -i mysql`
+            	remove_deps "${pkgs}"
+		print_info $? remove-package
+        	;;
 esac
 }
 
@@ -425,9 +417,9 @@ function main()
         ###@清理环境###
         clean_env
         ###@检查结果文件###
-		check_resultes ${RESULT_FILE}
+	check_resultes ${RESULT_FILE}
         ###@结果文件转为json文件，方便入库###
-		python ${PY_JSON_TRANSFOR} ${RESULT_FILE} ${test_name}
+	python ${PY_JSON_TRANSFOR} ${RESULT_FILE} ${test_name}
         add_json ${test_name}.json
         ###@调用入库函数###
         #data_to_db ${PWD}/${test_name}.json
