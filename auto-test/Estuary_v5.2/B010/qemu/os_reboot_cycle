@@ -1,0 +1,53 @@
+#!/bin/bash
+
+LOG=os_reboot_testlog.txt
+CNT=counter.cur
+DELAY=30
+err=0
+
+#判断执行时是否带重启次数
+if [ $# -ne 1 ]
+then
+  echo "Error:This test should set cyclenums"
+  err=1
+  exit $err
+else
+	cyclenum=$1
+fi
+
+curpath=`pwd`
+
+#判断操作系统，匹配开机自启文件
+
+	if [ ! -e /etc/rc.d/rc.local ]
+	then
+		touch /etc/rc.d/rc.local
+	fi
+	startfile="/etc/rc.d/rc.local"
+	chmod a+x /etc/rc.d/rc.local
+
+
+#判断开机自启文件中是否写入执行该重启脚本内容
+cat $startfile | grep "os_reboot_cycle"
+if [ $? -ne 0 ]
+then
+	#backup the start script
+	cp $startfile rc.local.bk
+	echo "cd $curpath" >> $startfile
+	echo "./os_reboot_cycle $cyclenum &" >> $startfile
+	echo "1" > $CNT
+	counter=`cat $CNT`
+else
+	counter=`cat $CNT`
+	let counter=$counter+1
+	echo "$counter" > $CNT
+fi
+
+#判断是否执行了指定次数
+if [ $counter -eq $cyclenum ]
+then
+	mv -f rc.local.bk $startfile
+fi
+
+sleep $DELAY
+reboot

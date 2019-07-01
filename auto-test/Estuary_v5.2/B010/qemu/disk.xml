@@ -1,0 +1,5 @@
+<disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/home/test-definitions/auto-test/virtualization/virtual/qemu/centos_add.img'/>
+      <target dev='vda' bus='virtio'/>
+</disk>
