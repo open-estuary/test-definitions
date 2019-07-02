@@ -17,5 +17,5 @@ expect "]#" {send "cd stress-1.0.1\r"}
 expect "]#" {send "./configure\r"}
 expect "]#" {send "make\r"}
 expect "]#" {send "make install\r"}
-expect "]#" {send "stress -c 4 -i 4 --vm 14 --vm-bytes 512M -hdd 15 --hdd-bytes 1G –t 1h\r"}
+expect "]#" {send "stress -c 4 -i 4 --vm 14 --vm-bytes 512M --hdd 15 --hdd-bytes 1G -t 1h\r"}
 expect eof
