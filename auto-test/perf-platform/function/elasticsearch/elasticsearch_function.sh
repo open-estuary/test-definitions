@@ -20,7 +20,7 @@ PUBLIC_UTILS_DIR=../../../../utils
 . ${PUBLIC_UTILS_DIR}/sys_info.sh
 . ${PUBLIC_UTILS_DIR}/sh-test-lib
 . ${PUBLIC_UTILS_DIR}/test_case_common.inc
-. ${PUBLIC_UTILS_DIR}/test_case_public.sh
+
 ################################获取脚本名称作为测试用例名称################################
 test_name=$(basename $0 | sed -e 's/\.sh//')
 
@@ -116,8 +116,16 @@ function test2()
 	bash rally.sh
 	cd ${path}
 	su ggjj -c "bash rally_runing.sh"
-	cd ${path}
-	su ggjj -c "/home/ggjj/.local/bin/esrally --track=geonames --target-hosts=localhost:9200 --challenge=append-no-conflicts --pipeline=benchmark-only --report-file=/home/ggjj/data-arm.log"
+	cd /home
+	case $distro in
+		"debian")
+		su ggjj -c "export  PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin:/usr/local/python3/bin:/usr/local/git/bin\";/home/ggjj/.local/bin/esrally --track=geonames --target-hosts=localhost:9200 --challenge=append-no-conflicts --pipeline=benchmark-only --report-file=/home/ggjj/data-arm.log"
+		;;
+		"centos")
+		su ggjj -c "/home/ggjj/.local/bin/esrally --track=geonames --target-hosts=localhost:9200 --challenge=append-no-conflicts --pipeline=benchmark-only --report-file=/home/ggjj/data-arm.log"
+		;;
+	esac
+	cat /home/ggjj/data-arm.log
         if [ $? -eq 0 ];then
                 write_result "${RESULT_FILE}" "es_rally" "pass"
         else
@@ -142,25 +150,20 @@ function basic_function()
 function clean_env()
 {
     ###@清除临时文件###
-    #FUNC_CLEAN_TMP_FILE
+     	rm -rf /home/v2.2.1.tar.gz
+        rm -rf /home/Python-3.6.1.tgz
+	rm -rf /home/ggjj/.local/
+	rm -rf /home/ggjj/.rally/
 
     ###@停止服务 @结束进程 @移除es###
-    	process=`ps -ef |grep elasticsearch|egrep -v server |awk '{print $2}'`
+    	process=`ps -ef |grep elasticsearch|grep ggjj|awk '{print $2}'`
         for i in ${process}
         do
                 kill -9 $i
         done
-
+	
+	cd ${path}
     	bash ${INSTALL_DIR}/${INSTALL_SCRIPT} uninstall
-	rm -rf /home/v2.2.1.tar.gz
-        rm -rf /home/git-2.2.1
-        rm -rf /usr/local/python3
-        rm -rf /home/Python-3.6.1.tgz
-        rm -rf /home/Python-3.6.1
-        rm -rf /usr/bin/python3
-	rm -rf /usr/bin/pip3
-	rm -rf ${path}/logs
-
 }
 
 ###调用所有函数###
@@ -170,19 +173,21 @@ function main()
 	check_release
 	init_env 
     	basic_function
+
+	###@清理环境###
+        clean_env
 	
 	###@检查结果文件###
-    	check_resultes ${RESULT_FILE}
+    	check_result ${RESULT_FILE}
 	
 	###@结果文件转为json文件，方便入库###
     	cd ${path}
-    	python ${PY_JSON_TRANSFOR} ${RESULT_FILE} ${test_name}
-	
-	###@调用入库函数###
-	
+    	python ${PY_JSON_TRANSFOR} ${RESULT_FILE} ${test_name} 
+	add_json ${test_name}.json
+
 	###@清理环境###
-    	clean_env 
-	
+	rm -rf ${RESULT_FILE}
+	rm -rf ${path}/logs
 	echo "case test Complete"
 }
 

@@ -2,9 +2,9 @@
 
 ### Header info ###
 ## template: 	V02
-## Author: 	XiaoJun x00467495
-## name:	rally
-## desc:	rally package install and uninstall
+## Author: 	lwx588815
+## name:	elasticsearch
+## desc:	elasticsearch package install and uninstall
 
 ### RULE
 ## 1. update Header info
@@ -111,6 +111,7 @@ function check_distribution()
 	fi
 
 	pr_tip "Distribution : ${DISTRIBUTION}"
+
 	return 0
 }
 
@@ -126,15 +127,11 @@ function install_depend()
 {
 	if [ "$DISTRIBUTION"x == "Debian"x ] ; then
 		pr_info "install using apt-get"
-		apt-get install -y make openjdk-8-jdk gettext make asciidoc xmlto autoconf gcc wget python3-dev
-		apt-get install  -y tk perl cpio zlib1g-dev openssl libreadline-dev bzip2 expat sqlite3 libgdbm-dev
-		apt remove git -y
+                apt --setopt=skip_missing_names_on_install=False install curl wget openjdk-8-jdk -y
 		pr_ok "[compile]<install> ok"
 	elif [ "$DISTRIBUTION"x == "CentOS"x ] ; then
 		pr_info "install using yum"		
-                yum install java-1.8.0-openjdk make asciidoc xmlto autoconf perl-ExtUtils-Embed gcc curl-devel expat-devel gettext-devel perl-ExtUtils-MakeMaker wget -y
-		yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel python36-devel -y
-		yum remove git -y
+                yum --setopt=skip_missing_names_on_install=False install wget curl java-1.8.0-openjdk -y
 		pr_ok "[compile]<install> ok"
 	fi
 	pr_tip "[depend] skiped"
@@ -145,14 +142,12 @@ function install_depend()
 function src_download()
 {	
 	cd /home
-	wget -T 10 -O /home/v2.2.1.tar.gz 192.168.1.107/liubeijie/v2.2.1.tar.gz
+	wget -T 10 -O elasticsearch-6.2.3.tar.gz 192.168.1.107/liubeijie/elasticsearch-6.2.3.tar.gz
 	if [ $? -ne 0 ];then
-		wget -T 10 -O /home/v2.2.1.tar.gz https://github.com/git/git/archive/v2.2.1.tar.gz
+		wget  -T 10 -O elasticsearch-6.2.3.tar.gz https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.3.tar.gz
 	fi
-	wget -T 10 -O /home/Python-3.6.1.tgz 192.168.1.107/liubeijie/Python-3.6.1.tgz
-	if [ $? -ne 0 ];then
-		wget -T 10 -O /home/Python-3.6.1.tgz https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tgz
-	fi
+	tar -zxvf elasticsearch-6.2.3.tar.gz
+        cd /home/elasticsearch-6.2.3
 	pr_tip "[download] skiped"
 	return 0
 }
@@ -164,38 +159,39 @@ function compile_and_install()
 	pr_tip "[install]<rm_git> skiped"
 	pr_tip "[install]<compile> skiped"
 	
-	git --version |grep "2.*"
-	if [ $? -ne 0 ];then
-		tar -zxvf v2.2.1.tar.gz
-		cd /home/git-2.2.1/
-		make configure
-		./configure --prefix=/usr/local/git --with-iconv --with-curl --with-expat=/usr/local/lib
-		make
-		make install
-		if [ "$DISTRIBUTION"x == "Debian"x ] ; then
-			echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bash.bashrc
-			source /etc/bash.bashrc
-		else
-			echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc
-			source /etc/bashrc
-		fi
-		source ~/.bash_profile
-	fi
+	if [ "$DISTRIBUTION"x == "Debian"x ] ; then
+		sed -i 's/#network.host: 192.168.0.1/network.host: localhost/g' config/elasticsearch.yml
+                sed -i 's/#http.port: 9200/http.port: 9200/g' config/elasticsearch.yml
+                cat /etc/security/limits.conf |grep "* soft nofile  65536"
+                if [ $? -ne 0 ];then
+                        echo "* soft nofile  65536" >> /etc/security/limits.conf
+                        echo "* hard nofile  65536" >> /etc/security/limits.conf
+                        echo "* soft nproc   65536" >> /etc/security/limits.conf
+                        echo "* hard nproc   65536" >> /etc/security/limits.conf
+                fi
+                cat /etc/sysctl.conf |grep "vm.max_map_count=655360"
+                if [ $? -ne 0 ];then
+                        echo "vm.max_map_count=655360" >> /etc/sysctl.conf
+                        sysctl -p
+                fi
 
-	pip3 --version|grep "19.*"
-	if [ $? -ne 0 ];then
-		tar -zxvf Python-3.6.1.tgz
-		cd /home/Python-3.6.1/
-		mkdir -p /usr/local/python3
-		./configure --prefix=/usr/local/python3
-		make
-		make install
-		ln -s /usr/local/python3/bin/python3 /usr/bin/python3
-		ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
-		echo "PATH=$PATH:$HOME/bin:/usr/local/python3/bin" >> /root/.bash_profile
-		source /root/.bash_profile
-		wget https://bootstrap.pypa.io/get-pip.py
-		python3 get-pip.py
+        elif [ "$DISTRIBUTION"x == "CentOS"x ] ; then
+                sed -i 's/#network.host: 192.168.0.1/network.host: localhost/g' config/elasticsearch.yml
+                sed -i 's/#http.port: 9200/http.port: 9200/g' config/elasticsearch.yml
+                cat /etc/security/limits.conf |grep "* soft nofile  65536"
+                if [ $? -ne 0 ];then
+                        echo "* soft nofile  65536" >> /etc/security/limits.conf
+                        echo "* hard nofile  65536" >> /etc/security/limits.conf
+                        echo "* soft nproc   65536" >> /etc/security/limits.conf
+                        echo "* hard nproc   65536" >> /etc/security/limits.conf
+                fi
+                sed -i 's/4096/40960/g' /etc/security/limits.d/20-nproc.conf
+                cat /etc/sysctl.conf |grep "vm.max_map_count=655360"
+                if [ $? -ne 0 ];then
+                        echo "vm.max_map_count=655360" >> /etc/sysctl.conf
+                        sysctl -p
+                fi
+
 	fi
 	ass_rst $? 0 "install failed"
 	pr_tip "[install]<install>"
@@ -206,8 +202,8 @@ function compile_and_install()
 ## example: print version number, run any simple example
 function selftest()
 {
-	pr_tip "[selftest] check version"
-	return $?
+	pr_tip "[selftest] skiped"
+    	return $?
 }
 
 ## Interface: finish install
@@ -226,13 +222,17 @@ function finish_install()
 ### uninstall ###
 function uninstall()
 {
-	rm -rf /home/v2.2.1.tar.gz 
-	rm -rf /home/git-2.2.1 
-	rm -rf /usr/local/python3
-	rm -rf /home/Python-3.6.1.tgz 
-	rm -rf /home/Python-3.6.1 
-	rm -rf /usr/bin/python3
-	pr_ok "[compile]<uninstall> ok"
+	if [ "$DISTRIBUTION"x == "Debian"x ] ; then
+        	pr_info "remove using apt-get"
+		rm -rf /home/elasticsearch-6.2.3
+        	rm -rf /home/elasticsearch-6.2.3.tar.gz
+        	pr_ok "[compile]<uninstall> ok"
+	elif [ "$DISTRIBUTION"x == "CentOS"x ] ; then
+        	pr_info "remove using yum"
+		rm -rf /home/elasticsearch-6.2.3
+		rm -rf /home/elasticsearch-6.2.3.tar.gz
+        	pr_ok "[compile]<uninstall> ok"
+    	fi
     	ass_rst $? 0 "uninstall failed"
     	pr_tip "[uninstall]<uninstall>"
     	return 0
